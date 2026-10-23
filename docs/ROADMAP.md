@@ -37,3 +37,11 @@ See [SECURITY_READINESS.md](SECURITY_READINESS.md) for verified file evidence,
 unknown effective production controls and owner actions. Authorized CSV template,
 strict offline preflight and local health monitor are prepared for review only;
 no production settings or live provider have changed.
+
+## Backup enforcement and watchdog review
+
+Disk admission/progress checks, restore proofs and optional notification transport
+are prepared with offline tests. External silence detection requires an off-VM
+receiver and owner-selected notification integration; same-VM checks are not
+VM-failure-independent. Production deployment and live receipt/restore acceptance
+remain pending. See [operations plan](OPERATIONS_WATCHDOG.md).

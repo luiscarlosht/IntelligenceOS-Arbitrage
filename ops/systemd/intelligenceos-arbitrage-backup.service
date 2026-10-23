@@ -7,7 +7,7 @@ User=intelligenceos-arbitrage
 Group=intelligenceos-arbitrage
 # Requires an approved release containing app.backups. Not installed in V0.2.
 WorkingDirectory=/opt/intelligenceos-arbitrage/current
-ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.backups backup --source /var/lib/intelligenceos-arbitrage/history.sqlite3 --directory /var/lib/intelligenceos-arbitrage-backups --keep 14
+ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.backups backup --source /var/lib/intelligenceos-arbitrage/history.sqlite3 --directory /var/lib/intelligenceos-arbitrage-backups --keep 14 --maximum-bytes 1073741824 --minimum-free-bytes 268435456
 StateDirectory=intelligenceos-arbitrage-backups
 StateDirectoryMode=0700
 UMask=0077

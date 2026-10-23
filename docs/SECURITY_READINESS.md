@@ -150,3 +150,13 @@ exactly with integrity ok, and the monitor returned healthy on that development
 state. Missing-path, stale backup/job, failed job and corrupt backup cases are
 tested. `pip check`, `git diff --check` and proposed monitor unit verification
 passed. None of this is a production restore or remote CI result.
+
+## Follow-up proposal (does not change deployed audit evidence)
+
+Disk budget admission/progress enforcement, typed-row/schema restore proofs and
+opt-in notification code now have offline tests. See
+[OPERATIONS_WATCHDOG.md](OPERATIONS_WATCHDOG.md). They remain uninstalled; no
+production restore or notification receipt is claimed. VM-failure-independent
+silence detection still requires a receiver outside this VM and owner-configured
+alert destination. Earlier audit observations remain historical, not refreshed
+production control attestations.

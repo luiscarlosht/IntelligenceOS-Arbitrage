@@ -57,3 +57,13 @@ Budget units = floor(budget / acquisition) independently per candidate; the work
 Connector/header/provider failures fail the execution and persist a failed history record. Row-level bad/missing evidence is a rejected result and does not fail the report job. Missing data and stale mocks may therefore yield a successful execution with zero review candidates. Atomic report replacement preserves earlier reports on generation failure. Email/final job outcome is recorded in SQLite after workbook generation, so the job-summary sheet explicitly shows the report phase instead of claiming delivery succeeded.
 
 Discovery caps source rows at 10,000 by default. CSV is streamed; candidate results, fixture listings and workbook cells remain memory-resident. This fits a small-job design, not unbounded catalog processing. Large live catalogs will require indexed/paginated providers and measured memory limits. No network retrieval, per-product LLM or background database service is used.
+
+## Proposed operations enforcement
+
+Offline backup now admits copies against an application byte budget/free-space
+reserve under a shared lock, and restore verifies schema/data before publication.
+Monitor checks both filesystems and backup usage. An optional local dispatcher
+supports explicit opt-in HTTPS heartbeat and redacted failure/recovery messages;
+its unit is dry-run/offline by default. An independent missed-heartbeat receiver
+must run outside this VM. No units are installed and no notifications sent.
+See OPERATIONS_WATCHDOG.md for dependencies, limitations and deployment gates.

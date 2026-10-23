@@ -1,0 +1,10 @@
+[Unit]
+Description=PROPOSED local operations dispatch every 15 minutes
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+Unit=intelligenceos-arbitrage-dispatch.service
+
+[Install]
+WantedBy=timers.target

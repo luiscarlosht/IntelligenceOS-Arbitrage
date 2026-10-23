@@ -1,0 +1,25 @@
+[Unit]
+Description=PROPOSED local operations dispatcher (dry-run until explicit send override)
+
+[Service]
+Type=oneshot
+User=intelligenceos-arbitrage
+Group=intelligenceos-arbitrage
+WorkingDirectory=/opt/intelligenceos-arbitrage/current
+ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.ops_dispatch --history /var/lib/intelligenceos-arbitrage/history.sqlite3 --backups /var/lib/intelligenceos-arbitrage-backups --state-directory /var/lib/intelligenceos-arbitrage-dispatch
+StateDirectory=intelligenceos-arbitrage-dispatch
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+CapabilityBoundingSet=
+MemoryMax=128M
+CPUQuota=25%
+TimeoutStartSec=5min
+StandardOutput=journal
+StandardError=journal

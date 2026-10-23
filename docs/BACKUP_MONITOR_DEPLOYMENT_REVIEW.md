@@ -1,6 +1,7 @@
 # Backup and monitoring deployment review — NOT INSTALLED
 
-Prepared 2026-10-23 UTC. This is a proposed operator runbook, not an executed
+Updated 2026-10-23 UTC with application disk enforcement and restore proof. See
+[watchdog/notification installation supplement](OPERATIONS_WATCHDOG.md). This is a proposed operator runbook, not an executed
 change. Current deployed V0.2 lacks backup/monitor modules. Neither new service
 is installed. Production restore, notification receipt, numeric ownership and
 actual free space remain unverified. Keep the reporting service, its environment,
@@ -16,9 +17,9 @@ needed. Do not run installation blocks until a separate deployment is authorized
 | Recovery objective | No production RPO/RTO established | Proposed RPO <=24 hours only while daily backups succeed; 30-hour alert threshold permits a longer gap. Measure drill time and agree RTO before claiming it |
 | Isolation | Same-host backup, private 0700 directory; files 0600; SHA-256 and SQLite integrity | Not encrypted or off-host by this tooling; host loss remains unrecoverable from these copies alone |
 | Runtime limits | Backup/monitor each 128 MiB, 25% CPU, 5 min systemd timeout; copy progress deadline 30 sec | Shared 2 GiB host: verify actual headroom. Two units can overlap; timeout is a failed check, not health |
-| Monitor | Hourly; last two run results, 30-hour age window; history quick_check; >=256 MiB free on history filesystem; validated backup manifest freshness | Does not prove both modes ran, scheduler liveness, journal delivery or successful restore. Free-space check does not cover a separately mounted backup filesystem |
-| Disk budget | No enforced byte quota or automatic backup disk admission check | Proposed review budget 1 GiB for managed snapshots; minimum 256 MiB free on **both** filesystems. Use capacity calculation below; reject deployment if it does not fit. A hard quota requires separate approved infrastructure work |
-| Notifications | Journal JSON issue codes and nonzero service exit only | No sender, recipient, OnFailure handler, delivery test or external dead-man monitor is configured. Unattended activation is blocked until an approved channel plus receipt/acknowledgement test exists |
+| Monitor | Hourly; last two run results, 30-hour age window; history quick_check; >=256 MiB free on history and backup filesystems; 1 GiB directory budget; validated backup manifest freshness | Does not prove both modes ran, scheduler liveness, journal delivery or successful restore. Separate backup mount is checked; another writer can still consume space between checks |
+| Disk budget | 1 GiB application budget including unknown/pending entries; pre-copy allowance, progress checks and shared lock; >=256 MiB reserve on source/backup filesystems | No filesystem hard quota; copy chunks and unrelated writers can transiently cross a limit. Application aborts/cleans its pending copy, without pruning old data to make room |
+| Notifications | Optional tested HTTPS dispatcher and dry-run unit; no destinations configured or installed | External receiver/account plus recipient and receipt test still required; a same-VM dispatcher is not independent of VM failure |
 
 Let D = measured logical SQLite size (`page_count * page_size`), W = existing
 WAL/SHM/journal allocated bytes, U = unknown/corrupt/preexisting managed-directory
@@ -30,7 +31,7 @@ OS logs and unrelated host usage need their own headroom. At 1 GiB and no W/U,
 16D * 1.2 must fit; roughly 53 MiB per database already consumes that budget.
 At/above budget or below free-space reserve, defer a new manual backup, notify
 operator and investigate; stopping a future timer requires approved operator
-action. No automatic quota enforcement is claimed by these units.
+action. The application now enforces its budget; this remains distinct from an OS quota. Unknown/corrupt entries count against the budget and symlinks fail closed.
 
 ## Operator prerequisites (read-only checks)
 
@@ -116,7 +117,7 @@ services to it. Verify code/venv traversal permissions as application user.
 ## Install disabled units and overrides (after authorization)
 
 The following assumes first installation, with no preexisting project backup or
-monitor unit/drop-in. If any exists, stop and review it; do not overwrite it.
+monitor unit/drop-in. Treat dangling symlinks as existing files and stop for review. If any exists, stop and review it; do not overwrite it.
 `install -d` may adjust an existing directory: create the backup directory only
 when absent; otherwise assert ownership/mode without changing it.
 
@@ -124,8 +125,10 @@ when absent; otherwise assert ownership/mode without changing it.
 for kind in backup monitor; do
   for suffix in service timer; do
     test ! -e "/etc/systemd/system/intelligenceos-arbitrage-$kind.$suffix"
+    test ! -L "/etc/systemd/system/intelligenceos-arbitrage-$kind.$suffix"
   done
   test ! -e "/etc/systemd/system/intelligenceos-arbitrage-$kind.service.d"
+  test ! -L "/etc/systemd/system/intelligenceos-arbitrage-$kind.service.d"
 done
 if test ! -e "$BACKUPS"; then
   install -d -o "$APP_USER" -g "$APP_GROUP" -m 0700 "$BACKUPS"
@@ -144,13 +147,13 @@ cat > /etc/systemd/system/intelligenceos-arbitrage-backup.service.d/operations-r
 [Service]
 WorkingDirectory=$OPS_RELEASE
 ExecStart=
-ExecStart=$OPS_RELEASE/.venv/bin/python -m app.backups backup --source $STATE/history.sqlite3 --directory $BACKUPS --keep 14
+ExecStart=$OPS_RELEASE/.venv/bin/python -m app.backups backup --source $STATE/history.sqlite3 --directory $BACKUPS --keep 14 --maximum-bytes 1073741824 --minimum-free-bytes 268435456
 UNIT
 cat > /etc/systemd/system/intelligenceos-arbitrage-monitor.service.d/operations-release.conf <<UNIT
 [Service]
 WorkingDirectory=$OPS_RELEASE
 ExecStart=
-ExecStart=$OPS_RELEASE/.venv/bin/python -m app.healthcheck --history $STATE/history.sqlite3 --backups $BACKUPS
+ExecStart=$OPS_RELEASE/.venv/bin/python -m app.healthcheck --history $STATE/history.sqlite3 --backups $BACKUPS --maximum-backup-bytes 1073741824 --minimum-free-bytes 268435456
 UNIT
 systemd-analyze verify /etc/systemd/system/intelligenceos-arbitrage-backup.service /etc/systemd/system/intelligenceos-arbitrage-backup.timer /etc/systemd/system/intelligenceos-arbitrage-monitor.service /etc/systemd/system/intelligenceos-arbitrage-monitor.timer
 systemctl daemon-reload
@@ -216,9 +219,9 @@ provided. Recovery tooling never switches `ARBITRAGE_DB` or overwrites live data
 ## Notification and scheduling acceptance gate
 
 Before unattended activation, the owner must name a recipient and backup operator,
-select an already authorized channel, approve sender/secret handling and implement
-an independently reviewed notification adapter or host monitoring configuration.
-The current PR contains no notification sender. Do not put a webhook/token in a
+select an already authorized channel, approve sender/secret handling and configure
+the reviewed opt-in notification adapter or an approved host monitoring integration.
+A disabled-by-default HTTPS sender is supplied in app.ops_dispatch; see OPERATIONS_WATCHDOG.md for configuration and activation gates. Do not put a webhook/token in a
 unit, CLI, PR or chat. Keep backup/monitor services offline; any notifier needs a
 separate least-privilege process and reviewed outbound policy. Do not weaken
 reporting/network isolation to send alerts.
@@ -227,9 +230,7 @@ Required delivery cases: reporting/backup/monitor failed or timed out; stale or
 future timestamps; missing/corrupt backups; low free space on either mount;
 backup directory >=1 GiB review budget; missed hourly heartbeat/disabled timer.
 An external heartbeat/watchdog is required for VM/systemd failure because a local
-failed unit cannot report its own absence. Budget/backup-mount checks are not
-implemented in the current monitor and need a host metric rule or a follow-up
-change. Test alerting with **development scratch state** (missing and corrupt
+failed unit cannot report its own absence. Budget and backup-mount checks are now implemented; independent missing-heartbeat detection must still run outside this VM. Test alerting with **development scratch state** (missing and corrupt
 snapshot, failed/stale run, threshold crossing), not production corruption or
 filling a disk. Test the independent watchdog by withholding a test heartbeat.
 
@@ -254,7 +255,7 @@ Persistent timers may trigger immediately for a missed schedule. Inspect both
 results after activation, the next 06:30 UTC backup, 24 hours of monitoring and
 after the 15th successful snapshot exercises retention. Keep reporting timer
 unchanged. This guide is intentionally **not activation-ready** until missing
-notification/watchdog/disk rules and production evidence have been resolved.
+notification/watchdog configuration and production evidence have been resolved.
 
 ## Rollback of this first operations-only installation
 
@@ -293,7 +294,7 @@ for manual reviewed recovery. A real live-database restore remains a distinct
 operation requiring approval and preservation/reconciliation of newer history;
 see [SQLITE_BACKUPS.md](SQLITE_BACKUPS.md). Rollback here does not prove recovery.
 
-## Validation of this review package
+## Original documentation-only validation (before enforcement changes)
 
 Documentation-only change: 132 existing tests passed; both sample modes completed
 in ignored development paths. All eight shell blocks passed `bash -n`, proposed
