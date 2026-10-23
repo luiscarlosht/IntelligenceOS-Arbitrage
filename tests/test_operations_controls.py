@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import json
 import sqlite3
 import subprocess
+import sys
 
 import pytest
 
@@ -156,13 +157,17 @@ def test_no_redirect_and_private_configuration(tmp_path):
     with pytest.raises(ValueError): validate_config({**CONFIG, 'enabled': False})
 
 
-def test_systemd_fail_closed_and_dryrun_never_reads_credentials(tmp_path):
+def test_systemd_fail_closed_and_dryrun_never_reads_credentials(tmp_path, monkeypatch):
     def missing(*args, **kwargs): raise subprocess.CalledProcessError(1, 'systemctl')
     assert unit_issues(missing) == ['unit_failed_or_unavailable']
-    result = subprocess.run([str(Path('.venv/bin/python').resolve()), '-m', 'app.ops_dispatch',
+    # CI uses setup-python without a repository-local .venv. Exercise that layout
+    # even when pytest itself was started from the developer's local environment.
+    monkeypatch.setenv('PYTHONPATH', str(Path(__file__).resolve().parents[1]))
+    assert not (tmp_path / '.venv').exists()
+    result = subprocess.run([sys.executable, '-m', 'app.ops_dispatch',
         '--history', str(tmp_path / 'missing.db'), '--backups', str(tmp_path / 'missing'),
         '--state-directory', str(tmp_path / 'state'), '--config', str(tmp_path / 'no-secret-file')],
-        capture_output=True, text=True)
+        cwd=tmp_path, capture_output=True, text=True)
     assert result.returncode == 1
     assert '"send_enabled": false' in result.stdout
     assert not (tmp_path / 'state').exists() and not (tmp_path / 'missing.db').exists()
