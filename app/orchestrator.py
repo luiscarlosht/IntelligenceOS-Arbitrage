@@ -25,8 +25,19 @@ def run_job(config):
     generated = False
     log.info('job_started', extra={'run_id': run_id})
     try:
-        rows = [evaluate(r, config.minimum_roi, config.minimum_profit) for r in load_candidates(config.input)]
-        report(rows, config.output)
+        if config.mode == 'discovery':
+            from app.connectors import CsvConnector
+            from app.marketplace import MockAmazonProvider
+            from app.discovery import discover
+            from app.reporting import write_report
+            rows = discover(CsvConnector(config.input), MockAmazonProvider(config.amazon_fixture), config)
+            write_report(rows, config.output, discovery=True, top_count=config.top_count,
+                         job={'run_id': run_id, 'phase': 'Report generated; delivery and final job status pending',
+                              'mode': config.mode, 'provider': config.amazon_provider,
+                              'inventory_budget': config.inventory_budget})
+        else:
+            rows = [evaluate(r, config.minimum_roi, config.minimum_profit) for r in load_candidates(config.input)]
+            report(rows, config.output)
         generated = True
         send_report(config, config.output, run_id)
         history.finish(run_id, 'succeeded', len(rows), sum(r['status'] == 'REVIEW' for r in rows), config.output)
