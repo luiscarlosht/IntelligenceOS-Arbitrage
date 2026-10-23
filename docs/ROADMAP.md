@@ -30,3 +30,10 @@ FastAPI + React unless constraints justify a simpler stack: authentication, oppo
 ## Delivery process
 
 Inspect main and run tests; implement on a milestone feature branch; update documentation; run tests and sample workflows; commit, push and prepare PR. Do not merge or deploy without authorization. CI status and remotely executed workflows must be reported separately from local results.
+
+## Amazon registration readiness review
+
+See [SECURITY_READINESS.md](SECURITY_READINESS.md) for verified file evidence,
+unknown effective production controls and owner actions. Authorized CSV template,
+strict offline preflight and local health monitor are prepared for review only;
+no production settings or live provider have changed.

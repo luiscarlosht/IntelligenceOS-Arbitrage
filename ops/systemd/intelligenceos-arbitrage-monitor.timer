@@ -1,0 +1,10 @@
+[Unit]
+Description=PROPOSED hourly offline operational health check
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=intelligenceos-arbitrage-monitor.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=PROPOSED offline reporting and backup health check
+
+[Service]
+Type=oneshot
+User=intelligenceos-arbitrage
+Group=intelligenceos-arbitrage
+WorkingDirectory=/opt/intelligenceos-arbitrage/current
+ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.healthcheck --history /var/lib/intelligenceos-arbitrage/history.sqlite3 --backups /var/lib/intelligenceos-arbitrage-backups
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+CapabilityBoundingSet=
+UMask=0077
+MemoryMax=128M
+CPUQuota=25%
+TimeoutStartSec=5min
+StandardOutput=journal
+StandardError=journal
