@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "allowed_hosts": ["hc-ping.com"],
+  "heartbeat_url": "",
+  "notification_url": "",
+  "notification_token": ""
+}

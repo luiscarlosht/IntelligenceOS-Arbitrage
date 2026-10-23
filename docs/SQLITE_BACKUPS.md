@@ -100,3 +100,19 @@ disabled unit installation, capacity/retention review, a new-path restore drill,
 notification acceptance, scheduling and rollback. Nothing is installed by writing
 this guide. Notifications, watchdog and backup-mount/budget metric rules remain
 activation blockers; count-based retention is not an enforced disk quota.
+
+## Enforcement and stronger restore verification
+
+The next review adds a default 1 GiB application directory budget, 256 MiB source
+and backup free-space reserves, pre-copy headroom and repeated copy checks, plus
+nonblocking flock serialization. This is not an OS quota. Unknown data consumes
+budget and is never pruned to make room. CLI flags `--maximum-bytes` and
+`--minimum-free-bytes` make policy explicit. The reserved `.backup.lock` is not a
+snapshot and must remain in place while operations are active.
+
+Restore now checks destination headroom and verifies full typed-row/schema and
+foreign keys before publication. `python -m app.backups verify-restore --snapshot
+SNAPSHOT --destination RECOVERED` returns redacted hashes and verification time;
+it neither refreshes the snapshot timestamp nor changes live history. See
+[operations/watchdog plan](OPERATIONS_WATCHDOG.md) for precise boundaries,
+external receiver choices and installation/notification acceptance gates.
