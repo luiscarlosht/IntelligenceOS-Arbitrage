@@ -1,5 +1,14 @@
 # Architecture
 
+## V0.3 preparation (offline only)
+
+New provider contracts separate catalog, fees, eligibility and demand evidence;
+an injected transport policy bounds attempts/timeouts and reserves usage atomically
+in SQLite before attempts. No HTTP adapter or live selector is registered.
+SQLite backup tooling and proposed timer include retention and tested no-overwrite
+restore. See [preparation handoff](V03_PREPARATION.md) and
+[backup proposal](SQLITE_BACKUPS.md). Deployed V0.2 remains unchanged.
+
 ## V0.1 baseline (verified before V0.2 changes)
 
 Python 3.12 runs a sequential, environment-configured job. `pipeline` loads the legacy CSV and applies deterministic eligibility, exact-match, $5 profit and 50% acquisition ROI gates. `reporting` atomically exports an openpyxl workbook; `mailer` optionally sends it using verified TLS. `history` persists running/succeeded/failed execution metadata in SQLite. `orchestrator` coordinates these modules and emits JSON events. Both CLI entry points work. All 29 baseline tests passed before implementation.

@@ -8,7 +8,14 @@ CSV screening, deterministic economics, openpyxl reports, SQLite run audit, sequ
 
 Normalized retailer connector contracts and CSV ingestion; mock Amazon exact matching and ambiguity gates; richer expense model; confidence/data-quality and ranking; six-sheet reports; persistent project documentation. Real discovery remains dependent on authorized external data; mocks are not real opportunities.
 
-## V0.3 — recommended next milestone: permitted market intelligence
+## V0.3 — preparation implemented; live access pending
+
+Official-source research, conditional cost model, provider/evidence contracts,
+mock contract tests, bounded retry/timeout policy, SQLite usage reservations and
+backup/restore tooling are prepared. [Handoff](V03_PREPARATION.md) documents
+scope and validation; [research](V03_PROVIDER_RESEARCH.md) identifies owner account,
+pricing and license decisions. Backup scheduling remains proposed for review.
+No live adapters or paid integrations are enabled; V0.2 deployment is preserved.
 
 Research Amazon SP-API, Keepa and authorized retailer/licensed product feeds. For each integration document API availability, account permissions, credentials, current authoritative pricing, usage/redistribution restrictions and estimated monthly cost before implementation/enabling. Implement mock contract tests and rate-limit/retry/freshness policies first. Get approval before any paid service. Prioritize historical price stability, demand, offer competition and fees. Do not wait for credentials to write interfaces; do not claim live readiness without authorized requests.
 

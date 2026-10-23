@@ -1,5 +1,10 @@
 # IntelligenceOS Arbitrage
 
+V0.3 preparation is available for review: [provider research and cost decisions](docs/V03_PROVIDER_RESEARCH.md),
+[offline contracts and safeguards](docs/V03_PREPARATION.md), and
+[proposed SQLite backups with restore procedure](docs/SQLITE_BACKUPS.md).
+Live providers remain disabled; the deployed V0.2 service is unchanged.
+
 An offline sourcing-analysis prototype for Python 3.12. It reads candidate CSV data, screens profitability and eligibility, creates formatted Excel reports, and records each execution in SQLite. Bundled products are fictional examples. The application does not scrape, buy products, or verify live seller eligibility.
 
 ## Quick start (Ubuntu 24.04)

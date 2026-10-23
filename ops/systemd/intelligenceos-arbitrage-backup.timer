@@ -1,0 +1,10 @@
+[Unit]
+Description=Proposed daily IntelligenceOS SQLite backup at 06:30 UTC
+
+[Timer]
+OnCalendar=*-*-* 06:30:00 UTC
+Persistent=true
+Unit=intelligenceos-arbitrage-backup.service
+
+[Install]
+WantedBy=timers.target
