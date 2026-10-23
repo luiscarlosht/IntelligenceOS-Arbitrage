@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily IntelligenceOS Arbitrage offline reports at 06:00 UTC
+
+[Timer]
+OnCalendar=*-*-* 06:00:00 UTC
+Persistent=true
+Unit=intelligenceos-arbitrage.service
+
+[Install]
+WantedBy=timers.target
