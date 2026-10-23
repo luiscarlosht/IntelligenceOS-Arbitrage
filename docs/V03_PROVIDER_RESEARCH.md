@@ -81,6 +81,12 @@ assumed here.
 
 ## Keepa
 
+**Follow-up:** [Keepa preparation](KEEPA_PREPARATION.md) now verifies public pricing
+and API terms through rendered official pages (2026-10-23). The older unavailable-
+price observation below is historical. It is not the current quote: Starter is
+€49/month before applicable VAT/FX charges. No subscription or live access enabled.
+
+
 [Official API overview](https://keepa.com/api-docs/) requires an API subscription
 and private API key. The [product endpoint](https://keepa.com/api-docs/product.html)
 supports batches up to 100 and codes that can map to multiple ASINs. Historical
