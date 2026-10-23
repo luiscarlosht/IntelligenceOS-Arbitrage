@@ -1,0 +1,4 @@
+retailer,name,url,gtin,manufacturer,model,package_quantity,purchase_price,availability,retrieved_at,provenance,asin_hint,variation
+Walmart (MOCK),Fictional Widget A,https://example.org/mock-walmart-a,036000291452,Example Manufacturer,MODEL-A,1,8,in_stock,2026-10-23T00:00:00Z,fictional fixture; not a retailer feed,B000000001,blue
+Walgreens (MOCK),Fictional Widget B,https://example.org/mock-walgreens-b,,Example Manufacturer,MODEL-B,1,12,in_stock,2026-10-23T00:00:00Z,fictional fixture; not a retailer feed,B000000002,standard
+Target (MOCK),Fictional Widget C,https://example.org/mock-target-c,,Example Manufacturer,MODEL-C,1,6,unknown,,fictional fixture; not a retailer feed,B000000003,standard

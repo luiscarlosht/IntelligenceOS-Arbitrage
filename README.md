@@ -77,3 +77,13 @@ The container uses Python 3.12 and a nonroot user. For a bind mount, grant that 
 `config` validates environment settings; `pipeline` handles CSV ingestion and deterministic screening; `reporting` owns Excel output; `mailer` handles optional TLS SMTP; `history` persists execution metadata; `orchestrator` coordinates jobs and scheduling. Extend integrations behind these boundaries.
 
 GitHub Actions runs tests on Ubuntu 24.04 / Python 3.12, executes the offline sample job and uploads its workbook. Unit/integration tests cover profitability boundaries, invalid input, report contents and formula safety, history, repeat executions, scheduling failures, configuration and mocked SMTP delivery. Real SMTP delivery requires a configured provider and is not exercised by CI.
+
+## V0.2 discovery preview
+
+```bash
+ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=var/discovery.xlsx python -m app.orchestrator
+```
+
+This opt-in path uses a normalized CSV connector and a **fictional mock Amazon provider**, extended expense calculations, evidence screening/ranking and six-sheet reporting. It does not discover live products. Sample snapshots intentionally expire under freshness checks; stale data yields rejected rows, not real opportunities. No result is purchase-ready. Legacy mode and existing input files remain supported unchanged.
+
+See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT_REQUIREMENTS.md), [roadmap](docs/ROADMAP.md), [integration contracts](docs/INTEGRATIONS.md), [deployment/configuration](docs/DEPLOYMENT.md) and [AgentOps plan](docs/AGENTOPS.md). Runtime service cost for the CSV/mock workflow is $0 incremental excluding existing hosting, storage and CI quotas; no paid/API/AI integrations are enabled.

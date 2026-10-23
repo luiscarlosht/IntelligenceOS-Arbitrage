@@ -1,0 +1,80 @@
+[
+  {
+    "asin": "B000000001",
+    "gtin": "036000291452",
+    "manufacturer": "Example Manufacturer",
+    "model": "MODEL-A",
+    "package_quantity": 1,
+    "variation": "blue",
+    "seller_eligible": true,
+    "sale_price": "25",
+    "costs": {
+      "referral_fee": "3.75",
+      "fulfillment_fee": "4.50",
+      "inbound_shipping": "1.25",
+      "preparation": "0",
+      "packaging": "0",
+      "storage": "0",
+      "sales_tax": "0",
+      "other_cost": "0.5",
+      "transaction_cost": "0"
+    },
+    "monthly_sales": 60,
+    "offer_count": 4,
+    "retrieved_at": "2026-10-23T00:00:00Z",
+    "provenance": "fictional mock Amazon fixture; no live data",
+    "verified_costs": []
+  },
+  {
+    "asin": "B000000002",
+    "gtin": "",
+    "manufacturer": "Example Manufacturer",
+    "model": "MODEL-B",
+    "package_quantity": 1,
+    "variation": "standard",
+    "seller_eligible": false,
+    "sale_price": "22",
+    "costs": {
+      "referral_fee": "3.3",
+      "fulfillment_fee": "4.50",
+      "inbound_shipping": "1.25",
+      "preparation": "0",
+      "packaging": "0",
+      "storage": "0",
+      "sales_tax": "0",
+      "other_cost": "0.5",
+      "transaction_cost": "0"
+    },
+    "monthly_sales": 60,
+    "offer_count": 4,
+    "retrieved_at": "2026-10-23T00:00:00Z",
+    "provenance": "fictional mock Amazon fixture; no live data",
+    "verified_costs": []
+  },
+  {
+    "asin": "B000000003",
+    "gtin": "",
+    "manufacturer": "Example Manufacturer",
+    "model": "MODEL-C",
+    "package_quantity": 1,
+    "variation": "standard",
+    "seller_eligible": true,
+    "sale_price": "19",
+    "costs": {
+      "referral_fee": "3.3",
+      "fulfillment_fee": "4.50",
+      "inbound_shipping": "1.25",
+      "preparation": "0",
+      "packaging": "0",
+      "storage": "0",
+      "sales_tax": "0",
+      "other_cost": "0.5",
+      "transaction_cost": "0"
+    },
+    "monthly_sales": 60,
+    "offer_count": 4,
+    "retrieved_at": "2026-10-23T00:00:00Z",
+    "provenance": "fictional mock Amazon fixture; no live data",
+    "verified_costs": []
+  }
+]
