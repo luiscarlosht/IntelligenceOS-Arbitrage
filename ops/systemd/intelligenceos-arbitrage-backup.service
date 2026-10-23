@@ -1,0 +1,29 @@
+[Unit]
+Description=Proposed IntelligenceOS SQLite backup with 14 snapshot retention
+
+[Service]
+Type=oneshot
+User=intelligenceos-arbitrage
+Group=intelligenceos-arbitrage
+# Requires an approved release containing app.backups. Not installed in V0.2.
+WorkingDirectory=/opt/intelligenceos-arbitrage/current
+ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.backups backup --source /var/lib/intelligenceos-arbitrage/history.sqlite3 --directory /var/lib/intelligenceos-arbitrage-backups --keep 14
+StateDirectory=intelligenceos-arbitrage-backups
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/intelligenceos-arbitrage-backups
+# SQLite may require WAL/SHM access while the application writes. Same account.
+ReadWritePaths=/var/lib/intelligenceos-arbitrage
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+CapabilityBoundingSet=
+MemoryMax=128M
+CPUQuota=25%
+TimeoutStartSec=5min
+StandardOutput=journal
+StandardError=journal

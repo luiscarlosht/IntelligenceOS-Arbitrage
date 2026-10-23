@@ -27,6 +27,14 @@ Mock JSON is an array of listing objects; see `sample_data/amazon_mock.json`. Ev
 
 Sample fixture timestamps are fixed at 2026-10-23 UTC. They intentionally become stale after the configured maximum age. Tests use a fixed clock for fixture screening. Refresh a user-owned snapshot only when new evidence was actually obtained; do not relabel stale data as fresh.
 
+## V0.3 preparation — research and offline contracts
+
+See [current official-source research and cost gates](V03_PROVIDER_RESEARCH.md)
+and [implementation handoff](V03_PREPARATION.md). Typed evidence/provider boundaries,
+fictional contract doubles, bounded retry/timeout policy and a SQLite usage
+reservation ledger are prepared but not connected to live provider selection.
+Current pricing/entitlement gaps are explicitly identified, not assumed free.
+
 ## Future providers — research gates
 
-SP-API, Keepa, authorized retailer feeds and licensed data providers are candidates, not enabled integrations. Current API access, pricing, required seller/vendor accounts, permissions, rate limits and data-use restrictions have not been researched or quoted in this milestone. Record authoritative references and an explicit monthly usage/cost model during V0.3. Free access must not be assumed. Obtain approval before subscribing/enabling paid services. Configure credentials securely at runtime; never put keys in fixtures, logs, PRs or chat. Do not reuse or inspect another application's production credentials.
+SP-API, Keepa, authorized retailer feeds and licensed data providers remain disabled. V0.3 research records available official requirements, unresolved price quotes and an explicit workload/cost model. Account-specific permissions, current API billing and licenses still require owner confirmation. Free access must not be assumed. Obtain approval before subscribing/enabling paid services. Configure credentials securely at runtime; never put keys in fixtures, logs, PRs or chat. Do not reuse or inspect another application's production credentials.
