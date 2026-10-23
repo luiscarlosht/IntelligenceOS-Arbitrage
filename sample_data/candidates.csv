@@ -1,0 +1,4 @@
+source,product,upc,source_url,amazon_asin,destination,buy_cost,sale_price,referral_fee,fulfillment_fee,inbound_shipping,other_cost,eligible,exact_match
+Sample Supplier,Sample Widget A,000000000001,https://example.org/sample-a,B000000001,Amazon,8.00,25.00,3.75,4.50,1.25,0.50,yes,yes
+Sample Supplier,Sample Widget B,000000000002,https://example.org/sample-b,B000000002,Amazon,12.00,22.00,3.30,5.00,1.50,0.50,no,yes
+Sample Supplier,Sample Widget C,000000000003,https://example.org/sample-c,B000000003,Amazon,6.00,19.00,2.85,4.00,1.00,0.25,yes,no
