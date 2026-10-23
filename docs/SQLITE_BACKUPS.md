@@ -91,3 +91,12 @@ path while jobs are stopped. No automatic restore or data replacement is provide
 To disable a future backup schedule, disable its timer and let the current backup
 finish; retain all snapshots and reporting configuration. This milestone does not
 perform those production commands.
+
+## Deployment review package
+
+[Exact proposed operator commands](BACKUP_MONITOR_DEPLOYMENT_REVIEW.md) stage an
+isolated operations release without changing the reporting symlink, then cover
+disabled unit installation, capacity/retention review, a new-path restore drill,
+notification acceptance, scheduling and rollback. Nothing is installed by writing
+this guide. Notifications, watchdog and backup-mount/budget metric rules remain
+activation blockers; count-based retention is not an enforced disk quota.

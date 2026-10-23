@@ -38,3 +38,10 @@ Current pricing/entitlement gaps are explicitly identified, not assumed free.
 ## Future providers — research gates
 
 SP-API, Keepa, authorized retailer feeds and licensed data providers remain disabled. V0.3 research records available official requirements, unresolved price quotes and an explicit workload/cost model. Account-specific permissions, current API billing and licenses still require owner confirmation. Free access must not be assumed. Obtain approval before subscribing/enabling paid services. Configure credentials securely at runtime; never put keys in fixtures, logs, PRs or chat. Do not reuse or inspect another application's production credentials.
+
+## No source available — access comparison
+
+The owner has confirmed no authorized product source is available. Live collection
+remains disabled. [Supplier access options](SUPPLIER_ACCESS_OPTIONS.md) compares
+official access/permission/cost evidence and proposed small-sample requests;
+no provider has been contacted, account created or feed downloaded.
