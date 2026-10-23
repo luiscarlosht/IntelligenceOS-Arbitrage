@@ -1,6 +1,10 @@
 # Development and deployment guide
 
-No production deployment is performed or authorized by this milestone. Preserve the other application on the shared host; do not inspect its credentials or change its configuration.
+The original development milestone did not authorize deployment. A subsequent
+explicitly authorized dedicated VM deployment is documented in
+[VM V0.2 release](VM_V02_RELEASE.md), including installed paths, daily systemd
+execution, validation and rollback. Preserve other applications; do not inspect
+their credentials or change their configuration.
 
 ## Ubuntu 24.04 / Python 3.12
 

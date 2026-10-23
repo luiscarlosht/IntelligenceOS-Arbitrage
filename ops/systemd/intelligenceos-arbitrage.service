@@ -1,0 +1,34 @@
+[Unit]
+Description=IntelligenceOS Arbitrage offline illustrative daily reports
+
+[Service]
+Type=oneshot
+User=intelligenceos-arbitrage
+Group=intelligenceos-arbitrage
+WorkingDirectory=/opt/intelligenceos-arbitrage/current
+EnvironmentFile=/etc/intelligenceos-arbitrage/offline.env
+ExecStart=/usr/bin/env ARBITRAGE_MODE=legacy ARBITRAGE_REPORT=/var/lib/intelligenceos-arbitrage/legacy-illustrative.xlsx /opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.orchestrator
+ExecStart=/usr/bin/env ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=/var/lib/intelligenceos-arbitrage/discovery-mock.xlsx /opt/intelligenceos-arbitrage/current/.venv/bin/python -m app.orchestrator
+StateDirectory=intelligenceos-arbitrage
+StateDirectoryMode=0750
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/intelligenceos-arbitrage
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+CapabilityBoundingSet=
+MemoryMax=512M
+CPUQuota=50%
+TasksMax=32
+TimeoutStartSec=15min
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=intelligenceos-arbitrage
