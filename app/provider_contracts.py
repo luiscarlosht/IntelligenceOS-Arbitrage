@@ -1,4 +1,4 @@
-"""Future provider boundaries. No HTTP adapters or live provider registration."""
+"""Provider evidence boundaries. No live provider registration."""
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal

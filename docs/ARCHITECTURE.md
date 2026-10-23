@@ -67,3 +67,12 @@ supports explicit opt-in HTTPS heartbeat and redacted failure/recovery messages;
 its unit is dry-run/offline by default. An independent missed-heartbeat receiver
 must run outside this VM. No units are installed and no notifications sent.
 See OPERATIONS_WATCHDOG.md for dependencies, limitations and deployment gates.
+
+## Optional Keepa contract adapter (live disabled)
+
+KeepaAdapter maps explicit US ASIN replies into separate catalog, Amazon-price,
+rank and lower-bound demand evidence. Unknown seller eligibility/fees and listing
+economics remain missing. UsageLedger bounds attempts; a shared SQLite record paces
+requests. Optional permission-bounded memory cache preserves timestamps; no raw
+payload persistence. KeepaHttpTransport is dormant behind a false code gate. No
+production selector, live calls, credential lookup or deployment is enabled.

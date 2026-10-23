@@ -45,3 +45,10 @@ The owner has confirmed no authorized product source is available. Live collecti
 remains disabled. [Supplier access options](SUPPLIER_ACCESS_OPTIONS.md) compares
 official access/permission/cost evidence and proposed small-sample requests;
 no provider has been contacted, account created or feed downloaded.
+
+## Keepa preparation and Scan Profit gate
+
+[Keepa adapter preparation](KEEPA_PREPARATION.md) adds opt-in mock contracts and a
+dormant HTTP transport behind a code-level disabled gate. Main job selection remains
+mock-only. Scan Profit is pending its official URL and API/export permission; no
+connector or assumed vendor endpoint is supplied.

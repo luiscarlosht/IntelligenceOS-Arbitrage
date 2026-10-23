@@ -45,3 +45,10 @@ are prepared with offline tests. External silence detection requires an off-VM
 receiver and owner-selected notification integration; same-VM checks are not
 VM-failure-independent. Production deployment and live receipt/restore acceptance
 remain pending. See [operations plan](OPERATIONS_WATCHDOG.md).
+
+## Keepa offline adapter review
+
+Official rendered pricing/terms, bounded mock transport contracts, token reservations,
+pacing, permitted optional memory caching and conservative timestamped evidence are
+prepared in [KEEPA_PREPARATION.md](KEEPA_PREPARATION.md). Live code gate and job
+selector stay disabled. Scan Profit identification/permissions remain unresolved.
