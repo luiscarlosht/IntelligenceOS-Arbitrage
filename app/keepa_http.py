@@ -23,7 +23,20 @@ class KeepaHttpTransport:
                 maximum_bytes: int) -> KeepaResponse:
         if not keepa_adapter.LIVE_CALLS_ENABLED:
             raise ProviderFailure('Live Keepa calls disabled')
-        # Unreachable in this release; future activation requires permission review.
+        return self._product(request, timeout_seconds=timeout_seconds, maximum_bytes=maximum_bytes)
+
+    def pilot_product_once(self) -> KeepaResponse:
+        """Explicit standalone pilot seam; no production selector or global gate change.
+
+        The caller must reserve its durable single-attempt marker first.
+        """
+        if not keepa_adapter.LIVE_CALLS_ENABLED:
+            raise ProviderFailure('Live Keepa calls disabled')
+        return self._product(KeepaRequest('B002XQ1R06'), timeout_seconds=10,
+                             maximum_bytes=keepa_adapter.MAX_RESPONSE_BYTES)
+
+    def _product(self, request: KeepaRequest, *, timeout_seconds: float,
+                 maximum_bytes: int) -> KeepaResponse:
         try:
             key = self._key_loader()
             if not isinstance(key, str) or not key.strip(): raise ValueError('API key required')
