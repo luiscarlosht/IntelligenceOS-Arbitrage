@@ -304,3 +304,6 @@ All six proposed units passed systemd verification; 13 shell blocks passed synta
 checks, `pip check` and `git diff --check` passed. These are not host installation,
 production restore, external-account, external-silence or human-receipt tests.
 Remote CI status is reported separately in the PR. No production service changed.
+
+Start with [the consolidated manual-install checklist](OPERATIONS_HANDOFF.md)
+for sequencing with backup/monitor staging, restore acceptance and rollback.

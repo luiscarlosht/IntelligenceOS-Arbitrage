@@ -1,0 +1,2 @@
+retailer,name,url,gtin,manufacturer,model,package_quantity,purchase_price,availability,retrieved_at,provenance,asin_hint,variation,authorization_reference
+DEMO fictional authorized-source export,DEMO invalid import,invalid-url,,,,0,NaN,unknown,2026-10-24T12:00:00,,B000000001,standard,

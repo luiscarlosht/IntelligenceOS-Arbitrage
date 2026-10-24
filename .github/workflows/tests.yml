@@ -15,7 +15,10 @@ jobs:
       - run: python -m pytest -q
       - run: python -m app.orchestrator
       - run: ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=var/discovery.xlsx python -m app.orchestrator
+      - run: python -m app.demo
       - uses: actions/upload-artifact@v4
         with:
           name: sample-opportunity-report
-          path: var/*.xlsx
+          path: |
+            var/*.xlsx
+            var/demo/DEMO.*

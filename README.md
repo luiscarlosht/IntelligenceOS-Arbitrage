@@ -92,3 +92,15 @@ ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=var/discovery.xlsx python -m app.orche
 This opt-in path uses a normalized CSV connector and a **fictional mock Amazon provider**, extended expense calculations, evidence screening/ranking and six-sheet reporting. It does not discover live products. Sample snapshots intentionally expire under freshness checks; stale data yields rejected rows, not real opportunities. No result is purchase-ready. Legacy mode and existing input files remain supported unchanged.
 
 See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT_REQUIREMENTS.md), [roadmap](docs/ROADMAP.md), [integration contracts](docs/INTEGRATIONS.md), [deployment/configuration](docs/DEPLOYMENT.md) and [AgentOps plan](docs/AGENTOPS.md). Runtime service cost for the CSV/mock workflow is $0 incremental excluding existing hosting, storage and CI quotas; no paid/API/AI integrations are enabled.
+
+## Credential-free DEMO and operator handoff
+
+Run `.venv/bin/python -m app.demo` for eight controlled fictional cases, six
+explicitly DEMO-labeled workbook tabs, threshold sensitivity and an actionable
+CSV validation report under ignored `var/demo/`. This standalone workflow ignores
+ambient SMTP/provider configuration and makes no live calls. These are never live
+deals. See [DEMO and sample CSV](docs/OFFLINE_DEMO_HANDOFF.md),
+[SMTP reuse — authorized attempt blocked by DNS](docs/SMTP_TEST_HANDOFF.md),
+[consolidated manual operations install](docs/OPERATIONS_HANDOFF.md),
+[pytest advisory investigation](docs/PYTEST_ADVISORY.md) and
+[disabled Keepa pilot preparation](docs/KEEPA_PILOT.md).

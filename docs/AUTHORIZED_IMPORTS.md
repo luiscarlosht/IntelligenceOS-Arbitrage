@@ -41,3 +41,8 @@ Amazon data. Only the mock provider is selectable: unknown identity, missing
 listing, fees, eligibility, demand, competition, package/variation or fresh
 marketplace evidence remain blocked. Mock matches remain illustrative and
 purchase_ready=false. Do not edit bundled fixtures to make an import pass.
+
+The populated fictional sample is `sample_data/authorized_source_sample.csv`.
+Preflight JSON now retains `issues` and adds `findings` with row/field-specific
+corrective actions. The fixed-clock DEMO includes valid/stale and deliberately
+invalid examples in its validation section; see [DEMO handoff](OFFLINE_DEMO_HANDOFF.md).
