@@ -49,6 +49,27 @@ def validate(path: Path, now: datetime, maximum_rows: int = 10000) -> list[str]:
     return issues
 
 
+def remediation(issue: str) -> str:
+    """Actionable guidance, without copying supplied values into reports."""
+    text = issue.lower()
+    rules = (
+        ('header', 'Copy the exact column names and order from templates/authorized_products.csv.'),
+        ('authorization_reference', 'Supply the actual permission/license record reference; a placeholder proves no rights.'),
+        ('provenance', 'Identify the authorized export/feed and original observation basis.'),
+        ('purchase_price', 'Supply a finite positive per-package USD purchase price.'),
+        ('quantity', 'Supply a positive integer package count and verify it against the destination package.'),
+        ('url', 'Supply an HTTP(S) source product URL without embedded credentials.'),
+        ('gtin', 'Supply a valid GTIN including its check digit, or remove it and supply manufacturer/model.'),
+        ('identity', 'Supply a valid GTIN or both manufacturer and model; an ASIN hint alone is insufficient.'),
+        ('timestamp', 'Supply the original timezone-aware ISO-8601 observation time; obtain fresh authorized evidence if stale. Never relabel old data as current.'),
+        ('retrieved_at', 'Supply the original timezone-aware ISO-8601 observation time.'),
+        ('stock', 'Obtain authorized evidence confirming in_stock; do not infer stock.'),
+        ('variation', 'Supply and verify the exact size/color/variation.'),
+    )
+    return next((action for token, action in rules if token in text),
+                'Correct the named field using authorized source evidence, then rerun preflight.')
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('csv', type=Path)
@@ -58,6 +79,7 @@ def main() -> None:
     except (OSError, ValueError, csv.Error):
         issues = ['Import could not be validated']
     print(json.dumps({'event': 'authorized_import_validation', 'issues': issues,
+                      'findings': [{'issue': issue, 'action': remediation(issue)} for issue in issues],
                       'authorization_verified': False, 'marketplace_verified': False}))
     raise SystemExit(bool(issues))
 

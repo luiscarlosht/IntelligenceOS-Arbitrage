@@ -1,0 +1,2 @@
+retailer,name,url,gtin,manufacturer,model,package_quantity,purchase_price,availability,retrieved_at,provenance,asin_hint,variation,authorization_reference
+DEMO fictional authorized-source export,DEMO passing,https://example.org/demo/passing,,DEMO manufacturer,DEMO-1,1,10,in_stock,2026-10-24T00:00:00+00:00,DEMO controlled fixture; no live data,B000000001,standard,DEMO permission reference; replace with actual owner authorization

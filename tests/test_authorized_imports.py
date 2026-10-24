@@ -63,3 +63,21 @@ def test_authorized_source_does_not_supply_marketplace_evidence(tmp_path):
     assert rows[0]['status'] == 'REJECT'
     assert 'Missing marketplace listing' in rows[0]['reason']
     assert rows[0]['purchase_ready'] is False
+
+
+def test_populated_sample_and_actionable_cli(tmp_path, monkeypatch, capsys):
+    import json
+    from app.authorized_imports import main, remediation
+    from app.demo import DEMO_NOW
+    assert validate(ROOT / 'sample_data/authorized_source_sample.csv', DEMO_NOW) == []
+    path = write_csv(tmp_path, purchase_price='NaN', authorization_reference='')
+    monkeypatch.setattr('sys.argv', ['authorized_imports', str(path)])
+    with pytest.raises(SystemExit) as outcome:
+        main()
+    assert outcome.value.code == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report['issues'] and len(report['findings']) == len(report['issues'])
+    assert all(f['action'] for f in report['findings'])
+    assert not report['authorization_verified'] and not report['marketplace_verified']
+    assert 'positive' in remediation('Row 1: Invalid purchase_price')
+    assert 'actual permission' in remediation('Row 1: Missing authorization_reference')

@@ -76,3 +76,14 @@ economics remain missing. UsageLedger bounds attempts; a shared SQLite record pa
 requests. Optional permission-bounded memory cache preserves timestamps; no raw
 payload persistence. KeepaHttpTransport is dormant behind a false code gate. No
 production selector, live calls, credential lookup or deployment is enabled.
+
+## Controlled DEMO composition
+
+`app.demo` composes CsvConnector, MockAmazonProvider, discover and write_report
+with an explicit fixture clock and isolated Config, bypassing environment-loaded
+SMTP/provider settings and job-history writes. It produces ignored DEMO XLSX,
+JSON and Markdown plus sensitivity scenarios through the same screening gates.
+The report writer's opt-in `demo` label leaves existing report behavior unchanged.
+`authorized_imports` retains its diagnostics and adds corrective actions; source
+validation remains separate from proof of authorization/marketplace evidence.
+All live pilot entry points obey the false Keepa code gate before key loading.

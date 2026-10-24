@@ -20,14 +20,14 @@ DISCOVERY_COLUMNS = COLUMNS + [
 ]
 
 
-def write_report(rows, destination, *, discovery=False, top_count=20, job=None):
+def write_report(rows, destination, *, discovery=False, top_count=20, job=None, demo=False):
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     wb = Workbook()
     summary = wb.active
     summary.title = 'Executive Summary'
     for row in [
-        ['INTELLIGENCEOS ARBITRAGE', 'MOCK / supplied analysis — never purchase approval' if discovery else 'Illustrative sourcing analysis'],
+        ['DEMO — FICTIONAL FIXTURES ONLY' if demo else 'INTELLIGENCEOS ARBITRAGE', 'MOCK / supplied analysis — never purchase approval' if discovery else 'Illustrative sourcing analysis'],
         ['Run (UTC)', datetime.now(timezone.utc).isoformat()],
         ['Candidates', len(rows)],
         ['Review candidates', sum(r['status'] == 'REVIEW' for r in rows)],
@@ -85,6 +85,11 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None):
             execution.append([key, value])
         execution.append(['Report generated UTC', datetime.now(timezone.utc).isoformat()])
         execution.append(['Warning', 'Mock data is fictional. SQLite is authoritative for final job and delivery outcome.'])
+    if demo:
+        wb.properties.title = 'DEMO — fictional fixtures; never live deals'
+        for sheet, title in zip(wb, ('DEMO Summary', 'DEMO Review Candidates', 'DEMO All Candidates',
+                                     'DEMO Rejections', 'DEMO Data Quality', 'DEMO Execution')):
+            sheet.title = title
     for sheet in wb:
         sheet.freeze_panes = 'A2'
         for cell in sheet[1]:

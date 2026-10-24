@@ -302,3 +302,7 @@ backup/monitor units passed `systemd-analyze verify`, and `pip check` plus
 `git diff --check` passed. Syntax/unit verification does not validate production
 permissions, available wheels, disk capacity, notification delivery or successful
 installation. No deployment, scheduler change or production restore was executed.
+
+For the ordered checklist tying this procedure to dispatcher/watchdog acceptance,
+start with [the consolidated operations handoff](OPERATIONS_HANDOFF.md). This
+procedure remains the authoritative installation/rollback command source.

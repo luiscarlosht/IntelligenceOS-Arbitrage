@@ -52,3 +52,14 @@ Official rendered pricing/terms, bounded mock transport contracts, token reserva
 pacing, permitted optional memory caching and conservative timestamped evidence are
 prepared in [KEEPA_PREPARATION.md](KEEPA_PREPARATION.md). Live code gate and job
 selector stay disabled. Scan Profit identification/permissions remain unresolved.
+
+## Credential-free demonstration milestone
+
+Pending pilot work is preserved with every public live entry point disabled.
+The existing discovery/reporting path now powers a fixed-clock, clearly labeled
+DEMO with threshold sensitivity, missing-fee/package/freshness failures and
+sample authorized-export diagnostics with repair actions. SMTP settings reuse and backup/monitor installation are consolidated as handoffs.
+An owner-authorized DEMO email attempt using existing WeinsteinAgent settings
+failed DNS before SMTP connection; no message was submitted.
+See [DEMO](OFFLINE_DEMO_HANDOFF.md), [operations](OPERATIONS_HANDOFF.md) and
+[pytest remediation/verification limits](PYTEST_ADVISORY.md). No deployment or live Keepa/Amazon call is included.
