@@ -132,3 +132,7 @@ and all rejection reasons. Unknown fees/eligibility remain unknown. See
 [implementation and replay](docs/REAL_DATA_PILOT.md),
 [account/source access steps](docs/PILOT_ACCOUNT_ACCESS.md) and the
 [separate implementation/live/deployment status register](docs/ROADMAP.md).
+
+Amazon's separately invoked, read-only US catalog/details pilots and hidden SSH
+credential entry are documented in [Amazon pilot](docs/AMAZON_PILOT.md). No live call or
+production provider selection is enabled by the normal application workflow.
