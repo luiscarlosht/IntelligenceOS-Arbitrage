@@ -104,3 +104,9 @@ deals. See [DEMO and sample CSV](docs/OFFLINE_DEMO_HANDOFF.md),
 [consolidated manual operations install](docs/OPERATIONS_HANDOFF.md),
 [pytest advisory investigation](docs/PYTEST_ADVISORY.md) and
 [disabled Keepa pilot preparation](docs/KEEPA_PILOT.md).
+
+Optional Arbitrage-only Gmail API delivery over HTTPS is prepared behind
+`ARBITRAGE_EMAIL_TRANSPORT=gmail_api`; SMTP remains the default. See
+[secure OAuth setup and unattended-use limitations](docs/GMAIL_API_SETUP.md).
+Authorization and sending require separate operator action; no schedule changes
+are included.
