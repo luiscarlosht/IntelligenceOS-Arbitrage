@@ -85,3 +85,93 @@ orchestrator job fail while retaining the workbook; structured logs/history stor
 exception class only. Direct callers must redact raw exception messages. There
 are no automatic retries, OAuth/XOAUTH2, bounce tracking or inbox confirmations.
 Acceptance by SMTP, if later achieved, must be distinguished from inbox receipt.
+
+## Authentication-only SSH diagnostic (2026-10-26)
+
+The separate `ops/smtp_auth_diagnostic.py` parses only allowlisted SMTP credential
+assignments from `/root/.weinstein_env` as data. It never sources the file,
+expands shell expressions, imports WeinsteinAgent, reads ambient credentials or
+writes credentials. Duplicate assignments, shell references, malformed values and
+ambiguous credentials stop before any network call. Secret values and provider
+replies are never displayed. The existing sender and attempt marker are untouched.
+
+Approved inspection found both `SMTP_APP_PASSWORD` and `SMTP_PASSWORD` nonempty.
+The approved file alone does not establish resolver precedence; their equivalence
+is not assumed. No credential was selected and no authentication was executed.
+
+Run directly in an interactive SSH terminal:
+
+```bash
+python3.12 -B /root/IntelligenceOS-Arbitrage/ops/smtp_auth_diagnostic.py
+```
+
+With the current ambiguous configuration this stops, reporting variable names
+only. Once the operator confirms the intended variable, select it explicitly by
+adding `--credential-variable SMTP_APP_PASSWORD` or
+`--credential-variable SMTP_PASSWORD`. These arguments contain names only, never
+keys. The script reads the selected value directly into process memory; it does
+not prompt for or persist a key, and never changes the source file.
+
+The endpoint remains fixed at `smtp.sendgrid.net:2525`, username literal `apikey`.
+It uses the system trust store with certificate and hostname verification, EHLO,
+mandatory STARTTLS, EHLO again, authentication and socket close. It never calls
+MAIL FROM, RCPT TO or DATA, enables SMTP debug output, or retries a connection.
+SMTP login may negotiate supported AUTH methods. Core dumps are disabled;
+Python cannot guarantee memory erasure or prevent swapping.
+
+Exit 0 means authentication succeeded; exit 1 identifies the stopping stage and
+exception class (or ambiguous variable names). Authentication success does not
+establish sender authorization, message acceptance or inbox delivery. Tests use
+synthetic credential files and mocked SMTP; no live authentication was performed.
+The previous marker remains a reservation, not a delivery receipt. This diagnostic
+does not require or permit archiving or removing it.
+
+## Authentication disconnect review (2026-10-26)
+
+The operator reports that both explicit variable selections reached authentication
+and raised `SMTPServerDisconnected`, with no email submission. An approved local,
+in-memory comparison of the resolved values returned **same**. No value, length,
+hash, prefix or encoded form was recorded. The file was not changed.
+
+The diagnostic calls Python's `smtplib.login('apikey', key)` with its default
+`initial_response_ok=True`. Inspection of the installed Python 3.12 implementation
+shows preference order CRAM-MD5, PLAIN, LOGIN, restricted to advertised mechanisms.
+Thus advertising PLAIN and LOGIN selects PLAIN first, regardless of advertised
+order. PLAIN and LOGIN can send an initial response; AUTH exchanges can include
+334 challenges. A 535 (or other authentication rejection) becomes
+`SMTPAuthenticationError`, which login catches before trying another supported
+mechanism. `SMTPServerDisconnected` escapes immediately, with no next mechanism
+or reconnect. The old output did not capture advertisements or selected mechanism;
+the reported disconnect alone cannot identify either or establish an invalid key.
+
+`TrackedSMTP` now reports allowlisted advertised AUTH labels after verified TLS,
+counts unrecognized tokens without displaying them, reports each attempted
+mechanism, and records numeric SMTP response codes through `getreply`, including
+AUTH challenge codes. A disconnect without a response is labeled `code=unavailable`.
+It never records wire commands, AUTH payloads, server reply text or exception text.
+Unknown labels are redacted. SMTP debugging remains disabled. Authentication
+selection/fallback behavior is preserved for diagnosis; there is no new live
+attempt or change to production configuration. No submission command is used.
+
+Mock-only tests exercise the real inherited login/auth implementation with all
+protocol exchanges replaced, verifying preference, fallback after rejection,
+no fallback after disconnect, challenge handling, and redaction. Separate tests
+mock `getreply` to verify numeric codes and disconnect reporting. No actual
+advertisement or response code from the user's earlier attempts is known.
+
+## Temporary authentication failure policy
+
+Authentication now stops immediately on every 400–499 AUTH response, including
+responses received after a challenge or after an earlier mechanism's rejection.
+`TrackedSMTP.auth` converts these failures to `TemporaryAuthenticationError`, a
+separate SMTP exception that bypasses `smtplib.login`'s mechanism fallback. Only
+the numeric code is retained in that exception; raw server text is not copied.
+The socket is closed, with no reconnect or automatic retry. Existing redacted
+response-code tracking remains active. Fallback after permanent 5xx authentication
+rejections is unchanged. Verified STARTTLS and the literal `apikey` username remain.
+
+This policy supersedes the earlier blanket description of fallback on authentication
+rejection. Mocked tests cover temporary codes, failures after challenges, failure
+on a later mechanism and cleanup; no live request was made. Account status needs
+clarification before another send test. No further live attempts are authorized
+by this change, and the previous attempt marker remains untouched.
