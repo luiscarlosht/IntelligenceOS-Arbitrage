@@ -20,6 +20,7 @@ class RetailProduct:
     asin_hint: str = ''
     variation: str = ''
     issues: tuple[str, ...] = ()
+    authorization_reference: str = ''
 
 @dataclass(frozen=True)
 class MarketplaceListing:

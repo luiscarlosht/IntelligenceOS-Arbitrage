@@ -43,7 +43,7 @@ class CsvConnector:
                 yield RetailProduct(text('retailer'), text('name'), url, normalized_gtin,
                     text('manufacturer'), text('model'), quantity, price,
                     text('availability').lower(), retrieved, text('provenance'),
-                    text('asin_hint'), text('variation'), tuple(issues))
+                    text('asin_hint'), text('variation'), tuple(issues), text('authorization_reference'))
 
 # Authorized APIs, licensed feeds and permitted URL resolvers implement products().
 # No remote connector is enabled until its authorization and usage contract is reviewed.

@@ -99,3 +99,27 @@ use a nonroot private writable token directory outside report/backup state,
 explicit disabled activation/OAuth-readiness gates and no retries/catch-up sends.
 The original offline service and timer remain unchanged. See
 [scheduling preparation](GMAIL_SCHEDULE_PREPARATION.md).
+
+## Offline pilot evidence persistence
+
+`app.offline_pilot` reuses CsvConnector, MockAmazonProvider.match,
+KeepaAdapter.lookup/quote/eligibility, discovery.screen and write_report. It is a
+separate fixture-only CLI, never selected by orchestrator or production Config.
+It constructs config directly and never imports live HTTP or invokes mail.
+
+`app.observations.ObservationStore` creates versioned tables beside the existing
+History/UsageLedger in a separate owner-only pilot database: source_observations,
+marketplace_matches, enrichment_observations, pilot_runs, pilot_run_items and
+pilot_run_enrichment. Exact canonical content hashes deduplicate evidence while
+input ordinals, evaluation clocks, input-file hashes, full decisions and fetch
+links remain attributable to each run. Decimal values use exact strings;
+unknowns use JSON/SQL null; aware times normalize to UTC. Retain supplier permission
+references and original evidence timestamps. This is normalized evidence storage,
+not raw-response caching or permission to persist live vendor data.
+
+Reports add an opt-in enrichment sheet. Historical price/rank/monthly-sold brackets
+never overwrite sale quotes, seller eligibility, fees or monthly-sales fields.
+Existing discovery adds a structured rejection_reasons array without changing
+screening gates or its default workbook schema. Original source issues and match
+reasons are also retained in persisted normalized objects. See
+[implementation and schema](REAL_DATA_PILOT.md).

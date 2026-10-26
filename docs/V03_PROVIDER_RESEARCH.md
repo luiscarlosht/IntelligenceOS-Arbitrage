@@ -1,5 +1,22 @@
 # V0.3 access, evidence and cost decision record
 
+## 2026-10-26 superseding checks
+
+Amazon's official [developer-fee cancellation announcement](https://developer.amazonservices.com/cancellation-of-sp-api-fees)
+says it is not proceeding with the planned SP-API usage and annual fees at this
+time. This supersedes the unresolved planned-fee discussion below; it does not
+remove seller-plan, selling, supplier-license or Keepa costs. Confirm account
+classification and current billing in the owner portal before activation.
+The Professional plan remains $39.99/month plus selling fees on the official
+[seller pricing page](https://sell.amazon.com/pricing). See the current
+[pilot owner checklist](PILOT_ACCOUNT_ACCESS.md) for access, budget and permission
+gates; no live call, purchase or account change was made.
+
+Historical research below is retained with its original date. Keepa's prior
+rendered pricing check is historical; current owner checkout/terms still need
+confirmation because today's pricing fetch only returns a JavaScript shell.
+
+
 Research checked **2026-10-23 UTC**, US retail to Amazon.com assumed. Only official
 vendor/network documentation supports the findings below. No accounts were opened,
 credentials read, paid calls made or providers enabled. Public documentation is

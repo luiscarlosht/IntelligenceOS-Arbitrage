@@ -16,9 +16,12 @@ jobs:
       - run: python -m app.orchestrator
       - run: ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=var/discovery.xlsx python -m app.orchestrator
       - run: python -m app.demo
+      - run: python -m app.offline_pilot
       - uses: actions/upload-artifact@v4
         with:
           name: sample-opportunity-report
           path: |
             var/*.xlsx
             var/demo/DEMO.*
+            var/pilot-offline/PILOT-FIXTURE.xlsx
+            var/pilot-offline/PILOT-FIXTURE.json

@@ -83,7 +83,7 @@ def screen(product, match, config, now):
         purchase_ready=False, cost_basis='estimated' if unverified or is_mock else 'verified by supplied provider',
         unverified_costs=', '.join(unverified), quality_issues='; '.join(dict.fromkeys(issues)),
         monthly_sales=listing.monthly_sales if listing else None, offer_count=listing.offer_count if listing else None,
-        ranking_score=0, budget_units=0)
+        ranking_score=0, budget_units=0, rejection_reasons=list(dict.fromkeys(issues)))
     row.update(costs)
     if economics: row['referral_fee'] = economics.referral_fee
     if status == 'REVIEW':

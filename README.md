@@ -119,3 +119,16 @@ and [inactive scheduled delivery proposal](docs/GMAIL_SCHEDULE_PREPARATION.md)
 record the result and remaining OAuth/nonroot deployment requirements. No
 production email schedule is activated. Credentials, local env files, reports
 and attempt evidence are excluded from Git.
+
+## Real-data pilot preparation — offline fixtures only
+
+Run `.venv/bin/python -m app.offline_pilot` to connect existing CSV normalization,
+marketplace matching, mock Keepa interfaces, screening and reporting for ten
+explicitly fictional products. It writes a private SQLite evidence/history/usage
+database plus labeled XLSX/JSON under ignored `var/pilot-offline/`; no email,
+credential lookup or network call occurs. Normalized observations/matches/
+enrichment deduplicate across runs while every input ordinal retains run linkage
+and all rejection reasons. Unknown fees/eligibility remain unknown. See
+[implementation and replay](docs/REAL_DATA_PILOT.md),
+[account/source access steps](docs/PILOT_ACCOUNT_ACCESS.md) and the
+[separate implementation/live/deployment status register](docs/ROADMAP.md).
