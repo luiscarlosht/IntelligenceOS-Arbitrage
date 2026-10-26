@@ -63,3 +63,13 @@ An owner-authorized DEMO email attempt using existing WeinsteinAgent settings
 failed DNS before SMTP connection; no message was submitted.
 See [DEMO](OFFLINE_DEMO_HANDOFF.md), [operations](OPERATIONS_HANDOFF.md) and
 [pytest remediation/verification limits](PYTEST_ADVISORY.md). No deployment or live Keepa/Amazon call is included.
+
+## Gmail delivery confirmation and scheduling proposal
+
+The operator confirms Gmail API DEMO attempt 3 arrived in Hotmail with both
+attachments. HTTPS transport hardening and private safe-reason diagnostics are
+consolidated for review. Scheduled reports remain disabled in separate proposed
+units; service-owned private rotating-token state and OAuth publishing/fresh
+consent are activation prerequisites. See [confirmation](GMAIL_API_DEMO_THIRD.md)
+and [schedule preparation](GMAIL_SCHEDULE_PREPARATION.md). Existing schedules
+and all attempt reservations are preserved; no additional email was sent.

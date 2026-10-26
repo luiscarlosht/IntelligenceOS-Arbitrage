@@ -18,6 +18,7 @@ def setup(monkeypatch):
     prompt = Mock(return_value='secret-value')
     monkeypatch.setattr(diagnostic, 'TrackedSMTP', factory)
     monkeypatch.setattr(diagnostic, 'load_credential', prompt)
+    monkeypatch.setattr(diagnostic, 'load_configuration', Mock(return_value='operator@gmail.com'))
     monkeypatch.setattr(diagnostic, 'sys', SimpleNamespace(
         stdin=SimpleNamespace(isatty=lambda: True),
         stderr=SimpleNamespace(isatty=lambda: True)))
@@ -28,13 +29,13 @@ def setup(monkeypatch):
 def test_success_verified_tls_and_auth_only(setup, capsys):
     client, factory, _ = setup
     assert diagnostic.main() == 0
-    factory.assert_called_once_with('smtp.sendgrid.net', 2525, timeout=30)
+    factory.assert_called_once_with('smtp.gmail.com', 587, timeout=30)
     assert [call[0] for call in client.mock_calls] == [
         'ehlo', 'starttls', 'ehlo', 'login', 'close']
     context = client.starttls.call_args.kwargs['context']
     assert context.check_hostname
     assert context.verify_mode == ssl.CERT_REQUIRED
-    client.login.assert_called_once_with('apikey', 'secret-value')
+    client.login.assert_called_once_with('operator@gmail.com', 'secret-value')
     assert 'secret-value' not in capsys.readouterr().out
 
 
@@ -74,56 +75,26 @@ def test_loader_failure_never_connects(setup, capsys):
     factory.assert_not_called()
 
 
-def test_ambiguity_reports_names_only(setup, capsys):
-    _, factory, loader = setup
-    loader.side_effect = diagnostic.AmbiguousCredential(['SMTP_PASSWORD', 'SMTP_APP_PASSWORD'])
-    assert diagnostic.main() == 1
-    output = capsys.readouterr().out
-    assert 'SMTP_PASSWORD' in output and 'SMTP_APP_PASSWORD' in output
-    factory.assert_not_called()
-
-
-@pytest.mark.parametrize(('text', 'selection', 'expected'), [
-    ('SMTP_APP_PASSWORD=first', None, 'first'),
-    ('SMTP_PASSWORD=second', None, 'second'),
-    ('SMTP_APP_PASSWORD=first\nSMTP_PASSWORD=second', 'SMTP_PASSWORD', 'second'),
-    ('SMTP_APP_PASSWORD=first\nSMTP_PASSWORD=second', 'SMTP_APP_PASSWORD', 'first'),
-    ("export SMTP_PASSWORD='quoted-value' # comment\nUNRELATED=$(ignored)", None, 'quoted-value'),
-])
-def test_loader_selection(tmp_path, monkeypatch, text, selection, expected):
-    path = tmp_path / 'synthetic.env'
-    path.write_text(text)
-    monkeypatch.setattr(diagnostic, 'ENV_PATH', path)
-    assert diagnostic.load_credential(selection) == expected
-    assert path.read_text() == text
-
-
 @pytest.mark.parametrize('text', [
-    'SMTP_PASSWORD=one\nSMTP_APP_PASSWORD=two',
-    'SMTP_PASSWORD=same\nSMTP_APP_PASSWORD=same',
-    'SMTP_PASSWORD=one\nSMTP_PASSWORD=two',
-    'SMTP_PASSWORD=$SMTP_APP_PASSWORD',
-    'SMTP_PASSWORD=$(command)',
-    'SMTP_PASSWORD=`command`',
-    'SMTP_PASSWORD="bad key"',
-    'SMTP_PASSWORD=',
-    'UNRELATED=value',
-    "SMTP_PASSWORD='unterminated",
+    'SMTP_HOST=smtp.sendgrid.net',
+    'SMTP_HOST=$(command)',
+    'SMTP_HOST=smtp.gmail.com\nSMTP_HOST=smtp.gmail.com',
+    'SMTP_PASSWORD=synthetic',
+    'UNRELATED=synthetic',
+    'SMTP_HOST="unterminated',
 ])
-def test_loader_fails_closed(tmp_path, monkeypatch, text):
-    path = tmp_path / 'synthetic.env'
+def test_configuration_fails_closed(tmp_path, text):
+    path = tmp_path / 'isolated.env'
     path.write_text(text)
-    monkeypatch.setattr(diagnostic, 'ENV_PATH', path)
-    with pytest.raises((ValueError, diagnostic.AmbiguousCredential)):
-        diagnostic.load_credential()
-
-
-def test_explicit_missing_variable_does_not_fallback(tmp_path, monkeypatch):
-    path = tmp_path / 'synthetic.env'
-    path.write_text('SMTP_PASSWORD=synthetic')
-    monkeypatch.setattr(diagnostic, 'ENV_PATH', path)
     with pytest.raises(ValueError):
-        diagnostic.load_credential('SMTP_APP_PASSWORD')
+        diagnostic.load_configuration(path)
+
+
+def test_configuration_valid_literal(tmp_path):
+    path = tmp_path / 'isolated.env'
+    path.write_text('SMTP_HOST=smtp.gmail.com\nSMTP_PORT=587\n'
+                    'SMTP_SECURITY=starttls\nSMTP_USER=operator@gmail.com\nEMAIL_TO=')
+    assert diagnostic.load_configuration(path) == 'operator@gmail.com'
 
 
 def test_advertised_mechanisms_never_echo_unknown_tokens(capsys):
@@ -246,3 +217,156 @@ def test_main_closes_after_temporary_failure_without_reconnect(setup, capsys):
     output = capsys.readouterr().out
     assert 'error_type=TemporaryAuthenticationError' in output
     assert 'secret-value' not in output
+
+
+def test_invalid_configuration_never_prompts_or_connects(setup, monkeypatch, capsys):
+    _, factory, prompt = setup
+    monkeypatch.setattr(diagnostic, 'load_configuration', Mock(side_effect=ValueError('private')))
+    assert diagnostic.main() == 1
+    factory.assert_not_called()
+    prompt.assert_not_called()
+    assert 'private' not in capsys.readouterr().out
+
+
+@pytest.mark.parametrize('entered', ['SG.synthetic-key', '', 'short', '$(command)'])
+def test_hidden_entry_rejects_non_app_password(monkeypatch, entered):
+    prompt = Mock(return_value=entered)
+    monkeypatch.setattr(diagnostic.getpass, 'getpass', prompt)
+    monkeypatch.setattr(diagnostic.getpass, 'unix_getpass', prompt)
+    with pytest.raises(ValueError):
+        diagnostic.load_credential()
+    prompt.assert_called_once()
+
+
+def test_hidden_entry_accepts_google_grouped_password(monkeypatch):
+    prompt = Mock(return_value='abcd efgh ijkl mnop')
+    monkeypatch.setattr(diagnostic.getpass, 'getpass', prompt)
+    monkeypatch.setattr(diagnostic.getpass, 'unix_getpass', prompt)
+    assert diagnostic.load_credential() == 'abcdefghijklmnop'
+
+
+@pytest.mark.parametrize('failure', ['no_fd', 'echo_control'])
+def test_real_getpass_fails_before_visible_read(monkeypatch, failure):
+    import io
+    import termios
+
+    visible_read = Mock(side_effect=AssertionError('visible input attempted'))
+    stdin = io.StringIO('synthetic-only\n')  # fileno() raises UnsupportedOperation.
+    monkeypatch.setattr(stdin, 'readline', visible_read)
+    monkeypatch.setattr(diagnostic.getpass.sys, 'stdin', stdin)
+    monkeypatch.setattr(diagnostic.getpass.os, 'open', Mock(side_effect=OSError()))
+    if failure == 'echo_control':
+        monkeypatch.setattr(stdin, 'fileno', lambda: 0)
+        monkeypatch.setattr(termios, 'tcgetattr', Mock(return_value=[0, 0, 0, termios.ECHO, 0, 0, []]))
+        monkeypatch.setattr(termios, 'tcsetattr', Mock(side_effect=termios.error()))
+    with pytest.raises((diagnostic.getpass.GetPassWarning, io.UnsupportedOperation)):
+        diagnostic.load_credential()
+    visible_read.assert_not_called()
+
+
+def test_real_getpass_pty_hides_input_and_restores_echo():
+    """Exercise the actual terminal wrappers, never main() or SMTP."""
+    import os
+    import pty
+    import select
+    import signal
+    import termios
+    import time
+    import io
+
+    pid, fd = pty.fork()
+    if pid == 0:
+        try:
+            # A wrapper without fileno must not matter when /dev/tty works.
+            diagnostic.getpass.sys.stdin = io.StringIO()
+            value = diagnostic.load_credential()
+            os.write(1, b'VALID\n' if value == 'abcdefghijklmnop' else b'INVALID\n')
+            os._exit(0)
+        except BaseException:
+            os._exit(1)
+    output = b''
+    sent = False
+    try:
+        deadline = time.monotonic() + 5
+        while b'VALID\r\n' not in output:
+            remaining = deadline - time.monotonic()
+            assert remaining > 0, output
+            assert select.select([fd], [], [], remaining)[0], output
+            output += os.read(fd, 4096)
+            if not sent and b'(hidden): ' in output:
+                assert not termios.tcgetattr(fd)[3] & termios.ECHO
+                os.write(fd, b'abcd efgh ijkl mnop\n')
+                sent = True
+        assert sent
+        assert b'abcd' not in output
+        assert termios.tcgetattr(fd)[3] & termios.ECHO
+        _, status = os.waitpid(pid, 0)
+        pid = None
+        assert os.waitstatus_to_exitcode(status) == 0
+    finally:
+        os.close(fd)
+        if pid is not None:
+            os.kill(pid, signal.SIGKILL)
+            os.waitpid(pid, 0)
+
+
+def test_hidden_entry_rejects_non_unix_getpass(monkeypatch):
+    prompt = Mock()
+    monkeypatch.setattr(diagnostic.getpass, 'getpass', prompt)
+    with pytest.raises(ValueError):
+        diagnostic.load_credential()
+    prompt.assert_not_called()
+
+
+def bashrc_fixture(tmp_path, extra=''):
+    path = tmp_path / 'bashrc'
+    path.write_text('unrelated=$(never-execute)\nreturn\n'
+                    'export SMTP_USERNAME="operator@gmail.com"\n'
+                    "SMTP_APP_PASSWORD='abcd efgh ijkl mnop'\n" + extra)
+    return path
+
+
+def test_bashrc_aliases_literal_only(tmp_path):
+    assert diagnostic.load_bashrc_configuration(bashrc_fixture(tmp_path)) == (
+        'operator@gmail.com', 'abcdefghijklmnop')
+
+
+@pytest.mark.parametrize('extra', [
+    'SMTP_USERNAME=operator@gmail.com\n',
+    'SMTP_USER=operator@gmail.com\n',
+    'SMTP_PASSWORD=abcdefghijklmnop\n',
+    'SMTP_HOST=smtp.sendgrid.net\n', 'SMTP_PORT=2525\n', 'SMTP_SECURITY=ssl\n',
+    'EMAIL_FROM=$(never-execute)\n', 'SMTP_HOST="unterminated\n',
+    'EMAIL_TO=one\nEMAIL_TO=two\n',
+])
+def test_bashrc_rejects_ambiguity_and_shell_expressions(tmp_path, extra):
+    with pytest.raises(ValueError):
+        diagnostic.load_bashrc_configuration(bashrc_fixture(tmp_path, extra))
+
+
+@pytest.mark.parametrize('password', ['', 'SG.synthetic', 'short'])
+def test_bashrc_rejects_missing_or_wrong_password_shape(tmp_path, password):
+    path = tmp_path / 'bashrc'
+    path.write_text(f'SMTP_USER=operator@gmail.com\nSMTP_PASSWORD={password}\n')
+    with pytest.raises(ValueError):
+        diagnostic.load_bashrc_configuration(path)
+
+
+def test_bashrc_main_auth_only(setup, tmp_path, capsys):
+    client, factory, prompt = setup
+    assert diagnostic.main(bashrc_path=bashrc_fixture(tmp_path)) == 0
+    prompt.assert_not_called()
+    factory.assert_called_once_with('smtp.gmail.com', 587, timeout=30)
+    client.login.assert_called_once_with('operator@gmail.com', 'abcdefghijklmnop')
+    assert [call[0] for call in client.mock_calls] == ['ehlo', 'starttls', 'ehlo', 'login', 'close']
+    context = client.starttls.call_args.kwargs['context']
+    assert context.check_hostname and context.verify_mode == ssl.CERT_REQUIRED
+    assert 'abcdefghijklmnop' not in capsys.readouterr().out
+
+
+def test_bashrc_failure_never_connects(setup, tmp_path, capsys):
+    _, factory, prompt = setup
+    assert diagnostic.main(bashrc_path=bashrc_fixture(tmp_path, 'SMTP_PASSWORD=SG.synthetic\n')) == 1
+    factory.assert_not_called()
+    prompt.assert_not_called()
+    assert 'SG.synthetic' not in capsys.readouterr().out

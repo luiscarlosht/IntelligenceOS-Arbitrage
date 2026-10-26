@@ -3,5 +3,15 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .env
+.env.*
 var/
 .venv-gmail-auth/
+# Local mail credentials, operator configuration and attempt evidence.
+*.env
+!ops/offline.env
+*token*.json
+client*.json
+credentials*.json
+*.attempted
+*.stages.jsonl
+.config/arbitrage-gmail/

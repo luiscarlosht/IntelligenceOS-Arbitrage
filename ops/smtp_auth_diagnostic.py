@@ -1,7 +1,8 @@
-"""Operator-only SendGrid authentication check. Never submits a message."""
+"""Operator-only Gmail authentication check. Never submits a message."""
 from __future__ import annotations
 
 import argparse
+import getpass
 from pathlib import Path
 import re
 import shlex
@@ -9,12 +10,10 @@ import resource
 import smtplib
 import ssl
 import sys
+import warnings
 
 
-CREDENTIAL_VARIABLES = (
-    'SMTP_APP_PASSWORD', 'SMTP_PASSWORD', 'EMAIL_SMTP_PASS', 'EMAIL_SMTP_PASSWORD',
-)
-ENV_PATH = Path('/root/.weinstein_env')
+ENV_PATH = Path(__file__).resolve().parents[1] / 'ops' / 'arbitrage-gmail.env'
 
 
 # Only these public protocol labels may reach output. Never echo arbitrary EHLO
@@ -70,46 +69,81 @@ class TrackedSMTP(smtplib.SMTP):
             raise
 
 
-class AmbiguousCredential(Exception):
-    def __init__(self, names: list[str]):
-        self.names = names
-
-
-def load_credential(variable: str | None = None) -> str:
-    """Parse only approved credential assignments as data; never source or expand."""
-    if variable is not None and variable not in CREDENTIAL_VARIABLES:
-        raise ValueError()
+def load_configuration(path: Path) -> str:
+    """Read isolated literal settings, without shell expansion or inherited env."""
     values: dict[str, str] = {}
-    with ENV_PATH.open() as stream:
-        for line in stream:
-            match = re.match(r'^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=(.*)$', line)
-            if not match or match[1] not in CREDENTIAL_VARIABLES:
+    allowed = {'SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURITY', 'SMTP_USER', 'EMAIL_TO'}
+    for line in path.read_text().splitlines():
+        if not line.strip() or line.lstrip().startswith('#'):
+            continue
+        match = re.fullmatch(r'([A-Z_]+)=(.*)', line)
+        if not match or match[1] not in allowed or match[1] in values:
+            raise ValueError()
+        words = shlex.split(match[2], comments=True)
+        if len(words) > 1 or any(c in match[2] for c in ('$', '`', ';')):
+            raise ValueError()
+        values[match[1]] = words[0] if words else ''
+    if (values.get('SMTP_HOST'), values.get('SMTP_PORT'), values.get('SMTP_SECURITY')) != (
+            'smtp.gmail.com', '587', 'starttls') or values.get('EMAIL_TO'):
+        raise ValueError()
+    username = values.get('SMTP_USER') or input('Full Gmail address for Arbitrage: ').strip()
+    if not re.fullmatch(r'[A-Za-z0-9._%+\-]+@gmail\.com', username, re.IGNORECASE):
+        raise ValueError()
+    return username
+
+
+def load_bashrc_configuration(path: Path) -> tuple[str, str]:
+    """Parse only approved assignment literals; never execute shell contents."""
+    values: dict[str, str] = {}
+    with path.open() as source:
+        for line in source:
+            match = re.match(
+                r'^\s*(?:export\s+)?((?:SMTP_|EMAIL_)[A-Za-z0-9_]+)=(.*)$',
+                line.rstrip('\n'))
+            if not match:
                 continue
-            name, raw = match[1], match[2]
-            if name in values:
-                raise ValueError()  # Duplicate credential assignments need review.
-            words = shlex.split(raw, comments=True)
+            name, literal = match.groups()
+            if name in values or any(c in literal for c in ('$', '`', ';', '&', '|', '<', '>', '\\')):
+                raise ValueError()
+            words = shlex.split(literal, comments=True)
             if len(words) > 1:
                 raise ValueError()
-            value = words[0] if words else ''
-            # Reject shell references/substitutions instead of guessing their meaning.
-            if any(character in value for character in ('$', '`')):
-                raise ValueError()
-            values[name] = value
-    present = [name for name in CREDENTIAL_VARIABLES if values.get(name)]
-    if variable is None:
-        if len(present) > 1:
-            raise AmbiguousCredential(present)
-        if len(present) != 1:
+            values[name] = words[0] if words else ''
+    # Missing transport settings use these fixed Gmail-only defaults.
+    for name, expected in (('SMTP_HOST', 'smtp.gmail.com'), ('SMTP_PORT', '587'),
+                           ('SMTP_SECURITY', 'starttls')):
+        if values.get(name, expected) != expected:
             raise ValueError()
-        variable = present[0]
-    key = values.get(variable, '')
-    if not key or any(character.isspace() for character in key):
+    def select(names: tuple[str, str]) -> str:
+        present = [values[name] for name in names if name in values]
+        if len(present) != 1 or not present[0]:
+            raise ValueError()  # Alias pairs are ambiguous even if identical.
+        return present[0]
+    username = select(('SMTP_USER', 'SMTP_USERNAME'))
+    key = select(('SMTP_PASSWORD', 'SMTP_APP_PASSWORD')).replace(' ', '')
+    if not re.fullmatch(r'[A-Za-z0-9._%+\-]+@gmail\.com', username, re.IGNORECASE):
+        raise ValueError()
+    if not re.fullmatch(r'[A-Za-z]{16}', key):
+        raise ValueError()  # Shape is not proof of Google provenance.
+    return username, key
+
+
+def load_credential() -> str:
+    """New Google App Password only; never reuse inherited provider secrets."""
+    if getpass.getpass is not getpass.unix_getpass:
+        raise ValueError()  # Require a platform with hidden terminal entry.
+    # unix_getpass opens /dev/tty with unbuffered FileIO; buffered r+
+    # requires seeking and fails on terminals before the prompt is displayed.
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', getpass.GetPassWarning)
+        key = getpass.getpass('Separate Arbitrage Google App Password (hidden): ')
+    key = key.replace(' ', '')
+    if not re.fullmatch(r'[a-zA-Z]{16}', key):
         raise ValueError()
     return key
 
 
-def main(variable: str | None = None) -> int:
+def main(config_path: Path = ENV_PATH, *, bashrc_path: Path | None = None) -> int:
     stage = 'terminal'
     client = None
     try:
@@ -117,12 +151,17 @@ def main(variable: str | None = None) -> int:
         if not sys.stdin.isatty() or not sys.stderr.isatty():
             print('Stopped: run directly in an interactive SSH terminal.')
             return 1
-        stage = 'credential_file'
-        key = load_credential(variable)
+        stage = 'configuration'
+        if bashrc_path is not None:
+            username, key = load_bashrc_configuration(bashrc_path)
+        else:
+            username = load_configuration(config_path)
+            stage = 'hidden_credential_entry'
+            key = load_credential()
         stage = 'tls_context'
         context = ssl.create_default_context()
         stage = 'connect'
-        client = TrackedSMTP('smtp.sendgrid.net', 2525, timeout=30)
+        client = TrackedSMTP('smtp.gmail.com', 587, timeout=30)
         stage = 'ehlo'
         client.diagnostic_stage = stage
         code, _ = client.ehlo()
@@ -139,14 +178,10 @@ def main(variable: str | None = None) -> int:
         report_auth_mechanisms(client.esmtp_features)
         stage = 'authenticate'
         client.diagnostic_stage = stage
-        client.login('apikey', key)
+        client.login(username, key)
         key = ''
         print('Authentication succeeded. No email submitted; delivery not tested.')
         return 0
-    except AmbiguousCredential as error:
-        print('Stopped: ambiguous credential; nonempty variables present: ' + ', '.join(error.names))
-        print('Select the confirmed variable explicitly with --credential-variable NAME.')
-        return 1
     except (Exception, KeyboardInterrupt) as error:
         # Provider replies and exception text may contain secrets: never print them.
         print(f'Stopped: stage={stage}; error_type={type(error).__name__}. No email submitted.')
@@ -162,6 +197,8 @@ def main(variable: str | None = None) -> int:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--credential-variable', choices=CREDENTIAL_VARIABLES)
+    sources = parser.add_mutually_exclusive_group()
+    sources.add_argument('--config', type=Path, default=ENV_PATH)
+    sources.add_argument('--bashrc', type=Path, help='Parse SMTP_/EMAIL_ literals without executing shell code')
     arguments = parser.parse_args()
-    raise SystemExit(main(arguments.credential_variable))
+    raise SystemExit(main(arguments.config, bashrc_path=arguments.bashrc))

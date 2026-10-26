@@ -22,6 +22,7 @@ class Config:
     smtp_security: str = 'starttls'
     email_transport: str = 'smtp'
     gmail_token_file: Path | None = None
+    gmail_stage_file: Path | None = None
     mode: str = 'legacy'
     amazon_provider: str = 'mock'
     amazon_fixture: Path = ROOT / 'sample_data/amazon_mock.json'
@@ -78,6 +79,7 @@ class Config:
             smtp_security=e.get('SMTP_SECURITY', 'starttls'),
             email_transport=e.get('ARBITRAGE_EMAIL_TRANSPORT', 'smtp'),
             gmail_token_file=Path(e['ARBITRAGE_GMAIL_TOKEN_FILE']) if e.get('ARBITRAGE_GMAIL_TOKEN_FILE') else None,
+            gmail_stage_file=Path(e['ARBITRAGE_GMAIL_STAGE_FILE']) if e.get('ARBITRAGE_GMAIL_STAGE_FILE') else None,
             mode=e.get('ARBITRAGE_MODE', 'legacy'),
             amazon_provider=e.get('AMAZON_PROVIDER', 'mock'),
             amazon_fixture=Path(e.get('AMAZON_MOCK_FILE', ROOT / 'sample_data/amazon_mock.json')),

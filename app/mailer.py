@@ -15,7 +15,11 @@ def send_report(config, path, run_id):
                            subtype='vnd.openxmlformats-officedocument.spreadsheetml.sheet', filename=path.name)
     if config.email_transport == 'gmail_api':
         from app.gmail_api import send_message
-        send_message(message, config.gmail_token_file)
+        if config.gmail_stage_file is not None:
+            from ops.gmail_stage_tracking import StageTracker
+            send_message(message, config.gmail_token_file, observe=StageTracker(config.gmail_stage_file))
+        else:
+            send_message(message, config.gmail_token_file)
         return True
     context = ssl.create_default_context()
     factory = smtplib.SMTP_SSL if config.smtp_security == 'ssl' else smtplib.SMTP

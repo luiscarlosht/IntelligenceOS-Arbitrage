@@ -110,3 +110,12 @@ Optional Arbitrage-only Gmail API delivery over HTTPS is prepared behind
 [secure OAuth setup and unattended-use limitations](docs/GMAIL_API_SETUP.md).
 Authorization and sending require separate operator action; no schedule changes
 are included.
+
+## Gmail delivery status
+
+The operator confirmed Gmail API DEMO attempt 3 arrived in Hotmail with both
+attachments. [Confirmation and evidence boundaries](docs/GMAIL_API_DEMO_THIRD.md)
+and [inactive scheduled delivery proposal](docs/GMAIL_SCHEDULE_PREPARATION.md)
+record the result and remaining OAuth/nonroot deployment requirements. No
+production email schedule is activated. Credentials, local env files, reports
+and attempt evidence are excluded from Git.
