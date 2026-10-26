@@ -1,0 +1,252 @@
+{
+  "label": "FICTIONAL KEEPA FIXTURES",
+  "responses": {
+    "B000000001": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000001",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-1",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000002": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000002",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-2",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000003": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000003",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-3",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000004": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000004",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-4",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000005": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000005",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-5",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000006": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000006",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-6",
+            "csv": [
+              [
+                8316710,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000007": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000007",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8316715,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-7",
+            "csv": [
+              [
+                8316710,
+                -1
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "lastSoldUpdate": 8316600
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    },
+    "B000000008": {
+      "status": 200,
+      "payload": {
+        "products": [
+          {
+            "asin": "B000000008",
+            "domainId": 1,
+            "productType": 0,
+            "lastUpdate": 8313840,
+            "manufacturer": "FICTIONAL PILOT",
+            "model": "FIXTURE-8",
+            "csv": [
+              [
+                8313840,
+                2500
+              ],
+              null,
+              null,
+              [
+                8316700,
+                9000
+              ]
+            ],
+            "monthlySold": 100,
+            "lastSoldUpdate": 8313840
+          }
+        ],
+        "tokensLeft": 10,
+        "tokensConsumed": 1
+      }
+    }
+  }
+}

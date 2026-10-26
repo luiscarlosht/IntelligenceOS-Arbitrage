@@ -1,10 +1,38 @@
 # Roadmap
 
+## Status register — 2026-10-26
+
+Implemented means code and fixture tests, live-verified means evidence from an
+actual external interaction, deployed means installed/activated on production.
+These are independent states. Deployment history below comes from existing release
+handoffs; this milestone has not inspected or changed the running host.
+
+| Capability | Implemented | Live-verified | Deployed | Blocked / next gate |
+| --- | --- | --- | --- | --- |
+| V0.2 CSV/mock reports + run history | Yes, existing | Offline fixture validation only; no real sourcing verified | Recorded V0.2 offline VM deployment; not re-audited here | Authorized fresh source and marketplace evidence |
+| Source/match/enrichment SQLite persistence | Implemented in real-data-pilot PR; version 1, dedup and run linkage | No real supplier/SP-API/Keepa records | No | Permission/retention review before live data |
+| Ten-product pipeline | Implemented offline with existing CSV, matching, Keepa contracts, screening and reporting | No; explicitly fictional fixed-clock fixtures | No | Approved ten-product CSV, seller evidence and account entitlement |
+| Keepa adapter, ledger and dormant HTTP seam | Existing, reused; live code gate remains false | No account/key/request verified | No | Owner subscription/quote/license/balance and later live-enablement review |
+| SP-API | Evidence contracts/mocks and access research; no live HTTP adapter | No account authorization or call verified | No | Primary seller owner, Professional status, developer roles and self-authorization |
+| Supplier pilot | Permissioned EE Distribution evaluation CSV recommended conditionally | No account, permission or sample verified | No | Written ten-SKU internal-analysis/export/storage license and no-purchase sample quote |
+| Gmail transport | Merged PR #12 | Owner confirmed attempt-3 Hotmail delivery with both attachments | Manual DEMO only; no scheduled email deployment | OAuth readiness, nonroot access and separate activation approval |
+| Email scheduling | Separate inactive templates | No unattended execution verified | No | See Gmail scheduling preparation; explicitly excluded from this pilot |
+| Backups / monitoring / notifications | Offline implementations and proposed units | No new live acceptance claimed | Deployment not established by preparation docs | Independent receiver, restore/deployment authorization |
+| Scan Profit | No connector added | Official product source still unidentified | No | Owner-supplied official URL and documented export/API permission |
+
+See [real-data pilot implementation](REAL_DATA_PILOT.md) and
+[account/source owner checklist](PILOT_ACCOUNT_ACCESS.md). No account prerequisite
+blocks independent fixture implementation. No paid calls, purchases, deployments,
+production migrations or scheduled email activation are part of this PR.
+
+Historical milestone notes below describe earlier scope; the register above is
+the current status and avoids treating implemented code as live readiness.
+
 ## V0.1 — completed baseline
 
 CSV screening, deterministic economics, openpyxl reports, SQLite run audit, sequential jobs, JSON logs, TLS SMTP, Docker and Ubuntu/Python CI. Baseline: 29 tests.
 
-## V0.2 — implemented for review
+## V0.2 — implemented; offline deployment recorded
 
 Normalized retailer connector contracts and CSV ingestion; mock Amazon exact matching and ambiguity gates; richer expense model; confidence/data-quality and ranking; six-sheet reports; persistent project documentation. Real discovery remains dependent on authorized external data; mocks are not real opportunities.
 

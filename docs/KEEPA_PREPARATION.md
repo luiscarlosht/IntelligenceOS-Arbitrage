@@ -1,5 +1,18 @@
 # Keepa adapter preparation — live disabled
 
+## 2026-10-26 offline composition follow-up
+
+The new [fixture pilot](REAL_DATA_PILOT.md) reuses this adapter and persists only
+normalized **fictional fixture** enrichment in a separate pilot SQLite database.
+It does not enable live caching/storage rights, load keys or change the false
+code gate. Its request policy has one attempt per ASIN; historical three-attempt
+math below describes the adapter's earlier default, not the new offline runner.
+The prior rendered plan-price check below is dated 2026-10-23; today's public
+pricing fetch returned only a JavaScript shell. The owner must confirm current
+checkout/terms, retention/deletion and policy compatibility using the
+[pilot account checklist](PILOT_ACCOUNT_ACCESS.md) before any live use.
+
+
 Official public sources checked 2026-10-23 UTC, including rendered Keepa pages
 through the public browser when text retrieval returned only a JavaScript shell.
 No login, account, API product request, credential access, subscription or purchase

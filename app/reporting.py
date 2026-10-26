@@ -20,7 +20,8 @@ DISCOVERY_COLUMNS = COLUMNS + [
 ]
 
 
-def write_report(rows, destination, *, discovery=False, top_count=20, job=None, demo=False):
+def write_report(rows, destination, *, discovery=False, top_count=20, job=None, demo=False,
+                 enrichment_rows=None):
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     wb = Workbook()
@@ -90,6 +91,14 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
         for sheet, title in zip(wb, ('DEMO Summary', 'DEMO Review Candidates', 'DEMO All Candidates',
                                      'DEMO Rejections', 'DEMO Data Quality', 'DEMO Execution')):
             sheet.title = title
+    if enrichment_rows is not None:
+        evidence = wb.create_sheet('DEMO Enrichment' if demo else 'Enrichment Evidence')
+        fields = ('source_observation_id', 'asin', 'kind', 'value', 'observed_at',
+                  'fetched_at', 'provenance', 'is_mock', 'fresh', 'notice')
+        evidence.append([field.replace('_', ' ').title() for field in fields])
+        for result in enrichment_rows:
+            evidence.append([result.get(field) for field in fields])
+        evidence.auto_filter.ref = evidence.dimensions
     for sheet in wb:
         sheet.freeze_panes = 'A2'
         for cell in sheet[1]:

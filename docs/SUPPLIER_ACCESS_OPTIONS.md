@@ -1,5 +1,26 @@
 # Supplier and feed access comparison
 
+## 2026-10-26 pilot decision
+
+Recommend a **direct, written-permission ten-product evaluation CSV from EE
+Distribution**, conditional on its agreement to internal comparison, local
+persistence/reporting, retention/deletion and Amazon channel use. This is a
+specific permission-first route, not an assertion of granted data rights or free
+access. Request a no-purchase sample before applying/paying; if a fee or inventory
+order is required, keep the pilot blocked and obtain a separate owner decision.
+The current official site has a New Customer/registration route; the old
+`Wholesale/EEDApp_06.pdf` link below now returns 404. The official
+[onboarding FAQ](https://www.eedistribution.com/help/kb/using-your-wholesale-account/what-is-the-onboarding-fee)
+still states that a $250 onboarding fee may apply to some new clients. The refund
+requires shipped merchandise; no purchase is authorized to earn that refund.
+A sample/feed license price is not published or verified: obtain a written quote.
+See [exact owner steps and costs](PILOT_ACCOUNT_ACCESS.md). No provider contact,
+account signup, sample download or payment was performed.
+
+The historical comparison follows. Its generic directory and affiliate paths
+remain alternatives, not additional implemented integrations.
+
+
 Official public sources checked 2026-10-23 UTC. No authorized source is currently
 available to this project. No registrations, contact messages, downloads of live
 product feeds, subscriptions, scraping or purchases were performed. These are
@@ -62,6 +83,6 @@ price or availability fields. Preserve the original permitted file and map field
 without inventing values. Run preflight privately; stale evidence is rejected.
 Permission to store a sample does not automatically authorize refresh automation.
 
-No source is selected, no product sample is populated, and live collection stays
-disabled. Approval of this comparison or its PR does not authorize account creation,
+The conditional EE evaluation route is now recommended above, but no actual
+source permission or real product sample exists; live collection stays disabled. Approval of this comparison or its PR does not authorize account creation,
 provider contact, subscription, scraping or integration activation.
