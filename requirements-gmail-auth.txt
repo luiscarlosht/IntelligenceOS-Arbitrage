@@ -1,0 +1,2 @@
+# Only needed on the trusted workstation performing interactive consent.
+google-auth-oauthlib>=1.2.2,<2

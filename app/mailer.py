@@ -13,6 +13,10 @@ def send_report(config, path, run_id):
     message.set_content('Attached is the sourcing analysis. All opportunities require manual validation before purchase.')
     message.add_attachment(path.read_bytes(), maintype='application',
                            subtype='vnd.openxmlformats-officedocument.spreadsheetml.sheet', filename=path.name)
+    if config.email_transport == 'gmail_api':
+        from app.gmail_api import send_message
+        send_message(message, config.gmail_token_file)
+        return True
     context = ssl.create_default_context()
     factory = smtplib.SMTP_SSL if config.smtp_security == 'ssl' else smtplib.SMTP
     kwargs = {'timeout': 30}

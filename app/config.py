@@ -20,6 +20,8 @@ class Config:
     email_from: str = ''
     email_to: tuple[str, ...] = ()
     smtp_security: str = 'starttls'
+    email_transport: str = 'smtp'
+    gmail_token_file: Path | None = None
     mode: str = 'legacy'
     amazon_provider: str = 'mock'
     amazon_fixture: Path = ROOT / 'sample_data/amazon_mock.json'
@@ -50,7 +52,11 @@ class Config:
             raise ValueError('Invalid SMTP_PORT')
         if bool(self.smtp_user) != bool(self.smtp_password):
             raise ValueError('SMTP_USER and SMTP_PASSWORD must be configured together')
-        if self.email_to and not (self.smtp_host and self.email_from):
+        if self.email_transport not in ('smtp', 'gmail_api'):
+            raise ValueError('ARBITRAGE_EMAIL_TRANSPORT must be smtp or gmail_api')
+        if self.email_to and self.email_transport == 'gmail_api' and not (self.gmail_token_file and self.email_from):
+            raise ValueError('Gmail API requires ARBITRAGE_GMAIL_TOKEN_FILE and EMAIL_FROM')
+        if self.email_to and self.email_transport == 'smtp' and not (self.smtp_host and self.email_from):
             raise ValueError('Email requires SMTP_HOST and EMAIL_FROM')
         if self.input.resolve() == self.output.resolve() or self.database.resolve() in (self.input.resolve(), self.output.resolve()):
             raise ValueError('Input, output and database paths must differ')
@@ -70,6 +76,8 @@ class Config:
             email_from=e.get('EMAIL_FROM', ''),
             email_to=tuple(x.strip() for x in e.get('EMAIL_TO', '').split(',') if x.strip()),
             smtp_security=e.get('SMTP_SECURITY', 'starttls'),
+            email_transport=e.get('ARBITRAGE_EMAIL_TRANSPORT', 'smtp'),
+            gmail_token_file=Path(e['ARBITRAGE_GMAIL_TOKEN_FILE']) if e.get('ARBITRAGE_GMAIL_TOKEN_FILE') else None,
             mode=e.get('ARBITRAGE_MODE', 'legacy'),
             amazon_provider=e.get('AMAZON_PROVIDER', 'mock'),
             amazon_fixture=Path(e.get('AMAZON_MOCK_FILE', ROOT / 'sample_data/amazon_mock.json')),
