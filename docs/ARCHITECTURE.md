@@ -123,3 +123,30 @@ Existing discovery adds a structured rejection_reasons array without changing
 screening gates or its default workbook schema. Original source issues and match
 reasons are also retained in persisted normalized objects. See
 [implementation and schema](REAL_DATA_PILOT.md).
+
+## Standalone Amazon catalog pilot
+
+`app.amazon_pilot` is an explicit manual CLI outside the orchestrator/provider
+selector. Hidden SSH entry writes exclusive owner-only Amazon credential storage
+outside the repository and Gmail directories. A separately invoked pilot performs
+one LWA refresh exchange and one fixed US Catalog Items GET, with verified TLS,
+no proxies/redirects/retries, bounded response sizes/socket timeouts and an overall
+Linux alarm deadline. It reuses Evidence/MarketplaceListing and persists only
+normalized catalog evidence with unknown fees/eligibility. No listings, email,
+scheduling or production configuration changes are included. See
+[operator commands and official authentication sources](AMAZON_PILOT.md).
+
+## Expanded Amazon read-only pilot preparation
+
+Catalog requests now include summaries, identifiers and relationships. The
+AmazonCatalogListing subtype preserves title/package count, canonical identifiers
+and variation hierarchy; AmazonCatalogAdapter reuses existing matching while
+blocking unresolved mapping evidence. A separate manual `details` action reuses
+private storage and verified TLS, caps the run at five attempts (one LWA exchange
+and four operations), and stops without retries on failure under a 60-second
+Linux alarm. It preserves partial normalized evidence in an exclusive new file.
+New/Consumer offer snapshots, proposed-price FBA estimates and seller-specific
+new_new listing restrictions are separate evidence, not merged into purchase
+approval. Overall eligibility and unverified costs remain unknown. Owner reports
+the original catalog pilot succeeded; no expanded live calls or production
+provider/job changes have been performed. See [Amazon pilot](AMAZON_PILOT.md).
