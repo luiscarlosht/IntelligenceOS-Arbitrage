@@ -1,0 +1,10 @@
+[Unit]
+Description=PROPOSED daily illustrative Gmail report at 06:15 UTC; NOT INSTALLED
+
+[Timer]
+OnCalendar=*-*-* 06:15:00 UTC
+Persistent=false
+Unit=intelligenceos-arbitrage-gmail-report.service
+
+[Install]
+WantedBy=timers.target

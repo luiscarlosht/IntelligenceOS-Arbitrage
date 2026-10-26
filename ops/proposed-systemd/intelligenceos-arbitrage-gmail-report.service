@@ -1,0 +1,39 @@
+[Unit]
+Description=PROPOSED IntelligenceOS illustrative report delivery via Gmail API
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/etc/intelligenceos-arbitrage/gmail-delivery.enabled
+
+[Service]
+Type=oneshot
+User=intelligenceos-arbitrage
+Group=intelligenceos-arbitrage
+WorkingDirectory=/opt/intelligenceos-arbitrage/current
+EnvironmentFile=/etc/intelligenceos-arbitrage/gmail-report.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/intelligenceos-arbitrage/current/.venv/bin/python -m ops.gmail_scheduled_report
+StateDirectory=intelligenceos-arbitrage-gmail-private intelligenceos-arbitrage-gmail-report
+StateDirectoryMode=0700
+UMask=0077
+Restart=no
+TimeoutStartSec=120
+TimeoutStopSec=10
+LimitCORE=0
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/intelligenceos-arbitrage-gmail-private /var/lib/intelligenceos-arbitrage-gmail-report
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+MemoryMax=512M
+CPUQuota=50%
+TasksMax=32
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=intelligenceos-arbitrage-gmail-report

@@ -2,7 +2,7 @@
 
 This adapter is confined to IntelligenceOS-Arbitrage. SMTP remains the default
 for existing hosts. No schedules, systemd units or production environment files
-are changed by this milestone. No authorization or email has been performed.
+are changed by this milestone. The operator subsequently confirmed attempt-3 inbox delivery with both DEMO attachments; see [delivery confirmation](GMAIL_API_DEMO_THIRD.md). Scheduled delivery remains an [inactive proposal](GMAIL_SCHEDULE_PREPARATION.md).
 The Gmail App Password is only an SMTP credential and cannot authenticate Gmail
 API requests. Do not copy it, inspect shell profiles, or reuse another project's
 credentials. Use a dedicated Arbitrage OAuth client and token file.
@@ -114,8 +114,8 @@ supported. Gmail account/API sending quotas still apply.
 
 Tests mock OAuth consent, refresh and submission; cover attachment bytes,
 recipient headers, scope rejection, private files, token rotation, redirects and
-redacted tracebacks. Existing mocked SMTP tests remain in place. Live OAuth,
-account consent, service-user permissions and delivery are intentionally untested.
+redacted tracebacks. Existing mocked SMTP tests remain in place. The operator confirmed manual attempt-3 inbox delivery with both attachments.
+Service-user permissions, publishing status and unattended delivery remain unverified.
 
 - [Gmail scopes and sensitivity](https://developers.google.com/workspace/gmail/api/auth/scopes)
 - [Sending MIME messages and attachments](https://developers.google.com/workspace/gmail/api/guides/sending)

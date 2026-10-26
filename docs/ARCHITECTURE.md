@@ -87,3 +87,15 @@ The report writer's opt-in `demo` label leaves existing report behavior unchange
 `authorized_imports` retains its diagnostics and adds corrective actions; source
 validation remains separate from proof of authorization/marketplace evidence.
 All live pilot entry points obey the false Keepa code gate before key loading.
+
+## Gmail report delivery proposal
+
+The opt-in send-only HTTPS adapter rejects redirects and inherited proxies,
+validates refresh scopes/type and persists refresh-token rotation atomically.
+Private stage evidence records only fixed categories, numeric status and known
+Google reason identifiers from bounded error JSON. An operator confirmed DEMO
+attempt-3 inbox delivery with both attachments. Separate uninstalled report units
+use a nonroot private writable token directory outside report/backup state,
+explicit disabled activation/OAuth-readiness gates and no retries/catch-up sends.
+The original offline service and timer remain unchanged. See
+[scheduling preparation](GMAIL_SCHEDULE_PREPARATION.md).
