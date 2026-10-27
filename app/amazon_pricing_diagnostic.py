@@ -76,8 +76,11 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
                 report['lookup_status'] = snapshot.lookup_status
                 report['price_unknown'] = snapshot.price_unknown
                 report['exclude_from_profitability_ranking'] = snapshot.exclude_from_profitability_ranking
+                report['offer_coverage'] = asdict(snapshot.offer_coverage)
+                report['overall_lowest_price_verified'] = snapshot.overall_lowest_price_verified
                 report['validation_label'] = ('pricing_no_buyable_offers_validated'
-                    if snapshot.lookup_status == 'NoBuyableOffers' else 'pricing_validated')
+                    if snapshot.lookup_status == 'NoBuyableOffers' else 'pricing_partial_coverage_validated'
+                    if not snapshot.offer_coverage.documented_count_matches else 'pricing_validated')
             except ProviderFailure as error:
                 raise validation_failure(error) from None
         report['stages'][stage] = 'completed'

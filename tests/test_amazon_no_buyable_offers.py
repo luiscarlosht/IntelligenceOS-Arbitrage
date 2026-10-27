@@ -219,13 +219,15 @@ def test_selected_failure_no_retry():
     assert len(transport.calls) == 1
 
 
-@pytest.mark.parametrize('count,returned', [(1, 0), (2, 1), (21, 19), (20, 21)])
-def test_success_count_and_returned_offers_must_agree(count, returned):
+@pytest.mark.parametrize('count,returned,label', [(1, 0, 'pricing_offer_count_inconsistent'),
+    (2, 1, 'pricing_offer_details_invalid'), (21, 19, 'pricing_offer_details_invalid'),
+    (20, 21, 'pricing_offer_count_inconsistent')])
+def test_invalid_counts_or_partial_placeholders_are_rejected(count, returned, label):
     data = response()
     data['payload']['status'] = 'Success'
     data['payload']['Summary'] = {'TotalOfferCount': count}
     data['payload']['Offers'] = [{}] * returned
-    with pytest.raises(PricingValidationError, match='pricing_offer_count_inconsistent'):
+    with pytest.raises(PricingValidationError, match=label):
         details.parse_pricing(data, is_mock=True)
 
 

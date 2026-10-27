@@ -402,8 +402,11 @@ It must pass the same US/New/ASIN/Identifier checks as Success, plus explicit
 zero total count, an empty Offers array, absent/empty LowestPrices and BuyBoxPrices,
 and consistent zero optional NumberOfOffers/BuyBoxEligibleOffers counts. Invalid
 or missing counts, contradictory price rows, mismatches and unknown statuses
-continue to fail. Across successful variants, returned Offers length must equal
-min(TotalOfferCount, 20), as documented; no missing count is inferred as zero.
+continue to fail. Amazon documents returned Offers length as
+min(TotalOfferCount, 20). The retained 5/1 discrepancy now has a conservative
+partial-coverage path with separate counts, explicit contract mismatch and
+ranking exclusion; see [evidence and policy](AMAZON_PARTIAL_OFFER_COVERAGE.md).
+Missing counts are never inferred as zero.
 
 A valid NoBuyableOffers result records lookup_status=NoBuyableOffers, completed
 stages, validation_label=pricing_no_buyable_offers_validated, price_unknown=true,
