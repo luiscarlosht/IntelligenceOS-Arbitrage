@@ -237,7 +237,7 @@ def run_pilot(path: Path = DIRECTORY) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('credentials', 'pilot', 'details'))
+    parser.add_argument('action', choices=('credentials', 'pilot', 'details', 'pricing-diagnostic'))
     parser.add_argument('--fee-price', help='Proposed USD FBA sale price; required for details')
     args = parser.parse_args()
     if (args.action == 'details') != (args.fee_price is not None):
@@ -247,6 +247,9 @@ def main() -> int:
             enter_credentials()
         elif args.action == 'pilot':
             run_pilot()
+        elif args.action == 'pricing-diagnostic':
+            from app.amazon_pricing_diagnostic import run_pricing_diagnostic
+            run_pricing_diagnostic()
         else:
             from app.amazon_details import run_details, proposed_price
             run_details(proposed_price(args.fee_price))

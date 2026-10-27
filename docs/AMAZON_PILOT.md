@@ -232,7 +232,7 @@ These changes apply only to future runs, not the preserved report. Existing
 request caps, no-retry behavior, exclusive report files and unknown-data gates
 are unchanged.
 
-### Proposed next test — not executed or newly authorized
+### Pricing-only diagnostic scope (now implemented below; not executed)
 
 Use a separately reviewed pricing-only diagnostic: exactly one LWA exchange and
 one getItemOffers call with the identical ASIN/US/New/Consumer request, no retries,
@@ -241,9 +241,9 @@ new private owner-only report, such as `pricing-diagnostic-01.json`, exclusively
 before credentials are read; do not rename, remove or overwrite either pilot
 report. Preserve status/allowlisted codes or HTTP-200 parser-validation evidence,
 then stop. Do not repeat catalog, fees or restrictions just to investigate pricing.
-This is a proposed test scope, not an added runnable CLI command or authorization
-to execute it. A fresh, explicit operator authorization is needed for any new
-live attempt; the failed five-request run does not authorize an automatic retry.
+This scope is now implemented by the separate CLI below. It has not been run
+live. The failed five-request run does not authorize an automatic retry or any
+additional invocation; an operator must deliberately invoke a newly authorized test.
 
 Diagnostics validation: 456 tests passed locally, including 87 Amazon tests and
 19 new diagnostics regressions. Both documented offline sample modes passed.
@@ -251,3 +251,57 @@ The sanitized details report's SHA-256 was unchanged before/after this work.
 No credential file was opened, live Amazon request made, existing private file
 written/deleted, deployment performed or email sent. New diagnostic fields cannot
 supply the original report's unrecorded HTTP status or Amazon code.
+
+## Pricing-only diagnostic command
+
+PR #15 was already merged when this implementation began. Its final PR Tests run
+40424194859 and merged-main Tests run 40424535971 both passed. This is a separate
+follow-up change; no update or reopening of the merged PR is needed.
+
+From a direct SSH session in this checkout, the separately invoked command is:
+
+```bash
+cd /root/IntelligenceOS-Arbitrage
+.venv/bin/python -m app.amazon_pilot pricing-diagnostic
+```
+
+No seller-ID prompt, fee-price option or new credential entry is needed. It reads
+the existing private Amazon credentials only when the operator runs it, reserves
+`~/.intelligenceos-arbitrage-amazon/pricing-diagnostic-01.json` first, and attempts
+exactly one LWA exchange followed by one getItemOffers call. Early failure stops
+the sequence, so there are at most two requests. No catalog, fee, restrictions,
+Sellers API, listing-write or email operation is included.
+
+The pricing request is unchanged: US B002XQ1R06, v0 offers,
+MarketplaceId=ATVPDKIKX0DER, ItemCondition=New, CustomerType=Consumer.
+The private report records fixed scope, UTC start/finish times, per-stage completion,
+request count, normalized observed prices and safe response/failure diagnostics.
+Token response data is never saved; only status/allowlisted error metadata is
+retained. HTTP-200 invalid-token or pricing-parser failures retain HTTP status
+with response_validation_failed. Missing price components, fees and overall
+seller eligibility remain unknown; purchase_approved remains false.
+
+The command reuses verified TLS, disabled proxies, rejected redirects, 10-second
+socket timeouts, 1 MiB success-response bounds and 16 KiB error-inspection bounds.
+A 30-second Linux alarm bounds credential loading plus both requests, with no
+retries, pagination or automatic subsequent attempts. The prior signal handler
+is restored after success, failure or interruption.
+
+The new report uses the existing owner-only 0700 directory/0600 exclusive file
+creation policy. Existing credentials, catalog-pilot.json, catalog-details-pilot.json
+and any existing pricing-diagnostic-01.json are never modified, removed or renamed.
+If this new report already exists (even from failure), entry aborts before
+credentials or requests. Do not delete old evidence to work around that refusal.
+No general output-path or report-index override is added.
+
+Only mocked/offline validation was performed during implementation. No actual
+credential file was read, private report opened/written, live Amazon request made,
+production setting changed, deployment performed or email sent.
+
+Pricing-only implementation validation: baseline 456 tests passed; after the new
+CLI, 468 tests passed, including 12 new pricing-only mocked tests. Both documented
+legacy and discovery sample modes passed with a cleared environment. Tests cover
+exact scope/methods/counts, early stop, HTTP/application/parser diagnostics, private
+permissions, existing-report/symlink refusal before credentials, prior synthetic
+file preservation, signal/deadline restoration and CLI dispatch. No live pricing
+diagnostic was executed; effective current offers/permissions remain unverified.

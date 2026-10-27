@@ -159,3 +159,14 @@ is bounded to 16 KiB and unknown codes become a fixed OTHER label. No messages,
 raw responses, URLs or credentials are persisted. The failed original report is
 preserved; diagnostics cannot reconstruct its lost HTTP/parser details. See
 [pricing investigation and proposed test](AMAZON_PILOT.md).
+
+## Separate pricing-only diagnostic
+
+The explicit `pricing-diagnostic` CLI action reserves a new private exclusive
+report, then reads existing Amazon credentials and makes at most two requests:
+one LWA exchange and one US/New/Consumer getItemOffers request for B002XQ1R06.
+It reuses the verified transport, pricing parser and allowlisted diagnostics under
+a 30-second overall deadline, with no retries or other provider operations.
+Token response data is discarded; fixed stage completion and normalized pricing
+remain separate from fee/eligibility/purchase evidence. No job selection or
+production settings change. See [operator command](AMAZON_PILOT.md).
