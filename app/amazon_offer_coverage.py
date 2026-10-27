@@ -20,6 +20,8 @@ class OfferCoverage:
     coverage: str
     number_of_offers: tuple[OfferCountGroup, ...] | None
     buy_box_eligible_offers: tuple[OfferCountGroup, ...] | None
+    requested_condition_offer_count: int | None = None
+    condition_count_matches_returned: bool | None = None
 
 
 def count_groups(summary: dict, name: str, total: int) -> tuple[OfferCountGroup, ...] | None:
@@ -92,5 +94,9 @@ def offer_coverage(summary: dict, offers: list[dict], total: int) -> OfferCovera
                 key = ('new', 'Amazon' if row['IsFulfilledByAmazon'] else 'Merchant')
                 detail_counts[key] = detail_counts.get(key, 0) + 1
                 require(detail_counts[key] <= known.get(key, 0), 'pricing_summary_counts_inconsistent')
+    # Explain New-filter counts without changing aggregate coverage or ranking.
+    condition_count = (sum(g.offer_count for g in groups if g.condition == "new")
+                       if groups is not None and all(g.condition is not None for g in groups) else None)
     return OfferCoverage(returned, expected, not partial, returned < total,
-        'partial' if partial else 'capped' if returned < total else 'count_matched', groups, eligible)
+        'partial' if partial else 'capped' if returned < total else 'count_matched', groups, eligible,
+        condition_count, returned == min(condition_count, 20) if condition_count is not None else None)

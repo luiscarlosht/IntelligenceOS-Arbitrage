@@ -109,26 +109,26 @@ class ObservationStore:
         db.execute('PRAGMA foreign_keys=ON')
         return db
 
-    def start_run(self, evaluation_at: datetime, manifest: dict) -> int:
+    def start_run(self, evaluation_at: datetime, manifest: dict, *, label: str = 'FIXTURE PILOT — no live evidence') -> int:
         stamp = normalized(evaluation_at)
         if not isinstance(evaluation_at, datetime):
             raise ValueError('Aware evaluation timestamp required')
         run_id = self.history.start()
         with self.connect() as db:
             db.execute('INSERT INTO pilot_runs VALUES (?,?,?,?)',
-                       (run_id, stamp, 'FIXTURE PILOT — no live evidence', canonical(manifest)))
+                       (run_id, stamp, label, canonical(manifest)))
         return run_id
 
     def record_item(self, run_id: int, ordinal: int, product: RetailProduct, match: Match,
                     row: dict, enrichments: list[tuple[str, str, Evidence, datetime]],
-                    recorded_at: datetime) -> int:
+                    recorded_at: datetime, *, provider: str = 'offline-mock-catalog') -> int:
         """Atomically store a row and all normalized evidence; failed rows never half-link."""
         stamp = normalized(recorded_at)
         if not isinstance(recorded_at, datetime):
             raise ValueError('Aware ingest timestamp required')
         source_key = fingerprint(product)
         listing = match.listing
-        match_value = dict(source=source_key, provider='offline-mock-catalog', match=match)
+        match_value = dict(source=source_key, provider=provider, match=match)
         match_key = fingerprint(match_value)
         with self.connect() as db:
             db.execute('''INSERT OR IGNORE INTO source_observations
@@ -140,7 +140,7 @@ class ObservationStore:
             source_id = db.execute('SELECT id FROM source_observations WHERE fingerprint=?', (source_key,)).fetchone()[0]
             db.execute('''INSERT OR IGNORE INTO marketplace_matches
                 (fingerprint,observation_id,provider,asin,exact,observed_at,provenance,payload_json)
-                VALUES (?,?,?,?,?,?,?,?)''', (match_key, source_id, 'offline-mock-catalog',
+                VALUES (?,?,?,?,?,?,?,?)''', (match_key, source_id, provider,
                     listing.asin if listing else None, int(match.exact),
                     normalized(listing.retrieved_at) if listing else None,
                     listing.provenance if listing else '', canonical(match)))
