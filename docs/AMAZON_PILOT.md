@@ -470,3 +470,48 @@ preservation, invalid input before I/O, CLI isolation and no retries. Existing
 synthetic Success fixtures were corrected to agree with their declared offer
 counts. No actual credentials or private reports were accessed or changed during
 this implementation; there were no live API calls, deployment or email.
+
+## Targeted count diagnostic preparation — B0G1MJ24B4
+
+The separate `pricing-count-diagnostic` action is fixed to B0G1MJ24B4 and
+US/New/Consumer. It exclusively reserves the new owner-only file
+`~/.intelligenceos-arbitrage-amazon/pricing-count-diagnostic-B0G1MJ24B4-01.json`
+before loading existing credentials. An existing file or symlink stops the action
+before credential access or requests; do not delete an existing report to rerun.
+All historical reports retain their existing names and behavior.
+
+At most one token exchange and one offers request are attempted. The existing
+verified-TLS transport disables proxies, redirects and retries, bounds responses
+to 1 MiB, uses 10-second socket timeouts, and runs under a 30-second overall
+main-thread Linux alarm. A failure stops subsequent requests. There is no fee,
+catalog, restriction, listing, email, scheduling or production-provider action.
+
+Before parser validation, `count_shape` records only these fixed facts:
+
+- `total_offer_count`: value and type, distinguishing integer, number, boolean,
+  null, absent and other shapes. Arbitrary strings/objects/arrays and nonfinite
+  numbers are withheld (`value: null`, `value_withheld: true`) to avoid copying
+  unexpected sensitive content. Finite numeric values, including invalid negative
+  or fractional counts, remain visible for diagnosis.
+- `offers_type`, `offers_count`, and computed `expected_offers_count` for a valid
+  nonnegative integer total; no individual offer row is copied or sampled.
+- Allowlisted `application_status` (unknown strings become OTHER), and six
+  payload/Identifier ASIN, marketplace and New-condition comparison booleans.
+  Absent comparisons are null; conflicts are false. Response identities are not
+  copied into the report.
+
+The unchanged parser supplies the exact allowlisted `validation_label` for a
+rejection or completed lookup. It remains null when transport/credential failure
+prevents validation. Counts survive a later parser rejection. Even a successful
+lookup retains `pricing: null`; no prices, offer details, raw responses, tokens,
+credential values or arbitrary exception text are written to the report or CLI
+output. The CLI prints only fixed completion/failure metadata. A diagnostic
+success means validation completed, not purchase approval.
+
+Mocked tests cover mismatch evidence, count types, status redaction, context and
+currency rejection, success without price output, private/exclusive creation,
+prior-file preservation, symlink rejection, deadline restoration, CLI scope and
+no retries. No live diagnostic was executed during preparation. The eventual
+direct-SSH invocation must use the CI-verified preparation revision; it will be
+provided after that revision passes CI. This action does not reconstruct the
+original failed response; it observes a new response only when explicitly run.

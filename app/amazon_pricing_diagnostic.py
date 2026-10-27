@@ -8,7 +8,7 @@ import signal
 
 from app.amazon_catalog import ASIN, MARKETPLACE
 from app.amazon_details import parse_pricing, serialize
-from app.amazon_pricing_shape import pricing_shape, LABELS, validate_asin
+from app.amazon_pricing_shape import pricing_shape, pricing_count_shape, LABELS, validate_asin
 from app.amazon_diagnostics import AmazonFailure, failure_metadata, response_metadata
 from app.amazon_pilot import (DIRECTORY, amazon_request, create_file, deadline,
     exchange_token, load_credentials, operation, private_directory, request_json)
@@ -17,11 +17,16 @@ from app.provider_runtime import ProviderFailure
 REPORT_NAME = 'pricing-diagnostic-01.json'
 SHAPE_REPORT_NAME = 'pricing-shape-diagnostic-01.json'
 MAX_REQUESTS = 2
+COUNT_ASIN = 'B0G1MJ24B4'
+COUNT_REPORT_NAME = 'pricing-count-diagnostic-B0G1MJ24B4-01.json'
 
 
 def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = False,
-                 report: dict | None = None, shape_only: bool = False, asin: str = ASIN) -> dict:
+                 report: dict | None = None, shape_only: bool = False, asin: str = ASIN,
+                 count_only: bool = False) -> dict:
     validate_asin(asin)
+    if count_only and (asin != COUNT_ASIN or not shape_only):
+        raise ValueError('Count diagnostic requires its fixed ASIN and shape-only output')
     report = report if report is not None else {}
     report.update(status='running', asin=asin, marketplace_id=MARKETPLACE,
         item_condition='New', customer_type='Consumer', is_mock=is_mock,
@@ -59,7 +64,9 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
         with operation(stage):
             document = call(amazon_request(access, '/products/pricing/v0/items/' + asin + '/offers',
                 {'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New', 'CustomerType': 'Consumer'}))
-            if shape_only:
+            if count_only:
+                report['count_shape'] = pricing_count_shape(document, expected_asin=asin)
+            elif shape_only:
                 report['response_shape'] = pricing_shape(document, expected_asin=asin)
             try:
                 evidence = parse_pricing(document, is_mock=is_mock, expected_asin=asin)
@@ -84,12 +91,16 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
         raise
 
 
-def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False, selected_asin: str | None = None) -> None:
+def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False,
+                          selected_asin: str | None = None, count_only: bool = False) -> None:
+    if count_only and (shape_only or selected_asin is not None):
+        raise ValueError('Count diagnostic is a separate fixed-ASIN action')
     if selected_asin is not None:
         validate_asin(selected_asin)
         if shape_only:
             raise ValueError('Selected pilot and shape-only mode must be invoked separately')
-    report_name = ('pricing-selected-pilot-' + selected_asin + '-01.json' if selected_asin is not None else
+    report_name = (COUNT_REPORT_NAME if count_only else
+                   'pricing-selected-pilot-' + selected_asin + '-01.json' if selected_asin is not None else
                    SHAPE_REPORT_NAME if shape_only else REPORT_NAME)
     directory = private_directory(path)
     try:
@@ -98,14 +109,17 @@ def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False, 
             output_fd = create_file(directory, report_name)
         with os.fdopen(output_fd, 'w') as output:
             report = {'status': 'failed', 'requests_attempted': 0, 'pricing': None,
-                      'fees': None, 'seller_eligible': None, 'purchase_approved': False}
+                      'fees': None, 'seller_eligible': None, 'purchase_approved': False,
+                      'validation_label': None}
             previous = None
             try:
                 previous = signal.signal(signal.SIGALRM, deadline)
                 signal.alarm(30)
                 with operation('credential_load'):
                     credentials = load_credentials(directory)
-                if selected_asin is not None:
+                if count_only:
+                    pricing_once(credentials, report=report, asin=COUNT_ASIN, shape_only=True, count_only=True)
+                elif selected_asin is not None:
                     pricing_once(credentials, report=report, asin=selected_asin)
                 elif shape_only:
                     pricing_once(credentials, report=report, shape_only=True)

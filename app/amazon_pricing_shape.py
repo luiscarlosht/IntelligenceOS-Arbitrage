@@ -1,5 +1,6 @@
 """Fixed pricing validation labels and bounded shape facts, never response values."""
 from decimal import Decimal
+import math
 import re
 
 from app.amazon_catalog import ASIN, MARKETPLACE
@@ -72,6 +73,39 @@ def fields(value: object, names: tuple[str, ...]) -> dict:
 
 def matches(value: object, key: str, expected: str) -> bool | None:
     return value[key] == expected if isinstance(value, dict) and key in value else None
+
+
+def pricing_count_shape(document: dict, *, expected_asin: str) -> dict:
+    """Fixed count facts and comparisons only; never copy arbitrary values."""
+    validate_asin(expected_asin)
+    payload = document.get('payload')
+    payload = payload if isinstance(payload, dict) else {}
+    summary = payload.get('Summary')
+    present = isinstance(summary, dict) and 'TotalOfferCount' in summary
+    count = summary.get('TotalOfferCount') if present else None
+    kind = 'integer' if type(count) is int else field_type(count) if present else 'absent'
+    safe_value = (type(count) in (int, bool) or count is None or
+                  type(count) is float and math.isfinite(count))
+    offers = payload.get('Offers')
+    status = payload.get('status')
+    identifier = payload.get('Identifier')
+    return {
+        'total_offer_count': {'type': kind, 'value': count if safe_value else None,
+                              'value_withheld': not safe_value},
+        'offers_type': field_type(offers) if 'Offers' in payload else 'absent',
+        'offers_count': len(offers) if isinstance(offers, list) else None,
+        'expected_offers_count': min(count, 20) if type(count) is int and count >= 0 else None,
+        'application_status': status if isinstance(status, str) and status in SAFE_STATUSES
+                              else 'OTHER' if isinstance(status, str) else 'MISSING_OR_NONSTRING',
+        'context': {
+            'payload_asin_matches': matches(payload, 'ASIN', expected_asin),
+            'identifier_asin_matches': matches(identifier, 'ASIN', expected_asin),
+            'payload_marketplace_matches': matches(payload, 'marketplaceId', MARKETPLACE),
+            'identifier_marketplace_matches': matches(identifier, 'MarketplaceId', MARKETPLACE),
+            'payload_condition_matches': matches(payload, 'ItemCondition', 'New'),
+            'identifier_condition_matches': matches(identifier, 'ItemCondition', 'New'),
+        },
+    }
 
 
 def pricing_shape(document: dict, *, expected_asin: str = ASIN) -> dict:
