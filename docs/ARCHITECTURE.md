@@ -207,3 +207,14 @@ condition/channel counts are normalized and checked independently. Details never
 supply an invented summary/sale price; no overall lowest-price guarantee follows
 from a count match. Historical reports and live request boundaries are unchanged.
 See [retained 5/1 evidence, official contract and uncertainty](AMAZON_PARTIAL_OFFER_COVERAGE.md).
+## Authorized-source Amazon preparation
+
+`amazon_source_plan.prepare` accepts exactly ten authorized CSV rows and local
+normalized catalog/pricing/seller-restriction evidence. It reuses matching,
+screening, ObservationStore/History and Excel reporting, preserving every input
+ordinal and missing/restricted/unmatched reason. Fee scenarios require explicit
+row-specific prices and passing source/match/pricing/restriction/eligibility
+gates; no network executor exists. The common screen excludes B0G1MJ24B4 on the
+retained seller-specific NOT_ELIGIBLE result. Condition-scoped count diagnostics
+explain the observed 1 New + 4 Used aggregate without removing partial-coverage
+ranking gates. See [evidence and request budget](AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md).

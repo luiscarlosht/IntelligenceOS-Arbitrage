@@ -136,3 +136,7 @@ and all rejection reasons. Unknown fees/eligibility remain unknown. See
 Amazon's separately invoked, read-only US catalog/details pilots and hidden SSH
 credential entry are documented in [Amazon pilot](docs/AMAZON_PILOT.md). No live call or
 production provider selection is enabled by the normal application workflow.
+
+Amazon selected validation succeeded; B0G1MJ24B4 is excluded with NOT_ELIGIBLE.
+See [live evidence and offline ten-product workflow](docs/AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md)
+for source requirements, condition-count analysis and the proposed 41-attempt ceiling.

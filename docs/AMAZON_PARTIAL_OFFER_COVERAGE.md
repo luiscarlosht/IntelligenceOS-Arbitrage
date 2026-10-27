@@ -1,3 +1,7 @@
+> Updated evidence: the owner completed selected validation on 2026-10-27.
+> See [live results and authorized-source preparation](AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md).
+> The historical preparation and earlier evidence below are preserved.
+
 # Aggregate counts and returned offer coverage — 2026-10-27
 
 ## Retained evidence

@@ -101,3 +101,13 @@ units; service-owned private rotating-token state and OAuth publishing/fresh
 consent are activation prerequisites. See [confirmation](GMAIL_API_DEMO_THIRD.md)
 and [schedule preparation](GMAIL_SCHEDULE_PREPARATION.md). Existing schedules
 and all attempt reservations are preserved; no additional email was sent.
+
+## 2026-10-27 selected-validation evidence and next intake
+
+Owner-run authentication/pricing/fees/restrictions completed (4 HTTP 200s).
+B0G1MJ24B4 is NOT_ELIGIBLE and excluded. New=1, Used=4 explains the aggregate
+breakdown; documented aggregate coverage warning remains. Ten-product authorized
+CSV request preparation is offline, uses existing persistence/reporting and has
+no batch executor. Real authorized source rows and explicit price selections are
+required before later execution authorization. See
+[workflow and 31–41 attempt ceiling](AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md).

@@ -10,6 +10,8 @@ from app.normalization import http_url
 def screen(product, match, config, now):
     listing = match.listing
     issues = list(product.issues) + list(match.reasons)
+    if listing and listing.asin == 'B0G1MJ24B4':
+        issues.append('NOT_ELIGIBLE: retained US/new_new authorized-seller restriction; sourcing excluded')
     for field in ('retailer', 'name', 'url', 'provenance', 'package_quantity', 'purchase_price', 'retrieved_at'):
         if not getattr(product, field): issues.append('Missing source ' + field)
     if product.url and not http_url(product.url): issues.append('Invalid source URL')
