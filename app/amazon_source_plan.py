@@ -1,4 +1,4 @@
-"""Offline ten-row request preparation. No transport, credential or email access."""
+"""Offline source request preparation (ten rows by default, explicit one-row intake). No transport, credential or email access."""
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -34,7 +34,8 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
             restrictions: dict[str, Evidence[RestrictionCheck]],
             selected_prices: dict[int, str], directory: Path, *, seller_reference: str,
             now: datetime | None = None,
-            fba_eligibility: dict[str, Evidence[bool]] | None = None) -> dict:
+            fba_eligibility: dict[str, Evidence[bool]] | None = None,
+            expected_rows: int = 10) -> dict:
     """Persist every CSV ordinal and planned fee scenario using normalized evidence.
 
     Prices key by 1-based input row; no default, competitor-price substitution or
@@ -42,27 +43,29 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
     Overall eligibility remains a separate requirement from listing permission.
     """
     now = now or datetime.now(timezone.utc)
-    if now.utcoffset() is None or not seller_reference.strip():
-        raise ValueError('Aware clock and authorized seller alias required')
+    if now.utcoffset() is None or type(expected_rows) is not int or expected_rows not in (1, 10):
+        raise ValueError('Aware clock and explicit one- or ten-row intake required')
+    if not seller_reference.strip() and (restrictions or selected_prices or fba_eligibility):
+        raise ValueError('Authorized seller alias required for seller-specific evidence or fee planning')
     source, directory = Path(source), Path(directory)
     if source.stat().st_size > 1024 * 1024:
         raise ValueError('Source exceeds one MiB')
     products = list(CsvConnector(source).products())
-    if len(products) != 10:
-        raise ValueError('Exactly ten product rows required')
+    if len(products) != expected_rows:
+        raise ValueError(f'Exactly {expected_rows} product rows required')
     prices = {}
     for ordinal, value in selected_prices.items():
-        if type(ordinal) is not int or not 1 <= ordinal <= 10:
+        if type(ordinal) is not int or not 1 <= ordinal <= expected_rows:
             raise ValueError('Selected price must reference an input row')
         prices[ordinal] = proposed_price(value)
-    findings = validate(source, now, maximum_rows=10)
+    findings = validate(source, now, maximum_rows=expected_rows)
     if any(issue.startswith('Header') for issue in findings):
         raise ValueError('Authorized CSV header required')
     directory.mkdir(parents=True, exist_ok=True, mode=0o700)
     database, report = directory/'source-plan.sqlite3', directory/'SOURCE-PLAN.xlsx'
     if source.resolve() in (database.resolve(), report.resolve()) or report.is_symlink():
         raise ValueError('Separate regular output paths required')
-    config = Config(input=source, output=report, database=database, maximum_candidates=10)
+    config = Config(input=source, output=report, database=database, maximum_candidates=expected_rows)
     store = ObservationStore(database)
     manifest = dict(source_hash=fingerprint(products), catalog_hash=fingerprint(listings),
                     seller_reference=seller_reference, selected_prices=prices, live_requests=0)
@@ -133,8 +136,8 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
                               provider='supplied-normalized-catalog')
             rows.append(row)
         fee_count = len({(s['asin'], s['listing_price_usd']) for s in scenarios if s['fee_request_planned']})
-        budget = dict(authentication=1, catalog=10, pricing=10, restrictions=10,
-                      fees=fee_count, maximum_attempts=31+fee_count, absolute_ceiling=41,
+        budget = dict(authentication=1, catalog=expected_rows, pricing=expected_rows, restrictions=expected_rows,
+                      fees=fee_count, maximum_attempts=1+3*expected_rows+fee_count, absolute_ceiling=1+4*expected_rows,
                       retries=0, live_requests=0, batch_enabled=False)
         write_report(rows, report, discovery=True,
                      job=dict(label=LABEL, run_id=run_id, live_requests=0,
@@ -142,8 +145,8 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
                               maximum_http_attempts=budget['maximum_attempts'], batch_enabled=False),
                      enrichment_rows=[dict(kind='fee_request_plan', asin=s['asin'], value=str(s),
                                            provenance=LABEL) for s in scenarios])
-        store.history.finish(run_id, 'succeeded', 10, sum(r['status']=='REVIEW' for r in rows), report)
-        return dict(label=LABEL, run_id=run_id, rows=rows, scenarios=scenarios, budget=budget)
+        store.history.finish(run_id, 'succeeded', expected_rows, sum(r['status']=='REVIEW' for r in rows), report)
+        return dict(label=LABEL, run_id=run_id, rows=rows, scenarios=scenarios, budget=budget, source_findings=findings)
     except Exception as error:
         store.history.finish(run_id, 'failed', len(rows), 0, error=type(error).__name__)
         raise

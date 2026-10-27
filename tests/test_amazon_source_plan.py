@@ -132,3 +132,42 @@ def test_initial_ingestion_needs_no_amazon_fees_or_eligibility(tmp_path):
     assert result['budget']['fees'] == result['budget']['live_requests'] == 0
     with sqlite3.connect(tmp_path/'source-plan.sqlite3') as db:
         assert db.execute('SELECT count(*) FROM pilot_run_items').fetchone()[0] == 10
+
+
+def test_single_source_intake_preserves_missing_fields_and_original_input(tmp_path, monkeypatch):
+    import csv
+    from app.authorized_imports import HEADERS
+    from app.amazon_source_intake import intake
+    import json
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError('No external actions allowed')
+    monkeypatch.setattr('urllib.request.OpenerDirector.open', forbidden)
+    monkeypatch.setattr('app.mailer.send_report', forbidden)
+    # Empty evidence is a missing-data regression, never a replacement product.
+    source = tmp_path/'supplied.csv'
+    with source.open('w', newline='') as stream:
+        writer = csv.DictWriter(stream, fieldnames=HEADERS)
+        writer.writeheader()
+        writer.writerow(dict.fromkeys(HEADERS, ''))
+    original = source.read_bytes()
+    result = intake(source, tmp_path/'state')
+    assert source.read_bytes() == original
+    assert len(result['rows']) == 1
+    assert result['source_findings']
+    assert result['rows'][0]['status'] == 'REJECT'
+    assert result['rows'][0]['buy_cost'] is None
+    assert result['rows'][0]['sale_price'] is None
+    assert result['rows'][0]['profit'] is None
+    assert result['budget']['maximum_attempts'] == 4
+    assert result['budget']['absolute_ceiling'] == 5
+    assert result['budget']['fees'] == result['budget']['live_requests'] == 0
+    assert result['scenarios'][0]['listing_price_usd'] is None
+    with sqlite3.connect(tmp_path/'state/source-plan.sqlite3') as db:
+        payload = json.loads(db.execute('SELECT payload_json FROM source_observations').fetchone()[0])
+        assert payload['purchase_price'] is None
+        assert payload['retrieved_at'] is None
+        assert payload['name'] == payload['authorization_reference'] == ''
+        assert db.execute('SELECT count(*) FROM pilot_run_items').fetchone()[0] == 1
+        assert db.execute('SELECT label FROM pilot_runs').fetchone()[0].startswith('OFFLINE')
+        assert db.execute('PRAGMA foreign_key_check').fetchall() == []

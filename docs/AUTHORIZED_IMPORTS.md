@@ -74,3 +74,33 @@ approves a purchase. See the [workflow and request budget](AMAZON_AUTHORIZED_SOU
 
 The populated `sample_data/authorized_source_sample.csv` is fictional, not an
 authorized supplier dataset. Do not edit mock fixtures to make an import pass.
+
+## One real source row: offline intake
+
+Use the same header-only template with exactly one supplied product row. Leave
+missing fields blank. No Amazon data, seller alias or fee price is required:
+
+```bash
+.venv/bin/python -m app.amazon_source_intake \
+  --source var/private/one-source.csv \
+  --output-directory var/private/one-source-intake
+```
+
+This explicit one-row mode reuses the existing planner, SQLite observations/run
+history and Excel report. It preserves the input file and persists the normalized
+supplied values and missing-field reasons. It never pads to ten rows, substitutes
+a sample product, invents stock/timestamps or replaces unknown money with zero.
+A structurally valid incomplete row is persisted as rejected/pending evidence;
+the CLI reports source findings and later missing information. Invalid headers
+or a row count other than one stop before persistence. The ten-row API default
+is unchanged. Avoid reusing the ten-row report directory for this intake.
+
+Proposed later ceiling for one product is 1 authentication + 1 catalog lookup +
+1 pricing + 1 seller-restriction request, with at most 1 additional fee estimate
+only after all suitability gates and an explicit price selection. No fee estimate
+is currently planned from source-only intake. Actual Amazon requests remain
+zero; missing/invalid source identity or authorization must be resolved before
+request authorization. Unmatched products skip downstream pricing/restrictions/
+fees. Unknown eligibility, other costs and FBA evidence remain visible blockers.
+FBA eligibility may need additional independent evidence outside this five-attempt
+ceiling; the restriction response does not establish it.
