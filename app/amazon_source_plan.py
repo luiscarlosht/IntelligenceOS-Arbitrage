@@ -12,7 +12,7 @@ from app.connectors import CsvConnector
 from app.discovery import screen
 from app.marketplace import match_listings
 from app.models import MarketplaceListing
-from app.observations import ObservationStore, fingerprint
+from app.observations import ObservationStore, fingerprint, canonical
 from app.provider_contracts import Evidence
 from app.reporting import write_report
 
@@ -70,13 +70,18 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
     manifest = dict(source_hash=fingerprint(products), catalog_hash=fingerprint(listings),
                     seller_reference=seller_reference, selected_prices=prices, live_requests=0)
     run_id = store.start_run(now, manifest, label=LABEL)
-    rows, scenarios = [], []
+    rows, scenarios, source_context_rows = [], [], []
     try:
         for ordinal, product in enumerate(products, 1):
             match = match_listings(product, listings)
             asin = match.listing.asin if match.listing else ''
             reasons = [issue.split(': ', 1)[-1] for issue in findings if issue.startswith(f'Row {ordinal}:')]
             enrichments = []
+            if product.source_context:
+                source_context_rows.append(dict(kind='walmart_source_context', asin=asin,
+                    value=canonical(product.source_context), provenance=product.provenance,
+                    observed_at=product.retrieved_at.isoformat() if product.retrieved_at else None,
+                    notice='Supplied source observation; permission not verified; not purchase approval'))
             if match.listing:
                 listing = match.listing
                 reasons.extend(getattr(listing, 'mapping_issues', ()))
@@ -143,7 +148,7 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
                      job=dict(label=LABEL, run_id=run_id, live_requests=0,
                               phase='Offline preparation; final status in SQLite',
                               maximum_http_attempts=budget['maximum_attempts'], batch_enabled=False),
-                     enrichment_rows=[dict(kind='fee_request_plan', asin=s['asin'], value=str(s),
+                     enrichment_rows=source_context_rows + [dict(kind='fee_request_plan', asin=s['asin'], value=str(s),
                                            provenance=LABEL) for s in scenarios])
         store.history.finish(run_id, 'succeeded', expected_rows, sum(r['status']=='REVIEW' for r in rows), report)
         return dict(label=LABEL, run_id=run_id, rows=rows, scenarios=scenarios, budget=budget, source_findings=findings)

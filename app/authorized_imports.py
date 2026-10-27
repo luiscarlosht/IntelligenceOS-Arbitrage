@@ -5,7 +5,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from app.connectors import CsvConnector
+from app.connectors import CsvConnector, WALMART_FIELDS
 from app.normalization import http_url
 
 HEADERS = ('retailer', 'name', 'url', 'gtin', 'manufacturer', 'model',
@@ -20,7 +20,7 @@ def validate(path: Path, now: datetime, maximum_rows: int = 10000) -> list[str]:
     issues = []
     with path.open(newline='', encoding='utf-8-sig') as stream:
         reader = csv.DictReader(stream)
-        if tuple(reader.fieldnames or ()) != HEADERS:
+        if tuple(reader.fieldnames or ()) not in (HEADERS, HEADERS + WALMART_FIELDS):
             return ['Header must exactly match the authorized import template']
         count = 0
         for count, (raw, product) in enumerate(zip(reader, CsvConnector(path).products()), 1):

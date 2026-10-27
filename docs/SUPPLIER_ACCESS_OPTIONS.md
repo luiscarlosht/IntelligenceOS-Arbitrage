@@ -1,3 +1,7 @@
+> Current owner priority (2026-10-27): Walmart-to-Amazon. See the
+> [specific provider inquiry, permission gates and one-row format](WALMART_ACCESS_NEXT_STEP.md).
+> Earlier EE recommendations below are historical, not the current next action.
+
 # Supplier and feed access comparison
 
 ## 2026-10-26 pilot decision

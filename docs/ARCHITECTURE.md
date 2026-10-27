@@ -224,3 +224,10 @@ same template. `prepare(expected_rows=1)` reuses the existing storage/reporting;
 the default remains exactly ten. Source-only intake needs no seller alias or
 Amazon evidence. Missing fields stay unknown, no padding occurs, and budgets
 scale to the actual supported intake size. No live executor is added.
+
+The Walmart template extends the existing source CSV with six context fields;
+CsvConnector preserves them in RetailProduct.source_context without fetching URLs.
+Source context participates in existing fingerprints/SQLite payloads and appears
+in the report enrichment sheet. Missing seller/location/shipping evidence stays
+flagged, and source shipping never silently fills profitability costs. There is
+no Walmart HTTP adapter or new pipeline.

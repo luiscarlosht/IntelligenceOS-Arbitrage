@@ -111,3 +111,12 @@ CSV request preparation is offline, uses existing persistence/reporting and has
 no batch executor. Real authorized source rows and explicit price selections are
 required before later execution authorization. See
 [workflow and 31–41 attempt ceiling](AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md).
+
+## Walmart-to-Amazon owner priority, 2026-10-27
+
+One-row intake is published as PR #22 with passing CI. The Walmart source CSV
+extension is prepared offline using the existing connector/storage/reporting.
+The next owner action is a BlueCart/Traject written commercial-use and sample
+inquiry, not affiliate or seller registration. Public trial terms do not cover
+this intended commercial use; no rights or real row are available yet. See
+[exact access steps and enrichment request plan](WALMART_ACCESS_NEXT_STEP.md).
