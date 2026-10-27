@@ -16,6 +16,8 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, ProxyHandler, HTTPSHandler, build_opener
 
+from app.amazon_diagnostics import (AmazonFailure, ResponseDocument, MAX_ERROR_BYTES,
+    bounded_error_codes, failure_metadata)
 from app.amazon_catalog import ASIN, MARKETPLACE, INCLUDED_DATA, parse_catalog
 from app.models import MarketplaceListing
 from app.provider_contracts import Evidence
@@ -40,10 +42,14 @@ def operation(name: str):
 
 def failure_diagnostic(error: BaseException) -> str:
     number = getattr(error, 'errno', None)
+    extra = failure_metadata(error)
+    suffix = (' http_status=' + str(extra['http_status'])
+              + ' amazon_error_codes=' + ','.join(extra['amazon_error_codes'])
+              + ' reason=' + extra['reason']) if isinstance(error, AmazonFailure) else ''
     return ('Amazon operation failed; no retry. operation='
             + getattr(error, '_amazon_operation', 'pilot')
             + ' exception=' + type(error).__name__
-            + ' errno=' + (str(number) if type(number) is int else 'none'))
+            + ' errno=' + (str(number) if type(number) is int else 'none') + suffix)
 
 
 def private_directory(path: Path) -> int:
@@ -130,27 +136,42 @@ def load_credentials(directory: int) -> dict:
 
 
 def request_json(request: Request) -> dict:
-    """Verified TLS, no proxies, redirects, retries or error-body disclosure."""
-    opener = build_opener(ProxyHandler({}), NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
+    """Verified TLS, no proxies/redirects/retries; only safe HTTP/code metadata."""
+    status = None
     try:
+        opener = build_opener(ProxyHandler({}), NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
         with opener.open(request, timeout=10) as response:
-            if response.status != 200:
-                raise ProviderFailure('Amazon response rejected')
+            status = response.status
+            if status != 200:
+                body = response.read(MAX_ERROR_BYTES + 1)
+                raise AmazonFailure('Amazon response rejected', reason='http_error', http_status=status,
+                                    codes=bounded_error_codes(body))
             body = response.read(MAX_BYTES + 1)
             if len(body) > MAX_BYTES:
-                raise ProviderFailure('Amazon response exceeds bound')
-            result = json.loads(body)
+                raise AmazonFailure('Amazon response exceeds bound', reason='response_too_large', http_status=status)
+            try:
+                result = json.loads(body)
+            except (ValueError, UnicodeError):
+                raise AmazonFailure('Amazon response invalid', reason='invalid_json', http_status=status) from None
             if not isinstance(result, dict):
-                raise ProviderFailure('Amazon response invalid')
-            return result
+                raise AmazonFailure('Amazon response invalid', reason='invalid_response', http_status=status)
+            return ResponseDocument(result, status)
     except HTTPError as error:
         status = error.code
-        error.close()
-        reason = {400: 'invalid_request', 401: 'unauthorized', 403: 'forbidden',
-                  404: 'not_found', 429: 'throttled'}.get(status, 'http_failure')
-        raise ProviderFailure(reason) from None
+        try:
+            try:
+                codes = bounded_error_codes(error.read(MAX_ERROR_BYTES + 1))
+            except Exception:
+                codes = ()
+        finally:
+            error.close()
+        message = {400: 'invalid_request', 401: 'unauthorized', 403: 'forbidden',
+                   404: 'not_found', 429: 'throttled'}.get(status, 'http_failure')
+        raise AmazonFailure(message, reason='http_error', http_status=status, codes=codes) from None
+    except AmazonFailure:
+        raise
     except Exception:
-        raise ProviderFailure('Amazon transport or response failed') from None
+        raise AmazonFailure('Amazon transport or response failed', reason='transport_error', http_status=status) from None
 
 
 def exchange_token(credentials: dict, transport=request_json) -> str:
