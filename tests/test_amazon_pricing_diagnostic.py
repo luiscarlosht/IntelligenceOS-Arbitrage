@@ -20,7 +20,7 @@ def offers():
         'Identifier': {'ASIN': pilot.ASIN, 'MarketplaceId': pilot.MARKETPLACE, 'ItemCondition': 'New'},
         'Summary': {'TotalOfferCount': 1, 'LowestPrices': [{'condition': 'new',
             'fulfillmentChannel': 'Amazon', 'LandedPrice': {'CurrencyCode': 'USD', 'Amount': 25}}]},
-        'Offers': []}}, 200)
+        'Offers': [{}]}}, 200)
 
 
 class Transport:

@@ -2,7 +2,7 @@
 import json
 
 from app.provider_runtime import ProviderFailure
-from app.amazon_pricing_shape import LABELS
+from app.amazon_pricing_shape import LABELS, SAFE_STATUSES
 
 MAX_ERROR_BYTES = 16 * 1024
 ERROR_CODES = frozenset({
@@ -62,7 +62,7 @@ def response_metadata(document: dict) -> dict:
     status = payload.get('status') if isinstance(payload, dict) else None
     return {'http_status': status_number(getattr(document, 'http_status', None)),
             'amazon_error_codes': list(error_codes(document)),
-            'application_status': status if status in ('Success', 'ClientError', 'ServiceError')
+            'application_status': status if isinstance(status, str) and status in SAFE_STATUSES
                                   else 'OTHER' if isinstance(status, str) else None}
 
 

@@ -333,8 +333,8 @@ ItemIdentifier, Summary, LowestPriceType, BuyBoxPriceType and MoneyType.
 | Aspect | Official structure and conservative parser policy |
 | --- | --- |
 | Envelope | getItemOffers uses an object under `payload`, with optional top-level `errors`; unlike getPricing, its payload is not an array. No guessed unwrapping or fallback nesting. Nonempty errors fail. |
-| Status | GetOffersResult requires a string status but does not enumerate all values. Examples show Success. The local success policy remains exact Success; HTTP 200 or an arbitrary status string is not accepted as price success. |
-| Identity | ASIN is optional at both payload and Identifier levels. The old parser incorrectly required both. The repair requires at least one explicit ASIN, verifies every ASIN supplied, and rejects both missing, null or conflicting identities. Required marketplace/condition/Identifier checks remain. |
+| Status | GetOffersResult requires a string status but does not enumerate all values. Examples show Success. The price-success policy remains exact Success; validated NoBuyableOffers now completes a lookup without a price (see the explicit handling below). HTTP 200 or an arbitrary status string is not price success. |
+| Identity | ASIN is optional at both payload and Identifier levels. The original parser incorrectly required both. The repair requires at least one explicit ASIN, verifies every ASIN supplied, and rejects both missing, null or conflicting identities. Required marketplace/condition/Identifier checks remain. |
 | Empty results | The schema requires Offers, Summary and TotalOfferCount. Explicit count zero with Offers empty and no New summary prices yields an empty price tuple, never a zero-dollar price. Missing count or Offers is invalid, not zero/no offers. Unsupported statuses remain rejected even with empty arrays. |
 | Optional price groups | Summary.LowestPrices and BuyBoxPrices are optional. Their absence means no observed summary prices; individual Offers do not fabricate a summary price. No price is derived from an ASIN or offer count. |
 | Price components | LowestPriceType requires ListingPrice/condition/channel; its shipping/landed components are optional. BuyBoxPriceType documents all three components. Partial monetary evidence remains explicitly missing and is never a complete quote or purchase input. No automatic shipping-zero or landed-price calculation. |
@@ -387,3 +387,86 @@ credential file or additional private evidence was read, no live request made,
 no existing report modified, and no deployment or email performed. The exact live
 status/first validation remains unresolved pending separately authorized shape
 evidence; optional-ASIN acceptance is not claimed to fix that observed failure.
+
+## Validated NoBuyableOffers handling and selected-ASIN pilot
+
+Amazon's official Product Pricing v0 model includes a NoBuyableOffers body with
+HTTP 200, matching item context, Summary.TotalOfferCount zero, Offers empty and
+no summary price groups. The example appears in getItemOffersBatch and uses the
+same GetOffersResponse/GetOffersResult body as getItemOffers:
+[official model example](https://github.com/amzn/selling-partner-api-models/blob/main/models/product-pricing-api-model/productPricingV0.json#L4534).
+
+The parser now explicitly accepts only Success or NoBuyableOffers as completed
+lookup variants. NoBuyableOffers is preserved by both safe status diagnostics.
+It must pass the same US/New/ASIN/Identifier checks as Success, plus explicit
+zero total count, an empty Offers array, absent/empty LowestPrices and BuyBoxPrices,
+and consistent zero optional NumberOfOffers/BuyBoxEligibleOffers counts. Invalid
+or missing counts, contradictory price rows, mismatches and unknown statuses
+continue to fail. Across successful variants, returned Offers length must equal
+min(TotalOfferCount, 20), as documented; no missing count is inferred as zero.
+
+A valid NoBuyableOffers result records lookup_status=NoBuyableOffers, completed
+stages, validation_label=pricing_no_buyable_offers_validated, price_unknown=true,
+exclude_from_profitability_ranking=true and prices empty. Overall status success
+means lookup completion only. It is not a zero-dollar offer, stock assertion or
+purchase approval. Fees and seller eligibility remain separately unknown. These
+new semantics do not reinterpret or rewrite historical OTHER-status reports.
+
+`apply_pricing_gate(match, pricing_evidence)` applies negative/unknown pricing
+evidence before the existing discovery screen. For no buyable offers it clears
+an older sale_price to None and adds a fixed rejection reason; it preserves
+independent identity/fee/eligibility evidence. Regression tests show an otherwise
+profitable REVIEW candidate becomes REJECT with no calculated profit/ROI and no
+profitability ranking. Observed competing offers never automatically overwrite a
+separate seller sale quote. A false pricing exclusion flag only means pricing
+was present; all existing identity, eligibility, demand and cost gates still apply.
+No live provider or scheduled production integration is registered.
+
+### One user-selected ASIN with a visible New offer
+
+The operator should select an Amazon US ASIN after observing a currently visible
+New-condition offer. No ASIN or live availability is selected/verified by the
+agent. A retail-page observation does not guarantee the Pricing API will return
+a price; a validated NoBuyableOffers result is a legitimate completed outcome.
+
+For a future separately authorized direct SSH run, this command prompts only for
+the public ASIN, then invokes the new pricing-only mode:
+
+```bash
+cd /root/IntelligenceOS-Arbitrage
+read -r -p 'Amazon US ASIN with a visible New offer (10 uppercase characters): ' pilot_asin
+.venv/bin/python -m app.amazon_pilot pricing-selected-pilot --asin "$pilot_asin"
+```
+
+Equivalently, substitute the chosen ASIN into
+`.venv/bin/python -m app.amazon_pilot pricing-selected-pilot --asin YOUR_ASIN`.
+`--asin` is required only for this new action and rejected for the historical
+fixed-ASIN diagnostics. Invalid ASINs fail before private-directory/credential
+access. No seller-ID prompt, fee price or credential values are command arguments.
+
+Limits: exactly one LWA exchange followed by one getItemOffers request if the
+exchange succeeds; at most two HTTP attempts total. Requests use NA/US,
+ItemCondition=New and CustomerType=Consumer, the selected ASIN throughout request,
+parser and report, 10-second socket timeouts, a 30-second overall Linux alarm,
+1 MiB success responses and 16 KiB error inspection. No retries, pagination,
+catalog/fee/restriction calls, listing writes, purchases or email are included.
+
+The exclusive private output is
+`~/.intelligenceos-arbitrage-amazon/pricing-selected-pilot-ASIN-01.json`, with ASIN
+replaced by the validated selection. The 0700 directory/0600 file rules are reused.
+Report reservation occurs before credential loading or network activity. A prior
+selected-ASIN report refuses a repeat, including failed attempts; old credential,
+catalog, pricing and shape reports are never altered. No arbitrary report path,
+report-index override or automatic archive/removal is added. The new pilot was
+prepared and tested with mocks only, not executed live.
+
+No-offer/selection validation: baseline 517 tests passed; after implementation 560
+passed, including 43 new no-offer/selected-pilot regressions (191 Amazon tests
+total). Both documented offline sample modes passed. Regressions cover safe status
+retention, completed negative lookups, identity/condition/count contradictions,
+the documented 20-offer cap, unknown statuses, actual discovery ranking exclusion,
+selected-ASIN propagation, private no-overwrite output, historical synthetic-file
+preservation, invalid input before I/O, CLI isolation and no retries. Existing
+synthetic Success fixtures were corrected to agree with their declared offer
+counts. No actual credentials or private reports were accessed or changed during
+this implementation; there were no live API calls, deployment or email.
