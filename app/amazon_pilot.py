@@ -238,7 +238,7 @@ def run_pilot(path: Path = DIRECTORY) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('credentials', 'pilot', 'details', 'pricing-diagnostic', 'pricing-shape-diagnostic', 'pricing-selected-pilot'))
+    parser.add_argument('action', choices=('credentials', 'pilot', 'details', 'pricing-diagnostic', 'pricing-shape-diagnostic', 'pricing-selected-pilot', 'pricing-count-diagnostic'))
     parser.add_argument('--fee-price', help='Proposed USD FBA sale price; required for details')
     parser.add_argument('--asin', help='One operator-selected Amazon US ASIN; required only for pricing-selected-pilot')
     args = parser.parse_args()
@@ -251,9 +251,11 @@ def main() -> int:
             enter_credentials()
         elif args.action == 'pilot':
             run_pilot()
-        elif args.action in ('pricing-diagnostic', 'pricing-shape-diagnostic', 'pricing-selected-pilot'):
+        elif args.action in ('pricing-diagnostic', 'pricing-shape-diagnostic', 'pricing-selected-pilot', 'pricing-count-diagnostic'):
             from app.amazon_pricing_diagnostic import run_pricing_diagnostic
-            if args.action == 'pricing-selected-pilot':
+            if args.action == 'pricing-count-diagnostic':
+                run_pricing_diagnostic(count_only=True)
+            elif args.action == 'pricing-selected-pilot':
                 run_pricing_diagnostic(selected_asin=args.asin)
             elif args.action == 'pricing-shape-diagnostic':
                 run_pricing_diagnostic(shape_only=True)
