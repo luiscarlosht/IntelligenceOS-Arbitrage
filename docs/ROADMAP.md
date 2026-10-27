@@ -1,5 +1,14 @@
 # Roadmap
 
+## Kroger source investigation — 2026-10-27
+
+[Kroger access/terms assessment](KROGER_ASSESSMENT.md) and a
+[conditional one-product/Amazon request plan](KROGER_ONE_PRODUCT_PLAN.md) are
+prepared. Implementation depends on verified rights for cross-market sourcing
+and evidence retention; no connector, registration, credentials, live request,
+deployment, purchase or email is enabled. Target's affiliate route does not yet
+establish an internal sourcing license.
+
 ## Status register — 2026-10-26
 
 Implemented means code and fixture tests, live-verified means evidence from an
