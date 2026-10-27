@@ -296,9 +296,12 @@ def persist(directory: Path, stem: str, products: tuple, report: dict, now: date
                           [('', 'catalog_candidate_stage', evidence, now)], now, provider='amazon-catalog-candidates')
         rows.append(row)
         enrichments.append(dict(kind='catalog_candidate_stage', asin='', value=canonical(result), provenance=LABEL))
-    write_report(rows, config.output, discovery=True, job=dict(label=LABEL,
-        maximum_http_attempts=21, actual_attempts=len(report['attempts']), live_requests=report['live_requests'],
-        status=report['status']), enrichment_rows=enrichments)
+    from app.candidate_review_report import build_review
+    report_rows, review, report_enrichments = build_review(report)
+    write_report(report_rows, config.output, discovery=True, candidate_review=review,
+        job=dict(label=LABEL,maximum_http_attempts=21,actual_attempts=len(report['attempts']),
+                 live_requests=report['live_requests'],status=report['status']),
+        enrichment_rows=report_enrichments)
     store.history.finish(run_id, 'succeeded' if report['status']=='succeeded' else 'failed', 10, 0,
                          config.output, error=None if report['status']=='succeeded' else 'CandidateStageFailure')
 
