@@ -2,6 +2,7 @@
 import json
 
 from app.provider_runtime import ProviderFailure
+from app.amazon_pricing_shape import LABELS
 
 MAX_ERROR_BYTES = 16 * 1024
 ERROR_CODES = frozenset({
@@ -48,8 +49,9 @@ class ResponseDocument(dict):
 
 class AmazonFailure(ProviderFailure):
     def __init__(self, message: str, *, reason: str, http_status: int | None = None,
-                 codes: tuple[str, ...] = ()):
+                 codes: tuple[str, ...] = (), validation_label: str | None = None):
         super().__init__(message)
+        self.validation_label = validation_label if validation_label in LABELS else None
         self.reason = reason if reason in FAILURE_REASONS else 'response_validation_failed'
         self.http_status = status_number(http_status)
         self.amazon_error_codes = tuple(sorted({c if c in ERROR_CODES else 'OTHER' for c in codes}))
@@ -72,4 +74,6 @@ def failure_metadata(error: BaseException) -> dict:
         data.update(http_status=status_number(error.http_status),
                     amazon_error_codes=[c if c in ERROR_CODES else 'OTHER' for c in error.amazon_error_codes],
                     reason=error.reason if error.reason in FAILURE_REASONS else 'operation_failed')
+        if error.validation_label in LABELS:
+            data['validation_label'] = error.validation_label
     return data

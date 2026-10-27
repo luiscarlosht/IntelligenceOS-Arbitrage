@@ -170,3 +170,15 @@ a 30-second overall deadline, with no retries or other provider operations.
 Token response data is discarded; fixed stage completion and normalized pricing
 remain separate from fee/eligibility/purchase evidence. No job selection or
 production settings change. See [operator command](AMAZON_PILOT.md).
+
+## Pricing schema validation and shape-only diagnostics
+
+Pricing parsing now uses fixed validation labels and accepts schema-optional
+ASIN placement while requiring at least one explicit matching response identity.
+Required marketplace/condition/containers/count checks remain conservative;
+non-success statuses and invalid currency/numbers fail without inferred prices.
+The separate pricing-shape-diagnostic action shares the two-request/30-second
+bounds, reserves a new owner-only report, and emits only fixed-path shape facts
+and validation labels. No response prices, arbitrary keys/values or token shape
+are persisted. Previously saved diagnostics remain unchanged. See
+[schema comparison and operator command](AMAZON_PILOT.md).

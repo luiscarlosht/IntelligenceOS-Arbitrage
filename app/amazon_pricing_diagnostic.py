@@ -8,24 +8,26 @@ import signal
 
 from app.amazon_catalog import ASIN, MARKETPLACE
 from app.amazon_details import parse_pricing, serialize
+from app.amazon_pricing_shape import pricing_shape, LABELS
 from app.amazon_diagnostics import AmazonFailure, failure_metadata, response_metadata
 from app.amazon_pilot import (DIRECTORY, amazon_request, create_file, deadline,
     exchange_token, load_credentials, operation, private_directory, request_json)
 from app.provider_runtime import ProviderFailure
 
 REPORT_NAME = 'pricing-diagnostic-01.json'
+SHAPE_REPORT_NAME = 'pricing-shape-diagnostic-01.json'
 MAX_REQUESTS = 2
 
 
 def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = False,
-                 report: dict | None = None) -> dict:
+                 report: dict | None = None, shape_only: bool = False) -> dict:
     report = report if report is not None else {}
     report.update(status='running', asin=ASIN, marketplace_id=MARKETPLACE,
         item_condition='New', customer_type='Consumer', is_mock=is_mock,
         started_at=datetime.now(timezone.utc), requests_attempted=0,
         stages={'lwa_exchange': 'not_attempted', 'current_pricing': 'not_attempted'},
         response_diagnostics={}, pricing=None, fees=None, seller_eligible=None,
-        purchase_approved=False)
+        purchase_approved=False, shape_only=shape_only)
     stage = 'lwa_exchange'
 
     def call(request):
@@ -37,10 +39,11 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
         report['response_diagnostics'][stage] = response_metadata(document)
         return document
 
-    def validation_failure():
+    def validation_failure(error):
         metadata = report['response_diagnostics'].get(stage, {})
         return AmazonFailure('Amazon response validation failed', reason='response_validation_failed',
-            http_status=metadata.get('http_status'), codes=tuple(metadata.get('amazon_error_codes', ())))
+            http_status=metadata.get('http_status'), codes=tuple(metadata.get('amazon_error_codes', ())),
+            validation_label=getattr(error, 'label', 'token_validation_failed' if stage == 'lwa_exchange' else 'pricing_validation_failed'))
 
     try:
         with operation(stage):
@@ -48,31 +51,39 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
                 access = exchange_token(credentials, call)
             except AmazonFailure:
                 raise
-            except ProviderFailure:
-                raise validation_failure() from None
+            except ProviderFailure as error:
+                raise validation_failure(error) from None
         report['stages'][stage] = 'completed'
         stage = 'current_pricing'
         with operation(stage):
             document = call(amazon_request(access, '/products/pricing/v0/items/' + ASIN + '/offers',
                 {'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New', 'CustomerType': 'Consumer'}))
+            if shape_only:
+                report['response_shape'] = pricing_shape(document)
             try:
-                report['pricing'] = asdict(parse_pricing(document, is_mock=is_mock))
-            except ProviderFailure:
-                raise validation_failure() from None
+                evidence = parse_pricing(document, is_mock=is_mock)
+                if not shape_only:
+                    report['pricing'] = asdict(evidence)
+                report['validation_label'] = 'pricing_validated'
+            except ProviderFailure as error:
+                raise validation_failure(error) from None
         report['stages'][stage] = 'completed'
         report['status'] = 'success'
         return report
-    except (Exception, KeyboardInterrupt):
+    except (Exception, KeyboardInterrupt) as error:
+        label = getattr(error, 'validation_label', None)
+        if label in LABELS:
+            report['validation_label'] = label
         report['stages'][stage] = 'failed'
         raise
 
 
-def run_pricing_diagnostic(path: Path = DIRECTORY) -> None:
+def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False) -> None:
     directory = private_directory(path)
     try:
         # Exclusive reservation precedes credential loading and all requests.
         with operation('pricing_report_create'):
-            output_fd = create_file(directory, REPORT_NAME)
+            output_fd = create_file(directory, SHAPE_REPORT_NAME if shape_only else REPORT_NAME)
         with os.fdopen(output_fd, 'w') as output:
             report = {'status': 'failed', 'requests_attempted': 0, 'pricing': None,
                       'fees': None, 'seller_eligible': None, 'purchase_approved': False}
@@ -82,7 +93,10 @@ def run_pricing_diagnostic(path: Path = DIRECTORY) -> None:
                 signal.alarm(30)
                 with operation('credential_load'):
                     credentials = load_credentials(directory)
-                pricing_once(credentials, report=report)
+                if shape_only:
+                    pricing_once(credentials, report=report, shape_only=True)
+                else:
+                    pricing_once(credentials, report=report)
             except (Exception, KeyboardInterrupt) as error:
                 report.update(status='failed', reason='operation_failed_no_retry',
                     failed_operation=getattr(error, '_amazon_operation', 'pricing_diagnostic'),

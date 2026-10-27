@@ -177,8 +177,8 @@ def test_invalid_pricing_not_accepted(change):
 def test_empty_pricing_is_unknown_not_zero():
     data = pricing()
     data['payload']['Summary'] = {}
-    snapshot = details.parse_pricing(data, is_mock=True).value
-    assert snapshot.prices == () and snapshot.total_offer_count is None
+    with pytest.raises(ProviderFailure, match='pricing_count_missing_or_invalid'):
+        details.parse_pricing(data, is_mock=True)
 
 
 def test_fee_final_aggregates_no_nested_double_counting():
