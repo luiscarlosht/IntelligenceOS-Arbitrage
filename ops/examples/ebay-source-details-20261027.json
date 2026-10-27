@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "source": "/root/IntelligenceOS-Arbitrage/var/source-imports/ebay_6ae1298795263c2adcdb3ac7_offline/observations.csv",
+  "source_sha256": "cabbbda426bff05faff0b6d8f051e62bde21fa927efafe9fc347e9380ee24f11",
+  "source_rows": [
+    {
+      "ordinal": 1,
+      "ebay_item_id": "186232798128",
+      "source_fingerprint": "650ea7f73747200d22d643d7b60e6eb12adfe636dfc1dc61baebef835e964c93",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 2,
+      "ebay_item_id": "377371482483",
+      "source_fingerprint": "72c6843c4fdfc05f5eec98befacf72bb979eafb61a5d7a9f756af68c0b2591ec",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 3,
+      "ebay_item_id": "377406345782",
+      "source_fingerprint": "fe119f69c1293a8e334cd48e8c0f3fd12ea68ca6b95d17c7d672a67d9003e5cb",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 4,
+      "ebay_item_id": "366681170344",
+      "source_fingerprint": "ec13e8e0e3c409df51755cd0037ebff9e66718bc8f840b067441691df8b80c30",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 5,
+      "ebay_item_id": "287346590628",
+      "source_fingerprint": "baf296bc8f911180fa494d62da43ddac4c08eb33e7076663865c5f48f1357438",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 6,
+      "ebay_item_id": "357922306561",
+      "source_fingerprint": "0570c6953e4baf31652cfcded6d7ea200202bf9961fe4e98504888a5525baa9b",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 7,
+      "ebay_item_id": "358604106973",
+      "source_fingerprint": "a1e5fea1bdea06e050f6591c00058c7921ec129e5f78a27bfa4c319014cfae6e",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 8,
+      "ebay_item_id": "357922290948",
+      "source_fingerprint": "466063424a742d7e262d2ad0053f465bdcc0e3cb1846d451cc16043c963cb808",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 9,
+      "ebay_item_id": "405900535797",
+      "source_fingerprint": "6e20d220004b797eca401c5f9f191cc1a3614f09af8ff34d7ff0ac2b3e194fa5",
+      "saved_detail_available": false
+    },
+    {
+      "ordinal": 10,
+      "ebay_item_id": "206658186250",
+      "source_fingerprint": "49fa3ed11c06cbfb7c18a33478053f11423617d0970ad73155b1a6e73b8b1e52",
+      "saved_detail_available": false
+    }
+  ],
+  "saved_evidence": [
+    {
+      "path": "/root/IntelligenceOS-Arbitrage/var/source-imports/20261027224527_ebay_us_6ae1298795263c2adcdb3ac7.json",
+      "sha256": "279770cb8fdbb0f9b7ae1ab34c8e6d45515ae8d5dd1bef3042d6c579afde17db",
+      "reusable_detail_rows": 0
+    }
+  ],
+  "profile_sha256": null,
+  "proposed_job": {
+    "source": "ebay",
+    "country": "us",
+    "topic": "product",
+    "key": "id",
+    "values": "186232798128\n377371482483\n377406345782\n366681170344\n287346590628\n357922306561\n358604106973\n357922290948\n405900535797\n206658186250"
+  },
+  "pending_listing_ids": [
+    "186232798128",
+    "377371482483",
+    "377406345782",
+    "366681170344",
+    "287346590628",
+    "357922306561",
+    "358604106973",
+    "357922290948",
+    "405900535797",
+    "206658186250"
+  ],
+  "budget": {
+    "jobs": 1,
+    "listing_values": 10,
+    "general_tariff_default_credits": 10,
+    "provisional_credit_reserve": 20,
+    "confirmed_account_credit_ceiling": null,
+    "proposed_http_attempts": 7,
+    "submit": 1,
+    "polls": 5,
+    "download": 1,
+    "retries": 0,
+    "executable_http_attempts": 0,
+    "paid_credits_authorized": 0
+  },
+  "blocked_on": [
+    "Trial entitlement for ebay/us/product/id unverified",
+    "Source-specific tariff and free-only billing controls unverified",
+    "ID semantics (listing ID vs eBay catalog product ID) require verified sample",
+    "Complete vendor response-field mapping and shipping scope unverified"
+  ],
+  "execution_enabled": false,
+  "live_requests": 0
+}

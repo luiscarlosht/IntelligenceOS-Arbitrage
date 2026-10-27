@@ -138,8 +138,11 @@ def decide(product, search: dict, detail: Evidence | None) -> tuple[str, Match]:
     match = AmazonCatalogAdapter(Evidence(listing, detail.observed_at, detail.provenance, detail.is_mock)).match(product)
     reasons = list(match.reasons)
     attrs = detail.value['package_attributes']
-    if attrs.get('number_of_items') and attrs['number_of_items'] != [str(product.package_quantity)]:
-        reasons.append('Catalog package count conflicts with source package')
+    if attrs.get('number_of_items'):
+        if product.package_quantity is None:
+            reasons.append('Source package count unknown')
+        elif attrs['number_of_items'] != [str(product.package_quantity)]:
+            reasons.append('Catalog item count and source package count require basis verification')
     if attrs.get('unit_count'):
         reasons.append('Unit count requires independent source verification')
     try:
@@ -161,8 +164,10 @@ def decide(product, search: dict, detail: Evidence | None) -> tuple[str, Match]:
     # never from either title or a guessed interpretation of a piece count.
     source_contents = product.source_context.get('source_package_contents')
     target_contents = detail.value['package_attributes'].get('included_components')
-    if not source_contents or not target_contents or source_contents != canonical(target_contents):
-        reasons.append('Package contents missing or mismatched')
+    if not source_contents or not target_contents:
+        reasons.append('Package contents evidence missing')
+    elif source_contents != canonical(target_contents):
+        reasons.append('Package contents differ; composition verification required')
     if product.issues:
         reasons.append('Source normalization/evidence issues unresolved')
     if len(search['candidates']) != 1 or not search['complete']:

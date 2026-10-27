@@ -1,0 +1,27 @@
+{
+  "schema_verified": false,
+  "evidence_reference": null,
+  "package_quantity_means_retail_packages": false,
+  "notice": "Unverified template: obtain actual eBay product/id schema and listing-ID semantics before filling paths.",
+  "paths": {
+    "brand": null,
+    "manufacturer": null,
+    "model": null,
+    "mpn": null,
+    "upc": null,
+    "ean": null,
+    "gtin": null,
+    "item_specifics": null,
+    "package_contents": null,
+    "package_quantity": null,
+    "component_count": null,
+    "variation": null,
+    "condition": null,
+    "shipping_cost": null,
+    "shipping_currency": null,
+    "shipping_conditions": null,
+    "destination_zip": null,
+    "seller": null,
+    "source_observed_at": null
+  }
+}
