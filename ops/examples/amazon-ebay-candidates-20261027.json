@@ -1,0 +1,298 @@
+{
+  "schema": 1,
+  "source": "/root/IntelligenceOS-Arbitrage/var/source-imports/ebay_6ae1298795263c2adcdb3ac7_offline/observations.csv",
+  "source_sha256": "cabbbda426bff05faff0b6d8f051e62bde21fa927efafe9fc347e9380ee24f11",
+  "marketplace_id": "ATVPDKIKX0DER",
+  "limits": {
+    "authentication": 1,
+    "search": 10,
+    "detail": 10,
+    "total": 21,
+    "retries": 0
+  },
+  "authentication": {
+    "method": "POST",
+    "url": "https://api.amazon.com/auth/o2/token",
+    "grant_type": "refresh_token"
+  },
+  "requests": [
+    {
+      "ordinal": 1,
+      "source_fingerprint": "650ea7f73747200d22d643d7b60e6eb12adfe636dfc1dc61baebef835e964c93",
+      "retailer_item_id": "186232798128",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Forged Blacksmith Medieval Dining Hall Eating Kitchen Renaissance Utensils",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 2,
+      "source_fingerprint": "72c6843c4fdfc05f5eec98befacf72bb979eafb61a5d7a9f756af68c0b2591ec",
+      "retailer_item_id": "377371482483",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "11\"x14\" Olives Kitchen Utensils Original Minimalistic Canvas Art",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 3,
+      "source_fingerprint": "fe119f69c1293a8e334cd48e8c0f3fd12ea68ca6b95d17c7d672a67d9003e5cb",
+      "retailer_item_id": "377406345782",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Premium Wooden Cooking Utensils Set Acacia Wood Kitchen Tools 10PCS BPA Free",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 4,
+      "source_fingerprint": "ec13e8e0e3c409df51755cd0037ebff9e66718bc8f840b067441691df8b80c30",
+      "retailer_item_id": "366681170344",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Wood Kitchen Utensils Set, 5 PCs Natural Acacia Wooden Spoons For Cooking",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 5,
+      "source_fingerprint": "baf296bc8f911180fa494d62da43ddac4c08eb33e7076663865c5f48f1357438",
+      "retailer_item_id": "287346590628",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Stainless Steel Cooking Utensils Set, 5 Pcs Kitchen Tools for Stir Fry & Serving",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 6,
+      "source_fingerprint": "0570c6953e4baf31652cfcded6d7ea200202bf9961fe4e98504888a5525baa9b",
+      "retailer_item_id": "357922306561",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Wooden Kitchen Utensil Set - Natural Cooking Tools for Stirring & Serving",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 7,
+      "source_fingerprint": "a1e5fea1bdea06e050f6591c00058c7921ec129e5f78a27bfa4c319014cfae6e",
+      "retailer_item_id": "358604106973",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Wood Kitchen Utensils Set, 5 PCs Natural Acacia Wooden Spoons For Cooking",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 8,
+      "source_fingerprint": "466063424a742d7e262d2ad0053f465bdcc0e3cb1846d451cc16043c963cb808",
+      "retailer_item_id": "357922290948",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "Wooden Kitchen Utensil Set - Natural Cooking Tools",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 9,
+      "source_fingerprint": "6e20d220004b797eca401c5f9f191cc1a3614f09af8ff34d7ff0ac2b3e194fa5",
+      "retailer_item_id": "405900535797",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "12pc Silicone Cooking Utensils Set Wooden Handles Kitchen Tools Holder BPA Free",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    },
+    {
+      "ordinal": 10,
+      "source_fingerprint": "49fa3ed11c06cbfb7c18a33478053f11423617d0970ad73155b1a6e73b8b1e52",
+      "retailer_item_id": "206658186250",
+      "search": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "keywords": "10pc Silicone Kitchen Utensil Set - Figmint: Gray Cooking Utensils",
+          "keywordsLocale": "en_US",
+          "locale": "en_US",
+          "includedData": "summaries",
+          "pageSize": 10
+        }
+      },
+      "detail": {
+        "method": "GET",
+        "path": "/catalog/2022-04-01/items/{selected_asin}",
+        "params": {
+          "marketplaceIds": "ATVPDKIKX0DER",
+          "includedData": "summaries,identifiers,relationships,attributes",
+          "locale": "en_US"
+        },
+        "selection": "first distinct returned ASIN; candidate only; at most one per row"
+      }
+    }
+  ],
+  "pages_per_search": 1,
+  "pagination_enabled": false,
+  "stop_on_failure": true,
+  "deadline_seconds": 300,
+  "minimum_interval_seconds": 0.5,
+  "exact_match_policy": "Identifier plus verified package quantity, package contents and variation; titles and ASIN hints alone never verify identity; incomplete search remains ambiguous",
+  "live_requests": 0,
+  "execution_authorized": false
+}
