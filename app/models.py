@@ -21,6 +21,7 @@ class RetailProduct:
     variation: str = ''
     issues: tuple[str, ...] = ()
     authorization_reference: str = ''
+    source_context: Mapping[str, str | Decimal | None] = field(default_factory=dict)
 
 @dataclass(frozen=True)
 class MarketplaceListing:

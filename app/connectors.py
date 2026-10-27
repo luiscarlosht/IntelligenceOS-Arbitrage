@@ -1,9 +1,15 @@
 """Authorized input boundary. No automatic URL fetching or scraping."""
 import csv
 from pathlib import Path
+from urllib.parse import urlsplit
+import re
 from typing import Iterable, Protocol
 from app.models import RetailProduct
 from app.normalization import gtin, integer, money, timestamp, http_url
+
+WALMART_FIELDS = ('source_item_id', 'source_seller', 'destination_zip',
+                  'fulfillment_method', 'source_shipping_cost', 'shipping_conditions')
+
 
 class RetailerConnector(Protocol):
     def products(self) -> Iterable[RetailProduct]: ...
@@ -40,10 +46,37 @@ class CsvConnector:
                 url = (row.get('url') or '').strip()
                 if url and not http_url(url): issues.append('Invalid source URL')
                 text = lambda key: (row.get(key) or '').strip()
+                context = {}
+                if any(key in row for key in WALMART_FIELDS):
+                    context = {key: text(key) or None for key in WALMART_FIELDS}
+                    context['source_shipping_cost'] = parse('source_shipping_cost', money)
+                    for key in WALMART_FIELDS:
+                        if context[key] is None:
+                            issues.append('Missing Walmart ' + key)
+                    if text('retailer').lower() != 'walmart':
+                        issues.append('Walmart observation retailer mismatch')
+                    if text('destination_zip') != '76063':
+                        issues.append('Walmart destination ZIP must be explicitly 76063')
+                    if text('fulfillment_method') not in ('shipping', 'delivery', 'pickup'):
+                        issues.append('Walmart fulfillment method missing or unsupported')
+                    item_id = text('source_item_id')
+                    if item_id and not re.fullmatch(r'[0-9]+', item_id):
+                        issues.append('Invalid Walmart item ID')
+                    if url:
+                        try:
+                            parsed = urlsplit(url)
+                        except ValueError:
+                            issues.append('Invalid Walmart product URL')
+                            parsed = urlsplit('')
+                        if parsed.hostname not in ('www.walmart.com', 'walmart.com') or not parsed.path.startswith('/ip/'):
+                            issues.append('Walmart product URL required')
+                        url_id = parsed.path.rstrip('/').rsplit('/', 1)[-1]
+                        if item_id and url_id.isdigit() and url_id != item_id:
+                            issues.append('Walmart item ID and URL mismatch')
                 yield RetailProduct(text('retailer'), text('name'), url, normalized_gtin,
                     text('manufacturer'), text('model'), quantity, price,
                     text('availability').lower(), retrieved, text('provenance'),
-                    text('asin_hint'), text('variation'), tuple(issues), text('authorization_reference'))
+                    text('asin_hint'), text('variation'), tuple(issues), text('authorization_reference'), context)
 
 # Authorized APIs, licensed feeds and permitted URL resolvers implement products().
 # No remote connector is enabled until its authorization and usage contract is reviewed.

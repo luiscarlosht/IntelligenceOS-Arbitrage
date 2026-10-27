@@ -104,3 +104,8 @@ request authorization. Unmatched products skip downstream pricing/restrictions/
 fees. Unknown eligibility, other costs and FBA evidence remain visible blockers.
 FBA eligibility may need additional independent evidence outside this five-attempt
 ceiling; the restriction response does not establish it.
+
+For the prioritized Walmart pilot, use [the header-only Walmart extension](../templates/walmart_observation.csv)
+and [specific access/observation instructions](WALMART_ACCESS_NEXT_STEP.md). It adds seller,
+item ID, explicit ZIP 76063 and fulfillment/shipping context to the original columns.
+The same offline intake command accepts either exact header format.
