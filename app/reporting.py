@@ -21,14 +21,18 @@ DISCOVERY_COLUMNS = COLUMNS + [
 
 
 def write_report(rows, destination, *, discovery=False, top_count=20, job=None, demo=False,
-                 enrichment_rows=None):
+                 enrichment_rows=None, candidate_review=None):
+    if candidate_review is not None and (not discovery or demo):
+        raise ValueError('Candidate review requires discovery and cannot relabel DEMO evidence')
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     wb = Workbook()
     summary = wb.active
     summary.title = 'Executive Summary'
     for row in [
-        ['DEMO — FICTIONAL FIXTURES ONLY' if demo else 'INTELLIGENCEOS ARBITRAGE', 'MOCK / supplied analysis — never purchase approval' if discovery else 'Illustrative sourcing analysis'],
+        ['Proof of concept — candidate review' if candidate_review else ('DEMO — FICTIONAL FIXTURES ONLY' if demo else 'INTELLIGENCEOS ARBITRAGE'),
+         'Saved observations — identity and profitability unverified; not a purchase recommendation' if candidate_review
+         else ('MOCK / supplied analysis — never purchase approval' if discovery else 'Illustrative sourcing analysis')],
         ['Run (UTC)', datetime.now(timezone.utc).isoformat()],
         ['Candidates', len(rows)],
         ['Review candidates', sum(r['status'] == 'REVIEW' for r in rows)],
@@ -37,6 +41,10 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
         ['Notice', 'Verify live prices, eligibility, fees and exact matches before purchase.'],
     ]:
         summary.append(row)
+    if candidate_review:
+        for key in ('Source evidence', 'Amazon evidence', 'Economics', 'Confirmed exact matches',
+                    'Candidate-only rows', 'Unmatched rows'):
+            summary.append([key, candidate_review[key]])
     columns = DISCOVERY_COLUMNS if discovery else COLUMNS
     selected_top = sorted((r for r in rows if r['status'] == 'REVIEW'),
                           key=lambda r: r['ranking_score'] if discovery else r['roi'], reverse=True)
@@ -85,7 +93,8 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
         for key, value in (job or {'phase': 'Standalone report; final status unavailable'}).items():
             execution.append([key, value])
         execution.append(['Report generated UTC', datetime.now(timezone.utc).isoformat()])
-        execution.append(['Warning', 'Mock data is fictional. SQLite is authoritative for final job and delivery outcome.'])
+        execution.append(['Warning', 'Saved evidence only; no new API calls. API success does not establish identity, economics or email delivery.'
+                          if candidate_review else 'Mock data is fictional. SQLite is authoritative for final job and delivery outcome.'])
     if demo:
         wb.properties.title = 'DEMO — fictional fixtures; never live deals'
         for sheet, title in zip(wb, ('DEMO Summary', 'DEMO Review Candidates', 'DEMO All Candidates',
@@ -111,6 +120,46 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
                 cell.alignment = Alignment(vertical='top', wrap_text=True)
         for i in range(1, sheet.max_column + 1):
             sheet.column_dimensions[get_column_letter(i)].width = 55 if i in (2, 11, 12) else 21
+    if candidate_review:
+        sheet = wb.create_sheet('Candidate Comparison', 1)
+        headers = ('eBay Title', 'Seller', 'Observed Item Price (USD)', 'Reported Shipping (USD)',
+                   'Source URL', 'Candidate ASIN', 'Amazon Title', 'Match Status', 'Evidence Gaps')
+        sheet.append(headers)
+        for index, result in enumerate(candidate_review['comparisons'], 2):
+            sheet.append([result.get(key) for key in ('ebay_title', 'seller', 'observed_item_price',
+                          'reported_shipping', 'source_url', 'candidate_asin', 'amazon_title', 'match_status', 'evidence_gaps')])
+            sheet.row_dimensions[index].height = 120
+            for col in (3, 4):
+                sheet.cell(index, col).number_format = '$#,##0.00'
+            from app.normalization import http_url
+            url = result.get('source_url')
+            if isinstance(url, str) and http_url(url):
+                # Display a readable listing URL; the hyperlink retains the full supplied URL.
+                from urllib.parse import urlsplit, urlunsplit
+                parsed = urlsplit(url)
+                sheet.cell(index, 5, urlunsplit((parsed.scheme, parsed.netloc, parsed.path, '', '')))
+                sheet.cell(index, 5).hyperlink = url
+                sheet.cell(index, 5).font = Font(color='0563C1', underline='single')
+        sheet.freeze_panes = 'C2'
+        sheet.auto_filter.ref = sheet.dimensions
+        sheet.sheet_view.zoomScale = 80
+        for col, width in enumerate((48, 23, 19, 19, 32, 17, 60, 23, 85), 1):
+            sheet.column_dimensions[get_column_letter(col)].width = width
+        for cell in sheet[1]:
+            cell.fill = PatternFill('solid', fgColor='12304A')
+            cell.font = Font(color='FFFFFF', bold=True)
+        sheet.row_dimensions[1].height = 32
+        for row in sheet:
+            for cell in row:
+                if isinstance(cell.value, str): cell.data_type = 's'
+                cell.alignment = Alignment(vertical='top', wrap_text=True)
+        sheet.print_title_rows = '1:1'
+        sheet.sheet_properties.pageSetUpPr.fitToPage = True
+        sheet.page_setup.orientation = 'landscape'
+        sheet.page_setup.paperSize = sheet.PAPERSIZE_A3
+        sheet.page_setup.fitToWidth = 1
+        sheet.page_setup.fitToHeight = 0
+        wb.properties.title = 'Proof of concept — candidate review'
     temp = None
     try:
         with NamedTemporaryFile(dir=destination.parent, suffix='.xlsx', delete=False) as f:
