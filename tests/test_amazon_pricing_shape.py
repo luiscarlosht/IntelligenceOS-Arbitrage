@@ -22,7 +22,7 @@ def response():
         'Identifier': {'ASIN': pilot.ASIN, 'MarketplaceId': pilot.MARKETPLACE, 'ItemCondition': 'New'},
         'Summary': {'TotalOfferCount': 1, 'LowestPrices': [{'condition': 'new',
             'fulfillmentChannel': 'Amazon', 'ListingPrice': {'CurrencyCode': 'USD', 'Amount': 12.34}}]},
-        'Offers': []}}
+        'Offers': [{}]}}
 
 
 @pytest.mark.parametrize('location', ['payload', 'Identifier'])
@@ -89,6 +89,7 @@ def test_no_payload_unwrapping_or_guessed_nesting(data, label):
 def test_documented_explicit_zero_offer_case_has_no_price():
     data = response()
     data['payload']['Summary'] = {'TotalOfferCount': 0}
+    data['payload']['Offers'] = []
     evidence = details.parse_pricing(data, is_mock=True)
     assert evidence.value.total_offer_count == 0  # Explicit observed count, not inferred.
     assert evidence.value.prices == ()
@@ -114,6 +115,7 @@ def test_required_count_not_defaulted(count):
 def test_explicit_zero_count_with_prices_is_inconsistent():
     data = response()
     data['payload']['Summary']['TotalOfferCount'] = 0
+    data['payload']['Offers'] = []
     with pytest.raises(PricingValidationError, match='pricing_no_offers_inconsistent'):
         details.parse_pricing(data, is_mock=True)
 

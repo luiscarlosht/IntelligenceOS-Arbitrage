@@ -1,5 +1,5 @@
 """Manual single-ASIN read-only details pilot, never part of scheduled jobs."""
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import getpass
@@ -11,7 +11,8 @@ import signal
 import warnings
 from uuid import uuid4
 
-from app.amazon_pricing_shape import require, pricing_usd
+from app.amazon_pricing_shape import require, pricing_usd, validate_asin
+from app.models import Match
 from app.amazon_diagnostics import AmazonFailure, error_codes, failure_metadata, response_metadata
 from app.amazon_catalog import ASIN, MARKETPLACE, parse_catalog
 from app.amazon_pilot import (DIRECTORY, amazon_request, catalog_request, create_file,
@@ -40,6 +41,9 @@ class PricingSnapshot:
     condition: str
     prices: tuple[ObservedPrice, ...]
     total_offer_count: int | None
+    lookup_status: str = 'Success'
+    price_unknown: bool = True
+    exclude_from_profitability_ranking: bool = True
 
 
 def usd(value: object) -> Decimal | None:
@@ -65,11 +69,13 @@ def proposed_price(value: str) -> Decimal:
     return result
 
 
-def parse_pricing(data: dict, *, is_mock: bool) -> Evidence[PricingSnapshot]:
+def parse_pricing(data: dict, *, is_mock: bool, expected_asin: str = ASIN) -> Evidence[PricingSnapshot]:
+    validate_asin(expected_asin)
     require(not data.get('errors'), 'pricing_errors_present')
     payload = data.get('payload')
     require(isinstance(payload, dict), 'pricing_payload_not_object')
-    require(payload.get('status') == 'Success', 'pricing_status_not_success')
+    lookup_status = payload.get('status')
+    require(lookup_status in ('Success', 'NoBuyableOffers'), 'pricing_status_not_success')
     require(payload.get('marketplaceId') == MARKETPLACE, 'pricing_marketplace_mismatch')
     require(payload.get('ItemCondition') == 'New', 'pricing_condition_mismatch')
     identifier = payload.get('Identifier')
@@ -80,13 +86,23 @@ def parse_pricing(data: dict, *, is_mock: bool) -> Evidence[PricingSnapshot]:
     # one response identity and validate every identity that is supplied.
     asins = [row['ASIN'] for row in (payload, identifier) if 'ASIN' in row]
     require(bool(asins), 'pricing_asin_missing')
-    require(all(asin == ASIN for asin in asins), 'pricing_asin_mismatch')
+    require(all(asin == expected_asin for asin in asins), 'pricing_asin_mismatch')
     require(isinstance(payload.get('Offers'), list), 'pricing_offers_not_array')
     require(all(isinstance(row, dict) for row in payload['Offers']), 'pricing_offer_row_not_object')
     summary = payload.get('Summary')
     require(isinstance(summary, dict), 'pricing_summary_not_object')
     count = summary.get('TotalOfferCount')
     require(type(count) is int and count >= 0, 'pricing_count_missing_or_invalid')
+    if lookup_status == 'NoBuyableOffers':
+        require(count == 0 and not payload['Offers'], 'pricing_no_offers_inconsistent')
+        for key in ('LowestPrices', 'BuyBoxPrices'):
+            require(isinstance(summary.get(key, []), list) and not summary.get(key, []), 'pricing_no_offers_inconsistent')
+        for key in ('NumberOfOffers', 'BuyBoxEligibleOffers'):
+            counts = summary.get(key, [])
+            require(isinstance(counts, list), 'pricing_no_offer_counts_invalid')
+            require(all(isinstance(row, dict) and type(row.get('OfferCount')) is int
+                        and row['OfferCount'] == 0 for row in counts), 'pricing_no_offer_counts_invalid')
+    require(len(payload['Offers']) == min(count, 20), 'pricing_offer_count_inconsistent')
     prices = []
     for key, basis in (('LowestPrices', 'lowest_observed'), ('BuyBoxPrices', 'buy_box_observed')):
         rows = summary.get(key, [])
@@ -102,8 +118,27 @@ def parse_pricing(data: dict, *, is_mock: bool) -> Evidence[PricingSnapshot]:
                 pricing_usd(row.get('ListingPrice')), pricing_usd(row.get('Shipping')), pricing_usd(row.get('LandedPrice'))))
     require(count != 0 or (not payload['Offers'] and not prices), 'pricing_no_offers_inconsistent')
     now = datetime.now(timezone.utc)
-    return Evidence(PricingSnapshot(ASIN, MARKETPLACE, 'New', tuple(prices), count), now,
+    price_unknown = not any(row.listing_price is not None or row.landed_price is not None for row in prices)
+    return Evidence(PricingSnapshot(expected_asin, MARKETPLACE, 'New', tuple(prices), count,
+                    lookup_status, price_unknown, price_unknown), now,
                     'Amazon SP-API Product Pricing v0 getItemOffers; observed offers, not a sale-price guarantee', is_mock)
+
+
+def apply_pricing_gate(match: Match, pricing: Evidence[PricingSnapshot]) -> Match:
+    """Apply negative/unknown price evidence before existing discovery ranking.
+
+    Observed competing offers never overwrite a seller's separate sale quote.
+    A no-offer lookup clears any older sale price and supplies a rejection reason.
+    """
+    snapshot = pricing.value
+    if snapshot is not None and match.listing is not None:
+        require(snapshot.asin == match.listing.asin, 'pricing_asin_mismatch')
+    if snapshot is None or snapshot.lookup_status == 'NoBuyableOffers' or snapshot.price_unknown or snapshot.exclude_from_profitability_ranking:
+        reason = ('No buyable offers; current sale price unknown' if snapshot is not None
+                  and snapshot.lookup_status == 'NoBuyableOffers' else 'Current pricing unavailable')
+        listing = replace(match.listing, sale_price=None) if match.listing else None
+        return replace(match, listing=listing, reasons=tuple(dict.fromkeys((*match.reasons, reason))))
+    return match
 
 
 def parse_fees(data: dict, context: SellerContext, price: Decimal, identifier: str, *, is_mock: bool) -> dict:

@@ -8,7 +8,7 @@ import signal
 
 from app.amazon_catalog import ASIN, MARKETPLACE
 from app.amazon_details import parse_pricing, serialize
-from app.amazon_pricing_shape import pricing_shape, LABELS
+from app.amazon_pricing_shape import pricing_shape, LABELS, validate_asin
 from app.amazon_diagnostics import AmazonFailure, failure_metadata, response_metadata
 from app.amazon_pilot import (DIRECTORY, amazon_request, create_file, deadline,
     exchange_token, load_credentials, operation, private_directory, request_json)
@@ -20,14 +20,15 @@ MAX_REQUESTS = 2
 
 
 def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = False,
-                 report: dict | None = None, shape_only: bool = False) -> dict:
+                 report: dict | None = None, shape_only: bool = False, asin: str = ASIN) -> dict:
+    validate_asin(asin)
     report = report if report is not None else {}
-    report.update(status='running', asin=ASIN, marketplace_id=MARKETPLACE,
+    report.update(status='running', asin=asin, marketplace_id=MARKETPLACE,
         item_condition='New', customer_type='Consumer', is_mock=is_mock,
         started_at=datetime.now(timezone.utc), requests_attempted=0,
         stages={'lwa_exchange': 'not_attempted', 'current_pricing': 'not_attempted'},
         response_diagnostics={}, pricing=None, fees=None, seller_eligible=None,
-        purchase_approved=False, shape_only=shape_only)
+        purchase_approved=False, shape_only=shape_only, price_unknown=True, exclude_from_profitability_ranking=True)
     stage = 'lwa_exchange'
 
     def call(request):
@@ -56,15 +57,20 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
         report['stages'][stage] = 'completed'
         stage = 'current_pricing'
         with operation(stage):
-            document = call(amazon_request(access, '/products/pricing/v0/items/' + ASIN + '/offers',
+            document = call(amazon_request(access, '/products/pricing/v0/items/' + asin + '/offers',
                 {'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New', 'CustomerType': 'Consumer'}))
             if shape_only:
-                report['response_shape'] = pricing_shape(document)
+                report['response_shape'] = pricing_shape(document, expected_asin=asin)
             try:
-                evidence = parse_pricing(document, is_mock=is_mock)
+                evidence = parse_pricing(document, is_mock=is_mock, expected_asin=asin)
                 if not shape_only:
                     report['pricing'] = asdict(evidence)
-                report['validation_label'] = 'pricing_validated'
+                snapshot = evidence.value
+                report['lookup_status'] = snapshot.lookup_status
+                report['price_unknown'] = snapshot.price_unknown
+                report['exclude_from_profitability_ranking'] = snapshot.exclude_from_profitability_ranking
+                report['validation_label'] = ('pricing_no_buyable_offers_validated'
+                    if snapshot.lookup_status == 'NoBuyableOffers' else 'pricing_validated')
             except ProviderFailure as error:
                 raise validation_failure(error) from None
         report['stages'][stage] = 'completed'
@@ -78,12 +84,18 @@ def pricing_once(credentials: dict, *, transport=request_json, is_mock: bool = F
         raise
 
 
-def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False) -> None:
+def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False, selected_asin: str | None = None) -> None:
+    if selected_asin is not None:
+        validate_asin(selected_asin)
+        if shape_only:
+            raise ValueError('Selected pilot and shape-only mode must be invoked separately')
+    report_name = ('pricing-selected-pilot-' + selected_asin + '-01.json' if selected_asin is not None else
+                   SHAPE_REPORT_NAME if shape_only else REPORT_NAME)
     directory = private_directory(path)
     try:
         # Exclusive reservation precedes credential loading and all requests.
         with operation('pricing_report_create'):
-            output_fd = create_file(directory, SHAPE_REPORT_NAME if shape_only else REPORT_NAME)
+            output_fd = create_file(directory, report_name)
         with os.fdopen(output_fd, 'w') as output:
             report = {'status': 'failed', 'requests_attempted': 0, 'pricing': None,
                       'fees': None, 'seller_eligible': None, 'purchase_approved': False}
@@ -93,7 +105,9 @@ def run_pricing_diagnostic(path: Path = DIRECTORY, *, shape_only: bool = False) 
                 signal.alarm(30)
                 with operation('credential_load'):
                     credentials = load_credentials(directory)
-                if shape_only:
+                if selected_asin is not None:
+                    pricing_once(credentials, report=report, asin=selected_asin)
+                elif shape_only:
                     pricing_once(credentials, report=report, shape_only=True)
                 else:
                     pricing_once(credentials, report=report)

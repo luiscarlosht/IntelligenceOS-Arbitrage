@@ -176,9 +176,22 @@ production settings change. See [operator command](AMAZON_PILOT.md).
 Pricing parsing now uses fixed validation labels and accepts schema-optional
 ASIN placement while requiring at least one explicit matching response identity.
 Required marketplace/condition/containers/count checks remain conservative;
-non-success statuses and invalid currency/numbers fail without inferred prices.
+unsupported statuses and invalid currency/numbers fail without inferred prices.
 The separate pricing-shape-diagnostic action shares the two-request/30-second
 bounds, reserves a new owner-only report, and emits only fixed-path shape facts
 and validation labels. No response prices, arbitrary keys/values or token shape
 are persisted. Previously saved diagnostics remain unchanged. See
 [schema comparison and operator command](AMAZON_PILOT.md).
+
+## Completed no-offer lookups
+
+Validated NoBuyableOffers responses preserve the business status, complete the
+lookup and keep pricing unknown, with explicit ranking exclusion. Contradictory
+counts/offers/prices and mismatched identities remain failures. apply_pricing_gate
+clears a previous sale quote and adds a rejection reason before the existing
+discovery screen; it does not overwrite independent fees/eligibility or turn
+competing prices into achievable sale quotes. A separate pricing-selected-pilot
+action accepts one explicit ASIN, reserves a new ASIN-specific private report,
+and makes at most a token exchange plus one US/New/Consumer offers request.
+Historical fixed-ASIN pilots and their reports remain unchanged. See
+[semantics, limits and command](AMAZON_PILOT.md).

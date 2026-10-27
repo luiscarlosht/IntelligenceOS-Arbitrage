@@ -1,20 +1,29 @@
 """Fixed pricing validation labels and bounded shape facts, never response values."""
 from decimal import Decimal
+import re
 
 from app.amazon_catalog import ASIN, MARKETPLACE
 from app.provider_runtime import ProviderFailure
 
 LABELS = frozenset({
-    'pricing_validated', 'pricing_validation_failed', 'token_validation_failed',
+    'pricing_validated', 'pricing_no_buyable_offers_validated', 'pricing_no_offer_counts_invalid', 'pricing_validation_failed', 'token_validation_failed',
     'pricing_errors_present', 'pricing_payload_not_object', 'pricing_status_not_success',
     'pricing_marketplace_mismatch', 'pricing_asin_missing', 'pricing_asin_mismatch',
     'pricing_condition_mismatch', 'pricing_identifier_not_object',
     'pricing_identifier_marketplace_mismatch', 'pricing_identifier_condition_mismatch',
-    'pricing_summary_not_object', 'pricing_offers_not_array', 'pricing_offer_row_not_object', 'pricing_count_missing_or_invalid',
+    'pricing_summary_not_object', 'pricing_offers_not_array', 'pricing_offer_row_not_object', 'pricing_offer_count_inconsistent', 'pricing_count_missing_or_invalid',
     'pricing_price_rows_not_array', 'pricing_price_row_not_object',
     'pricing_row_condition_invalid', 'pricing_currency_not_usd', 'pricing_amount_invalid',
     'pricing_money_not_object', 'pricing_no_offers_inconsistent',
 })
+
+
+SAFE_STATUSES = ('Success', 'NoBuyableOffers', 'ClientError', 'ServiceError', 'ActiveButTooSoonForProcessing')
+
+def validate_asin(value: str) -> str:
+    if not isinstance(value, str) or not re.fullmatch(r'[A-Z0-9]{10}', value):
+        raise ValueError('An explicit ten-character uppercase ASIN is required')
+    return value
 
 
 class PricingValidationError(ProviderFailure):
@@ -65,7 +74,7 @@ def matches(value: object, key: str, expected: str) -> bool | None:
     return value[key] == expected if isinstance(value, dict) and key in value else None
 
 
-def pricing_shape(document: dict) -> dict:
+def pricing_shape(document: dict, *, expected_asin: str = ASIN) -> dict:
     """Known field names, types, lengths and comparison booleans only.
 
     No key enumeration or arbitrary status/currency/error/identifier/price text.
@@ -76,19 +85,19 @@ def pricing_shape(document: dict) -> dict:
     identifier = payload.get('Identifier')
     summary = payload.get('Summary')
     status = payload.get('status')
-    safe_statuses = ('Success', 'ClientError', 'ServiceError', 'ActiveButTooSoonForProcessing')
+    validate_asin(expected_asin)
     shape = {
         'root': fields(document, ('payload', 'errors', 'status', 'Payload')),
         'payload': fields(payload, ('status', 'ASIN', 'marketplaceId', 'ItemCondition', 'Identifier', 'Offers', 'Summary')),
         'identifier': fields(identifier, ('ASIN', 'MarketplaceId', 'ItemCondition')),
         'summary': fields(summary, ('TotalOfferCount', 'LowestPrices', 'BuyBoxPrices')),
-        'status_label': status if isinstance(status, str) and status in safe_statuses else 'OTHER' if isinstance(status, str) else 'MISSING_OR_NONSTRING',
+        'status_label': status if isinstance(status, str) and status in SAFE_STATUSES else 'OTHER' if isinstance(status, str) else 'MISSING_OR_NONSTRING',
         'status_exact_success': status == 'Success',
         'status_casefold_success': status.casefold() == 'success' if isinstance(status, str) else False,
         'errors_present': bool(document.get('errors')),
         'context': {
-            'payload_asin_matches': matches(payload, 'ASIN', ASIN),
-            'identifier_asin_matches': matches(identifier, 'ASIN', ASIN),
+            'payload_asin_matches': matches(payload, 'ASIN', expected_asin),
+            'identifier_asin_matches': matches(identifier, 'ASIN', expected_asin),
             'payload_marketplace_matches': matches(payload, 'marketplaceId', MARKETPLACE),
             'identifier_marketplace_matches': matches(identifier, 'MarketplaceId', MARKETPLACE),
             'payload_condition_matches': matches(payload, 'ItemCondition', 'New'),

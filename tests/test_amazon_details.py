@@ -40,7 +40,7 @@ def catalog():
 def pricing():
     return {'payload': {'status': 'Success', 'ASIN': ASIN, 'marketplaceId': MARKETPLACE, 'ItemCondition': 'New',
         'Identifier': {'ASIN': ASIN, 'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New'},
-        'Offers': [], 'Summary': {'TotalOfferCount': 3,
+        'Offers': [{}, {}, {}], 'Summary': {'TotalOfferCount': 3,
         'LowestPrices': [{'condition': 'new', 'fulfillmentChannel': 'Amazon',
             'ListingPrice': {'CurrencyCode': 'USD', 'Amount': 24},
             'Shipping': {'CurrencyCode': 'USD', 'Amount': 1},
