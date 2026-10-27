@@ -48,13 +48,13 @@ def run(path, transport):
         diagnostic.run_pricing_diagnostic(path, count_only=True)
 
 
-def test_mismatch_retains_exact_counts_context_label_and_fixed_request(tmp_path, capsys):
+def test_partial_placeholders_rejected_with_exact_counts_context_label_and_fixed_request(tmp_path, capsys):
     transport = Transport()
     with pytest.raises(AmazonFailure):
         run(tmp_path / 'amazon', transport)
     text = (tmp_path / 'amazon' / diagnostic.COUNT_REPORT_NAME).read_text()
     report = json.loads(text)
-    assert report['validation_label'] == 'pricing_offer_count_inconsistent'
+    assert report['validation_label'] == 'pricing_offer_details_invalid'
     assert report['failure_diagnostics']['validation_label'] == report['validation_label']
     assert report['response_diagnostics']['current_pricing']['http_status'] == 200
     assert report['count_shape']['total_offer_count'] == {'value': 7, 'type': 'integer', 'value_withheld': False}

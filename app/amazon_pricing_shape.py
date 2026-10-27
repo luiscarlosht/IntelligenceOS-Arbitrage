@@ -16,6 +16,9 @@ LABELS = frozenset({
     'pricing_price_rows_not_array', 'pricing_price_row_not_object',
     'pricing_row_condition_invalid', 'pricing_currency_not_usd', 'pricing_amount_invalid',
     'pricing_money_not_object', 'pricing_no_offers_inconsistent',
+    'pricing_partial_coverage_validated', 'pricing_summary_counts_invalid',
+    'pricing_summary_counts_inconsistent', 'pricing_offer_details_invalid',
+    'pricing_offer_condition_mismatch', 'pricing_offer_customer_type_mismatch',
 })
 
 

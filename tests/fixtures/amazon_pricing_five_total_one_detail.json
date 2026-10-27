@@ -1,0 +1,23 @@
+{
+  "fixture_note": "Synthetic offline fixture. Only the 5/1 counts and matching context reproduce retained live facts. Detail fields and prices below are fictional test inputs, never live price evidence. The live NumberOfOffers breakdown was not retained.",
+  "payload": {
+    "status": "Success",
+    "ASIN": "B0G1MJ24B4",
+    "marketplaceId": "ATVPDKIKX0DER",
+    "ItemCondition": "New",
+    "Identifier": {
+      "ASIN": "B0G1MJ24B4",
+      "MarketplaceId": "ATVPDKIKX0DER",
+      "ItemCondition": "New"
+    },
+    "Summary": {"TotalOfferCount": 5},
+    "Offers": [{
+      "SubCondition": "New",
+      "IsFulfilledByAmazon": false,
+      "ShippingTime": {"availabilityType": "NOW"},
+      "offerType": "B2C",
+      "ListingPrice": {"CurrencyCode": "USD", "Amount": 10},
+      "Shipping": {"CurrencyCode": "USD", "Amount": 0}
+    }]
+  }
+}

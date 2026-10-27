@@ -195,3 +195,15 @@ action accepts one explicit ASIN, reserves a new ASIN-specific private report,
 and makes at most a token exchange plus one US/New/Consumer offers request.
 Historical fixed-ASIN pilots and their reports remain unchanged. See
 [semantics, limits and command](AMAZON_PILOT.md).
+
+## Aggregate and detailed offer coverage
+
+PricingSnapshot preserves the aggregate total separately from returned detail
+count, documented capped expectation, count-contract match and coverage state.
+Observed below-contract replies with validated detail structure and USD prices
+can be retained as partial evidence. Partial and capped coverage block ranking
+and clear older sale quotes through apply_pricing_gate. Optional aggregate
+condition/channel counts are normalized and checked independently. Details never
+supply an invented summary/sale price; no overall lowest-price guarantee follows
+from a count match. Historical reports and live request boundaries are unchanged.
+See [retained 5/1 evidence, official contract and uncertainty](AMAZON_PARTIAL_OFFER_COVERAGE.md).

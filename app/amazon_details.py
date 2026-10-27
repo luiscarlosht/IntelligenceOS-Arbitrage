@@ -12,6 +12,7 @@ import warnings
 from uuid import uuid4
 
 from app.amazon_pricing_shape import require, pricing_usd, validate_asin
+from app.amazon_offer_coverage import OfferCoverage, offer_coverage
 from app.models import Match
 from app.amazon_diagnostics import AmazonFailure, error_codes, failure_metadata, response_metadata
 from app.amazon_catalog import ASIN, MARKETPLACE, parse_catalog
@@ -44,6 +45,9 @@ class PricingSnapshot:
     lookup_status: str = 'Success'
     price_unknown: bool = True
     exclude_from_profitability_ranking: bool = True
+    offer_coverage: OfferCoverage | None = None
+    customer_type: str = 'Consumer'
+    overall_lowest_price_verified: bool = False
 
 
 def usd(value: object) -> Decimal | None:
@@ -102,7 +106,7 @@ def parse_pricing(data: dict, *, is_mock: bool, expected_asin: str = ASIN) -> Ev
             require(isinstance(counts, list), 'pricing_no_offer_counts_invalid')
             require(all(isinstance(row, dict) and type(row.get('OfferCount')) is int
                         and row['OfferCount'] == 0 for row in counts), 'pricing_no_offer_counts_invalid')
-    require(len(payload['Offers']) == min(count, 20), 'pricing_offer_count_inconsistent')
+    coverage = offer_coverage(summary, payload['Offers'], count)
     prices = []
     for key, basis in (('LowestPrices', 'lowest_observed'), ('BuyBoxPrices', 'buy_box_observed')):
         rows = summary.get(key, [])
@@ -113,6 +117,8 @@ def parse_pricing(data: dict, *, is_mock: bool, expected_asin: str = ASIN) -> Ev
             require(isinstance(condition, str) and bool(condition), 'pricing_row_condition_invalid')
             if condition.lower() != 'new':
                 continue
+            if 'offerType' in row:
+                require(row['offerType'] == 'B2C', 'pricing_offer_customer_type_mismatch')
             channel = row.get('fulfillmentChannel')
             prices.append(ObservedPrice(basis, channel if channel in ('Amazon', 'Merchant') else 'unknown',
                 pricing_usd(row.get('ListingPrice')), pricing_usd(row.get('Shipping')), pricing_usd(row.get('LandedPrice'))))
@@ -120,8 +126,10 @@ def parse_pricing(data: dict, *, is_mock: bool, expected_asin: str = ASIN) -> Ev
     now = datetime.now(timezone.utc)
     price_unknown = not any(row.listing_price is not None or row.landed_price is not None for row in prices)
     return Evidence(PricingSnapshot(expected_asin, MARKETPLACE, 'New', tuple(prices), count,
-                    lookup_status, price_unknown, price_unknown), now,
-                    'Amazon SP-API Product Pricing v0 getItemOffers; observed offers, not a sale-price guarantee', is_mock)
+                    lookup_status, price_unknown, price_unknown or coverage.incomplete_coverage,
+                    coverage), now,
+                    'Amazon SP-API Product Pricing v0 getItemOffers; New/Consumer response observations; '
+                    'aggregate counts separate from returned details; no overall lowest-price or all-seller guarantee', is_mock)
 
 
 def apply_pricing_gate(match: Match, pricing: Evidence[PricingSnapshot]) -> Match:
@@ -135,7 +143,10 @@ def apply_pricing_gate(match: Match, pricing: Evidence[PricingSnapshot]) -> Matc
         require(snapshot.asin == match.listing.asin, 'pricing_asin_mismatch')
     if snapshot is None or snapshot.lookup_status == 'NoBuyableOffers' or snapshot.price_unknown or snapshot.exclude_from_profitability_ranking:
         reason = ('No buyable offers; current sale price unknown' if snapshot is not None
-                  and snapshot.lookup_status == 'NoBuyableOffers' else 'Current pricing unavailable')
+                  and snapshot.lookup_status == 'NoBuyableOffers' else
+                  'Incomplete offer coverage; pricing excluded from ranking' if snapshot is not None
+                  and snapshot.offer_coverage is not None and snapshot.offer_coverage.incomplete_coverage
+                  else 'Current pricing unavailable')
         listing = replace(match.listing, sale_price=None) if match.listing else None
         return replace(match, listing=listing, reasons=tuple(dict.fromkeys((*match.reasons, reason))))
     return match
