@@ -45,7 +45,8 @@ def failure_diagnostic(error: BaseException) -> str:
     extra = failure_metadata(error)
     suffix = (' http_status=' + str(extra['http_status'])
               + ' amazon_error_codes=' + ','.join(extra['amazon_error_codes'])
-              + ' reason=' + extra['reason']) if isinstance(error, AmazonFailure) else ''
+              + ' reason=' + extra['reason']
+              + (' validation_label=' + extra['validation_label'] if extra.get('validation_label') else '')) if isinstance(error, AmazonFailure) else ''
     return ('Amazon operation failed; no retry. operation='
             + getattr(error, '_amazon_operation', 'pilot')
             + ' exception=' + type(error).__name__
@@ -237,7 +238,7 @@ def run_pilot(path: Path = DIRECTORY) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('credentials', 'pilot', 'details', 'pricing-diagnostic'))
+    parser.add_argument('action', choices=('credentials', 'pilot', 'details', 'pricing-diagnostic', 'pricing-shape-diagnostic'))
     parser.add_argument('--fee-price', help='Proposed USD FBA sale price; required for details')
     args = parser.parse_args()
     if (args.action == 'details') != (args.fee_price is not None):
@@ -247,9 +248,12 @@ def main() -> int:
             enter_credentials()
         elif args.action == 'pilot':
             run_pilot()
-        elif args.action == 'pricing-diagnostic':
+        elif args.action in ('pricing-diagnostic', 'pricing-shape-diagnostic'):
             from app.amazon_pricing_diagnostic import run_pricing_diagnostic
-            run_pricing_diagnostic()
+            if args.action == 'pricing-shape-diagnostic':
+                run_pricing_diagnostic(shape_only=True)
+            else:
+                run_pricing_diagnostic()
         else:
             from app.amazon_details import run_details, proposed_price
             run_details(proposed_price(args.fee_price))

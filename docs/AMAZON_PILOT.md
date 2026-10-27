@@ -305,3 +305,85 @@ exact scope/methods/counts, early stop, HTTP/application/parser diagnostics, pri
 permissions, existing-report/symlink refusal before credentials, prior synthetic
 file preservation, signal/deadline restoration and CLI dispatch. No live pricing
 diagnostic was executed; effective current offers/permissions remain unverified.
+
+## HTTP-200 pricing validation investigation — 2026-10-27
+
+Only the preserved sanitized pricing-diagnostic-01.json and source code were
+inspected. That report records two attempts, LWA completed and current_pricing
+failed, HTTP 200 for both, no retained allowlisted Amazon error codes, pricing
+null and application_status OTHER. It records no exact parser validation label.
+The successful token exchange is not a pricing success or a verified sale price.
+
+Under the metadata implementation that produced this file, OTHER proves the
+pricing payload contained a status string outside Success/ClientError/ServiceError.
+Therefore the parser's literal `payload.status == 'Success'` check could not pass.
+The raw status value was deliberately discarded. A truthy top-level errors array
+could have triggered an earlier rejection even without an allowlisted code. Thus
+we cannot determine the exact first raised validation from this saved report.
+The optional-ASIN defect below is demonstrated by the official schema and mocks,
+not established as the cause of this live failure. No particular case variation,
+no-offer state, role problem, currency problem or price is inferred.
+
+### Comparison with the official schema
+
+The [official v0 model](https://github.com/amzn/selling-partner-api-models/blob/main/models/product-pricing-api-model/productPricingV0.json)
+was inspected on 2026-10-27, including GetOffersResponse, GetOffersResult,
+ItemIdentifier, Summary, LowestPriceType, BuyBoxPriceType and MoneyType.
+
+| Aspect | Official structure and conservative parser policy |
+| --- | --- |
+| Envelope | getItemOffers uses an object under `payload`, with optional top-level `errors`; unlike getPricing, its payload is not an array. No guessed unwrapping or fallback nesting. Nonempty errors fail. |
+| Status | GetOffersResult requires a string status but does not enumerate all values. Examples show Success. The local success policy remains exact Success; HTTP 200 or an arbitrary status string is not accepted as price success. |
+| Identity | ASIN is optional at both payload and Identifier levels. The old parser incorrectly required both. The repair requires at least one explicit ASIN, verifies every ASIN supplied, and rejects both missing, null or conflicting identities. Required marketplace/condition/Identifier checks remain. |
+| Empty results | The schema requires Offers, Summary and TotalOfferCount. Explicit count zero with Offers empty and no New summary prices yields an empty price tuple, never a zero-dollar price. Missing count or Offers is invalid, not zero/no offers. Unsupported statuses remain rejected even with empty arrays. |
+| Optional price groups | Summary.LowestPrices and BuyBoxPrices are optional. Their absence means no observed summary prices; individual Offers do not fabricate a summary price. No price is derived from an ASIN or offer count. |
+| Price components | LowestPriceType requires ListingPrice/condition/channel; its shipping/landed components are optional. BuyBoxPriceType documents all three components. Partial monetary evidence remains explicitly missing and is never a complete quote or purchase input. No automatic shipping-zero or landed-price calculation. |
+| Currency/numbers | MoneyType uses CurrencyCode and numeric Amount. The US pilot requires USD when a monetary object is present. Numeric strings, booleans, negative and nonfinite amounts are rejected. Missing amount stays unknown; an explicit numeric zero remains an observed zero component only. |
+
+This is a conservative evidence mapper, not a replacement for Amazon's entire
+OpenAPI validator. Required response containers/counts are now explicitly checked;
+partial price evidence never bypasses the unchanged downstream economics gates.
+Named validation failures distinguish envelope, errors, status, identity, market,
+condition, containers, counts, price types, currency and amounts. Fixed labels are
+carried into CLI and future reports; no arbitrary exception text is recorded.
+The previous metadata cannot be retroactively expanded into these labels.
+
+### Prepared response-shape diagnostic — not executed
+
+The new explicit action is prepared for a future separately authorized run:
+
+```bash
+cd /root/IntelligenceOS-Arbitrage
+.venv/bin/python -m app.amazon_pilot pricing-shape-diagnostic
+```
+
+It reserves a new private `pricing-shape-diagnostic-01.json` before credential
+loading. Existing pricing-diagnostic-01.json and both catalog reports remain
+untouched. An existing shape report also refuses the attempt before credentials
+or requests. There is no report-name override, deletion or automatic retry.
+
+The bounded scope is still one LWA exchange plus one identical fixed US/New/
+Consumer offers request, at most two attempts, 10-second sockets and 30-second
+overall Linux deadline. Token responses are never shape-inspected or saved. The
+pricing shape uses only fixed known field paths, JSON types, array lengths,
+comparison booleans and allowlisted labels. It samples at most three rows per
+summary price group; monetary values, arbitrary keys, status text, currency text,
+ASINs from the response, seller identifiers, messages, URLs, headers and raw
+payloads are not written. Static requested ASIN/marketplace scope remains visible.
+A casefold comparison is diagnostic only and never changes success acceptance.
+
+The shape-only report leaves pricing null even if parsing succeeds, recording
+pricing_validated instead. Failure records the first fixed validation label plus
+safe HTTP/error-code metadata. Unknown status values remain OTHER; validation
+labels identify the violated check without collecting arbitrary status text.
+Fees and seller eligibility stay unknown and purchase_approved stays false.
+The command was not invoked during this work and needs separate live authorization.
+
+Schema/shape validation: baseline 468 tests passed; after these changes 517 tests
+passed, including 148 Amazon tests and 49 new schema/shape regressions. Both
+documented offline sample modes passed. The preserved pricing report's SHA-256
+was unchanged before/after inspection. Tests use synthetic responses only; no
+credential file or additional private evidence was read, no live request made,
+no existing report modified, and no deployment or email performed. The exact live
+status/first validation remains unresolved pending separately authorized shape
+evidence; optional-ASIN acceptance is not claimed to fix that observed failure.

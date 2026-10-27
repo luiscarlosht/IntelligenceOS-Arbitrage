@@ -11,6 +11,7 @@ import signal
 import warnings
 from uuid import uuid4
 
+from app.amazon_pricing_shape import require, pricing_usd
 from app.amazon_diagnostics import AmazonFailure, error_codes, failure_metadata, response_metadata
 from app.amazon_catalog import ASIN, MARKETPLACE, parse_catalog
 from app.amazon_pilot import (DIRECTORY, amazon_request, catalog_request, create_file,
@@ -65,35 +66,41 @@ def proposed_price(value: str) -> Decimal:
 
 
 def parse_pricing(data: dict, *, is_mock: bool) -> Evidence[PricingSnapshot]:
+    require(not data.get('errors'), 'pricing_errors_present')
     payload = data.get('payload')
-    if data.get('errors') or not isinstance(payload, dict):
-        raise ProviderFailure('Pricing response failed')
-    identifier = payload.get('Identifier', {})
-    if (payload.get('status') != 'Success' or payload.get('marketplaceId') != MARKETPLACE
-            or payload.get('ASIN') != ASIN or payload.get('ItemCondition') != 'New'
-            or not isinstance(identifier, dict) or identifier.get('ASIN') != ASIN
-            or identifier.get('MarketplaceId') != MARKETPLACE or identifier.get('ItemCondition') != 'New'):
-        raise ProviderFailure('Pricing context mismatch')
+    require(isinstance(payload, dict), 'pricing_payload_not_object')
+    require(payload.get('status') == 'Success', 'pricing_status_not_success')
+    require(payload.get('marketplaceId') == MARKETPLACE, 'pricing_marketplace_mismatch')
+    require(payload.get('ItemCondition') == 'New', 'pricing_condition_mismatch')
+    identifier = payload.get('Identifier')
+    require(isinstance(identifier, dict), 'pricing_identifier_not_object')
+    require(identifier.get('MarketplaceId') == MARKETPLACE, 'pricing_identifier_marketplace_mismatch')
+    require(identifier.get('ItemCondition') == 'New', 'pricing_identifier_condition_mismatch')
+    # Both ASIN properties are optional in Amazon's schema. Require at least
+    # one response identity and validate every identity that is supplied.
+    asins = [row['ASIN'] for row in (payload, identifier) if 'ASIN' in row]
+    require(bool(asins), 'pricing_asin_missing')
+    require(all(asin == ASIN for asin in asins), 'pricing_asin_mismatch')
+    require(isinstance(payload.get('Offers'), list), 'pricing_offers_not_array')
+    require(all(isinstance(row, dict) for row in payload['Offers']), 'pricing_offer_row_not_object')
     summary = payload.get('Summary')
-    if not isinstance(summary, dict):
-        raise ProviderFailure('Pricing summary missing')
+    require(isinstance(summary, dict), 'pricing_summary_not_object')
+    count = summary.get('TotalOfferCount')
+    require(type(count) is int and count >= 0, 'pricing_count_missing_or_invalid')
     prices = []
     for key, basis in (('LowestPrices', 'lowest_observed'), ('BuyBoxPrices', 'buy_box_observed')):
         rows = summary.get(key, [])
-        if not isinstance(rows, list):
-            raise ProviderFailure('Invalid pricing rows')
+        require(isinstance(rows, list), 'pricing_price_rows_not_array')
         for row in rows:
-            if not isinstance(row, dict):
-                raise ProviderFailure('Invalid pricing row')
+            require(isinstance(row, dict), 'pricing_price_row_not_object')
             condition = row.get('condition')
-            if not isinstance(condition, str) or condition.lower() != 'new':
+            require(isinstance(condition, str) and bool(condition), 'pricing_row_condition_invalid')
+            if condition.lower() != 'new':
                 continue
             channel = row.get('fulfillmentChannel')
             prices.append(ObservedPrice(basis, channel if channel in ('Amazon', 'Merchant') else 'unknown',
-                usd(row.get('ListingPrice')), usd(row.get('Shipping')), usd(row.get('LandedPrice'))))
-    count = summary.get('TotalOfferCount')
-    if count is not None and (type(count) is not int or count < 0):
-        raise ProviderFailure('Invalid offer count')
+                pricing_usd(row.get('ListingPrice')), pricing_usd(row.get('Shipping')), pricing_usd(row.get('LandedPrice'))))
+    require(count != 0 or (not payload['Offers'] and not prices), 'pricing_no_offers_inconsistent')
     now = datetime.now(timezone.utc)
     return Evidence(PricingSnapshot(ASIN, MARKETPLACE, 'New', tuple(prices), count), now,
                     'Amazon SP-API Product Pricing v0 getItemOffers; observed offers, not a sale-price guarantee', is_mock)
@@ -191,7 +198,8 @@ def details_once(credentials: dict, context: SellerContext, price: Decimal, *, t
             return parser(document)
         except ProviderFailure as error:
             raise AmazonFailure('Amazon response validation failed', reason='response_validation_failed',
-                http_status=getattr(document, 'http_status', None), codes=error_codes(document)) from None
+                http_status=getattr(document, 'http_status', None), codes=error_codes(document),
+                validation_label=getattr(error, 'label', None)) from None
     with operation('lwa_exchange'):
         access = exchange_token(credentials, call)
     with operation('catalog_details'):
