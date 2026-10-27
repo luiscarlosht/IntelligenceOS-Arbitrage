@@ -11,6 +11,7 @@ import signal
 import warnings
 from uuid import uuid4
 
+from app.amazon_diagnostics import AmazonFailure, error_codes, failure_metadata, response_metadata
 from app.amazon_catalog import ASIN, MARKETPLACE, parse_catalog
 from app.amazon_pilot import (DIRECTORY, amazon_request, catalog_request, create_file,
     deadline, exchange_token, load_credentials, operation, private_directory, request_json)
@@ -176,32 +177,44 @@ def details_once(credentials: dict, context: SellerContext, price: Decimal, *, t
     report.update(status='running', asin=ASIN, marketplace_id=MARKETPLACE, condition='new_new',
                   fulfillment='FBA', proposed_fee_price=price, buyer_shipping_scenario=Decimal('0'),
                   requests_attempted=0, purchase_approved=False, seller_eligible=None,
-                  pricing=None, fees=None, restrictions=None, catalog=None, is_mock=is_mock)
+                  pricing=None, fees=None, restrictions=None, catalog=None, is_mock=is_mock,
+                  response_diagnostics={})
     def call(request):
         if report['requests_attempted'] >= MAX_REQUESTS:
             raise ProviderFailure('Request cap reached')
         report['requests_attempted'] += 1
         return transport(request)
+    def stage_call(name, request, parser):
+        document = call(request)
+        report['response_diagnostics'][name] = response_metadata(document)
+        try:
+            return parser(document)
+        except ProviderFailure as error:
+            raise AmazonFailure('Amazon response validation failed', reason='response_validation_failed',
+                http_status=getattr(document, 'http_status', None), codes=error_codes(document)) from None
     with operation('lwa_exchange'):
         access = exchange_token(credentials, call)
     with operation('catalog_details'):
-        report['catalog'] = asdict(parse_catalog(call(catalog_request(access)), is_mock=is_mock,
-                                               secrets=(*credentials.values(), access)))
+        report['catalog'] = asdict(stage_call('catalog_details', catalog_request(access),
+            lambda data: parse_catalog(data, is_mock=is_mock, secrets=(*credentials.values(), access))))
     with operation('current_pricing'):
-        report['pricing'] = asdict(parse_pricing(call(amazon_request(access,
+        report['pricing'] = asdict(stage_call('current_pricing', amazon_request(access,
             '/products/pricing/v0/items/' + ASIN + '/offers',
-            {'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New', 'CustomerType': 'Consumer'})), is_mock=is_mock))
+            {'MarketplaceId': MARKETPLACE, 'ItemCondition': 'New', 'CustomerType': 'Consumer'}),
+            lambda data: parse_pricing(data, is_mock=is_mock)))
     identifier = uuid4().hex
     body = {'FeesEstimateRequest': {'MarketplaceId': MARKETPLACE, 'IsAmazonFulfilled': True,
         'Identifier': identifier, 'PriceToEstimateFees': {'ListingPrice': {'CurrencyCode': 'USD', 'Amount': float(price)},
         'Shipping': {'CurrencyCode': 'USD', 'Amount': 0}}}}
     with operation('estimated_fees'):
-        report['fees'] = parse_fees(call(amazon_request(access,
-            '/products/fees/v0/items/' + ASIN + '/feesEstimate', body=body)), context, price, identifier, is_mock=is_mock)
+        report['fees'] = stage_call('estimated_fees', amazon_request(access,
+            '/products/fees/v0/items/' + ASIN + '/feesEstimate', body=body),
+            lambda data: parse_fees(data, context, price, identifier, is_mock=is_mock))
     with operation('listing_restrictions'):
-        report['restrictions'] = parse_restrictions(call(amazon_request(access, '/listings/2021-08-01/restrictions',
+        report['restrictions'] = stage_call('listing_restrictions', amazon_request(access, '/listings/2021-08-01/restrictions',
             {'asin': ASIN, 'sellerId': context.seller_id, 'marketplaceIds': MARKETPLACE,
-             'conditionType': 'new_new', 'reasonLocale': 'en_US'})), context, is_mock=is_mock)
+             'conditionType': 'new_new', 'reasonLocale': 'en_US'}),
+            lambda data: parse_restrictions(data, context, is_mock=is_mock))
     report['status'] = 'success'
     return report
 
@@ -245,7 +258,8 @@ def run_details(price: Decimal, path: Path = DIRECTORY) -> None:
                 details_once(credentials, context, price, report=report)
             except (Exception, KeyboardInterrupt) as error:
                 report.update(status='failed', reason='operation_failed_no_retry',
-                              failed_operation=getattr(error, '_amazon_operation', 'details_pilot'))
+                              failed_operation=getattr(error, '_amazon_operation', 'details_pilot'),
+                              failure_diagnostics=failure_metadata(error))
                 raise
             finally:
                 if previous is not None:

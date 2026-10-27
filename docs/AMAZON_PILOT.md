@@ -188,3 +188,66 @@ seller/scenario/correlation validation, restriction unknown/blocked/clear cases,
 hidden-input refusal, no-overwrite, partial failure and timeout redaction.
 Expanded live authorization, pricing, fee responses and restrictions are still
 unverified. CI results are separate from these local checks.
+
+## Pricing failure investigation and safe diagnostics — 2026-10-27
+
+The operator's preserved details report records three attempts: LWA exchange and
+catalog details completed, then `current_pricing` failed. Pricing, fees and
+restrictions remain null; no fee or restriction request was reached. A second
+invocation stopped at exclusive report creation before any requests. The original
+report contains no HTTP status, Amazon error code or parser reason. Its cause
+cannot be recovered or inferred from that report, and it must not be overwritten.
+The catalog contains multiple distinct canonical GTINs; the adapter correctly
+keeps the selected GTIN missing and marks identity ambiguous rather than choosing
+one. Catalog evidence alone does not establish source matching or eligibility.
+
+The request was rechecked against the official sources above on 2026-10-27:
+`GET https://sellingpartnerapi-na.amazon.com/products/pricing/v0/items/B002XQ1R06/offers`
+with `MarketplaceId=ATVPDKIKX0DER`, `ItemCondition=New`, `CustomerType=Consumer`.
+The v0 endpoint, required parameter casing and allowed values match Amazon's
+getItemOffers reference. That operation accepts Pricing OR Product Listing in
+NA; v2022 competitive-summary requirements do not apply to this request. Effective
+account/application role configuration was not inspected. No request change or
+role-change recommendation follows from the available failure evidence.
+
+Previously the HTTP handler closed errors without recording status/body codes,
+and the details wrapper reduced all exceptions to a fixed failed operation. A
+200 response rejected by the parser was also indistinguishable from an HTTP or
+transport error. New diagnostics retain only numeric HTTP status and fixed
+allowlisted Amazon/LWA error codes. Unknown string codes become `OTHER`; raw
+code text, messages, details, URLs, headers, tokens and payloads are excluded.
+Only up to 16 KiB of an error response is examined in memory, within the existing
+socket/overall bounds. Invalid, oversized or unreadable error bodies retain only
+the observed HTTP status. A transport failure before a response has no invented
+status. Recognized status/code combinations describe the response, not a proven
+root cause (for example, 403 alone does not establish a missing role).
+
+Completed non-token stages record out-of-band `response_diagnostics` (status,
+allowlisted codes and fixed application status). Failures record
+`failure_diagnostics` with exception class, errno, HTTP status, codes and a fixed
+failure category. HTTP 200 parser failures retain their observed status and are
+labeled `response_validation_failed`; this is not reported as API success. CLI
+output carries the same safe status/code/category fields for transport failures.
+These changes apply only to future runs, not the preserved report. Existing
+request caps, no-retry behavior, exclusive report files and unknown-data gates
+are unchanged.
+
+### Proposed next test — not executed or newly authorized
+
+Use a separately reviewed pricing-only diagnostic: exactly one LWA exchange and
+one getItemOffers call with the identical ASIN/US/New/Consumer request, no retries,
+10-second sockets, 30-second overall deadline and bounded responses. Reserve a
+new private owner-only report, such as `pricing-diagnostic-01.json`, exclusively
+before credentials are read; do not rename, remove or overwrite either pilot
+report. Preserve status/allowlisted codes or HTTP-200 parser-validation evidence,
+then stop. Do not repeat catalog, fees or restrictions just to investigate pricing.
+This is a proposed test scope, not an added runnable CLI command or authorization
+to execute it. A fresh, explicit operator authorization is needed for any new
+live attempt; the failed five-request run does not authorize an automatic retry.
+
+Diagnostics validation: 456 tests passed locally, including 87 Amazon tests and
+19 new diagnostics regressions. Both documented offline sample modes passed.
+The sanitized details report's SHA-256 was unchanged before/after this work.
+No credential file was opened, live Amazon request made, existing private file
+written/deleted, deployment performed or email sent. New diagnostic fields cannot
+supply the original report's unrecorded HTTP status or Amazon code.

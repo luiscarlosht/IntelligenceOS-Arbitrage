@@ -150,3 +150,12 @@ new_new listing restrictions are separate evidence, not merged into purchase
 approval. Overall eligibility and unverified costs remain unknown. Owner reports
 the original catalog pilot succeeded; no expanded live calls or production
 provider/job changes have been performed. See [Amazon pilot](AMAZON_PILOT.md).
+
+## Amazon failure observability
+
+Private future pilot reports distinguish observed HTTP status/allowlisted error
+codes from transport failure or HTTP-200 parser rejection. Error JSON inspection
+is bounded to 16 KiB and unknown codes become a fixed OTHER label. No messages,
+raw responses, URLs or credentials are persisted. The failed original report is
+preserved; diagnostics cannot reconstruct its lost HTTP/parser details. See
+[pricing investigation and proposed test](AMAZON_PILOT.md).
