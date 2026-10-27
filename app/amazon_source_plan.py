@@ -1,4 +1,4 @@
-"""Offline source request preparation (ten rows by default, explicit one-row intake). No transport, credential or email access."""
+"""Offline source preparation: ten rows by default, explicit one-to-ten intake. No transport or credentials."""
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -43,8 +43,8 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
     Overall eligibility remains a separate requirement from listing permission.
     """
     now = now or datetime.now(timezone.utc)
-    if now.utcoffset() is None or type(expected_rows) is not int or expected_rows not in (1, 10):
-        raise ValueError('Aware clock and explicit one- or ten-row intake required')
+    if now.utcoffset() is None or type(expected_rows) is not int or not 1 <= expected_rows <= 10:
+        raise ValueError('Aware clock and explicit one-to-ten-row intake required')
     if not seller_reference.strip() and (restrictions or selected_prices or fba_eligibility):
         raise ValueError('Authorized seller alias required for seller-specific evidence or fee planning')
     source, directory = Path(source), Path(directory)
@@ -78,7 +78,8 @@ def prepare(source: Path, listings: tuple[MarketplaceListing, ...],
             reasons = [issue.split(': ', 1)[-1] for issue in findings if issue.startswith(f'Row {ordinal}:')]
             enrichments = []
             if product.source_context:
-                source_context_rows.append(dict(kind='walmart_source_context', asin=asin,
+                source_context_rows.append(dict(kind=('source_context' if 'source_provider' in product.source_context
+                                                     else 'walmart_source_context'), asin=asin,
                     value=canonical(product.source_context), provenance=product.provenance,
                     observed_at=product.retrieved_at.isoformat() if product.retrieved_at else None,
                     notice='Supplied source observation; permission not verified; not purchase approval'))

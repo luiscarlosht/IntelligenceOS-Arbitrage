@@ -61,8 +61,11 @@ def marketplace_row(data: dict, key: str) -> dict | None:
     return matches[0] if matches else None
 
 
-def parse_catalog(data: dict, *, is_mock: bool, secrets: tuple[str, ...] = ()) -> Evidence[MarketplaceListing]:
-    if data.get('asin') != ASIN:
+def parse_catalog(data: dict, *, is_mock: bool, secrets: tuple[str, ...] = (),
+                  expected_asin: str = ASIN) -> Evidence[MarketplaceListing]:
+    if not isinstance(expected_asin, str) or not re.fullmatch(r'[A-Z0-9]{10}', expected_asin):
+        raise ProviderFailure('Invalid requested ASIN')
+    if data.get('asin') != expected_asin:
         raise ProviderFailure('Catalog ASIN mismatch')
     summary = marketplace_row(data, 'summaries')
     if summary is None:
@@ -146,7 +149,7 @@ def parse_catalog(data: dict, *, is_mock: bool, secrets: tuple[str, ...] = ()) -
                   manufacturer=text('manufacturer'), model=text('modelNumber'),
                   package_quantity=quantity, variation=variation)
     missing = tuple(key for key, value in fields.items() if value is None or value == '')
-    listing = AmazonCatalogListing(asin=ASIN, **fields, seller_eligible=None, sale_price=None,
+    listing = AmazonCatalogListing(asin=expected_asin, **fields, seller_eligible=None, sale_price=None,
         costs={'referral_fee': None, 'fulfillment_fee': None}, retrieved_at=now, provenance=provenance,
         is_mock=is_mock, identifiers=tuple(identifiers), relationships=tuple(relationships),
         item_classification=classification, mapping_issues=tuple(dict.fromkeys(issues)), missing_fields=missing)

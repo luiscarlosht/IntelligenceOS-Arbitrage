@@ -9,6 +9,12 @@ from app.normalization import gtin, integer, money, timestamp, http_url
 
 WALMART_FIELDS = ('source_item_id', 'source_seller', 'destination_zip',
                   'fulfillment_method', 'source_shipping_cost', 'shipping_conditions')
+SOURCE_FIELDS = ('source_provider', 'provider_product_id', 'retailer_item_id',
+                 'source_seller', 'requested_zip', 'observed_zip',
+                 'source_shipping_cost', 'shipping_conditions', 'source_observed_at',
+                 'source_issues', 'search_price', 'search_currency', 'retrieved_at_utc',
+                 'source_condition', 'source_seller_id', 'source_price_with_shipping',
+                 'source_package_contents')
 
 
 class RetailerConnector(Protocol):
@@ -47,7 +53,11 @@ class CsvConnector:
                 if url and not http_url(url): issues.append('Invalid source URL')
                 text = lambda key: (row.get(key) or '').strip()
                 context = {}
-                if any(key in row for key in WALMART_FIELDS):
+                if 'source_provider' in row:
+                    context = {key: text(key) or None for key in SOURCE_FIELDS}
+                    context['source_shipping_cost'] = parse('source_shipping_cost', money)
+                    issues.extend(x for x in text('source_issues').split('; ') if x)
+                elif any(key in row for key in WALMART_FIELDS):
                     context = {key: text(key) or None for key in WALMART_FIELDS}
                     context['source_shipping_cost'] = parse('source_shipping_cost', money)
                     for key in WALMART_FIELDS:
