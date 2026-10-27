@@ -5,6 +5,11 @@ V0.3 preparation is available for review: [provider research and cost decisions]
 [proposed SQLite backups with restore procedure](docs/SQLITE_BACKUPS.md).
 Live providers remain disabled; the deployed V0.2 service is unchanged.
 
+Kroger investigation: [official access/terms decision and owner steps](docs/KROGER_ASSESSMENT.md),
+[conditional one-product pickup pilot and Amazon request plan](docs/KROGER_ONE_PRODUCT_PLAN.md).
+No Kroger connector or live requests are enabled; Target access is assessed as
+the conditional alternative.
+
 An offline sourcing-analysis prototype for Python 3.12. It reads candidate CSV data, screens profitability and eligibility, creates formatted Excel reports, and records each execution in SQLite. Bundled products are fictional examples. The application does not scrape, buy products, or verify live seller eligibility.
 
 ## Quick start (Ubuntu 24.04)
