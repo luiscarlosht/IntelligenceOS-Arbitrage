@@ -218,3 +218,9 @@ gates; no network executor exists. The common screen excludes B0G1MJ24B4 on the
 retained seller-specific NOT_ELIGIBLE result. Condition-scoped count diagnostics
 explain the observed 1 New + 4 Used aggregate without removing partial-coverage
 ranking gates. See [evidence and request budget](AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md).
+
+The explicit `amazon_source_intake` CLI accepts one supplied source row using the
+same template. `prepare(expected_rows=1)` reuses the existing storage/reporting;
+the default remains exactly ten. Source-only intake needs no seller alias or
+Amazon evidence. Missing fields stay unknown, no padding occurs, and budgets
+scale to the actual supported intake size. No live executor is added.
