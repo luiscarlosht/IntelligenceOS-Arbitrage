@@ -1,7 +1,6 @@
 """Corrected-workbook SSH helper: mocked send only; no real credentials or network."""
 import hashlib
 import json
-from unittest.mock import Mock
 
 import pytest
 
@@ -77,12 +76,17 @@ def test_send_cli_requires_interactive_terminal(prepared,monkeypatch):
 
 
 def test_distinct_corrected_workbook_and_attempt_paths():
-    from ops import gmail_candidate_review_ssh_once as original
-    assert helper.workbook!=original.workbook and helper.workbook.name.endswith('-corrected.xlsx')
+    # The earlier helper is intentionally absent from this PR's clean checkout.
+    # Pin its historical paths without importing operational delivery code.
+    original_workbook=helper.base/(helper.stem+'.xlsx')
+    assert helper.workbook==helper.base/(helper.stem+'-corrected.xlsx')
+    assert helper.workbook!=original_workbook
     assert helper.EXPECTED_WORKBOOK_SHA256=='23138171a64294d9e3353a5cfecd32d303030ca181ff59dbc8cbd0fac396dd47'
-    for key in ('marker','stages','outcome_path'):
-        assert getattr(helper,key)!=getattr(original,key)
-        assert 'corrected-ssh-1' in getattr(helper,key).name
+    for key,suffix in (('marker','.attempted'),('stages','.stages.jsonl'),('outcome_path','.outcome.json')):
+        original_path=helper.root/('var/diagnostics/gmail-ebay-candidate-review-ssh-1'+suffix)
+        corrected_path=helper.root/('var/diagnostics/gmail-ebay-candidate-review-corrected-ssh-1'+suffix)
+        assert getattr(helper,key)==corrected_path
+        assert getattr(helper,key)!=original_path
 
 
 def test_hash_mismatch_blocks_before_sender_credentials_or_send(tmp_path,monkeypatch):
