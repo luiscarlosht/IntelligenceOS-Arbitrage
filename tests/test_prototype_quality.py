@@ -57,12 +57,15 @@ def test_report_never_interprets_untrusted_product_as_formula(tmp_path):
                  status="REVIEW", reason="Review required", source_url="https://example.org")]
     target = tmp_path / "report.xlsx"
     write_report(rows, target)
-    with load_workbook(target) as workbook:
+    workbook = load_workbook(target)
+    try:
         cell = workbook["All Candidates"]["B2"]
         assert cell.value == "=1+1"
         assert cell.data_type == "s"
         assert workbook["All Candidates"]["C2"].value == "000012"
         assert workbook["All Candidates"].freeze_panes == "A2"
+    finally:
+        workbook.close()
 
 
 def test_repeated_job_writes_individual_audit_records(cfg):
