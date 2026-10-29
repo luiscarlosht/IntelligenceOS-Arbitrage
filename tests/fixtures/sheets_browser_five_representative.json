@@ -1,5 +1,5 @@
 {
-  "provenance": "Representative offline fixture: exact owner-supplied IDs and description examples; other values illustrative. Actual five-row export unavailable.",
+  "provenance": "Representative offline fixture: exact owner-supplied IDs and description examples; other values illustrative. Actual five-row export unavailable. Owner additionally confirmed null selected_variant with blank exported cell for 17617453 and 14906288; all raw shipping charges are null.",
   "Walmart_Intake": [
     [
       "schema_version",
@@ -45,7 +45,7 @@
       "",
       "2026-01-01T00:00:00Z",
       "2026-01-01T00:01:00Z",
-      "{\"walmart_item_id\": \"17617453\", \"product_url\": \"https://www.walmart.com/ip/widget/17617453\", \"title\": \"Widget\", \"brand\": \"\", \"selected_variant\": \"\", \"currency\": \"USD\", \"seller\": \"\", \"fulfiller\": \"\", \"displayed_zip\": \"76063\", \"shipping_availability\": \"Shipping Arrives tomorrow\", \"local_delivery_availability\": \"Delivery As soon as 23 mins\", \"pickup_availability\": \"Pickup As soon as 7am tomorrow\", \"displayed_price\": \"$1.97\", \"observation_timestamp\": \"2026-01-01T00:00:00Z\", \"shipping_charge\": null}"
+      "{\"walmart_item_id\": \"17617453\", \"product_url\": \"https://www.walmart.com/ip/widget/17617453\", \"title\": \"Widget\", \"brand\": \"\", \"selected_variant\": null, \"currency\": \"USD\", \"seller\": \"\", \"fulfiller\": \"\", \"displayed_zip\": \"76063\", \"shipping_availability\": \"Shipping Arrives tomorrow\", \"local_delivery_availability\": \"Delivery As soon as 23 mins\", \"pickup_availability\": \"Pickup As soon as 7am tomorrow\", \"displayed_price\": \"$1.97\", \"observation_timestamp\": \"2026-01-01T00:00:00Z\", \"shipping_charge\": null}"
     ],
     [
       "1",
@@ -91,7 +91,7 @@
       "",
       "2026-01-01T00:00:00Z",
       "2026-01-01T00:01:00Z",
-      "{\"walmart_item_id\": \"14906288\", \"product_url\": \"https://www.walmart.com/ip/widget/14906288\", \"title\": \"Widget\", \"brand\": \"\", \"selected_variant\": \"\", \"currency\": \"USD\", \"seller\": \"\", \"fulfiller\": \"\", \"displayed_zip\": \"76063\", \"shipping_availability\": \"Shipping Arrives tomorrow\", \"local_delivery_availability\": \"Delivery As soon as 23 mins\", \"pickup_availability\": \"Pickup As soon as 7am tomorrow\", \"displayed_price\": \"$1.97\", \"observation_timestamp\": \"2026-01-01T00:00:00Z\", \"shipping_charge\": null}"
+      "{\"walmart_item_id\": \"14906288\", \"product_url\": \"https://www.walmart.com/ip/widget/14906288\", \"title\": \"Widget\", \"brand\": \"\", \"selected_variant\": null, \"currency\": \"USD\", \"seller\": \"\", \"fulfiller\": \"\", \"displayed_zip\": \"76063\", \"shipping_availability\": \"Shipping Arrives tomorrow\", \"local_delivery_availability\": \"Delivery As soon as 23 mins\", \"pickup_availability\": \"Pickup As soon as 7am tomorrow\", \"displayed_price\": \"$1.97\", \"observation_timestamp\": \"2026-01-01T00:00:00Z\", \"shipping_charge\": null}"
     ],
     [
       "1",
