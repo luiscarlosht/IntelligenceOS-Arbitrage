@@ -36,9 +36,9 @@ def source_plan(source: Path) -> tuple[dict, tuple]:
     if len(raw) > 1024 * 1024:
         raise ValueError('Source exceeds bound')
     products = tuple(CsvConnector(source).products())
-    if len(products) != 10:
-        raise ValueError('Exactly ten input rows required')
-    findings = validate(source, datetime.now(timezone.utc), maximum_rows=10)
+    if not 1 <= len(products) <= 1000:
+        raise ValueError('Candidate batches must contain 1 to 1000 input rows')
+    findings = validate(source, datetime.now(timezone.utc), maximum_rows=len(products))
     if any(x.startswith('Header') for x in findings):
         raise ValueError('Source template required')
     if source.read_bytes() != raw:
@@ -57,7 +57,7 @@ def source_plan(source: Path) -> tuple[dict, tuple]:
                         params=dict(marketplaceIds=MARKETPLACE, includedData=DETAIL_DATA, locale='en_US'),
                         selection='first distinct returned ASIN; candidate only; at most one per row')))
     return dict(schema=1, source=str(source.resolve()), source_sha256=hashlib.sha256(raw).hexdigest(),
-        marketplace_id=MARKETPLACE, limits=LIMITS.copy(), authentication=dict(method='POST',
+        marketplace_id=MARKETPLACE, limits=dict(authentication=1, search=len(products), detail=len(products), total=1+2*len(products), retries=0), authentication=dict(method='POST',
         url='https://api.amazon.com/auth/o2/token', grant_type='refresh_token'),
         requests=requests, pages_per_search=1, pagination_enabled=False,
         stop_on_failure=True, deadline_seconds=300, minimum_interval_seconds=0.5,
@@ -213,7 +213,7 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
 
     def call(kind, ordinal, request):
         nonlocal last
-        if counts[kind] >= LIMITS[kind] or len(report['attempts']) >= LIMITS['total']:
+        if counts[kind] >= manifest['limits'][kind] or len(report['attempts']) >= manifest['limits']['total']:
             raise ProviderFailure('Attempt ceiling reached')
         current = monotonic()
         if last is not None:
@@ -281,7 +281,7 @@ def persist(directory: Path, stem: str, products: tuple, report: dict, now: date
     store = ObservationStore(directory/(stem+'.sqlite3'))
     run_id = store.start_run(now, report['manifest'], label=LABEL)
     config = Config(input=Path(report['manifest']['source']), output=directory/(stem+'.xlsx'),
-                    database=store.path, maximum_candidates=10)
+                    database=store.path, maximum_candidates=len(products))
     rows, enrichments = [], []
     for product, result in zip(products, report['rows']):
         match = matches[result['ordinal']-1]
@@ -299,14 +299,18 @@ def persist(directory: Path, stem: str, products: tuple, report: dict, now: date
     from app.candidate_review_report import build_review
     report_rows, review, report_enrichments = build_review(report)
     write_report(report_rows, config.output, discovery=True, candidate_review=review,
-        job=dict(label=LABEL,maximum_http_attempts=21,actual_attempts=len(report['attempts']),
+        job=dict(label=LABEL,maximum_http_attempts=report['manifest']['limits']['total'],actual_attempts=len(report['attempts']),
                  live_requests=report['live_requests'],status=report['status']),
         enrichment_rows=report_enrichments)
-    store.history.finish(run_id, 'succeeded' if report['status']=='succeeded' else 'failed', 10, 0,
+    store.history.finish(run_id, 'succeeded' if report['status']=='succeeded' else 'failed', len(products), 0,
                          config.output, error=None if report['status']=='succeeded' else 'CandidateStageFailure')
 
 
 def main() -> int:
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] in ('prepare-details', 'run-details'):
+        from app.candidate_execution import main as stored_main
+        return stored_main()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('plan', 'run'))
     parser.add_argument('--source', required=True, type=Path)
