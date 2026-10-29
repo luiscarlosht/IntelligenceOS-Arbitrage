@@ -244,8 +244,12 @@ sanitized rejection reporting remain unchanged. Blank trailing cells are padded,
 not converted to zero. The browser object excludes `source`, `schema_version`, `batch_id`, `record_id`
 and `exported_at_utc`; those are validated in the envelope. Optional legacy copies
 are checked for conflicts but are never required. Null is currently supported
-for raw shipping charge only;
-other product values require exact text, including explicit empty strings. These
+for all nullable observation fields: brand, selected_variant, seller, fulfiller,
+shipping_availability, local_delivery_availability, pickup_availability and
+shipping_charge_usd. JSON null and empty text both match only an exactly blank
+export cell. Required identity/title/ZIP/currency/price/timestamp fields remain
+required. Populated values must still agree; whitespace and literal "null" are
+not missing-value substitutes. These
 rules are recorded to expose unresolved producer assumptions, not to require a
 sheet rewrite without inspecting the source.
 
@@ -287,3 +291,25 @@ prerequisite. Only the Sheets module, formatter, optional requirements, tests,
 representative fixture and these two intake documents belong to the focused PR.
 No unrelated milestone ancestry, runtime reports/databases or credentials belong
 in its commit.
+
+
+## Nullable observation audit
+
+The producer confirms `selected_variant: null` and a blank exported variant for
+items `17617453` and `14906288`. The previous string-only comparison rejected
+these as RAW_EXPORT_MISMATCH; the representative five-record fixture now includes
+these exact null/blank facts and null shipping charges for all five records.
+Other unprovided source values remain explicitly illustrative.
+
+A single explicit nullable-observation allowlist covers brand, selected_variant,
+seller, fulfiller, shipping_availability, local_delivery_availability,
+pickup_availability and shipping_charge_usd. For each, JSON null and an empty
+string are equivalent missing values only when the exported cell is exactly blank.
+Missing JSON keys still reject. Required observation and envelope fields remain
+strict. Optional canonical shipping aliases follow the same missing-value rule;
+any populated contradiction still rejects. No variant is derived from titles,
+no zero charge is inferred, and original nulls remain in retained raw JSON.
+
+The prior rejection is reproduced offline from the saved pre-fix validator and
+the documented null/blank facts. A further live diagnostic is therefore not
+needed to explain this failure; no credentials or live rows were accessed.

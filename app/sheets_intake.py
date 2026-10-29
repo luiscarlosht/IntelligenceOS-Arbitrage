@@ -20,6 +20,12 @@ FIELDS = 'schema_version,batch_id,record_id,source,walmart_item_id,product_url,t
 BATCH_FIELDS = 'batch_id,expected_record_count,actual_record_count,status,completed_at_utc,consumer_status,consumer_acknowledged_at_utc'.split(',')
 MAX_ROWS = 1000
 ENVELOPE_FIELDS = frozenset(('source', 'schema_version', 'batch_id', 'record_id', 'exported_at_utc'))
+# Only observation fields whose exported cells may represent missing evidence.
+NULLABLE_OBSERVATION_FIELDS = frozenset((
+    'brand', 'selected_variant', 'seller', 'fulfiller',
+    'shipping_availability', 'local_delivery_availability', 'pickup_availability',
+    'shipping_charge_usd',
+))
 
 
 class ValidationFailure(ValueError):
@@ -67,14 +73,16 @@ def validate_raw(row):
         if key not in raw:
             raise ValidationFailure('RAW_FIELD_MISSING', field)
         value = raw[key]
-        if browser and field in ('item_price_usd', 'shipping_charge_usd'):
-            if field == 'shipping_charge_usd' and value is None:
-                agrees = exported == ''
-            else:
-                if isinstance(value, str) and value.startswith('$'):
-                    value = value[1:]
-                agrees = (type(value) is str and
-                          checked(field, money, value) == checked(field, money, exported))
+        if field in NULLABLE_OBSERVATION_FIELDS and (value is None or value == ''):
+            # JSON null means missing evidence, exactly like a literal blank cell.
+            # No title parsing, whitespace trimming or populated-value substitution.
+            agrees = exported == ''
+        elif browser and field in ('item_price_usd', 'shipping_charge_usd'):
+            if isinstance(value, str) and value.startswith('$'):
+                value = value[1:]
+            raw_money = checked(field, money, value) if type(value) is str else None
+            agrees = (raw_money is not None and
+                      raw_money == checked(field, money, exported))
         elif browser and field == 'observed_at_utc':
             agrees = checked(field, stamp, value) == checked(field, stamp, exported)
         else:
@@ -82,8 +90,12 @@ def validate_raw(row):
         if not agrees:
             raise ValidationFailure('RAW_EXPORT_MISMATCH', field)
         # A duplicate canonical field cannot contradict its browser alias.
-        if browser and key != field and field in raw and raw[field] != exported:
-            raise ValidationFailure('RAW_EXPORT_MISMATCH', field)
+        if browser and key != field and field in raw:
+            canonical_value = raw[field]
+            missing = (field in NULLABLE_OBSERVATION_FIELDS and
+                       canonical_value is None and exported == '')
+            if not missing and not (type(canonical_value) is str and canonical_value == exported):
+                raise ValidationFailure('RAW_EXPORT_MISMATCH', field)
 
 
 class Deadline(BaseException):

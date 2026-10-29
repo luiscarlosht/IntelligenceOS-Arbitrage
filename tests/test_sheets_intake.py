@@ -509,3 +509,95 @@ def test_keyword_planning_has_no_unpublished_amazon_dependency(tmp_path, monkeyp
     store = IntakeStore(tmp_path/'db')
     assert process(c, store)['accepted'] == 1
     assert store.candidate_plan('b1')['candidates'][0]['keywords'] == 'Example Widget Small'
+
+
+NULLABLE_FIELDS = (
+    'brand', 'selected_variant', 'seller', 'fulfiller',
+    'shipping_availability', 'local_delivery_availability', 'pickup_availability',
+    'shipping_charge_usd',
+)
+
+
+@pytest.mark.parametrize('field', NULLABLE_FIELDS)
+def test_all_nullable_observations_null_blank_equivalence(field):
+    c = browser_client()
+    c.rows[1][FIELDS.index(field)] = ''
+    raw = json.loads(c.rows[1][-1])
+    raw['shipping_charge' if field == 'shipping_charge_usd' else field] = None
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['accepted'] == 1
+    assert not c.writes
+
+
+@pytest.mark.parametrize('field', NULLABLE_FIELDS)
+@pytest.mark.parametrize('raw_value,exported', [
+    (None, 'populated'), ('populated', ''), ('first', 'second'),
+    ('null', ''), (' ', ''), (False, ''), (0, ''),
+])
+def test_nullable_observation_real_conflicts_stay_rejected(field, raw_value, exported):
+    c = browser_client()
+    # Use valid nonnegative monetary literals for the monetary conflict cases.
+    if field == 'shipping_charge_usd':
+        raw_value = {'populated': '1.00', 'first': '1.00'}.get(raw_value, raw_value) if type(raw_value) is str else raw_value
+        exported = {'populated': '1.00', 'second': '2.00'}.get(exported, exported)
+    c.rows[1][FIELDS.index(field)] = exported
+    raw = json.loads(c.rows[1][-1])
+    raw['shipping_charge' if field == 'shipping_charge_usd' else field] = raw_value
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['rejected'] == 1
+    assert not c.writes
+
+
+@pytest.mark.parametrize('field', ['walmart_item_id','product_url','title','currency',
+                                 'displayed_zip','item_price_usd','observed_at_utc'])
+def test_required_observation_null_never_becomes_missing(field):
+    c = browser_client()
+    raw = json.loads(c.rows[1][-1])
+    key = {'item_price_usd': 'displayed_price', 'observed_at_utc': 'observation_timestamp'}.get(field, field)
+    raw[key] = None
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['rejected'] == 1
+    assert not c.writes
+
+
+def test_five_producer_records_two_null_variants_and_null_shipping(tmp_path):
+    c = representative_description_client()
+    expected_null = {'17617453', '14906288'}
+    found_null = set()
+    for cells in c.rows[1:]:
+        row = dict(zip(FIELDS, cells)); raw = json.loads(row['raw_record_json'])
+        assert raw['shipping_charge'] is None
+        assert row['shipping_charge_usd'] == ''
+        if raw['selected_variant'] is None:
+            found_null.add(row['walmart_item_id'])
+            assert row['selected_variant'] == ''
+    assert found_null == expected_null
+    assert process(c)['accepted'] == 1
+    assert not c.writes and not list(tmp_path.iterdir())
+    store = IntakeStore(tmp_path/'fixture.sqlite3')
+    assert process(c, store)['accepted'] == 1
+    assert process(c, store)['already_stored'] == 1
+    for p in store.products(PRODUCER_BATCH_ID):
+        if p.source_context['retailer_item_id'] in expected_null:
+            assert p.variation == ''
+        assert p.source_context['source_shipping_cost'] is None
+    with store.connect() as db:
+        for payload, in db.execute('SELECT original_json FROM sheets_records'):
+            row = json.loads(payload)
+            raw = json.loads(row['raw_record_json'])
+            if row['walmart_item_id'] in expected_null:
+                assert raw['selected_variant'] is None
+
+
+def test_null_canonical_shipping_alias_and_legacy_mirror():
+    c = browser_client()
+    raw = json.loads(c.rows[1][-1]); raw['shipping_charge_usd'] = None
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['accepted'] == 1
+    raw['shipping_charge_usd'] = '0'
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['rejected'] == 1
+    c = Client()
+    raw = json.loads(c.rows[1][-1]); raw['selected_variant'] = None
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['accepted'] == 1

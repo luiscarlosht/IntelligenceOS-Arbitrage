@@ -37,3 +37,11 @@ success checks, pip check and git diff --check. Report local validation separate
 from GitHub CI. If Git transport fails, publish the reviewed tree through the
 connected GitHub Git Data API, verify its file list/parent, then open a draft PR.
 Never publish credentials or unrelated history to bypass a prerequisite failure.
+
+
+Nullable observation comparisons use an explicit shared allowlist rather than a
+shipping-only exception. The five-record fixture includes the owner-confirmed
+null variants for 17617453 and 14906288, with blank exported cells, plus null
+shipping charges. Missing observations stay missing; populated conflicts and
+required fields remain strict. Raw values are retained and titles never supply
+selected variants.
