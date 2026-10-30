@@ -12,6 +12,7 @@ import signal
 import time
 
 from app import amazon_pilot as pilot
+from app.amazon_diagnostics import failure_metadata, response_metadata
 from app.amazon_catalog import MARKETPLACE, AmazonCatalogAdapter, clean_text, parse_catalog
 from app.authorized_imports import validate
 from app.config import Config
@@ -202,6 +203,7 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
     now = datetime.now(timezone.utc)
     start, last = monotonic(), None
     counts = dict(authentication=0, search=0, detail=0)
+    operation = 'credentials'
     output = os.fdopen(fd, 'w')
 
     def checkpoint():
@@ -212,7 +214,8 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
         os.fsync(output.fileno())
 
     def call(kind, ordinal, request):
-        nonlocal last
+        nonlocal last, operation
+        operation = kind + '_request'
         if counts[kind] >= manifest['limits'][kind] or len(report['attempts']) >= manifest['limits']['total']:
             raise ProviderFailure('Attempt ceiling reached')
         current = monotonic()
@@ -225,16 +228,28 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
         report['live_requests'] = 0 if is_mock else len(report['attempts'])
         checkpoint()  # Reserve before I/O; errors/uncertain outcomes are consumed attempts.
         last = monotonic()
-        value = (transport or pilot.request_json)(request)
+        try:
+            value = (transport or pilot.request_json)(request)
+        except (Exception, KeyboardInterrupt) as error:
+            diagnostic = failure_metadata(error)
+            report['attempts'][-1].update(status='request_failed', failure=diagnostic,
+                outcome='http_error_response' if diagnostic['reason'] == 'http_error' else 'uncertain')
+            checkpoint()
+            raise
+        operation = kind + '_response_checkpoint'
         if not isinstance(value, dict):
+            operation = kind + '_validation'
             raise ProviderFailure('Invalid response document')
-        report['attempts'][-1]['status'] = 'response_received'
+        report['attempts'][-1].update(status='response_received', **response_metadata(value))
+        checkpoint()  # Retain response receipt/status even if parsing fails next.
+        operation = kind + '_validation'
         return value
 
     try:
         checkpoint()  # Every original source row is durable before credentials or HTTP.
         credentials = (credential_loader or pilot.load_credentials)(directory)
         access = pilot.exchange_token(credentials, lambda req: call('authentication', None, req))
+        operation = 'authentication_completed'
         secrets = (*credentials.values(), access)
         for row, product, spec in zip(results, products, manifest['requests']):
             row['status'], row['reasons'] = 'search_pending', []
@@ -244,6 +259,7 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
             row['search'] = dict(**search, observed_at=datetime.now(timezone.utc).isoformat(),
                                  provenance='Amazon SP-API searchCatalogItems 2022-04-01; US; first page',
                                  request_ordinal=row['ordinal'], keywords=product.name)
+            operation = 'search_checkpoint'
             checkpoint()
             detail = None
             if search['selected_asin']:
@@ -254,15 +270,33 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
                     access, CATALOG_PATH+'/'+asin, request['params'])), asin,
                     is_mock=is_mock, secrets=secrets)
                 row['detail'] = normalized(detail)
+            operation = 'matching'
             row['status'], match = decide(product, search, detail)
             matches[row['ordinal']-1] = match
             row['exact'], row['reasons'] = match.exact, list(match.reasons)
             checkpoint()
         report['status'] = 'succeeded'
-    except (Exception, KeyboardInterrupt):
+    except (Exception, KeyboardInterrupt) as error:
         report['status'] = 'failed_no_retry'
-        if report['attempts']:
-            report['attempts'][-1]['status'] = 'failed_or_parser_rejected'
+        diagnostic = failure_metadata(error)
+        diagnostic['stage'] = operation
+        if operation.endswith('_validation'):
+            labels = {label: label.upper().replace(' ', '_') for label in (
+                'Catalog ASIN mismatch', 'US catalog summary missing', 'Invalid identifiers',
+                'Invalid identifier', 'Invalid relationships', 'Invalid relationship',
+                'Invalid relationship ASINs', 'Invalid variation theme', 'Invalid catalog dataset',
+                'Ambiguous catalog marketplace', 'Invalid catalog attributes',
+                'Invalid package attribute', 'Invalid package attribute value',
+                'Invalid search result shape', 'Invalid candidate ASIN',
+                'Invalid candidate summaries', 'Candidate marketplace mismatch',
+                'Invalid token response', 'Invalid response document')}
+            diagnostic['validation_code'] = labels.get(str(error), 'VALIDATION_FAILED')
+            diagnostic['reason'] = 'response_validation_failed'
+            if report['attempts']:
+                attempt = report['attempts'][-1]
+                diagnostic['http_status'] = attempt.get('http_status')
+                attempt.update(status='parser_rejected', failure=diagnostic, outcome='response_received')
+        report['failure'] = diagnostic
         for row in results:
             if row['status'] in ('search_pending', 'detail_pending'):
                 row['status'] = 'failed'
