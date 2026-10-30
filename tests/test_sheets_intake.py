@@ -429,7 +429,7 @@ def test_description_normalization_separate_from_literal(field, value, expected)
 
 @pytest.mark.parametrize('value,code', [
     ('Shipping unavailable; Shipping Arrives tomorrow', 'CONFLICTING_AVAILABILITY'),
-    ('Shipping Arrives tomorrow\n', 'INVALID_VALUE'),
+    ('Shipping Arrives tomorrow\t', 'INVALID_VALUE'),
     ('x'*1001, 'INVALID_VALUE'),
 ])
 def test_malformed_conflicting_descriptions_reject(value, code):
