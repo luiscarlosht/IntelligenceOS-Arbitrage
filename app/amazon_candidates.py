@@ -362,6 +362,16 @@ def persist(directory: Path, stem: str, products: tuple, report: dict, now: date
         job=dict(label=LABEL,maximum_http_attempts=report['manifest']['limits']['total'],actual_attempts=len(report['attempts']),
                  live_requests=report['live_requests'],status=report['status']),
         enrichment_rows=report_enrichments)
+    if any('candidate_outcomes' in r for r in report['rows']):
+        from openpyxl import load_workbook
+        wb = load_workbook(config.output)
+        sheet = wb.create_sheet('Reviewed Candidate Outcomes')
+        sheet.append(['Source row', 'Record ID', 'ASIN', 'Status', 'Detail observed at', 'Evidence and review'])
+        for result in report['rows']:
+            for outcome in result.get('candidate_outcomes', []):
+                sheet.append([result['ordinal'], result['record_id'], outcome['candidate_asin'],
+                    outcome['status'], (outcome.get('detail') or {}).get('observed_at'), canonical(outcome)])
+        wb.save(config.output); wb.close()
     store.history.finish(run_id, 'succeeded' if report['status']=='succeeded' else 'failed', len(products), 0,
                          config.output, error=None if report['status']=='succeeded' else 'CandidateStageFailure')
 
