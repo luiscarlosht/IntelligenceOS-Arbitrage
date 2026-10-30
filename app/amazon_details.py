@@ -152,7 +152,12 @@ def apply_pricing_gate(match: Match, pricing: Evidence[PricingSnapshot]) -> Matc
     return match
 
 
-def parse_fees(data: dict, context: SellerContext, price: Decimal, identifier: str, *, is_mock: bool) -> dict:
+def parse_fees(data: dict, context: SellerContext, price: Decimal, identifier: str, *, is_mock: bool,
+               expected_asin: str = ASIN, buyer_shipping: Decimal = Decimal('0'),
+               fulfillment: str = 'FBA') -> dict:
+    validate_asin(expected_asin)
+    if (fulfillment not in ('FBA', 'FBM') or money(buyer_shipping) is None):
+        raise ValueError('Explicit fulfillment and buyer shipping scenario required')
     if context.marketplace_id != MARKETPLACE or context.condition != 'new_new':
         raise ProviderFailure('Fee seller context mismatch')
     payload = data.get('payload')
@@ -162,12 +167,12 @@ def parse_fees(data: dict, context: SellerContext, price: Decimal, identifier: s
     identity = result.get('FeesEstimateIdentifier', {})
     if not isinstance(identity, dict):
         raise ProviderFailure('Fee context missing')
-    expected = dict(MarketplaceId=MARKETPLACE, SellerId=context.seller_id, IdType='ASIN', IdValue=ASIN,
-                    IsAmazonFulfilled=True, SellerInputIdentifier=identifier)
-    if any(identity.get(k) != v for k, v in expected.items()) or identity.get('IsAmazonFulfilled') is not True:
+    expected = dict(MarketplaceId=MARKETPLACE, SellerId=context.seller_id, IdType='ASIN', IdValue=expected_asin,
+                    IsAmazonFulfilled=fulfillment == 'FBA', SellerInputIdentifier=identifier)
+    if any(identity.get(k) != v for k, v in expected.items()) or identity.get('IsAmazonFulfilled') is not (fulfillment == 'FBA'):
         raise ProviderFailure('Fee context mismatch')
     proposed = identity.get('PriceToEstimateFees')
-    if not isinstance(proposed, dict) or usd(proposed.get('ListingPrice')) != price or usd(proposed.get('Shipping')) != Decimal('0'):
+    if not isinstance(proposed, dict) or usd(proposed.get('ListingPrice')) != price or usd(proposed.get('Shipping')) != buyer_shipping:
         raise ProviderFailure('Fee price mismatch')
     estimate = result.get('FeesEstimate')
     if not isinstance(estimate, dict):
@@ -181,15 +186,16 @@ def parse_fees(data: dict, context: SellerContext, price: Decimal, identifier: s
         # aggregate and its IncludedFeeDetailList, or turn omissions into zero.
         return usd(matches[0].get('FinalFee')) if len(matches) == 1 else None
     now = datetime.now(timezone.utc)
-    quote = FeeQuote(ASIN, context, price, 'FBA', component('ReferralFee'), component('FBAFees'))
+    quote = FeeQuote(expected_asin, context, price, fulfillment, component('ReferralFee'),
+                     component('FBAFees') if fulfillment == 'FBA' else None)
     at = estimate.get('TimeOfFeesEstimation')
     try:
         estimated_at = timestamp(at) if isinstance(at, str) else None
     except ValueError:
         estimated_at = None
-    evidence = Evidence(quote, now, 'Amazon SP-API Product Fees v0; proposed USD price; FBA; zero buyer shipping scenario; estimates only', is_mock)
+    evidence = Evidence(quote, now, f'Amazon SP-API Product Fees v0; proposed USD price; {fulfillment}; buyer shipping {buyer_shipping}; estimates only', is_mock)
     total = usd(estimate.get('TotalFeesEstimate'))
-    return {'quote': asdict(evidence), 'total_fees_estimate': total,
+    return {'quote': asdict(evidence), 'total_fees_estimate': total, 'buyer_shipping_scenario': buyer_shipping,
             'estimated_at': estimated_at,
             'missing_fields': [key for key, value in {'referral_fee': quote.referral_fee,
                 'fulfillment_fee': quote.fulfillment_fee, 'total_fees_estimate': total, 'estimated_at': estimated_at}.items() if value is None]}
@@ -200,6 +206,7 @@ def parse_restrictions(data: dict, context: SellerContext, *, is_mock: bool) -> 
     if data.get('errors') or not isinstance(rows, list):
         raise ProviderFailure('Restriction response invalid')
     codes = set()
+    details = []
     for row in rows:
         if (not isinstance(row, dict) or row.get('marketplaceId') != context.marketplace_id
                 or row.get('conditionType') not in (None, context.condition)):
@@ -211,13 +218,16 @@ def parse_restrictions(data: dict, context: SellerContext, *, is_mock: bool) -> 
             if not isinstance(reason, dict):
                 raise ProviderFailure('Restriction reason invalid')
             code = reason.get('reasonCode')
-            codes.add(code if code in ('APPROVAL_REQUIRED', 'ASIN_NOT_FOUND', 'NOT_ELIGIBLE') else 'OTHER')
+            codes.add(code if isinstance(code, str) else 'OTHER')
+            details.append({key: reason[key] for key in ('reasonCode', 'message', 'links') if key in reason})
     now = datetime.now(timezone.utc)
     # This narrow boolean implements the eligibility evidence interface, while
     # catalog.seller_eligible remains unknown: listing permission is not a buy gate.
     evidence = Evidence(not rows, now, 'Amazon SP-API Listings Restrictions; US; new_new; operator-supplied seller; no restrictions is not purchase approval', is_mock)
     return {'listing_permission': asdict(evidence), 'restriction_count': len(rows),
-            'reason_codes': sorted(codes), 'purchase_approved': False,
+            'reason_codes': sorted(codes), 'reasons': details,
+            'approval_instructions': [r for r in details if r.get('message') or r.get('links')] or None, 'approval_required': True if 'APPROVAL_REQUIRED' in codes else (False if not rows else None),
+            'purchase_approved': False,
             'fulfillment_eligibility': None}
 
 

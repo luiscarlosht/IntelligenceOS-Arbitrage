@@ -53,7 +53,7 @@ def test_live_report_comparison_unknown_economics_and_preserved_inputs(tmp_path,
     assert not any(isinstance(c.value,str) and ('MOCK' in c.value or 'Mock data' in c.value)
                    for sheet in wb for row in sheet for c in row)
     comparison=wb['Candidate Comparison']
-    assert comparison.max_row==11 and comparison.freeze_panes=='C2' and comparison.auto_filter.ref=='A1:I11'
+    assert comparison.max_row==11 and comparison.freeze_panes=='C2' and comparison.auto_filter.ref==comparison.dimensions
     assert comparison['C2'].value==12.99
     assert comparison['D2'].value is None and comparison['D3'].value==0
     assert comparison['E2'].hyperlink.target==report['rows'][0]['source']['url']

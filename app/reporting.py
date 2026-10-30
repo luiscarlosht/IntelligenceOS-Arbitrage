@@ -124,10 +124,12 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
         sheet = wb.create_sheet('Candidate Comparison', 1)
         headers = ('Source Title', 'Seller', 'Observed Item Price (USD)', 'Reported Shipping (USD)',
                    'Source URL', 'Candidate ASIN', 'Amazon Title', 'Match Status', 'Evidence Gaps')
-        sheet.append(headers)
+        from app.candidate_enrichment_report import COLUMNS as AMAZON_COLUMNS
+        sheet.append(headers + tuple(c[1] for c in AMAZON_COLUMNS))
         for index, result in enumerate(candidate_review['comparisons'], 2):
             sheet.append([result.get(key) for key in ('ebay_title', 'seller', 'observed_item_price',
-                          'reported_shipping', 'source_url', 'candidate_asin', 'amazon_title', 'match_status', 'evidence_gaps')])
+                          'reported_shipping', 'source_url', 'candidate_asin', 'amazon_title', 'match_status', 'evidence_gaps')]
+                         + [result.get(c[0]) for c in AMAZON_COLUMNS])
             sheet.row_dimensions[index].height = 120
             for col in (3, 4):
                 sheet.cell(index, col).number_format = '$#,##0.00'
@@ -140,6 +142,13 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
                 sheet.cell(index, 5, urlunsplit((parsed.scheme, parsed.netloc, parsed.path, '', '')))
                 sheet.cell(index, 5).hyperlink = url
                 sheet.cell(index, 5).font = Font(color='0563C1', underline='single')
+        from app.amazon_approval_report import write_approval_links
+        write_approval_links(wb, candidate_review['comparisons'])
+        for offset, column in enumerate(AMAZON_COLUMNS, 10):
+            sheet.column_dimensions[get_column_letter(offset)].width = column[2]
+            if column[3]:
+                for row in range(2, sheet.max_row+1):
+                    sheet.cell(row, offset).number_format = '$#,##0.00'
         sheet.freeze_panes = 'C2'
         sheet.auto_filter.ref = sheet.dimensions
         sheet.sheet_view.zoomScale = 80
