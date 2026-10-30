@@ -145,3 +145,10 @@ production provider selection is enabled by the normal application workflow.
 Amazon selected validation succeeded; B0G1MJ24B4 is excluded with NOT_ELIGIBLE.
 See [live evidence and offline ten-product workflow](docs/AMAZON_AUTHORIZED_SOURCE_WORKFLOW.md)
 for source requirements, condition-count analysis and the proposed 41-attempt ceiling.
+
+Manual Amazon enrichment and candidate `run-research` use operation-specific
+pacing; see [quota configuration, approval instructions and execution limits](docs/AMAZON_OPERATION_PACING.md).
+Pacing is process-local: concurrent runs are not quota-coordinated. These manual
+paths are outside the scheduled job and require their existing explicit execution
+gates. Listing permission and approval requirements do not establish FBA eligibility
+or purchase approval.

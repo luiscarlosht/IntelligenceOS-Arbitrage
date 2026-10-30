@@ -172,13 +172,16 @@ class ExecutionJournal:
                     (self.run_key, manifest_sha, manifest['reviewed_plan_sha256'], manifest['batch_id'],
                      manifest['batch_content_hash'], report['status'], canonical(report)))
                 for request in manifest['requests']:
-                    if self.db.execute(
+                    if request['kind'] == 'catalog_detail' and self.db.execute(
                             "SELECT 1 FROM candidate_operations WHERE kind='detail' AND asin=?",
                             (request['asin'],)).fetchone():
                         raise sqlite3.IntegrityError('Prior ASIN operation remains reserved')
                     self.db.execute('INSERT INTO candidate_operations VALUES (?,?,?,?,?)',
-                        (request['request_key'], self.run_key, 'detail', request['asin'], 'claimed_not_attempted'))
-            stem = 'candidate-details-'+self.run_key
+                        (request['request_key'], self.run_key,
+                         'detail' if request['kind'] == 'catalog_detail' else request['kind'],
+                         request['asin'], 'claimed_not_attempted'))
+            stem = ('candidate-research-' if manifest['mode'] == 'candidate_pricing_restrictions'
+                    else 'candidate-details-')+self.run_key
             self.report_file = os.fdopen(pilot.create_file(directory, stem+'.json'), 'w')
             self.stream = os.fdopen(pilot.create_file(directory, stem+'.checkpoints.jsonl'), 'w')
             os.fsync(directory)
@@ -199,7 +202,7 @@ class ExecutionJournal:
 
     def reserve(self, kind, asin, key, limits):
         attempts = self.report['attempts']
-        if kind not in ('authentication', 'detail') or len(attempts) >= limits['total']:
+        if kind not in ('authentication', 'detail', 'pricing', 'restrictions') or len(attempts) >= limits['total']:
             raise ValueError('Candidate attempt ceiling reached')
         if sum(a['kind'] == kind for a in attempts) >= limits[kind]:
             raise ValueError('Candidate operation ceiling reached')
@@ -360,11 +363,208 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
 
 
 
+def prepare_research(database, detail_report, asins, seller_reference='authorized-seller'):
+    """Bind candidate-only pricing/restriction research to retained detail/source lineage."""
+    from app.amazon_pricing_shape import validate_asin
+    import re
+    if not re.fullmatch(r'[a-z][a-z0-9-]{0,39}', seller_reference):
+        raise ValueError('Nonsecret seller reference required')
+    if not asins or len(asins) != len(set(asins)):
+        raise ValueError('Distinct explicit ASIN selection required')
+    for asin in asins: validate_asin(asin)
+    saved, saved_sha = read_json(detail_report)
+    if saved.get('status') != 'succeeded' or saved.get('is_mock') is not False:
+        raise ValueError('Successful saved live catalog detail report required')
+    original = saved['manifest']
+    multi = original.get('mode') == 'reviewed_shortlist_details'
+    if multi:
+        # Historical inventory/ledger snapshots predate the completed detail run.
+        # Bind named evidence only; never rediscover private files for research.
+        reviewed, plan_sha = read_json(original['reviewed_plan'])
+        search, search_sha = read_json(reviewed['saved_report']['path'])
+        if (plan_sha != original['reviewed_plan_sha256']
+                or search_sha != reviewed['saved_report']['sha256']
+                or Path(database).resolve() != Path(original['database']).resolve()):
+            raise ValueError('Shortlist evidence binding mismatch')
+        by_id = {}
+        for binding in search['manifest']['batch_bindings']:
+            audit, sources, products = audit_database(database, binding['batch_id'])
+            if audit['batch_content_hash'] != binding['content_hash']:
+                raise ValueError('Shortlist source batch changed')
+            by_id.update({r['record_id']: (r, p) for r, p in zip(sources, products)})
+        audit = dict(batch_id=original['batch_id'], batch_content_hash=fingerprint(search['manifest']['batch_bindings']))
+        retained_rows = []
+        for parent, bound in zip(saved['rows'], original['rows'], strict=True):
+            if any(parent[k] != bound[k] for k in ('record_id', 'batch_id', 'source', 'source_fingerprint', 'original_intake_row')):
+                raise ValueError('Shortlist outcome source mismatch')
+            for child, candidate in zip(parent['candidate_outcomes'], bound['candidate_outcomes'], strict=True):
+                if child['candidate_asin'] != candidate['candidate_asin']:
+                    raise ValueError('Shortlist outcome candidate mismatch')
+                entries = [e for e in reviewed['requests'] + reviewed['reused_details']
+                           if e['asin'] == child['candidate_asin']
+                           and e['lineage']['record_id'] == parent['record_id']]
+                if (len(entries) != 1 or entries[0]['source_fingerprint'] != parent['source_fingerprint']
+                        or entries[0]['candidate_audit'] != candidate['candidate_audit']
+                        or entries[0]['alternatives'] != candidate['alternatives']):
+                    raise ValueError('Reviewed candidate evidence mismatch')
+                retained_rows.append(dict(parent, candidate_asin=child['candidate_asin'], detail=child.get('detail'),
+                    candidate_audit=candidate['candidate_audit'], alternatives=candidate['alternatives'],
+                    selection_reason=candidate['selection_reason']))
+    else:
+        if original != prepare_details(database, Path(original['reviewed_plan'])):
+            raise ValueError('Saved detail source/plan binding mismatch')
+        audit, originals, products = audit_database(database, saved['batch_id'])
+        by_id = {r['record_id']: (r, p) for r, p in zip(originals, products)}
+        retained_rows = saved['rows']
+    if saved['run_key'] != original['run_key']:
+        raise ValueError('Saved detail source/plan binding mismatch')
+    rows, requests = [], []
+    for asin in asins:
+        retained = [r for r in retained_rows if r.get('candidate_asin') == asin]
+        if not retained:
+            raise ValueError('Selected ASIN absent from saved detail outcomes')
+        lineage = []
+        for row in retained:
+            source, product = by_id[row['record_id']]
+            detail = row.get('detail') or {}
+            catalog = (detail.get('value') or {}).get('catalog') or {}
+            if (row['original_intake_row'] != source or row['batch_id'] != source['batch_id']
+                    or canonical(row['source']) != canonical(product)
+                    or row['source_fingerprint'] != fingerprint(product)
+                    or catalog.get('asin') != asin or detail.get('is_mock') is not False
+                    or catalog.get('is_mock') is not False or timestamp(detail.get('observed_at')) is None):
+                raise ValueError('Selected candidate detail/lineage mismatch')
+            lineage.append(dict(record_id=row['record_id'], batch_id=row['batch_id'],
+                original_intake_row=source, source_fingerprint=fingerprint(product),
+                original_source=normalized(product), catalog_evidence=detail))
+            if multi:
+                lineage[-1].update(candidate_audit=row['candidate_audit'], alternatives=row['alternatives'],
+                                   selection_reason=row['selection_reason'])
+        rows.append(dict(asin=asin, marketplace_id=MARKETPLACE, seller_reference=seller_reference,
+                         lineage=lineage, source_identity='unverified', packaging='unverified'))
+        for kind in ('pricing', 'restrictions'):
+            params = (dict(MarketplaceId=MARKETPLACE, ItemCondition='New', CustomerType='Consumer')
+                if kind == 'pricing' else dict(asin=asin, sellerId='[hidden seller entry]',
+                    marketplaceIds=MARKETPLACE, conditionType='new_new', reasonLocale='en_US'))
+            path = '/products/pricing/v0/items/'+asin+'/offers' if kind == 'pricing' else '/listings/2021-08-01/restrictions'
+            scope = dict(kind=kind, asin=asin, marketplace_id=MARKETPLACE,
+                         condition='New' if kind == 'pricing' else 'new_new',
+                         context='Consumer' if kind == 'pricing' else seller_reference)
+            requests.append(dict(kind=kind, asin=asin, method='GET', path=path, params=params,
+                                 request_key=fingerprint(scope)))
+    count = len(rows)
+    return dict(schema=1, mode='candidate_pricing_restrictions', database=str(Path(database)),
+        detail_report=str(Path(detail_report)), detail_report_sha256=saved_sha,
+        asins=list(asins), seller_reference=seller_reference, batch_id=audit['batch_id'],
+        batch_content_hash=audit['batch_content_hash'], rows=rows, requests=requests,
+        reviewed_plan_sha256=original['reviewed_plan_sha256'],
+        run_key=fingerprint(dict(mode='candidate_pricing_restrictions',
+            batch_content_hash=audit['batch_content_hash'], asins=sorted(asins), seller_reference=seller_reference)),
+        limits=dict(authentication=1, pricing=count, restrictions=count, detail=0, search=0, total=1+2*count),
+        fees=False, retries=0, pagination=False, deadline_seconds=300, minimum_interval_seconds=2.1,
+        live_requests=0, execution_authorized=False,
+        notice='CANDIDATE-ASIN RESEARCH: source identity and packaging unverified. Listing permission is not purchase approval or FBA eligibility. No fees or verified net profit.')
+
+
+def execute_research(manifest_path, expected_sha256, max_attempts, private_path=pilot.DIRECTORY, *,
+                     transport=None, credential_loader=None, seller_prompt=None, is_mock=False,
+                     sleep=time.sleep, monotonic=time.monotonic):
+    from dataclasses import asdict
+    import re
+    from app.amazon_details import parse_pricing, parse_restrictions, prompt_seller_id
+    from app.amazon_diagnostics import failure_metadata
+    from app.provider_contracts import SellerContext
+    manifest, digest = read_json(manifest_path)
+    if digest != expected_sha256 or manifest.get('mode') != 'candidate_pricing_restrictions':
+        raise ValueError('Research manifest hash/mode mismatch')
+    if manifest != prepare_research(manifest['database'], manifest['detail_report'],
+                                    manifest['asins'], manifest['seller_reference']):
+        raise ValueError('Research source/evidence/scope changed')
+    if type(max_attempts) is not int or not manifest['limits']['total'] <= max_attempts <= 2001:
+        raise ValueError('Explicit research attempt cap exceeded')
+    report = dict(label=manifest['notice'], manifest=manifest, manifest_sha256=digest,
+        run_key=manifest['run_key'], batch_id=manifest['batch_id'], batch_content_hash=manifest['batch_content_hash'],
+        rows=[dict(**deepcopy(row), pricing=dict(status='not_attempted',data=None),
+                   restrictions=dict(status='not_attempted',data=None), fees=dict(status='not_requested',data=None),
+                   exact=False, purchase_approved=False) for row in manifest['rows']],
+        attempts=[], live_requests=0, is_mock=is_mock, status='reserved',
+        seller_eligible=None, verified_net_profit=None, purchase_approved=False)
+    directory = pilot.private_directory(private_path)
+    journal = None
+    from app.amazon_pacing import OperationPacer
+    pacer = (OperationPacer(monotonic=monotonic, sleep=sleep)
+             if transport is not None else pilot.default_pacer())
+    start = monotonic()
+    try:
+        journal = ExecutionJournal(directory, manifest, digest, report)
+        def call(kind, asin, request, key):
+            if monotonic()-start >= manifest['deadline_seconds']:
+                raise TimeoutError('Candidate research deadline')
+            journal.reserve(kind, asin, key, manifest['limits'])
+            try:
+                document = pacer.call(request, transport or pilot._request_json,
+                                      deadline=start+manifest['deadline_seconds'])
+            except Exception as error:
+                report['attempts'][-1]['failure'] = failure_metadata(error)
+                journal.checkpoint()
+                raise
+            if getattr(document, 'pacing', None):
+                report['attempts'][-1]['pacing'] = document.pacing
+            if not isinstance(document, dict):
+                raise ValueError('Response object required')
+            journal.received(key)
+            return document
+        try:
+            seller = (seller_prompt or prompt_seller_id)()
+            if not re.fullmatch(r'[A-Z0-9]{1,32}', seller):
+                raise ValueError('Authorized seller ID required')
+            context = SellerContext(seller, MARKETPLACE, 'new_new')
+            credentials = (credential_loader or pilot.load_credentials)(directory)
+            access = pilot.exchange_token(credentials, lambda request: call('authentication', None, request,
+                fingerprint(dict(run_key=manifest['run_key'],kind='authentication'))))
+            for request in manifest['requests']:
+                row = next(r for r in report['rows'] if r['asin'] == request['asin'])
+                outcome = row[request['kind']]
+                outcome['status'] = 'attempted'
+                journal.checkpoint()
+                try:
+                    params = dict(request['params'])
+                    if request['kind'] == 'restrictions': params['sellerId'] = seller
+                    document = call(request['kind'], request['asin'],
+                                    pilot.amazon_request(access, request['path'], params), request['request_key'])
+                    outcome['data'] = (normalized(asdict(parse_pricing(document, is_mock=is_mock, expected_asin=row['asin'])))
+                        if request['kind'] == 'pricing' else normalized(parse_restrictions(document, context, is_mock=is_mock)))
+                    outcome['status'] = 'succeeded'
+                except (TimeoutError, KeyboardInterrupt):
+                    raise
+                except Exception as error:
+                    outcome.update(status='failed', data=None, failure=failure_metadata(error))
+                    # Pricing and restrictions are independent; continue other bounded stages, no retry.
+                    if report['attempts']: report['attempts'][-1]['status'] = 'failed_or_parser_rejected'
+                journal.checkpoint()
+            report['status'] = ('succeeded' if all(r[k]['status'] == 'succeeded'
+                for r in report['rows'] for k in ('pricing','restrictions')) else 'partial')
+        except (Exception, KeyboardInterrupt) as error:
+            report.update(status='stopped_no_retry', failure=failure_metadata(error))
+            for row in report['rows']:
+                for key in ('pricing','restrictions'):
+                    if row[key]['status'] == 'attempted': row[key].update(status='interrupted',data=None)
+        finally:
+            report['finished_at'] = normalized(datetime.now(timezone.utc))
+            journal.checkpoint()
+        return report
+    finally:
+        if journal is not None: journal.close()
+        os.close(directory)
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('prepare-shortlist', 'prepare-details', 'run-details'))
+    parser.add_argument('action', choices=('prepare-shortlist', 'prepare-details', 'run-details', 'prepare-research', 'run-research'))
     parser.add_argument('--database', type=Path)
     parser.add_argument('--reviewed-plan', type=Path)
+    parser.add_argument('--detail-report', type=Path)
+    parser.add_argument('--asin', action='append')
+    parser.add_argument('--seller-reference', default='authorized-seller')
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--manifest-sha256')
     parser.add_argument('--max-attempts', type=int)
@@ -374,13 +574,16 @@ def main():
         parser.error('Shortlist preparation requires reviewed plan only')
     if args.action == 'prepare-details' and (args.execute or not args.database or not args.reviewed_plan):
         parser.error('Preparation requires local database and reviewed plan; no --execute')
-    if args.action == 'run-details' and (not args.execute or not args.manifest_sha256 or args.max_attempts is None
-                                       or args.database or args.reviewed_plan):
-        parser.error('run-details requires --execute, --manifest-sha256 and --max-attempts')
+    if args.action == 'prepare-research' and (args.execute or not args.database or not args.detail_report or not args.asin):
+        parser.error('Research preparation requires database, detail report and ASIN selections; no --execute')
+    if args.action in ('run-details','run-research') and (not args.execute or not args.manifest_sha256 or args.max_attempts is None
+                                       or args.database or args.reviewed_plan or args.detail_report or args.asin
+                                       or args.seller_reference != 'authorized-seller'):
+        parser.error('Execution requires --execute, --manifest-sha256 and --max-attempts; scope comes only from the manifest')
     try:
-        if args.action in ('prepare-details', 'prepare-shortlist'):
-            manifest = (prepare_shortlist(args.reviewed_plan) if args.action == 'prepare-shortlist' else
-                        prepare_details(args.database, args.reviewed_plan))
+        if args.action in ('prepare-shortlist','prepare-details','prepare-research'):
+            manifest = (prepare_shortlist(args.reviewed_plan) if args.action == 'prepare-shortlist' else prepare_details(args.database, args.reviewed_plan) if args.action == 'prepare-details'
+                else prepare_research(args.database, args.detail_report, args.asin, args.seller_reference))
             fd = os.open(args.manifest, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
             with os.fdopen(fd, 'w') as output:
                 output.write(canonical(manifest)+'\n')
@@ -390,7 +593,8 @@ def main():
         previous = signal.signal(signal.SIGALRM, pilot.deadline)
         try:
             signal.alarm(300)
-            report = execute_details(args.manifest, args.manifest_sha256, args.max_attempts)
+            runner = execute_details if args.action == 'run-details' else execute_research
+            report = runner(args.manifest, args.manifest_sha256, args.max_attempts)
         finally:
             signal.alarm(0); signal.signal(signal.SIGALRM, previous)
         print(canonical(dict(status=report['status'], attempts=len(report['attempts']),

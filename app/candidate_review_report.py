@@ -70,13 +70,24 @@ def evidence_gaps(source: dict, catalog: dict, search: dict) -> list[str]:
     return list(dict.fromkeys(gaps))
 
 
-def build_review(report: dict, *, source_label: str = 'SUPPLIED source/search observations; live origin not independently checked'):
+def build_review(report: dict, *, amazon_enrichment: dict | None = None, source_label: str = 'SUPPLIED source/search observations; live origin not independently checked'):
     if type(report.get('is_mock')) is not bool:
         raise ValueError('Explicit catalog mock/live provenance required')
     rows, comparisons, enrichments = [], [], []
     mocked = report.get('is_mock') is True
     amazon_label = ('MOCK Amazon catalog fixtures — illustrative only' if mocked else
                     'LIVE Amazon catalog observations — saved evidence; not verified product identity')
+    from app.candidate_enrichment_report import project
+    enrichment_by_asin, specs = {}, {}
+    if amazon_enrichment is not None:
+        if amazon_enrichment.get('is_mock') is not mocked:
+            raise ValueError('Amazon enrichment mock/live provenance mismatch')
+        enrichment_by_asin = {r['asin']: r for r in amazon_enrichment['rows']}
+        specs = {r['asin']: r for r in amazon_enrichment['manifest']['requests']}
+        candidates = {(r.get('search') or {}).get('selected_asin') for r in report['rows']} - {None}
+        if (set(enrichment_by_asin) != candidates or set(specs) != candidates
+                or len(enrichment_by_asin) != len(amazon_enrichment['rows'])):
+            raise ValueError('Enrichment must retain every distinct candidate ASIN exactly once')
     counts = Counter()
     for result in report['rows']:
         source = result['source']
@@ -106,6 +117,17 @@ def build_review(report: dict, *, source_label: str = 'SUPPLIED source/search ob
             source_url=source.get('url'),candidate_asin=candidate,
             amazon_title=catalog.get('title') or next((c.get('title') for c in search.get('candidates',[]) if c.get('asin')==candidate),None),
             match_status=match_status,evidence_gaps='; '.join(gaps)))
+        comparisons[-1].update(amazon_item_price=None, amazon_shipping=None,
+            price_provenance=str(source.get('provenance') or 'Unknown'),
+            conditional_ebay_coupon_price=None)
+        comparisons[-1].update(project(comparisons[-1], enrichment_by_asin.get(candidate),
+                                       specs.get(candidate), mocked=mocked))
+        if candidate in enrichment_by_asin:
+            enrichments.append(dict(kind='amazon_candidate_enrichment', asin=candidate,
+                value=canonical(enrichment_by_asin[candidate]),
+                provenance='Saved independent pricing, fee and restriction outcomes; request-bound manifest',
+                is_mock=mocked, notice='Candidate identity unverified; no purchase approval or verified net profit'))
+
         reasons=gaps+['Verified acquisition cost, Amazon sale price, fees and other economics unknown; profitability not established']
         provenance = detail.get('provenance') or search.get('provenance')
         data_mode = source_label+' | '+amazon_label+' | ECONOMICS UNKNOWN'
@@ -136,8 +158,10 @@ def build_review(report: dict, *, source_label: str = 'SUPPLIED source/search ob
     return rows,review,enrichments
 
 
-def regenerate(saved_report: Path, source_export: Path, original_workbook: Path, output: Path) -> dict:
+def regenerate(saved_report: Path, source_export: Path, original_workbook: Path, output: Path, *, amazon_enrichment: Path | None = None) -> dict:
     inputs = [Path(p) for p in (saved_report,source_export,original_workbook)]
+    if amazon_enrichment is not None:
+        inputs.append(Path(amazon_enrichment))
     output=Path(output)
     if output.resolve() in {p.resolve() for p in inputs} or output.exists() or output.is_symlink():
         raise ValueError('A separate new corrected workbook is required')
@@ -166,7 +190,14 @@ def regenerate(saved_report: Path, source_export: Path, original_workbook: Path,
                    and money(item.get('shipping_costs'))==money(context.get('source_shipping_cost'))
                    and item.get('shop_name')==context.get('source_seller') for item in source_items):
             raise ValueError('Source row differs from saved original export')
-    rows,review,enrichments=build_review(report,source_label=source_label)
+    enrichment = json.loads(Path(amazon_enrichment).read_text()) if amazon_enrichment is not None else None
+    if enrichment is not None:
+        from app.amazon_candidate_enrichment import plan
+        manifest = enrichment['manifest']
+        if manifest != plan(inputs[0], fixed_fee_prices=manifest.get('fixed_fee_prices'),
+                            seller_reference=manifest.get('seller_reference', '')):
+            raise ValueError('Saved enrichment manifest does not match candidate/scenario scope')
+    rows,review,enrichments=build_review(report,source_label=source_label,amazon_enrichment=enrichment)
     output.parent.mkdir(parents=True,exist_ok=True)
     # Reserve output without overwriting any original or preexisting artifact.
     fd=os.open(output,os.O_CREAT|os.O_EXCL|os.O_WRONLY|os.O_NOFOLLOW,0o600)
@@ -189,8 +220,9 @@ def main():
     parser.add_argument('--source-export',required=True,type=Path)
     parser.add_argument('--original-workbook',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--amazon-enrichment',type=Path,help='Saved request-bound Amazon enrichment report')
     args=parser.parse_args()
-    print(json.dumps(regenerate(args.saved_report,args.source_export,args.original_workbook,args.output)))
+    print(json.dumps(regenerate(args.saved_report,args.source_export,args.original_workbook,args.output,amazon_enrichment=args.amazon_enrichment)))
 
 
 if __name__=='__main__':

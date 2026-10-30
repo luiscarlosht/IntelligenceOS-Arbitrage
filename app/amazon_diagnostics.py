@@ -12,7 +12,7 @@ ERROR_CODES = frozenset({
     'invalid_client', 'invalid_grant', 'invalid_request', 'unauthorized_client', 'unsupported_grant_type',
 })
 FAILURE_REASONS = frozenset({'http_error', 'transport_error', 'response_too_large',
-    'invalid_json', 'invalid_response', 'response_validation_failed'})
+    'invalid_json', 'invalid_response', 'response_validation_failed', 'pacing_deferred'})
 
 
 def status_number(value: object) -> int | None:
@@ -76,4 +76,6 @@ def failure_metadata(error: BaseException) -> dict:
                     reason=error.reason if error.reason in FAILURE_REASONS else 'operation_failed')
         if error.validation_label in LABELS:
             data['validation_label'] = error.validation_label
+    if getattr(error, 'pacing', None):
+        data['pacing'] = error.pacing
     return data

@@ -220,7 +220,8 @@ def test_restrictions_empty_is_narrow_listing_permission_only():
             'message': 'synthetic-secret', 'links': [{'resource': 'https://example.invalid'}]}]}]}, CONTEXT, is_mock=True)
     assert blocked['listing_permission']['value'] is False
     assert blocked['reason_codes'] == ['APPROVAL_REQUIRED']
-    assert 'synthetic-secret' not in json.dumps(blocked, default=details.serialize)
+    assert blocked['reasons'][0]['message'] == 'synthetic-secret'
+    assert blocked['reasons'][0]['links'] == [{'resource': 'https://example.invalid'}]
     with pytest.raises(ProviderFailure):
         details.parse_restrictions({}, CONTEXT, is_mock=True)
     with pytest.raises(ProviderFailure):

@@ -23,6 +23,7 @@ from app.models import MarketplaceListing
 from app.provider_contracts import Evidence
 from app.provider_runtime import ProviderFailure
 from app.ops_notifications import NoRedirect
+from app.amazon_pacing import OperationPacer
 
 DIRECTORY = Path.home() / '.intelligenceos-arbitrage-amazon'
 FIELDS = ('client_id', 'client_secret', 'refresh_token')
@@ -136,13 +137,29 @@ def load_credentials(directory: int) -> dict:
     return values
 
 
-def request_json(request: Request) -> dict:
+_PACER = None
+
+
+def default_pacer() -> OperationPacer:
+    global _PACER
+    if _PACER is None:
+        _PACER = OperationPacer()
+    return _PACER
+
+
+def request_json(request: Request, *, pacer=None) -> dict:
+    return (pacer or default_pacer()).call(request, _request_json)
+
+
+def _request_json(request: Request) -> dict:
     """Verified TLS, no proxies/redirects/retries; only safe HTTP/code metadata."""
     status = None
+    rate_headers = {}
     try:
         opener = build_opener(ProxyHandler({}), NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
         with opener.open(request, timeout=10) as response:
             status = response.status
+            rate_headers = dict(getattr(response, 'headers', {}) or {})
             if status != 200:
                 body = response.read(MAX_ERROR_BYTES + 1)
                 raise AmazonFailure('Amazon response rejected', reason='http_error', http_status=status,
@@ -156,7 +173,9 @@ def request_json(request: Request) -> dict:
                 raise AmazonFailure('Amazon response invalid', reason='invalid_json', http_status=status) from None
             if not isinstance(result, dict):
                 raise AmazonFailure('Amazon response invalid', reason='invalid_response', http_status=status)
-            return ResponseDocument(result, status)
+            document = ResponseDocument(result, status)
+            document.rate_headers = dict(getattr(response, 'headers', {}) or {})
+            return document
     except HTTPError as error:
         status = error.code
         try:
@@ -168,8 +187,11 @@ def request_json(request: Request) -> dict:
             error.close()
         message = {400: 'invalid_request', 401: 'unauthorized', 403: 'forbidden',
                    404: 'not_found', 429: 'throttled'}.get(status, 'http_failure')
-        raise AmazonFailure(message, reason='http_error', http_status=status, codes=codes) from None
-    except AmazonFailure:
+        failure = AmazonFailure(message, reason='http_error', http_status=status, codes=codes)
+        failure.rate_headers = dict(error.headers or {})
+        raise failure from None
+    except AmazonFailure as error:
+        error.rate_headers = rate_headers
         raise
     except Exception:
         raise AmazonFailure('Amazon transport or response failed', reason='transport_error', http_status=status) from None
