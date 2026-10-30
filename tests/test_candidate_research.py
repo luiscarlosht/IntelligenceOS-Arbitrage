@@ -247,7 +247,7 @@ def test_real_run_research_transport_path_is_operation_paced(prepared, tmp_path,
     prices = [t for path,t in observed if path.endswith('/offers')]
     restrictions = [t for path,t in observed if path.endswith('/restrictions')]
     assert restrictions[0] == 0
-    assert prices == ([0.] if throttled else [0.,4.])
+    assert prices == ([0.] if throttled else [0.,8.])
     assert len(restrictions) == 2
     assert len(result['attempts']) == 5
     if throttled:

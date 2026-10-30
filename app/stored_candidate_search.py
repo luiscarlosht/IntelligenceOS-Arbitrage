@@ -4,6 +4,7 @@ from contextlib import closing
 from datetime import datetime, timezone
 from decimal import Decimal
 import hashlib
+import fcntl
 import json
 import os
 from pathlib import Path
@@ -119,6 +120,12 @@ class Reservations:
     """Use the existing shared ASIN ledger; claim all source rows before credentials."""
     def __init__(self, directory: int, manifest: dict, report: dict):
         self.report, self.manifest = report, manifest
+        self.lock = os.open('candidate-execution.lock', os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600, dir_fd=directory)
+        try:
+            fcntl.flock(self.lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BaseException:
+            os.close(self.lock)
+            raise
         self.cache, self.blocked, _ = saved_evidence([Path(e['path']) for e in manifest['evidence']])
         fd = os.open('candidate-executions.sqlite3', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600, dir_fd=directory)
         try:
@@ -143,11 +150,24 @@ class Reservations:
                 self.db.execute('INSERT INTO candidate_executions VALUES (?,?,?,?,?,?,?)',
                     (self.run_key, fingerprint(manifest), manifest['planning_sha256'], MODE,
                      fingerprint(manifest['batch_bindings']), 'reserved', canonical(report)))
+                self.db.execute('CREATE TABLE IF NOT EXISTS candidate_delegations (request_key TEXT PRIMARY KEY REFERENCES candidate_operations(request_key), original_run_key TEXT NOT NULL, delegate_run_key TEXT NOT NULL REFERENCES candidate_executions(run_key))')
+                self.db.execute('CREATE TABLE IF NOT EXISTS candidate_delegation_history (request_key TEXT NOT NULL, from_run_key TEXT NOT NULL, to_run_key TEXT NOT NULL, PRIMARY KEY(request_key,to_run_key))')
                 for spec in manifest['requests']:
-                    self.db.execute('INSERT INTO candidate_operations VALUES (?,?,?,?,?)',
-                        (self.search_key(spec), self.run_key, 'search', None, 'claimed_not_attempted'))
+                    key = self.search_key(spec)
+                    if manifest.get('recovery'):
+                        parent = manifest['recovery']['parent_run_key']
+                        row = self.db.execute('SELECT run_key,kind,state FROM candidate_operations WHERE request_key=?', (key,)).fetchone()
+                        delegate = self.db.execute('SELECT delegate_run_key FROM candidate_delegations WHERE request_key=?', (key,)).fetchone()
+                        if not row or (delegate[0] if delegate else row[0], row[1], row[2]) != (parent, 'search', 'claimed_not_attempted'):
+                            raise ValueError('Only original claimed unattempted searches can be delegated')
+                        self.db.execute('INSERT INTO candidate_delegation_history VALUES (?,?,?)', (key, parent, self.run_key))
+                        self.db.execute('INSERT INTO candidate_delegations VALUES (?,?,?) ON CONFLICT(request_key) DO UPDATE SET delegate_run_key=excluded.delegate_run_key', (key, row[0], self.run_key))
+                    else:
+                        self.db.execute('INSERT INTO candidate_operations VALUES (?,?,?,?,?)',
+                            (key, self.run_key, 'search', None, 'claimed_not_attempted'))
         except BaseException:
             self.db.close()
+            os.close(self.lock)
             raise
         self.last_key = None
 
@@ -196,7 +216,11 @@ class Reservations:
         with self.db:
             self.db.execute('BEGIN IMMEDIATE')
             if kind == 'search':
-                changed = self.db.execute("UPDATE candidate_operations SET state='reserved' WHERE request_key=? AND run_key=? AND state='claimed_not_attempted'", (key, self.run_key)).rowcount
+                delegate = self.db.execute('SELECT delegate_run_key FROM candidate_delegations WHERE request_key=?', (key,)).fetchone()
+                owner = self.db.execute('SELECT run_key FROM candidate_operations WHERE request_key=?', (key,)).fetchone()[0]
+                if (delegate[0] if delegate else owner) != self.run_key:
+                    raise ValueError('Search delegated to another execution')
+                changed = self.db.execute("UPDATE candidate_operations SET state='reserved' WHERE request_key=? AND run_key=? AND state='claimed_not_attempted'", (key, owner)).rowcount
                 if changed != 1:
                     raise ValueError('Search already attempted')
             else:
@@ -217,6 +241,7 @@ class Reservations:
                                 (self.report['status'], canonical(self.report), self.run_key))
         finally:
             self.db.close()
+            os.close(self.lock)
 
 
 def verify(manifest_path: Path, expected_sha256: str, maximum: int = 77) -> tuple[dict, tuple]:
@@ -238,6 +263,15 @@ def verify(manifest_path: Path, expected_sha256: str, maximum: int = 77) -> tupl
 
 def run(manifest_path: Path, expected_sha256: str, maximum: int = 77, **kwargs) -> dict:
     manifest, _ = verify(manifest_path, expected_sha256, maximum)
+    if 'transport' not in kwargs:
+        from app.amazon_pacing import OperationPacer
+        pacer = None
+        def paced(request):
+            nonlocal pacer
+            if pacer is None:
+                pacer = OperationPacer(state_path=Path(manifest['private_directory'])/'candidate-executions.sqlite3')
+            return pacer.call(request, pilot._request_json, deadline=pacer.monotonic()+manifest['deadline_seconds'])
+        kwargs['transport'] = paced
     return stage.execute(Path(manifest['source']), manifest, Path(manifest['private_directory']),
         source_binding=lambda: verify(manifest_path, expected_sha256, maximum),
         guard_factory=Reservations, **kwargs)

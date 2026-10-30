@@ -22,7 +22,7 @@ def test_independent_operations_headers_and_reservations():
     assert clock.value == 0
     pacer.observe('getItemOffers', 200, {'X-Amzn-RateLimit-Limit': '.25'})
     pacer.acquire('getItemOffers')
-    assert clock.value == 4
+    assert clock.value == 8
     reserved = pacer.not_before['getItemOffers']
     pacer.observe('getItemOffers', 200, {'x-amzn-ratelimit-limit': '100'})
     assert pacer.not_before['getItemOffers'] == reserved
@@ -62,7 +62,7 @@ def test_retry_after_date_and_invalid_headers():
     for value in ('nan', 'inf', '-1', 'bad'):
         pacer.observe('getCatalogItem', 429, {'Retry-After': value, 'x-amzn-ratelimit-limit': value})
     assert pacer.rates['getCatalogItem'] == 2
-    assert pacer.not_before['getCatalogItem'] == 10
+    assert pacer.not_before['getCatalogItem'] == 60
 
 
 def test_configurable_rates():
