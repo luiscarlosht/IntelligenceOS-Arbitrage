@@ -83,6 +83,11 @@ def validate_raw(row):
             raw_money = checked(field, money, value) if type(value) is str else None
             agrees = (raw_money is not None and
                       raw_money == checked(field, money, exported))
+        elif browser and field == 'displayed_zip':
+            # Accept only an explicit city, ZIP pair; never search arbitrary text.
+            match = (re.fullmatch(r"(?:[A-Za-z]+(?:[ .'-][A-Za-z]+)*, )?([0-9]{5})", value)
+                     if type(value) is str else None)
+            agrees = match is not None and match[1] == exported
         elif browser and field == 'observed_at_utc':
             agrees = checked(field, stamp, value) == checked(field, stamp, exported)
         else:

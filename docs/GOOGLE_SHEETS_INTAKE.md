@@ -313,3 +313,34 @@ no zero charge is inferred, and original nulls remain in retained raw JSON.
 The prior rejection is reproduced offline from the saved pre-fix validator and
 the documented null/blank facts. A further live diagnostic is therefore not
 needed to explain this failure; no credentials or live rows were accessed.
+
+## City and ZIP equivalence
+
+Original browser `displayed_zip: "Mansfield, 76063"` agrees with the exported
+`displayed_zip` cell `76063`. The browser comparison accepts exactly five ASCII
+ZIP digits, optionally preceded by a city name and literal comma-space. City
+names contain ASCII letters with spaces, periods, apostrophes or hyphens between
+letter groups. No arbitrary-text ZIP extraction, ZIP+4, trimming or numeric coercion
+is performed. Conflicting ZIPs, multiple ZIPs and malformed values reject.
+The exported cell must still be exactly five digits; original raw JSON is retained
+unchanged, including additional `retail_pack_information` evidence.
+
+The ZIP regression fixture contains the five representative product IDs, two null
+variants, additional pack evidence and both null and populated shipping charges.
+Unprovided values are illustrative. Existing producer formats and immutable
+batch/record conflict checks remain in force.
+
+`check` currently validates sheet contents without consulting SQLite. Its parser
+accepts `--database`, but that option is used only by `ingest` and `summary`;
+passing it to `check` does **not** enable `already_stored` recognition. There is no
+supported database-aware check command in this revision. The exact read-only
+validation command (shown only; requires live access when an operator runs it) is:
+
+```sh
+ARBITRAGE_SHEETS_CREDENTIAL_FILE=/root/.config/intelligenceos-sheets/service-account.json .venv/bin/python -m app.sheets_intake check
+```
+
+Do not interpret `accepted` from check as newly ingested. Offline local storage
+summary uses `.venv/bin/python -m app.sheets_intake summary --database var/sheets-intake.sqlite3`;
+that summary does not compare current sheet contents. This change was verified
+with direct SQLite `mode=ro` inspection instead of constructing `IntakeStore`.
