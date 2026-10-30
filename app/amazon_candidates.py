@@ -182,9 +182,10 @@ def decide(product, search: dict, detail: Evidence | None) -> tuple[str, Match]:
 
 def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, *,
             transport=None, credential_loader=None, is_mock: bool = False,
-            sleep=time.sleep, monotonic=time.monotonic) -> dict:
+            sleep=time.sleep, monotonic=time.monotonic,
+            source_binding=None, guard_factory=None) -> dict:
     """Explicit future operator execution; injectable transport for offline regression tests."""
-    expected, products = source_plan(source)
+    expected, products = source_binding() if source_binding else source_plan(source)
     if manifest != expected:
         raise ValueError('Manifest differs from exact source-bound plan')
     directory = pilot.private_directory(private_path)
@@ -205,6 +206,8 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
     counts = dict(authentication=0, search=0, detail=0)
     operation = 'credentials'
     output = os.fdopen(fd, 'w')
+    guard = None
+    detail_cache = {}
 
     def checkpoint():
         output.seek(0)
@@ -227,6 +230,8 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
         report['attempts'].append(dict(kind=kind, ordinal=ordinal, status='reserved'))
         report['live_requests'] = 0 if is_mock else len(report['attempts'])
         checkpoint()  # Reserve before I/O; errors/uncertain outcomes are consumed attempts.
+        if guard is not None:
+            guard.reserve(kind, ordinal, request)
         last = monotonic()
         try:
             value = (transport or pilot.request_json)(request)
@@ -241,11 +246,15 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
             operation = kind + '_validation'
             raise ProviderFailure('Invalid response document')
         report['attempts'][-1].update(status='response_received', **response_metadata(value))
+        if guard is not None:
+            guard.received()
         checkpoint()  # Retain response receipt/status even if parsing fails next.
         operation = kind + '_validation'
         return value
 
     try:
+        if guard_factory is not None:
+            guard = guard_factory(directory, manifest, report)
         checkpoint()  # Every original source row is durable before credentials or HTTP.
         credentials = (credential_loader or pilot.load_credentials)(directory)
         access = pilot.exchange_token(credentials, lambda req: call('authentication', None, req))
@@ -256,6 +265,8 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
             request = spec['search']
             search = parse_search(call('search', row['ordinal'], pilot.amazon_request(
                 access, request['path'], request['params'])), secrets=secrets)
+            if guard is not None:
+                search['selected_asin'] = guard.select(product, search)
             row['search'] = dict(**search, observed_at=datetime.now(timezone.utc).isoformat(),
                                  provenance='Amazon SP-API searchCatalogItems 2022-04-01; US; first page',
                                  request_ordinal=row['ordinal'], keywords=product.name)
@@ -266,12 +277,25 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
                 row['status'] = 'detail_pending'
                 request = spec['detail']
                 asin = search['selected_asin']
-                detail = detail_evidence(call('detail', row['ordinal'], pilot.amazon_request(
-                    access, CATALOG_PATH+'/'+asin, request['params'])), asin,
-                    is_mock=is_mock, secrets=secrets)
+                reused = guard.saved_detail(asin) if guard is not None and asin not in detail_cache else None
+                if reused is not None:
+                    detail = reused
+                    row['detail_origin'] = 'reused_saved_us_catalog_asin'
+                elif guard is not None and asin in detail_cache:
+                    detail = detail_cache[asin]
+                    row['detail_origin'] = 'reused_same_run_us_catalog_asin'
+                else:
+                    detail = detail_evidence(call('detail', row['ordinal'], pilot.amazon_request(
+                        access, CATALOG_PATH+'/'+asin, request['params'])), asin,
+                        is_mock=is_mock, secrets=secrets)
+                    detail_cache[asin] = detail
+                    if guard is not None:
+                        row['detail_origin'] = 'collected_this_run'
                 row['detail'] = normalized(detail)
             operation = 'matching'
             row['status'], match = decide(product, search, detail)
+            if guard is not None:
+                match = replace(match, exact=False, confidence=Decimal('0'))
             matches[row['ordinal']-1] = match
             row['exact'], row['reasons'] = match.exact, list(match.reasons)
             checkpoint()
@@ -304,6 +328,8 @@ def execute(source: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, 
         # Do not persist exception messages, request headers, credentials or raw response bodies.
     finally:
         checkpoint()
+        if guard is not None:
+            guard.close()
         output.close()
         os.close(directory)
     persist(private_path, stem, products, report, now, matches)
