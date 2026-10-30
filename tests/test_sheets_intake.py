@@ -601,3 +601,51 @@ def test_null_canonical_shipping_alias_and_legacy_mirror():
     raw = json.loads(c.rows[1][-1]); raw['selected_variant'] = None
     c.rows[1][-1] = json.dumps(raw)
     assert process(c)['accepted'] == 1
+
+
+@pytest.mark.parametrize('raw_zip', [
+    'Mansfield, 90210', 'Mansfield, 76063, 90210', '76063 76063',
+    'Mansfield, 7606', 'Mansfield, 760630', 'Mansfield, 76063-1234',
+    'ZIP 76063', 'Mansfield, 76063\n', '', None, 76063,
+])
+def test_raw_zip_conflicting_ambiguous_or_malformed_rejects(raw_zip):
+    c = representative_description_client()
+    raw = json.loads(c.rows[1][-1])
+    raw['displayed_zip'] = raw_zip
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c)['rejections'] == [
+        {'code': 'RAW_EXPORT_MISMATCH', 'field': 'displayed_zip'}]
+    assert not c.writes
+
+
+def test_city_zip_five_product_regression_preserves_raw_and_replay(tmp_path):
+    from pathlib import Path
+    snapshot = json.loads((Path(__file__).parent / 'fixtures' /
+                           'sheets_browser_five_zip_regression.json').read_text())
+    c = Client()
+    c.rows, c.batches = snapshot['Walmart_Intake'], snapshot['Walmart_Batches']
+    originals = copy.deepcopy(c.rows)
+    assert process(c)['accepted'] == 1
+    assert not c.writes
+    store = IntakeStore(tmp_path / 'regression.sqlite3')
+    assert process(c, store)['accepted'] == 1
+    assert process(c, store)['already_stored'] == 1
+    assert c.rows == originals
+    with store.connect() as db:
+        stored = dict(db.execute('SELECT record_id, original_json FROM sheets_records'))
+    for cells in originals[1:]:
+        row = dict(zip(FIELDS, cells))
+        assert json.loads(stored[row['record_id']]) == row
+        raw = json.loads(row['raw_record_json'])
+        assert raw['displayed_zip'] == 'Mansfield, 76063'
+        assert 'retail_pack_information' in raw
+        p = product(row)
+        assert p.source_context['observed_zip'] == '76063'
+        assert (str(p.source_context['source_shipping_cost'])
+                if p.source_context['source_shipping_cost'] is not None else '') == row['shipping_charge_usd']
+    # A valid but changed original payload is still an immutable batch conflict.
+    raw = json.loads(c.rows[1][-1])
+    raw['retail_pack_information'] = 'Changed pack evidence'
+    c.rows[1][-1] = json.dumps(raw)
+    assert process(c, store)['rejections'] == [
+        {'code': 'CHANGED_BATCH_PAYLOAD', 'field': 'batch_id'}]

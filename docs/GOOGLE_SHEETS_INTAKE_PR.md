@@ -45,3 +45,30 @@ null variants for 17617453 and 14906288, with blank exported cells, plus null
 shipping charges. Missing observations stay missing; populated conflicts and
 required fields remain strict. Raw values are retained and titles never supply
 selected variants.
+
+## ZIP normalization follow-up
+
+A browser location `Mansfield, 76063` previously rejected against the exported
+ZIP `76063`. Accept the explicit city-comma-space-ZIP shape while preserving raw
+JSON and requiring agreement with the five-digit export. Reject conflicting,
+ambiguous and malformed locations. Add a separate representative five-product
+regression fixture with pack evidence, nullable variants and mixed shipping
+charges; retain replay and changed-payload rejection coverage.
+
+Local database inspection used SQLite mode=ro: original batch
+`walmart-76063-20261029T010727Z-five-v1`, five records and five observations.
+SHA-256 before/after: `589a5ebbdf77753b538300b3e95aa245f3ea16fa08982aa1eeaa21c2381d863c`.
+No live operations were performed. Check ignores --database today; documentation
+explicitly avoids claiming it can recognize already-stored batches.
+
+Follow-up review scope: ZIP comparison in app/sheets_intake.py, the ZIP regression
+tests in tests/test_sheets_intake.py, tests/fixtures/sheets_browser_five_zip_regression.json,
+and these two intake documents. The checkout already contains earlier unpublished
+Sheets work and unrelated changes; do not stage the entire working tree.
+
+ZIP follow-up validation: baseline 1,137 tests passed; final full suite 1,149
+tests passed; targeted intake suite 183 passed. Both documented offline sample
+modes succeeded with readable workbooks and successful isolated SQLite histories.
+`pip check` and `git diff --check` passed. Focused local patch and PR draft are
+prepared under `/root/zip-normalization-pr/`; publication was not attempted because
+this task forbids live calls.
