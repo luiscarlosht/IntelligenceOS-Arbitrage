@@ -246,3 +246,67 @@ def test_credentials_failure_preserves_rows_and_no_http(tmp_path):
                          credential_loader=denied,is_mock=True)
     assert len(result['rows'])==10 and not result['attempts']
     assert 'synthetic-secret' not in canonical(result)
+
+
+@pytest.mark.parametrize('mode,status,code,attempt_status', [
+    ('http', 429, None, 'request_failed'),
+    ('parser', 200, 'CATALOG_ASIN_MISMATCH', 'parser_rejected'),
+    ('transport', None, None, 'request_failed'),
+    ('matching', None, None, 'response_received'),
+])
+def test_candidate_failure_diagnostics_distinguish_response_parser_and_transport(
+        tmp_path, monkeypatch, mode, status, code, attempt_status):
+    from app.amazon_diagnostics import AmazonFailure, ResponseDocument
+    src = source(tmp_path); manifest, _ = stage.source_plan(src); calls = []
+    def transport(request):
+        calls.append(request)
+        if len(calls) == 1:
+            return dict(access_token='synthetic-access', token_type='bearer')
+        if len(calls) == 2:
+            return ResponseDocument(search(), 200)
+        if mode == 'http':
+            raise AmazonFailure('synthetic-secret', reason='http_error', http_status=429,
+                                codes=('QuotaExceeded', 'synthetic-secret'))
+        if mode == 'transport':
+            raise TimeoutError('synthetic-secret')
+        return ResponseDocument(catalog(OTHER if mode == 'parser' else ASIN), 200)
+    if mode == 'matching':
+        monkeypatch.setattr(stage, 'decide', lambda *_: (_ for _ in ()).throw(ValueError('synthetic-secret')))
+    result = stage.execute(src, manifest, tmp_path/'private', transport=transport,
+        credential_loader=lambda _:CREDS, is_mock=True, sleep=lambda _:None)
+    assert len(calls) == 3 and result['status'] == 'failed_no_retry'
+    assert result['attempts'][1]['status'] == 'response_received'
+    attempt = result['attempts'][-1]
+    assert attempt['status'] == attempt_status
+    assert result['failure']['http_status'] == status
+    assert result['failure'].get('validation_code') == code
+    if mode == 'http':
+        assert attempt['outcome'] == 'http_error_response'
+        assert attempt['failure']['amazon_error_codes'] == ['OTHER', 'QuotaExceeded']
+    elif mode == 'transport':
+        assert attempt['outcome'] == 'uncertain'
+    elif mode == 'parser':
+        assert attempt['outcome'] == 'response_received' and attempt['http_status'] == 200
+    assert 'synthetic-secret' not in canonical(result)
+    assert all(r['status'] == 'not_attempted' for r in result['rows'][1:])
+    with pytest.raises(FileExistsError):
+        stage.execute(src, manifest, tmp_path/'private', credential_loader=lambda _:pytest.fail('Replay'))
+
+
+@pytest.mark.parametrize('fault_at,expected_stage', [(5,'search_response_checkpoint'),(6,'search_checkpoint')])
+def test_checkpoint_failure_does_not_relabel_completed_response_as_parser_failure(
+        tmp_path,monkeypatch,fault_at,expected_stage):
+    calls=0
+    original=stage.os.fsync
+    def fail_once(fd):
+        nonlocal calls
+        calls+=1
+        if calls==fault_at:raise OSError('synthetic-secret')
+        return original(fd)
+    monkeypatch.setattr(stage.os,'fsync',fail_once)
+    _,_,result,requests=run(tmp_path)
+    assert result['status']=='failed_no_retry' and len(requests)==2
+    assert result['attempts'][-1]['status']=='response_received'
+    assert result['failure']['stage']==expected_stage
+    assert 'validation_code' not in result['failure']
+    assert 'synthetic-secret' not in canonical(result)
