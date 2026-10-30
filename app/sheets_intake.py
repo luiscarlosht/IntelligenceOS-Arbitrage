@@ -78,7 +78,12 @@ def validate_raw(row):
             # No title parsing, whitespace trimming or populated-value substitution.
             agrees = exported == ''
         elif browser and field in ('item_price_usd', 'shipping_charge_usd'):
-            if isinstance(value, str) and value.startswith('$'):
+            if type(value) is str and field == 'item_price_usd':
+                match = re.fullmatch(r'(?:Now )?\$?([0-9]+(?:\.[0-9]{2})?)', value)
+                if match is None:
+                    raise ValidationFailure('INVALID_VALUE', field)
+                value = match[1]
+            elif isinstance(value, str) and value.startswith('$'):
                 value = value[1:]
             raw_money = checked(field, money, value) if type(value) is str else None
             agrees = (raw_money is not None and
@@ -145,13 +150,13 @@ def record_identifier(value):
 
 def availability_description(field, value):
     """Keep source wording separate from conservative, channel-specific evidence."""
-    if len(value) > 1000 or any(ord(c) < 32 or ord(c) == 127 for c in value):
+    if len(value) > 1000 or any((ord(c) < 32 and c not in '\r\n') or ord(c) == 127 for c in value):
         raise ValidationFailure('INVALID_VALUE', field)
     if value in ('', 'UNKNOWN'):
         return None
     if value in ('AVAILABLE', 'UNAVAILABLE'):
         return value
-    text = value.casefold().strip()
+    text = ' '.join(value.casefold().split())
     channel = {'shipping_availability': 'shipping',
                'local_delivery_availability': 'delivery',
                'pickup_availability': 'pickup'}[field]
@@ -162,7 +167,8 @@ def availability_description(field, value):
         return 'UNAVAILABLE'
     day = r'(?:today|tomorrow|(?:mon|tues|wednes|thurs|fri|satur|sun)day|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec) [0-9]{1,2})'
     if channel == 'shipping':
-        positive = re.fullmatch(rf'shipping arrives {day}', text)
+        positive = re.fullmatch(
+            rf'shipping arrives {day}(?: order within [0-9]+ hr(?: [0-9]+ min)?)?', text)
     else:
         arrival = rf'(?:[0-9]+ (?:min|mins|minutes|hour|hours)|(?:[1-9]|1[0-2])(?::[0-5][0-9])?(?:am|pm)(?: {day})?)'
         positive = re.fullmatch(rf'{channel} as soon as {arrival}', text)
