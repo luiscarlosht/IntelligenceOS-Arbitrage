@@ -1,6 +1,7 @@
 """Manual Sheets ingestion. Sheet values are data; no Amazon operations."""
 import argparse
 from datetime import datetime, timezone
+from decimal import Decimal
 import json
 import os
 from pathlib import Path
@@ -45,7 +46,7 @@ def checked(field, validator, value):
 
 def validate_raw(row):
     try:
-        raw = json.loads(row['raw_record_json'],
+        raw = json.loads(row['raw_record_json'], parse_float=Decimal,
                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
     except (ValueError, TypeError):
         raise ValidationFailure('INVALID_JSON', 'raw_record_json') from None
@@ -85,7 +86,7 @@ def validate_raw(row):
                 value = match[1]
             elif isinstance(value, str) and value.startswith('$'):
                 value = value[1:]
-            raw_money = checked(field, money, value) if type(value) is str else None
+            raw_money = checked(field, money, value) if type(value) in (str, int, Decimal) else None
             agrees = (raw_money is not None and
                       raw_money == checked(field, money, exported))
         elif browser and field == 'displayed_zip':
