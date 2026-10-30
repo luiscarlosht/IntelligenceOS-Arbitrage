@@ -200,10 +200,11 @@ class Reservations:
 
     @staticmethod
     def select(product, search: dict) -> str | None:
-        """A literal title match is an investigation lead only, never identity proof."""
-        text = lambda value: ' '.join(value.casefold().split())
-        leads = [c['asin'] for c in search['candidates'] if text(c['title']) == text(product.name)]
-        return leads[0] if len(leads) == 1 else None
+        """Select an evidence lead, retaining alternatives and unresolved ties."""
+        from app.candidate_quality import review_candidates
+        audit = review_candidates(normalized(product), search)
+        search['selection_audit'] = audit
+        return audit['selected_asin']
 
     def saved_detail(self, asin: str) -> Evidence | None:
         saved = self.cache.get(asin)

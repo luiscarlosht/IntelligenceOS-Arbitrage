@@ -122,7 +122,7 @@ def write_report(rows, destination, *, discovery=False, top_count=20, job=None, 
             sheet.column_dimensions[get_column_letter(i)].width = 55 if i in (2, 11, 12) else 21
     if candidate_review:
         sheet = wb.create_sheet('Candidate Comparison', 1)
-        headers = ('eBay Title', 'Seller', 'Observed Item Price (USD)', 'Reported Shipping (USD)',
+        headers = ('Source Title', 'Seller', 'Observed Item Price (USD)', 'Reported Shipping (USD)',
                    'Source URL', 'Candidate ASIN', 'Amazon Title', 'Match Status', 'Evidence Gaps')
         sheet.append(headers)
         for index, result in enumerate(candidate_review['comparisons'], 2):

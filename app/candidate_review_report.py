@@ -96,9 +96,12 @@ def build_review(report: dict, *, source_label: str = 'SUPPLIED source/search ob
             gaps.append('Saved exact-identity assertion requires separate sourcing/economics validation')
         match_status = 'Confirmed exact (saved evidence)' if exact else ('Ambiguous candidate only' if status=='ambiguous'
             else 'Candidate only — unverified' if candidate else 'Unmatched' if status=='unmatched' else status.replace('_',' ').title())
+        if status in ('failed', 'not_attempted'):
+            match_status = 'Failed stage — retained candidate only' if status == 'failed' else 'Not attempted'
+            gaps.append('Detail outcome unresolved')
         observed = source.get('source_context') or {}
         comparisons.append(dict(ebay_title=source['name'],seller=observed.get('source_seller'),
-            observed_item_price=money(observed.get('search_price')),
+            observed_item_price=money(source.get('purchase_price') if source.get('retailer') == 'Walmart' else observed.get('search_price')),
             reported_shipping=money(observed.get('source_shipping_cost')),
             source_url=source.get('url'),candidate_asin=candidate,
             amazon_title=catalog.get('title') or next((c.get('title') for c in search.get('candidates',[]) if c.get('asin')==candidate),None),
