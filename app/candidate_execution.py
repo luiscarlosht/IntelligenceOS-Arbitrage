@@ -72,6 +72,72 @@ def prepare_details(database, reviewed_plan):
         minimum_interval_seconds=0.5, live_requests=0, execution_authorized=False)
 
 
+def prepare_shortlist(reviewed_plan):
+    """Bind every reviewed candidate to its original source; deduplicate HTTP only."""
+    from app.reviewed_detail_plan import prepare
+    from app.catalog_saved_evidence import REPORT_PATTERNS
+    reviewed, plan_sha = read_json(reviewed_plan)
+    if reviewed != prepare(Path(reviewed['review']['path'])):
+        raise ValueError('Shortlist differs from protected review/evidence')
+    saved, _ = read_json(reviewed['saved_report']['path'])
+    original = saved['manifest']
+    private = Path(original['private_directory'])
+    protected = {Path(p).resolve() for p in reviewed['protected_inputs']}
+    if any(p.resolve() not in protected for pattern in REPORT_PATTERNS for p in private.glob(pattern)):
+        raise ValueError('New saved evidence requires review')
+    database = Path(original['source'])
+    sources = {}
+    for binding in original['batch_bindings']:
+        audit, intake, products = audit_database(database, binding['batch_id'])
+        if audit['batch_content_hash'] != binding['content_hash']:
+            raise ValueError('Source batch changed')
+        sources.update({r['record_id']: (r, product) for r, product in zip(intake, products)})
+    rows = []
+    for old, binding in zip(saved['rows'], original['requests'], strict=True):
+        intake, product = sources[binding['record_id']]
+        if (binding['original_intake_row'] != intake or old['source'] != normalized(product)
+                or fingerprint(product) != binding['source_fingerprint']):
+            raise ValueError('Original source binding changed')
+        row = dict(ordinal=old['ordinal'], record_id=intake['record_id'], batch_id=intake['batch_id'],
+            source_fingerprint=fingerprint(product), original_intake_row=intake,
+            source=deepcopy(old['source']), original_search=deepcopy(old['search']),
+            search=deepcopy(old['search']), candidate_outcomes=[])
+        row['search']['selected_asin'] = None
+        rows.append(row)
+    requests = {}
+    for entry in reviewed['reused_details'] + reviewed['requests']:
+        row = next(r for r in rows if r['record_id'] == entry['lineage']['record_id'])
+        if (row['source_fingerprint'] != entry['source_fingerprint']
+                or row['original_intake_row'] != entry['lineage']['original_intake_row']
+                or not any(c['asin'] == entry['asin'] for c in row['search']['candidates'])):
+            raise ValueError('Candidate source binding changed')
+        if any(c['candidate_asin'] == entry['asin'] for c in row['candidate_outcomes']):
+            raise ValueError('Duplicate source candidate')
+        row['candidate_outcomes'].append(dict(candidate_asin=entry['asin'],
+            selection_reason=entry['selection_reason'], candidate_audit=entry['candidate_audit'],
+            alternatives=entry['alternatives'], catalog_detail_reuse=(
+                [dict(evidence=entry['detail'])] if 'detail' in entry else [])))
+        if 'detail' not in entry:
+            asin = entry['asin']
+            request = requests.setdefault(asin, dict(kind='catalog_detail', asin=asin,
+                method=entry['method'], path=entry['path'], params=entry['params'], source_record_ids=[],
+                request_key=fingerprint(dict(kind='catalog_detail', marketplace_id=MARKETPLACE,
+                    asin=asin, included_data=DETAIL_DATA))))
+            request['source_record_ids'].append(row['record_id'])
+    count = len(requests)
+    if count > 8 or reviewed['budget']['total'] != count + bool(count):
+        raise ValueError('Shortlist exceeds authorized detail budget')
+    identity = fingerprint(dict(rows=rows, marketplace_id=MARKETPLACE, included_data=DETAIL_DATA))
+    return dict(schema=1, mode='reviewed_shortlist_details', database=str(database), source=str(database),
+        reviewed_plan=str(Path(reviewed_plan)), reviewed_plan_sha256=plan_sha,
+        private_directory=str(private), batch_id='reviewed-shortlist',
+        batch_content_hash=fingerprint(original['batch_bindings']), run_key=identity,
+        rows=rows, requests=list(requests.values()),
+        limits=dict(authentication=int(bool(count)), search=0, detail=count, total=count+int(bool(count))),
+        retries=0, pagination=False, pricing=False, fees=False, restrictions=False,
+        deadline_seconds=300, minimum_interval_seconds=0.5, live_requests=0, execution_authorized=False)
+
+
 class ExecutionJournal:
     """Durable run/operation claims; SQL checkpoints remain authoritative after a crash."""
     def __init__(self, directory, manifest, manifest_sha, report):
@@ -106,6 +172,10 @@ class ExecutionJournal:
                     (self.run_key, manifest_sha, manifest['reviewed_plan_sha256'], manifest['batch_id'],
                      manifest['batch_content_hash'], report['status'], canonical(report)))
                 for request in manifest['requests']:
+                    if self.db.execute(
+                            "SELECT 1 FROM candidate_operations WHERE kind='detail' AND asin=?",
+                            (request['asin'],)).fetchone():
+                        raise sqlite3.IntegrityError('Prior ASIN operation remains reserved')
                     self.db.execute('INSERT INTO candidate_operations VALUES (?,?,?,?,?)',
                         (request['request_key'], self.run_key, 'detail', request['asin'], 'claimed_not_attempted'))
             stem = 'candidate-details-'+self.run_key
@@ -170,17 +240,36 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
     """Generic stored-batch entrypoint; same transport/parser/persistence as CSV candidate runs."""
     from app import amazon_candidates as candidates
     manifest, digest = read_json(manifest_path)
-    if digest != expected_sha256 or manifest.get('mode') != 'stored_missing_catalog_details':
+    if digest != expected_sha256 or manifest.get('mode') not in ('stored_missing_catalog_details', 'reviewed_shortlist_details'):
         raise ValueError('Execution manifest hash/mode mismatch')
-    expected = prepare_details(Path(manifest['database']), Path(manifest['reviewed_plan']))
+    multi = manifest['mode'] == 'reviewed_shortlist_details'
+    expected = (prepare_shortlist(Path(manifest['reviewed_plan'])) if multi else
+                prepare_details(Path(manifest['database']), Path(manifest['reviewed_plan'])))
     if manifest != expected:
         raise ValueError('Execution manifest no longer matches reviewed evidence/source')
     if type(max_attempts) is not int or not 0 <= manifest['limits']['total'] <= max_attempts <= 1001:
         raise ValueError('Explicit HTTP attempt cap exceeded')
-    _, _, products = audit_database(manifest['database'], manifest['batch_id'])
+    if multi:
+        if Path(private_path).resolve() != Path(manifest['private_directory']).resolve():
+            raise ValueError('Shared reservation directory required')
+        if max_attempts > 9:
+            raise ValueError('Shortlist maximum is nine attempts')
+        from app.sheets_intake import product
+        products = [product(r['original_intake_row']) for r in manifest['rows']]
+    else:
+        _, _, products = audit_database(manifest['database'], manifest['batch_id'])
     now = datetime.now(timezone.utc)
     results = [dict(**deepcopy(r), status='not_attempted', exact=False, detail=None,
                     reasons=['Missing catalog detail not attempted']) for r in manifest['rows']]
+    outcomes = results
+    if multi:
+        outcomes = []
+        for row in results:
+            for outcome in row['candidate_outcomes']:
+                outcome.update(ordinal=row['ordinal'], record_id=row['record_id'],
+                    search=dict(deepcopy(row['search']), selected_asin=outcome['candidate_asin']),
+                    status='not_attempted', exact=False, detail=None, reasons=['Detail not attempted'])
+                outcomes.append(outcome)
     report = dict(label=candidates.LABEL, manifest=manifest, manifest_sha256=digest,
                   reviewed_plan_sha256=manifest['reviewed_plan_sha256'], run_key=manifest['run_key'],
                   batch_id=manifest['batch_id'], batch_content_hash=manifest['batch_content_hash'],
@@ -207,7 +296,7 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
             return value
         try:
             # Reused evidence is copied as-is and never assigned a new observation time.
-            for row in results:
+            for row in outcomes:
                 if row['catalog_detail_reuse']:
                     row['detail'] = deepcopy(row['catalog_detail_reuse'][0]['evidence'])
                     if row['detail']['is_mock'] is not is_mock:
@@ -221,7 +310,8 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
                     fingerprint(dict(run_key=manifest['run_key'], kind='authentication'))))
                 secrets = (*credentials.values(), access)
                 for request in manifest['requests']:
-                    affected = [r for r in results if r['record_id'] in request['source_record_ids']]
+                    affected = [r for r in outcomes if r['record_id'] in request['source_record_ids']
+                                and (not multi or r['candidate_asin'] == request['asin'])]
                     for row in affected: row['status'] = 'detail_pending'
                     journal.checkpoint()
                     detail = candidates.detail_evidence(call('detail', request['asin'], pilot.amazon_request(
@@ -239,11 +329,15 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
             report['status'] = 'failed_no_retry'
             if report['attempts']:
                 report['attempts'][-1]['status'] = 'failed_or_parser_rejected'
-            for row in results:
+            for row in outcomes:
                 if row['status'] == 'detail_pending':
                     row.update(status='failed', reasons=['Catalog detail failed or interrupted; no retry'])
             # No exceptions, tokens, credentials or raw provider responses are serialized.
         finally:
+            if multi:
+                for row in results:
+                    row.update(status=('reviewed_candidates' if row['candidate_outcomes'] else 'not_shortlisted'),
+                               reasons=['Independent reviewed candidate outcomes retained; identity unverified'])
             journal.checkpoint()
         # Existing per-run ObservationStore, history and workbook retain every outcome.
         # Run ledger and source database are separate; presentation failure never releases claims.
@@ -265,9 +359,10 @@ def execute_details(manifest_path, expected_sha256, max_attempts, private_path=p
         os.close(directory)
 
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('prepare-details', 'run-details'))
+    parser.add_argument('action', choices=('prepare-shortlist', 'prepare-details', 'run-details'))
     parser.add_argument('--database', type=Path)
     parser.add_argument('--reviewed-plan', type=Path)
     parser.add_argument('--manifest', type=Path, required=True)
@@ -275,14 +370,17 @@ def main():
     parser.add_argument('--max-attempts', type=int)
     parser.add_argument('--execute', action='store_true')
     args = parser.parse_args()
+    if args.action == 'prepare-shortlist' and (args.execute or not args.reviewed_plan or args.database):
+        parser.error('Shortlist preparation requires reviewed plan only')
     if args.action == 'prepare-details' and (args.execute or not args.database or not args.reviewed_plan):
         parser.error('Preparation requires local database and reviewed plan; no --execute')
     if args.action == 'run-details' and (not args.execute or not args.manifest_sha256 or args.max_attempts is None
                                        or args.database or args.reviewed_plan):
         parser.error('run-details requires --execute, --manifest-sha256 and --max-attempts')
     try:
-        if args.action == 'prepare-details':
-            manifest = prepare_details(args.database, args.reviewed_plan)
+        if args.action in ('prepare-details', 'prepare-shortlist'):
+            manifest = (prepare_shortlist(args.reviewed_plan) if args.action == 'prepare-shortlist' else
+                        prepare_details(args.database, args.reviewed_plan))
             fd = os.open(args.manifest, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
             with os.fdopen(fd, 'w') as output:
                 output.write(canonical(manifest)+'\n')
@@ -301,3 +399,7 @@ def main():
     except (Exception, KeyboardInterrupt):
         print('Candidate execution stopped; no retry. Inspect the separate execution ledger/checkpoints.')
         return 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
