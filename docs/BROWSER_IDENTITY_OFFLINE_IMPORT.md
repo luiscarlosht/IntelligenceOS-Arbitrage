@@ -41,6 +41,28 @@ than selecting a convenient observation. Comparison exposes every status
 observation and reports `CONFLICTING_OBSERVATIONS` where there is no consensus.
 SQLite triggers reject UPDATE/DELETE on the dedicated evidence/link tables.
 
+## Observation schema aliases
+
+Validation and comparison accept both the original schema and the actual supplied
+Browser Use schema through these read-only aliases:
+
+| Original field | Accepted alias |
+| --- | --- |
+| identity_browser_assessment | identity.browser_assessment |
+| splitting_approved | identity.splitting_approved |
+| result_delivery_status | delivery_status |
+
+No normalized keys are inserted into the parsed observation or stored raw text.
+If both representations exist they must agree in value **and type**, including
+distinguishing boolean false from numeric zero. Conflicts fail explicitly before
+database access. Explicit null is present, not a missing value or successful
+default. Missing both identity-assessment or splitting fields fails closed;
+missing both delivery fields reports `NOT_RECORDED`. Neither schema can grant
+exact matching or splitting approval through this importer.
+
+Different raw objects still remain separate observations under the existing
+content-hash policy; alias support does not coalesce or rewrite their evidence.
+
 ## Prior LOCATION_FAILURE: reference only
 
 The supplied identity JSON includes only the previous verification ID, run ID and
@@ -63,8 +85,8 @@ the failed location verification.
 * Location defaults to `NOT_VERIFIED_FOR_OFFER`; an explicit `LOCATION_FAILURE`
   stays independent. Displayed ZIP 95829 is contextual, not a Mansfield offer.
   Even ZIP 76063 text cannot confer offer verification in this identity-only path.
-* Result delivery uses only an explicit `result_delivery_status` (`COMPLETE`,
-  `PARTIAL`, `FAILED`). The original fixture has no such field, so it reports
+* Result delivery uses an explicit `result_delivery_status` or `delivery_status`
+  (`COMPLETE`, `PARTIAL`, `FAILED`). The original fixture has neither, so it reports
   **`NOT_RECORDED`**, not an inferred COMPLETE based on successful ingestion.
 
 The Walmart page claims **two packs × five markers = ten markers**. Individually
@@ -104,6 +126,20 @@ transaction rollback, foreign-key integrity and owner-only permissions.
 .venv/bin/python -m pytest -q tests/test_browser_identity_import.py
 ```
 
+To exercise the actual saved observation, while importing only into pytest's
+temporary database:
+
+```bash
+BROWSER_IDENTITY_ALIAS_INPUT=/root/IntelligenceOS-Arbitrage/var/browser-identity/verify-v2-B000I0TZO4-02-identity.json .venv/bin/python -m pytest -q tests/test_browser_identity_import.py
+```
+
+That test checks exact raw bytes/hash, one identity observation, reference-only
+prior failure, existing-parent linkage and duplicate-import idempotency using the
+real ObservationStore/TargetStore. CI constructs a synthetic alias-schema variant
+from the existing fixture when this explicit input path is absent; actual runtime
+observation JSON is not committed. The supplied file's SHA256 is
+`986c073939cb44a6e3f8ddcafdaf2ae0381ec0ec0f0f05558a8045a0cedcf243`.
+
 For a later deliberate offline import, select a database that already has the
 real matching target/job (not a legacy history-only database). For example:
 
@@ -115,3 +151,10 @@ This review runs imports only against temporary test databases. Remaining limits
 one focused verification/target/job contract, no complete prior raw failure record,
 no independent proof of browser claims or package splitting, no local offer or
 acquisition cost, and no generalized full failure-record ingestion/migration.
+
+The exact command for the actual saved observation and existing runtime parents,
+prepared but **not executed** by the alias change, is:
+
+```bash
+cd /root/IntelligenceOS-Arbitrage && .venv/bin/python -m app.browser_identity_import --database /root/IntelligenceOS-Arbitrage/var/sp-api-amazon-first-20261031-final/targets.sqlite3 --input /root/IntelligenceOS-Arbitrage/var/browser-identity/verify-v2-B000I0TZO4-02-identity.json
+```
