@@ -3,6 +3,7 @@ import copy
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import sqlite3
 
@@ -285,3 +286,118 @@ def test_owner_only_store_security_is_not_bypassed(existing, evidence):
     path.chmod(0o644)
     with pytest.raises(ValueError, match='owner-only'):
         import_record(path, evidence)
+
+
+def aliased_record(evidence):
+    record = copy.deepcopy(evidence)
+    record['identity']['browser_assessment'] = record.pop('identity_browser_assessment')
+    record['identity']['splitting_approved'] = record.pop('splitting_approved')
+    record['delivery_status'] = 'COMPLETE'
+    return record
+
+
+ALIASES = [('identity_browser_assessment', 'browser_assessment', 'PENDING_APPLICATION_REVIEW'),
+           ('splitting_approved', 'splitting_approved', False),
+           ('result_delivery_status', None, 'COMPLETE')]
+
+
+def test_alias_file_raw_preservation_and_duplicate_import(existing, evidence, tmp_path):
+    path, store, before = existing
+    # Local compatibility runs explicitly select the actual saved observation.
+    # CI uses a synthetic schema variant; runtime evidence is never committed.
+    selected = os.environ.get('BROWSER_IDENTITY_ALIAS_INPUT')
+    if selected:
+        source = Path(selected)
+    else:
+        source = tmp_path / 'alias-observation.json'
+        source.write_bytes(json.dumps(aliased_record(evidence), indent=2).encode())
+    original = source.read_bytes()
+    result = import_file(path, source)
+    saved = rows(store)
+    identity = next(r for r in saved if r[0] == 'identity')
+    assert identity[1].encode() == original
+    assert identity[2] == hashlib.sha256(original).hexdigest()
+    parsed = json.loads(identity[1])
+    assert parsed['identity']['browser_assessment'] == 'PENDING_APPLICATION_REVIEW'
+    assert parsed['identity']['splitting_approved'] is False
+    assert 'identity_browser_assessment' not in parsed and 'splitting_approved' not in parsed
+    assert result['identity_status'] == 'PENDING_APPLICATION_REVIEW'
+    assert result['location_status'] == 'NOT_VERIFIED_FOR_OFFER'
+    assert result['result_delivery_status'] == 'COMPLETE'
+    assert result['exact_match_approved'] is result['splitting_approved'] is False
+    assert result['per_pack_acquisition_cost_usd'] is None
+    assert result['prior_location_failure_scope'] == 'reference_only'
+    assert result['inserted'] == 2
+    again = import_file(path, source)
+    assert again['duplicate'] and again['inserted'] == 0
+    assert rows(store) == saved and source.read_bytes() == original
+    summary = comparison(path)
+    assert summary['result_delivery_status'] == 'COMPLETE'
+    assert summary['identity_evidence_events'] == 1
+    assert summary['location_failure_references'] == 1
+    assert not summary['full_location_failure_record_preserved']
+    assert summary['acquisition_cost_per_pack_usd'] is None
+    assert core_rows(store) == before
+    with store.connect() as db:
+        assert db.execute('SELECT count(*) FROM browser_evidence_links').fetchone() == (2,)
+        assert db.execute('PRAGMA foreign_key_check').fetchall() == []
+
+
+@pytest.mark.parametrize('primary,nested,value', ALIASES)
+def test_agreeing_aliases_are_accepted_without_removing_either(existing, evidence, primary, nested, value):
+    path, store, _ = existing
+    record = aliased_record(evidence)
+    record[primary] = value
+    raw = json.dumps(record, indent=3)
+    import_record(path, record, raw_json=raw)
+    assert next(r[1] for r in rows(store) if r[0] == 'identity') == raw
+    assert comparison(path)['result_delivery_status'] == 'COMPLETE'
+
+
+@pytest.mark.parametrize('primary,value', [
+    ('identity_browser_assessment', 'EXACT_MATCH_APPROVED'),
+    ('splitting_approved', True), ('splitting_approved', 0),
+    ('result_delivery_status', 'FAILED'), ('result_delivery_status', None)])
+def test_conflicting_aliases_rejected_before_storage(existing, evidence, primary, value):
+    path, store, before = existing
+    record = aliased_record(evidence)
+    record[primary] = value
+    with pytest.raises(ValueError, match='Conflicting aliases: ' + primary):
+        import_record(path, record)
+    assert core_rows(store) == before
+    with store.connect() as db:
+        assert not db.execute("SELECT name FROM sqlite_master WHERE name='browser_verification_evidence'").fetchall()
+
+
+@pytest.mark.parametrize('primary,nested', [('identity_browser_assessment', 'browser_assessment'),
+                                         ('splitting_approved', 'splitting_approved')])
+def test_missing_both_required_representations_does_not_imply_approval(existing, evidence, primary, nested):
+    path, store, before = existing
+    record = aliased_record(evidence)
+    del record['identity'][nested]
+    assert primary not in record
+    with pytest.raises(ValueError):
+        import_record(path, record)
+    assert core_rows(store) == before
+
+
+def test_missing_both_delivery_fields_stays_not_recorded(existing, evidence):
+    path, _, _ = existing
+    record = aliased_record(evidence)
+    del record['delivery_status']
+    result = import_record(path, record)
+    assert result['result_delivery_status'] == comparison(path)['result_delivery_status'] == 'NOT_RECORDED'
+
+
+@pytest.mark.parametrize('primary,nested,value', ALIASES)
+def test_explicit_null_is_not_a_successful_default(existing, evidence, primary, nested, value):
+    path, store, before = existing
+    record = aliased_record(evidence)
+    record[primary] = None
+    if nested:
+        record['identity'][nested] = None
+    else:
+        record['delivery_status'] = None
+    with pytest.raises(ValueError):
+        import_record(path, record)
+    assert core_rows(store) == before

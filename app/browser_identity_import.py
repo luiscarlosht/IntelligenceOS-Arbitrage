@@ -34,9 +34,26 @@ def _parse(raw):
     return result
 
 
+def _alias(record, field, alternate, *, default=None):
+    """Resolve a validation value without changing the parsed or raw observation."""
+    missing = object()
+    def value(path):
+        current = record
+        for key in path.split('.'):
+            if not isinstance(current, dict) or key not in current:
+                return missing
+            current = current[key]
+        return current
+    primary, secondary = value(field), value(alternate)
+    if primary is not missing and secondary is not missing:
+        if type(primary) is not type(secondary) or primary != secondary:
+            raise ValueError(f'Conflicting aliases: {field} and {alternate}')
+    return primary if primary is not missing else (secondary if secondary is not missing else default)
+
+
 def _statuses(record):
     location = record['location_context'].get('status', 'NOT_VERIFIED_FOR_OFFER')
-    delivery = record.get('result_delivery_status', 'NOT_RECORDED')
+    delivery = _alias(record, 'result_delivery_status', 'delivery_status', default='NOT_RECORDED')
     if location not in ('NOT_VERIFIED_FOR_OFFER', 'LOCATION_FAILURE', 'UNKNOWN'):
         raise ValueError('Unsupported location status')
     if delivery not in ('COMPLETE', 'PARTIAL', 'FAILED', 'NOT_RECORDED'):
@@ -58,14 +75,16 @@ def _check(record):
             or not isinstance(prior.get('run_id'), str) or not prior['run_id'].strip()):
         raise ValueError('Prior location failure reference required')
     identity = record['identity']
+    assessment = _alias(record, 'identity_browser_assessment', 'identity.browser_assessment')
+    splitting = _alias(record, 'splitting_approved', 'identity.splitting_approved')
     for key, expected in (('sets', 2), ('markers_per_set', 5), ('total_markers', 10),
                           ('two_five_marker_sets_claimed', True),
                           ('separate_individual_packaging_evidenced', None)):
         actual = identity['retail_package'].get(key)
         if type(actual) is not type(expected) or actual != expected:
             raise ValueError('Preserve the unverified two-by-five package claim')
-    if (identity.get('upc_gtin') is not None or record.get('splitting_approved') is not False
-            or record.get('identity_browser_assessment') != 'PENDING_APPLICATION_REVIEW'
+    if (identity.get('upc_gtin') is not None or splitting is not False
+            or assessment != 'PENDING_APPLICATION_REVIEW'
             or record.get('exact_match_approved', False) is not False):
         raise ValueError('Cannot approve barcode identity, exact match or splitting')
     if any(record.get(key) is not None for key in ('per_pack_acquisition_cost_usd', 'acquisition_cost_per_pack_usd')):
