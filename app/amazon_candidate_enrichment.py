@@ -102,8 +102,13 @@ def execute(saved: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, *
 
 def _execute(manifest, private_path, *, transport=None, credential_loader=None,
              seller_prompt=None, is_mock=False, sleep=time.sleep, monotonic=time.monotonic,
-             initial_report=None, operations=None, stem=None, request_limit=None):
+             initial_report=None, operations=None, stem=None, request_limit=None,
+             stop_after_no_restrictions=None):
     """Shared bounded engine; callers validate the complete execution scope first."""
+    if stop_after_no_restrictions is not None and (
+            type(stop_after_no_restrictions) is not int or stop_after_no_restrictions < 1
+            or operations is None or any(tuple(v) != ('restrictions',) for v in operations.values())):
+        raise ValueError('Early stop requires a positive goal and restriction-only operations')
     from app.amazon_pacing import OperationPacer
     pacer = (OperationPacer(monotonic=monotonic, sleep=sleep)
              if transport is not None else pilot.default_pacer())
@@ -122,6 +127,9 @@ def _execute(manifest, private_path, *, transport=None, credential_loader=None,
               for s in manifest['requests']])
     if initial_report is not None:
         report.update(initial_report)
+    if stop_after_no_restrictions is not None:
+        report.update(no_restrictions_asins=[], stop_after_no_restrictions=stop_after_no_restrictions,
+                      stop_reason=None)
     output = os.fdopen(fd, 'w')
     previous = None
     start = None
@@ -196,6 +204,19 @@ def _execute(manifest, private_path, *, transport=None, credential_loader=None,
             if 'restrictions' in allowed:
                 stage(row, 'restrictions', pilot.amazon_request(access, restrictions['path'], params),
                       lambda data: parse_restrictions(data, context, is_mock=is_mock))
+                result = row['restrictions']
+                data = result.get('data') or {}
+                if (stop_after_no_restrictions is not None and result['status'] == 'succeeded'
+                        and data.get('restriction_count') == 0
+                        and (data.get('listing_permission') or {}).get('value') is True):
+                    report['no_restrictions_asins'].append(asin)
+                    if len(report['no_restrictions_asins']) >= stop_after_no_restrictions:
+                        report['stop_reason'] = 'listing_permission_goal_reached'
+                        for unattempted in report['rows']:
+                            if unattempted['restrictions']['status'] == 'not_attempted':
+                                unattempted['restrictions']['reason'] = 'listing_permission_goal_reached'
+                        checkpoint()  # Retain every unattempted target before stopping.
+                        break
             if 'fees' not in allowed:
                 continue
             fee = spec['fees']
@@ -222,6 +243,8 @@ def _execute(manifest, private_path, *, transport=None, credential_loader=None,
             stage(row, 'fees', pilot.amazon_request(access, fee['path'], body=body), fee_parser)
         outcomes = [row[k]['status'] for row in report['rows'] for k in ('pricing','fees','restrictions')]
         report['status'] = 'succeeded' if all(s == 'succeeded' for s in outcomes) else 'partial'
+        if report.get('stop_reason') == 'listing_permission_goal_reached':
+            report['status'] = 'stopped_listing_permission_goal'
     except (Exception, KeyboardInterrupt) as error:
         report.update(status='stopped_no_retry', failure=failure_metadata(error))
         for row in report['rows']:
