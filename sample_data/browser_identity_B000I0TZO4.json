@@ -1,0 +1,49 @@
+{
+  "verification_id": "verify:v2:B000I0TZO4:02:identity",
+  "original_target_id": "amazon:ATVPDKIKX0DER:B000I0TZO4",
+  "original_job_id": "search:0920dcc561b655f5f94117745c58e286d97aa4ba0547ef34fcb60211c062a394",
+  "original_source_run": "6e4691fe-dd52-4e80-b9cf-bec0635db848",
+  "prior_failed_verification": {
+    "verification_id": "verify:v2:B000I0TZO4:01",
+    "run_id": "11f73237-0b70-4b27-94c8-fe1062a71256",
+    "status": "LOCATION_FAILURE"
+  },
+  "source_url": "https://www.walmart.com/ip/20901813665",
+  "observed_url": "https://www.walmart.com/ip/Sharpie-Fine-Point-Permanent-Marker-Black-Ink-Alcohol-Based-30665PP-2-Packs-10-Total/20901813665",
+  "observed_at_utc": "2026-10-31T13:20:03.877Z",
+  "elapsed_seconds": 48.351,
+  "location_context": {
+    "displayed_zip": "95829",
+    "used_for_offer_verification": false
+  },
+  "identity": {
+    "brand": "Sharpie",
+    "manufacturer": null,
+    "model": "30665PP",
+    "manufacturer_model_literal": "30665PP",
+    "upc_gtin": null,
+    "selected_variant": {
+      "tip": "Fine",
+      "color": "Black"
+    },
+    "retail_package": {
+      "sets": 2,
+      "markers_per_set": 5,
+      "total_markers": 10,
+      "two_five_marker_sets_claimed": true,
+      "separate_individual_packaging_evidenced": null,
+      "basis": "Page copy claims two packs with five markers each, but does not independently evidence separate individual packaging"
+    },
+    "conflicting_identifiers": []
+  },
+  "verbatim_on_page_evidence": [
+    "Sharpie Fine Point Permanent Marker, Black Ink, Alcohol Based (30665PP) | 2 Packs (10 Total)",
+    "MULTIPACK - 2 PACKS (10 TOTAL): You receive 2 packs in one purchase. Each pack contains 5, so you get 10 total.",
+    "Marker Point: Fine",
+    "Ink Color: Black",
+    "Brand\nSharpie\nMarker type\nPermanent Marker\nInk color\nBlack\nPen point style\nFine"
+  ],
+  "failures": [],
+  "identity_browser_assessment": "PENDING_APPLICATION_REVIEW",
+  "splitting_approved": false
+}
