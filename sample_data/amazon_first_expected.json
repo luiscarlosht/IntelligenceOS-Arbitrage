@@ -1,0 +1,375 @@
+{
+  "plan": {
+    "schema_version": 1,
+    "live_execution_available": false,
+    "actual_requests": 0,
+    "broad_walmart_campaign_preparation": "PAUSED; existing operations preserved",
+    "connectivity": {
+      "method": "GET",
+      "endpoint": "https://api.keepa.com/product",
+      "options": {
+        "domain": 1,
+        "update": -1,
+        "history": 1,
+        "days": 90,
+        "stats": 90,
+        "asin": "B002XQ1R06"
+      },
+      "maximum_requests": 1,
+      "documented_tokens": 1
+    },
+    "discovery": {
+      "method": "POST",
+      "endpoint": "https://api.keepa.com/query",
+      "options": {
+        "domain": 1
+      },
+      "selection": {
+        "page": 0,
+        "perPage": 50,
+        "productType": 0,
+        "title": "kitchen",
+        "current_NEW_gte": 2000,
+        "current_NEW_lte": 6000,
+        "avg90_SALES_gte": 1,
+        "avg90_SALES_lte": 100000,
+        "sort": [
+          [
+            "current_SALES",
+            "asc"
+          ]
+        ]
+      },
+      "maximum_requests": 1,
+      "documented_token_reservation": 11,
+      "maximum_returned_asins": 50,
+      "maximum_selected_targets": 10
+    },
+    "hydration": {
+      "method": "GET",
+      "endpoint": "https://api.keepa.com/product",
+      "options": {
+        "domain": 1,
+        "update": -1,
+        "history": 1,
+        "days": 90,
+        "stats": 90
+      },
+      "selection": "first ten distinct valid ASINs in Finder order; exclude connectivity ASIN",
+      "maximum_requests": 10,
+      "documented_tokens": 10
+    },
+    "maximum_requests": 12,
+    "documented_total_token_reservation": 22,
+    "hard_vendor_billing_ceiling_guaranteed": false,
+    "warning": "Local request cap is enforceable; vendor billing is not. Finder charges per returned 100 ASINs; reserve 11 for the minimum page of 50. Confirm tariff/rounding before execution. No retries, pagination, refill waits, offers, buybox, stock, rating or Finder stats.",
+    "authentication": "future private TTY read_pilot_key; key query parameter omitted from reports",
+    "output_schema": {
+      "target": "AmazonTarget v1",
+      "job": "AmazonSearchJob v1",
+      "usage": [
+        "tokensConsumed",
+        "tokensLeft",
+        "refillIn",
+        "refillRate",
+        "request_count"
+      ]
+    }
+  },
+  "targets": [
+    {
+      "asin": "B000000001",
+      "created_at": "2026-10-31T12:00:00+00:00",
+      "observed_at": "2026-10-12T21:20:00+00:00",
+      "fetched_at": "2026-10-31T12:00:00+00:00",
+      "provenance": "OFFLINE illustrative fixture",
+      "brand": "Fictional Kitchen",
+      "manufacturer": "Fictional Kitchen",
+      "model": "DEMO-1",
+      "title": "Illustrative Kitchen Spatula",
+      "identifiers": [
+        {
+          "kind": "UPC",
+          "value": "012345678905",
+          "provenance": "OFFLINE illustrative fixture:upcList",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        {
+          "kind": "UPC",
+          "value": "036000291452",
+          "provenance": "OFFLINE illustrative fixture:upcList",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        }
+      ],
+      "exact_package_evidence": {
+        "size": {
+          "value": "10 inch",
+          "provenance": "OFFLINE illustrative fixture:size",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "color": {
+          "value": "blue",
+          "provenance": "OFFLINE illustrative fixture:color",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "model": {
+          "value": "DEMO-1",
+          "provenance": "OFFLINE illustrative fixture:model",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "packageQuantity": {
+          "value": 1,
+          "provenance": "OFFLINE illustrative fixture:packageQuantity",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "numberOfItems": {
+          "value": 1,
+          "provenance": "OFFLINE illustrative fixture:numberOfItems",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "unitCount": {
+          "value": {
+            "unitValue": 1,
+            "unitType": "count"
+          },
+          "provenance": "OFFLINE illustrative fixture:unitCount",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        }
+      },
+      "historical_metrics": {
+        "amazon_price_usd": {
+          "latest": "29.99",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "provenance": "OFFLINE illustrative fixture:csv[0]",
+          "history": [
+            8300000,
+            2999
+          ],
+          "interpretation": "historical price"
+        },
+        "new_price_usd": {
+          "latest": "27.99",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "provenance": "OFFLINE illustrative fixture:csv[1]",
+          "history": [
+            8300000,
+            2799
+          ],
+          "interpretation": "historical price"
+        },
+        "sales_rank": {
+          "latest": 25000,
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "provenance": "OFFLINE illustrative fixture:csv[3]",
+          "history": [
+            8300000,
+            25000
+          ],
+          "interpretation": "rank signal; not verified sales"
+        },
+        "monthly_sold": {
+          "value": 50,
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "interpretation": "provider lower-bound demand signal; not verified sales"
+        }
+      },
+      "current_price_context": {
+        "executable_sale_price": null,
+        "availability": null,
+        "reason": "history does not establish current offer"
+      },
+      "seller_restrictions": {
+        "eligible": null
+      },
+      "fee_assumptions": {},
+      "missing_fields": [
+        "seller_restrictions",
+        "fees",
+        "current_executable_sale_price",
+        "exact_retail_pack_verification"
+      ],
+      "marketplace": "ATVPDKIKX0DER",
+      "schema_version": 1,
+      "target_id": "amazon:ATVPDKIKX0DER:B000000001"
+    }
+  ],
+  "jobs": [
+    {
+      "schema_version": 1,
+      "job_id": "search:00187f3129924ad5659de486553eff2f282d16060e5ee7f8677cc37deacb702e",
+      "target_id": "amazon:ATVPDKIKX0DER:B000000001",
+      "retailer": "Walmart",
+      "location": "76063",
+      "query_version": "v1",
+      "target_revision": "f7217e570060908f621597509d18920095f201df9b4037eeaa104568c6f133fc",
+      "asin": "B000000001",
+      "amazon_url": "https://www.amazon.com/dp/B000000001",
+      "identifiers": [
+        {
+          "kind": "UPC",
+          "value": "012345678905",
+          "provenance": "OFFLINE illustrative fixture:upcList",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        {
+          "kind": "UPC",
+          "value": "036000291452",
+          "provenance": "OFFLINE illustrative fixture:upcList",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        }
+      ],
+      "required_brand": "Fictional Kitchen",
+      "required_manufacturer": "Fictional Kitchen",
+      "required_model": "DEMO-1",
+      "required_package": {
+        "size": {
+          "value": "10 inch",
+          "provenance": "OFFLINE illustrative fixture:size",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "color": {
+          "value": "blue",
+          "provenance": "OFFLINE illustrative fixture:color",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "model": {
+          "value": "DEMO-1",
+          "provenance": "OFFLINE illustrative fixture:model",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "packageQuantity": {
+          "value": 1,
+          "provenance": "OFFLINE illustrative fixture:packageQuantity",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "numberOfItems": {
+          "value": 1,
+          "provenance": "OFFLINE illustrative fixture:numberOfItems",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        },
+        "unitCount": {
+          "value": {
+            "unitValue": 1,
+            "unitType": "count"
+          },
+          "provenance": "OFFLINE illustrative fixture:unitCount",
+          "observed_at": "2026-10-12T21:20:00+00:00",
+          "status": "uncertain"
+        }
+      },
+      "queries": [
+        {
+          "query": "012345678905",
+          "basis": "UPC",
+          "status": "uncertain",
+          "provenance": "OFFLINE illustrative fixture:upcList"
+        },
+        {
+          "query": "036000291452",
+          "basis": "UPC",
+          "status": "uncertain",
+          "provenance": "OFFLINE illustrative fixture:upcList"
+        },
+        {
+          "query": "Fictional Kitchen DEMO-1",
+          "basis": "model"
+        },
+        {
+          "query": "Fictional Kitchen Illustrative Kitchen Spatula",
+          "basis": "wording_fallback"
+        }
+      ],
+      "acquisition_price_ceiling_usd": null,
+      "fields_needing_verification": [
+        "seller_restrictions",
+        "fees",
+        "current_executable_sale_price",
+        "exact_retail_pack_verification"
+      ],
+      "status": "prepared",
+      "refresh_rule": "Never auto-repeat; new version plus explicit reason and prior job ID required",
+      "browser_match_claim": null,
+      "application_verified_exact": false
+    }
+  ],
+  "sheets_handoff": {
+    "schema_version": 1,
+    "write_mode": "RAW; all cells literal text",
+    "tabs": {
+      "Amazon_Targets": {
+        "owner": "application producer; immutable revisions",
+        "fields": [
+          "target_id",
+          "revision",
+          "schema_version",
+          "target_json"
+        ],
+        "rows": [
+          [
+            "amazon:ATVPDKIKX0DER:B000000001",
+            "f7217e570060908f621597509d18920095f201df9b4037eeaa104568c6f133fc",
+            "1",
+            "{\"asin\":\"B000000001\",\"brand\":\"Fictional Kitchen\",\"created_at\":\"2026-10-31T12:00:00+00:00\",\"current_price_context\":{\"availability\":null,\"executable_sale_price\":null,\"reason\":\"history does not establish current offer\"},\"exact_package_evidence\":{\"color\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:color\",\"status\":\"uncertain\",\"value\":\"blue\"},\"model\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:model\",\"status\":\"uncertain\",\"value\":\"DEMO-1\"},\"numberOfItems\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:numberOfItems\",\"status\":\"uncertain\",\"value\":1},\"packageQuantity\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:packageQuantity\",\"status\":\"uncertain\",\"value\":1},\"size\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:size\",\"status\":\"uncertain\",\"value\":\"10 inch\"},\"unitCount\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:unitCount\",\"status\":\"uncertain\",\"value\":{\"unitType\":\"count\",\"unitValue\":1}}},\"fee_assumptions\":{},\"fetched_at\":\"2026-10-31T12:00:00+00:00\",\"historical_metrics\":{\"amazon_price_usd\":{\"history\":[8300000,2999],\"interpretation\":\"historical price\",\"latest\":\"29.99\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:csv[0]\"},\"monthly_sold\":{\"interpretation\":\"provider lower-bound demand signal; not verified sales\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"value\":50},\"new_price_usd\":{\"history\":[8300000,2799],\"interpretation\":\"historical price\",\"latest\":\"27.99\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:csv[1]\"},\"sales_rank\":{\"history\":[8300000,25000],\"interpretation\":\"rank signal; not verified sales\",\"latest\":25000,\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:csv[3]\"}},\"identifiers\":[{\"kind\":\"UPC\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"status\":\"uncertain\",\"value\":\"012345678905\"},{\"kind\":\"UPC\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"status\":\"uncertain\",\"value\":\"036000291452\"}],\"manufacturer\":\"Fictional Kitchen\",\"marketplace\":\"ATVPDKIKX0DER\",\"missing_fields\":[\"seller_restrictions\",\"fees\",\"current_executable_sale_price\",\"exact_retail_pack_verification\"],\"model\":\"DEMO-1\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture\",\"schema_version\":1,\"seller_restrictions\":{\"eligible\":null},\"title\":\"Illustrative Kitchen Spatula\"}"
+          ]
+        ]
+      },
+      "Amazon_Search_Jobs": {
+        "owner": "application producer; browser reads only",
+        "fields": [
+          "job_id",
+          "target_id",
+          "target_revision",
+          "retailer",
+          "location",
+          "query_version",
+          "schema_version",
+          "job_json"
+        ],
+        "rows": [
+          [
+            "search:00187f3129924ad5659de486553eff2f282d16060e5ee7f8677cc37deacb702e",
+            "amazon:ATVPDKIKX0DER:B000000001",
+            "f7217e570060908f621597509d18920095f201df9b4037eeaa104568c6f133fc",
+            "Walmart",
+            "76063",
+            "v1",
+            "1",
+            "{\"acquisition_price_ceiling_usd\":null,\"amazon_url\":\"https://www.amazon.com/dp/B000000001\",\"application_verified_exact\":false,\"asin\":\"B000000001\",\"browser_match_claim\":null,\"fields_needing_verification\":[\"seller_restrictions\",\"fees\",\"current_executable_sale_price\",\"exact_retail_pack_verification\"],\"identifiers\":[{\"kind\":\"UPC\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"status\":\"uncertain\",\"value\":\"012345678905\"},{\"kind\":\"UPC\",\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"status\":\"uncertain\",\"value\":\"036000291452\"}],\"job_id\":\"search:00187f3129924ad5659de486553eff2f282d16060e5ee7f8677cc37deacb702e\",\"location\":\"76063\",\"queries\":[{\"basis\":\"UPC\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"query\":\"012345678905\",\"status\":\"uncertain\"},{\"basis\":\"UPC\",\"provenance\":\"OFFLINE illustrative fixture:upcList\",\"query\":\"036000291452\",\"status\":\"uncertain\"},{\"basis\":\"model\",\"query\":\"Fictional Kitchen DEMO-1\"},{\"basis\":\"wording_fallback\",\"query\":\"Fictional Kitchen Illustrative Kitchen Spatula\"}],\"query_version\":\"v1\",\"refresh_rule\":\"Never auto-repeat; new version plus explicit reason and prior job ID required\",\"required_brand\":\"Fictional Kitchen\",\"required_manufacturer\":\"Fictional Kitchen\",\"required_model\":\"DEMO-1\",\"required_package\":{\"color\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:color\",\"status\":\"uncertain\",\"value\":\"blue\"},\"model\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:model\",\"status\":\"uncertain\",\"value\":\"DEMO-1\"},\"numberOfItems\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:numberOfItems\",\"status\":\"uncertain\",\"value\":1},\"packageQuantity\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:packageQuantity\",\"status\":\"uncertain\",\"value\":1},\"size\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:size\",\"status\":\"uncertain\",\"value\":\"10 inch\"},\"unitCount\":{\"observed_at\":\"2026-10-12T21:20:00+00:00\",\"provenance\":\"OFFLINE illustrative fixture:unitCount\",\"status\":\"uncertain\",\"value\":{\"unitType\":\"count\",\"unitValue\":1}}},\"retailer\":\"Walmart\",\"schema_version\":1,\"status\":\"prepared\",\"target_id\":\"amazon:ATVPDKIKX0DER:B000000001\",\"target_revision\":\"f7217e570060908f621597509d18920095f201df9b4037eeaa104568c6f133fc\"}"
+          ]
+        ]
+      },
+      "Amazon_Search_Outcomes": {
+        "owner": "browser producer; append-only; application reads only",
+        "fields": [
+          "event_id",
+          "job_id",
+          "target_id",
+          "outcome",
+          "query",
+          "observed_at",
+          "evidence_reference",
+          "elapsed_seconds",
+          "cost_usd",
+          "intake_record_id",
+          "browser_claim_json"
+        ],
+        "rows": []
+      }
+    }
+  }
+}
