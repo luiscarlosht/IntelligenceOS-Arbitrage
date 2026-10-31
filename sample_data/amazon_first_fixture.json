@@ -1,0 +1,14 @@
+{
+  "fetched_at": "2026-10-31T12:00:00+00:00",
+  "products": [{
+    "asin": "B000000001", "domainId": 1, "productType": 0,
+    "lastUpdate": 8300000,
+    "title": "Illustrative Kitchen Spatula", "brand": "Fictional Kitchen",
+    "manufacturer": "Fictional Kitchen", "model": "DEMO-1",
+    "upcList": ["012345678905", "036000291452"],
+    "size": "10 inch", "color": "blue", "packageQuantity": 1, "numberOfItems": 1,
+    "unitCount": {"unitValue": 1, "unitType": "count"},
+    "csv": [[8300000, 2999], [8300000, 2799], null, [8300000, 25000]],
+    "monthlySold": 50, "lastSoldUpdate": 8300000
+  }]
+}
