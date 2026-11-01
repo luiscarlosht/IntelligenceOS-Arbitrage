@@ -1,5 +1,9 @@
 # IntelligenceOS Arbitrage
 
+M71 adds [real Catalog discovery preparation](docs/M71_CATALOG_PREPARATION.md):
+50 diversified queries, a frozen 251-request ceiling, bounded offline-tested adapter
+and M70 saved-page handoff. Live transport and execution commands remain disabled.
+
 M70 adds [scalable offline catalog discovery and identity enrichment](docs/M70_CATALOG_DISCOVERY.md),
 with authorized local adapters, conflict/provenance reporting, diversified M69 ranking
 and a non-executable future Catalog API budget plan. No live requests are enabled.

@@ -239,3 +239,12 @@ add hash-bound local imports, conservative identity merging, M69 history reuse a
 a non-executable Catalog discovery plan. Capacity is tested above 1,000 ASINs;
 available saved evidence contains 197. Further authorized source coverage is needed.
 No live adapter, automatic execution, reservations or immutable-evidence changes.
+
+## M71 Catalog discovery preparation
+
+[Manifest, adapter and live-pilot prerequisites](M71_CATALOG_PREPARATION.md)
+freeze 50 queries across ten category intents and an absolute 1+200+50 request
+ceiling. A separate append-only request journal, conservative pacing, pagination
+validation, private checkpoints and M70 import are tested offline. The CLI only
+prepares/validates proposals; live transport, credentials and all selling operations
+remain disabled. Separate reviewed activation and fresh owner authorization are required.
