@@ -19,7 +19,7 @@ def normalize(row: dict) -> dict:
     fields={'asin','brand','marketplace','condition','account_reference','observed_at','verification_method',
             'seller_central_states','fba_state','invoice_required','minimum_invoiced_units',
             'restriction_scope','source_reference'}
-    if not isinstance(row,dict) or not fields<=set(row) or set(row)-fields-{'restriction_codes'}:
+    if not isinstance(row,dict) or not fields<=set(row) or set(row)-fields-{'restriction_codes','fba_program'}:
         raise ValueError('Exact nonsecret verification schema required')
     if (row['asin'] is not None and (not isinstance(row['asin'],str) or not ASIN.fullmatch(row['asin']))
             or row['marketplace']!=US or row['condition']!=CONDITION or row['account_reference']!=ACCOUNT
@@ -37,6 +37,10 @@ def normalize(row: dict) -> dict:
         raise ValueError('Copy listing cannot verify offer creation or FBA')
     if row['fba_state']!='FBA_UNKNOWN' and row['verification_method']!='MANUAL_FBA_ELIGIBILITY':
         raise ValueError('Independent FBA verification required')
+    if row.get('fba_program') not in (None,'INBOUND','COMMINGLING'):
+        raise ValueError('Explicit FBA program required')
+    if row['fba_state']!='FBA_UNKNOWN' and row.get('fba_program')!='INBOUND':
+        raise ValueError('Commingling or unspecified preview does not verify FBA inbound eligibility')
     if 'OFFER_CREATION_AVAILABLE' in states and row['verification_method']!='MANUAL_EXISTING_ASIN_OFFER':
         raise ValueError('Existing-ASIN offer verification required')
     if row['asin'] is None and (row['fba_state']!='FBA_UNKNOWN' or any(s not in ('APPROVAL_APPLICATION_REQUIRED','UNVERIFIED') for s in states)):
@@ -161,7 +165,9 @@ def verify(asin: str, api: list[dict], sc: list[dict], *, as_of: datetime) -> di
                       and not conflict and not invalid and not sc_states&blockers and not restriction_codes)
     return dict(asin=asin,marketplace=US,condition=CONDITION,account_reference=ACCOUNT,
         api_state=api_state,seller_central_states=sorted(sc_states) or ['UNVERIFIED'],fba_state=fba,
-        listing_permission_verified=listing_verified,conflict_requires_review=conflict or invalid,
+        listing_review_gate_complete=listing_verified,conflict_requires_review=conflict or invalid,
+        selling_authorization_confirmed=False,offer_submission_status='NOT_SUBMITTED',
+        catalog_match_grants_permission=False,fba_eligibility_program='INBOUND',
         listing_valid_until=(min(max(api_dates),max(offer_dates))+timedelta(hours=24)).isoformat() if listing_verified else None,
         fba_valid_until=(max(fba_dates)+timedelta(hours=24)).isoformat() if fba=='FBA_ELIGIBLE' else None,
         fba_conflict_requires_review=fba_conflict,evaluated_at=as_of.isoformat(),

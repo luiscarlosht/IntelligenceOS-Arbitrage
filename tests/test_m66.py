@@ -50,7 +50,8 @@ def sc(states=None,fba='FBA_UNKNOWN',asin=ASIN,method='MANUAL_EXISTING_ASIN_OFFE
     return dict(asin=asin,brand='Synthetic Brand',marketplace=US,condition=CONDITION,
         account_reference=ACCOUNT,observed_at=DATE,verification_method=method,
         seller_central_states=states or ['OFFER_CREATION_AVAILABLE'],fba_state=fba,
-        invoice_required=None,minimum_invoiced_units=None,restriction_scope='ASIN',source_reference='manual:synthetic')
+        invoice_required=None,minimum_invoiced_units=None,restriction_scope='ASIN',source_reference='manual:synthetic',
+        fba_program='INBOUND' if fba!='FBA_UNKNOWN' else None)
 
 
 def positive_sc():
@@ -91,7 +92,7 @@ def test_kozerite_copy_listing_false_positive_prevention():
     data,_=m66.read_json(m66.SC_SEEDS)
     row=next(v for v in data['observations'] if v['brand']=='Kozerite')
     v=verify('B0FM84W641',[],[row],as_of=NOW)
-    assert v['api_state']=='UNKNOWN' and v['listing_permission_verified'] is False
+    assert v['api_state']=='UNKNOWN' and v['listing_review_gate_complete'] is False
     assert 'LISTING_CREATION_ACCESSIBLE' in v['seller_central_states']
     assert 'BRAND_VALIDATION_BLOCKED' in v['seller_central_states']
     assert decide(template('B0FM84W641'),v,as_of=NOW)['decision']=='NEEDS_SELLER_VERIFICATION'
@@ -100,7 +101,7 @@ def test_kozerite_copy_listing_false_positive_prevention():
 
 def test_copy_listing_alone_is_not_offer_or_fba():
     v=verify(ASIN,[api()],[sc(['LISTING_CREATION_ACCESSIBLE'],method='MANUAL_COPY_LISTING')],as_of=NOW)
-    assert not v['listing_permission_verified'] and v['fba_state']=='FBA_UNKNOWN'
+    assert not v['listing_review_gate_complete'] and v['fba_state']=='FBA_UNKNOWN'
 
 
 @pytest.mark.parametrize('negative',['APPROVAL_REQUIRED','NOT_ELIGIBLE','OTHER_RESTRICTED'])
@@ -120,7 +121,7 @@ def test_conflicting_seller_central_evidence_never_ready(state):
 def test_fba_conflict_is_separate():
     evidence=positive_sc()+[sc(['UNVERIFIED'],'FBA_INELIGIBLE',method='MANUAL_FBA_ELIGIBILITY')]
     v=verify(ASIN,[api()],evidence,as_of=NOW)
-    assert v['listing_permission_verified'] and v['fba_conflict_requires_review']
+    assert v['listing_review_gate_complete'] and v['fba_conflict_requires_review']
     assert decide(opportunity(),v,as_of=NOW)['decision']=='NEEDS_FBA_VERIFICATION'
 
 
@@ -128,7 +129,7 @@ def test_fba_conflict_is_separate():
 def test_missing_wrong_scope_or_failed_api_unknown(field,value):
     evidence=api();evidence[field]=value
     v=verify(ASIN,[evidence],positive_sc(),as_of=NOW)
-    assert not v['listing_permission_verified'] and v['api_state']=='UNKNOWN'
+    assert not v['listing_review_gate_complete'] and v['api_state']=='UNKNOWN'
 
 
 def test_stale_positive_and_expired_aggregate_cannot_be_reused():
@@ -136,7 +137,7 @@ def test_stale_positive_and_expired_aggregate_cannot_be_reused():
     assert decide(opportunity(),v,as_of=NOW+timedelta(hours=25))['decision']=='NEEDS_SELLER_VERIFICATION'
     old=api();old['observed_at']=(NOW-timedelta(hours=23)).isoformat()
     v=verify(ASIN,[old],positive_sc(),as_of=NOW)
-    assert v['listing_permission_verified']
+    assert v['listing_review_gate_complete']
     assert decide(opportunity(),v,as_of=NOW+timedelta(hours=2))['decision']=='NEEDS_SELLER_VERIFICATION'
 
 
