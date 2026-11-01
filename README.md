@@ -1,5 +1,8 @@
 # IntelligenceOS Arbitrage
 
+M73 adds [offline catalog consolidation and discovery-quality review](docs/M73_CATALOG_CONSOLIDATION.md):
+377 distinct real ASINs, preserved exclusions, unresolved identity conflicts and private Excel/CSV reports.
+
 M72 adds an [explicitly authorized, one-shot ten-request Catalog pilot](docs/M72_CONTROLLED_CATALOG_PILOT.md).
 Dry-run is offline; live execution requires fresh account/code/proposal-bound owner
 authorization and an explicit flag. No live pilot was executed during implementation.

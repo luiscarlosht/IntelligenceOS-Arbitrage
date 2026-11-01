@@ -257,3 +257,12 @@ accounting and a 1-authentication/9-first-page-query ceiling. Fresh account/code
 proposal/history-bound owner authorization and explicit execution flag are required.
 Private checkpoints feed unchanged M70 ingestion and identity quality reporting.
 Implementation/testing is offline; no live authorization or requests occurred.
+
+## M73 offline catalog consolidation
+
+A read-only verifier binds the completed ten-request M72 operation/checkpoint and
+original M70 baseline before combining observed identities. Private Excel/CSV/JSON
+reports retain per-ASIN provenance, all exclusions, unresolved GTIN alternatives,
+diversity, research priority and discovery scenarios. The actual union is 377 real
+ASINs (623 remaining); no new network or seller-specific operations are enabled.
+See [M73 evidence and review procedure](M73_CATALOG_CONSOLIDATION.md).
