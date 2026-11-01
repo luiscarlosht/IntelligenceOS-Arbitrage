@@ -1,5 +1,10 @@
 # IntelligenceOS Arbitrage
 
+M68 adds [local-only M67 authorization preparation and validation](docs/M68_OFFLINE_AUTHORIZATION.md).
+Hidden account confirmation and a matching current preflight are required before
+writing a private 15-minute artifact. These commands never execute requests or
+create execution reservations; M67 safeguards remain unchanged.
+
 M67 adds [controlled Listings Restrictions execution](docs/M67_CONTROLLED_ELIGIBILITY_EXECUTION.md).
 Its default preflight is offline and read-only. Live execution requires a separate
 reviewed authorization, exact hashes and explicit flag; implementation and installation
