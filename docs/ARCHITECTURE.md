@@ -248,3 +248,12 @@ ceiling. A separate append-only request journal, conservative pacing, pagination
 validation, private checkpoints and M70 import are tested offline. The CLI only
 prepares/validates proposals; live transport, credentials and all selling operations
 remain disabled. Separate reviewed activation and fresh owner authorization are required.
+
+## M72 controlled Catalog pilot
+
+[One-shot pilot and owner procedure](M72_CONTROLLED_CATALOG_PILOT.md)
+add a separate fixed operation registry, global account lock, durable pre-dispatch
+accounting and a 1-authentication/9-first-page-query ceiling. Fresh account/code/
+proposal/history-bound owner authorization and explicit execution flag are required.
+Private checkpoints feed unchanged M70 ingestion and identity quality reporting.
+Implementation/testing is offline; no live authorization or requests occurred.

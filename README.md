@@ -1,5 +1,9 @@
 # IntelligenceOS Arbitrage
 
+M72 adds an [explicitly authorized, one-shot ten-request Catalog pilot](docs/M72_CONTROLLED_CATALOG_PILOT.md).
+Dry-run is offline; live execution requires fresh account/code/proposal-bound owner
+authorization and an explicit flag. No live pilot was executed during implementation.
+
 M71 adds [real Catalog discovery preparation](docs/M71_CATALOG_PREPARATION.md):
 50 diversified queries, a frozen 251-request ceiling, bounded offline-tested adapter
 and M70 saved-page handoff. Live transport and execution commands remain disabled.
