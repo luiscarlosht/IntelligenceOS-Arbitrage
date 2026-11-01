@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "provenance": "Additional user-reported observations in the M66 brief. Dates were not supplied. Brand-only signals do not identify reviewed ASINs or universal restrictions.",
+  "observations": [
+    {
+      "asin": "B01MFHJUBA", "brand": "Stanley", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION",
+      "seller_central_states": ["NEW_LISTINGS_NOT_ACCEPTED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "ASIN", "source_reference": "user:M66:Stanley:B01MFHJUBA"
+    },
+    {
+      "asin": "B0FM84W641", "brand": "Kozerite", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION",
+      "seller_central_states": ["LISTING_CREATION_ACCESSIBLE", "APPROVAL_APPLICATION_REQUIRED", "BRAND_VALIDATION_BLOCKED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "ASIN", "source_reference": "user:M66:Kozerite:B0FM84W641"
+    },
+    {
+      "asin": null, "brand": "Joseph Joseph", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION", "seller_central_states": ["APPROVAL_APPLICATION_REQUIRED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "UNKNOWN", "source_reference": "user:M66:brand-signal:Joseph-Joseph"
+    },
+    {
+      "asin": null, "brand": "iDesign", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION", "seller_central_states": ["APPROVAL_APPLICATION_REQUIRED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "UNKNOWN", "source_reference": "user:M66:brand-signal:iDesign"
+    },
+    {
+      "asin": null, "brand": "Duck", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION", "seller_central_states": ["APPROVAL_APPLICATION_REQUIRED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "UNKNOWN", "source_reference": "user:M66:brand-signal:Duck"
+    },
+    {
+      "asin": null, "brand": "Post-it", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION", "seller_central_states": ["APPROVAL_APPLICATION_REQUIRED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "UNKNOWN", "source_reference": "user:M66:brand-signal:Post-it"
+    },
+    {
+      "asin": null, "brand": "BIC", "marketplace": "ATVPDKIKX0DER", "condition": "new_new", "account_reference": "existing-authorized-us-account",
+      "observed_at": null, "verification_method": "USER_REPORTED_OBSERVATION", "seller_central_states": ["APPROVAL_APPLICATION_REQUIRED"], "fba_state": "FBA_UNKNOWN",
+      "invoice_required": null, "minimum_invoiced_units": null, "restriction_scope": "UNKNOWN", "source_reference": "user:M66:brand-signal:BIC"
+    }
+  ]
+}

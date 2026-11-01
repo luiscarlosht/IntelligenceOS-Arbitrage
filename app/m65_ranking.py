@@ -22,7 +22,7 @@ def candidates(path: Path) -> list[dict]:
         with path.open(encoding='utf-8-sig',newline='') as stream:
             source=list(csv.DictReader(stream))
         digest=__import__('hashlib').sha256(path.read_bytes()).hexdigest()
-        secrets=set()
+        secrets=private_values(source)
     else:
         document,digest=read_json(path)
         secrets=private_values(document)
@@ -110,7 +110,8 @@ def candidates(path: Path) -> list[dict]:
 
 
 def rank(catalog: list[dict], history: list[dict], manual: list[dict], excluded: set[str],
-         *, maximum: int=20, max_per_brand: int=2, minimum_score: int=0) -> dict:
+         *, maximum: int=20, max_per_brand: int=2, minimum_score: int=0,
+         additional_points: dict[str,dict[str,int]] | None=None) -> dict:
     if type(maximum) is not int or not 1<=maximum<=100 or type(max_per_brand) is not int or not 1<=max_per_brand<=maximum:
         raise ValueError('Explicit bounded cohort and brand caps required')
     if type(minimum_score) is not int or not -100<=minimum_score<=100:
@@ -127,13 +128,19 @@ def rank(catalog: list[dict], history: list[dict], manual: list[dict], excluded:
         if entry['asin'] in seen:
             raise ValueError('Deduplicate candidate input first')
         seen.add(entry['asin'])
-        brand=identity(entry['brand'])
+        brand=identity(entry.get('diversification_brand') or entry['brand'])
         features=entry['identity_features']
         points={key:(weight if features[key] else 0) for key,weight in
                 (('gtin',8),('model',4),('size',4),('pack',4),('variation',4),('product_type',2))}
         points['outside_previous_seed_brands']=8 if brand not in PREVIOUS_SEED_BRANDS and brand!='unknown' else 0
         points['invoice_heavy_observation']=-35 if brand in invoice_brands else 0
         points['previous_sample_concentration']=-6 if history_brands[brand]>=2 else 0
+        # Optional, explicit milestone policy extends shared scoring without
+        # changing the existing M65 defaults or duplicating greedy selection.
+        extra=(additional_points or {}).get(entry['asin'],{})
+        if any(not isinstance(k,str) or k in points or type(v) is not int or not -100<=v<=100 for k,v in extra.items()):
+            raise ValueError('Bounded, uniquely named priority adjustments required')
+        points.update(extra)
         reasons=[]
         if entry['asin'] in checked:reasons.append('PREVIOUSLY_CHECKED_OR_RESERVED')
         if entry['identity_conflict']:reasons.append('IDENTITY_CONFLICT')
@@ -148,17 +155,17 @@ def rank(catalog: list[dict], history: list[dict], manual: list[dict], excluded:
     selected=[]
     while len(selected)<maximum:
         pool=[r for r in rows if not r['selected'] and not r['exclusion_reasons'] and not r['priority_review_required']
-              and brands[identity(r['brand'])]<max_per_brand]
+              and brands[identity(r.get('diversification_brand') or r['brand'])]<max_per_brand]
         if not pool:break
         def key(r):
-            diversity=12*brands[identity(r['brand'])]+8*categories[r['category']]
+            diversity=12*brands[identity(r.get('diversification_brand') or r['brand'])]+8*categories[r['category']]
             if r['product_type']!='UNKNOWN':diversity+=4*types[r['product_type']]
             return (-(r['score']-diversity),r['asin'])
         choice=min(pool,key=key)
         choice['selection_score']=-key(choice)[0]
         choice['selected']=True
         selected.append(choice['asin'])
-        brands[identity(choice['brand'])]+=1
+        brands[identity(choice.get('diversification_brand') or choice['brand'])]+=1
         categories[choice['category']]+=1
         if choice['product_type']!='UNKNOWN':types[choice['product_type']]+=1
     rows.sort(key=lambda r:(not r['selected'], selected.index(r['asin']) if r['selected'] else -r['score'],r['asin']))

@@ -1,5 +1,11 @@
 # IntelligenceOS Arbitrage
 
+M66 adds [offline seller/FBA verification and profitability review](docs/M66_VERIFIED_ELIGIBILITY.md).
+It keeps Copy listing access separate from selling permission, prepares a new
+unchecked cohort from saved sources, and calculates economics only after the
+eligibility, exact-identity and complete-cost gates pass. No live execution or
+commercial submission action is exposed.
+
 M65 adds [offline eligibility-first discovery and manual approval intelligence](docs/M65_ELIGIBILITY_FIRST.md).
 It imports saved account-specific restriction evidence, records append-only manual
 observations, and ranks an unchecked next cohort with explainable scores. It has
