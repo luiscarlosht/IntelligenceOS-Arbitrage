@@ -1,5 +1,10 @@
 # IntelligenceOS Arbitrage
 
+M69 adds [offline eligibility-first research and explicit review stages](docs/M69_ELIGIBILITY_FIRST_DISCOVERY.md).
+It consolidates immutable M63/M67 outcomes, excludes all permanent claims, ranks up
+to 100 saved Catalog candidates and keeps unknown eligibility separate from approval.
+No requests, execution reservations, offers, applications or purchases occur.
+
 M68 adds [local-only M67 authorization preparation and validation](docs/M68_OFFLINE_AUTHORIZATION.md).
 Hidden account confirmation and a matching current preflight are required before
 writing a private 15-minute artifact. These commands never execute requests or
