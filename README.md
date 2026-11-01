@@ -1,5 +1,9 @@
 # IntelligenceOS Arbitrage
 
+M70 adds [scalable offline catalog discovery and identity enrichment](docs/M70_CATALOG_DISCOVERY.md),
+with authorized local adapters, conflict/provenance reporting, diversified M69 ranking
+and a non-executable future Catalog API budget plan. No live requests are enabled.
+
 M69 adds [offline eligibility-first research and explicit review stages](docs/M69_ELIGIBILITY_FIRST_DISCOVERY.md).
 It consolidates immutable M63/M67 outcomes, excludes all permanent claims, ranks up
 to 100 saved Catalog candidates and keeps unknown eligibility separate from approval.

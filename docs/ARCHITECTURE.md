@@ -231,3 +231,11 @@ Source context participates in existing fingerprints/SQLite payloads and appears
 in the report enrichment sheet. Missing seller/location/shipping evidence stays
 flagged, and source shipping never silently fills profitability costs. There is
 no Walmart HTTP adapter or new pipeline.
+
+## M70 offline scalable catalog discovery
+
+[Source/identity/ranking contracts and actual results](M70_CATALOG_DISCOVERY.md)
+add hash-bound local imports, conservative identity merging, M69 history reuse and
+a non-executable Catalog discovery plan. Capacity is tested above 1,000 ASINs;
+available saved evidence contains 197. Further authorized source coverage is needed.
+No live adapter, automatic execution, reservations or immutable-evidence changes.

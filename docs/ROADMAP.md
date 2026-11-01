@@ -129,3 +129,11 @@ The next owner action is a BlueCart/Traject written commercial-use and sample
 inquiry, not affiliate or seller registration. Public trial terms do not cover
 this intended commercial use; no rights or real row are available yet. See
 [exact access steps and enrichment request plan](WALMART_ACCESS_NEXT_STEP.md).
+
+## M70 offline scalable catalog discovery
+
+[Source/identity/ranking contracts and actual results](M70_CATALOG_DISCOVERY.md)
+add hash-bound local imports, conservative identity merging, M69 history reuse and
+a non-executable Catalog discovery plan. Capacity is tested above 1,000 ASINs;
+available saved evidence contains 197. Further authorized source coverage is needed.
+No live adapter, automatic execution, reservations or immutable-evidence changes.
