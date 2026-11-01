@@ -12,6 +12,7 @@ from app.m65_intelligence import import_report, read_json, sha256
 from app.m66_discovery import build, validate
 from app.m66_opportunity import template, decide
 from app.m66_verification import VerificationStore, verification_rows, verify
+from app.m66_experiments import measure, load as load_experiment, export as export_experiment
 from app.observations import canonical
 
 SC_SEEDS=Path(__file__).resolve().parent.parent/'ops/examples/m66-seller-central-observations.json'
@@ -53,6 +54,8 @@ def prepare(paths: list[Path],store: VerificationStore,history_dir: Path,output:
     csv_export(output/'M66_cohort.csv',selected)
     digest=sha256(output/'M66_review_manifest.json')
     inner=m['restrictions_proposal']
+    experiment=measure(m,ranking,store,digest)
+    export_experiment(experiment,output)
     summary=dict(mode='M66_OFFLINE_REVIEW',candidates_evaluated=len(ranking['rows']),
         historical_exclusions=len(audit['excluded_asins']),historical_asins_in_input=sum(r['asin'] in audit['excluded_asins'] for r in ranking['rows']),
         m63_permanent_exclusions=len(audit['m63_permanent_excluded_asins']),
@@ -85,7 +88,7 @@ def prepare(paths: list[Path],store: VerificationStore,history_dir: Path,output:
 
 def main() -> int:
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action',choices=('init','import-history','import-verification','export-verification','prepare','validate','template','evaluate'))
+    p.add_argument('action',choices=('init','import-history','import-verification','export-verification','prepare','validate','template','evaluate','experiment'))
     p.add_argument('--store',type=Path,default=Path('var/m66/intelligence.sqlite3'))
     p.add_argument('--input',type=Path);p.add_argument('--output',type=Path)
     p.add_argument('--catalog',type=Path,action='append',default=[])
@@ -120,6 +123,12 @@ def main() -> int:
             elif args.action=='validate':
                 if not args.input or not args.sha256 or not args.catalog:raise ValueError('Reviewed manifest, digest and sources required')
                 validate(args.input,args.sha256,args.catalog,store,args.history_dir);result=dict(status='validated_offline',live_requests=0)
+            elif args.action=='experiment':
+                if not args.input or not args.sha256 or not args.output:raise ValueError('Frozen cohort, digest and new output required')
+                result=load_experiment(args.input,args.sha256,store)
+                args.output.mkdir(mode=0o700,parents=True,exist_ok=False)
+                export_experiment(result,args.output)
+                result=dict(overall=result['overall'],additional_live_requests=0)
             else:
                 if not args.input or not args.output:raise ValueError('Supplied opportunity and output required')
                 record,_=read_json(args.input)

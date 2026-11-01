@@ -30,6 +30,9 @@ def template(asin: str) -> dict:
                      sale_price_basis=None) for k in COSTS},
         inventory_units=None,purchase_authorized=False,
         estimates=dict(expected_net_profit=None,roi_percent=None,estimated_inventory_investment=None),
+        intended_listing_workflow='EXISTING_ASIN_OFFER_ONLY',product_type='PRODUCT',
+        listing_requirements='LISTING_OFFER_ONLY',offer_submission_authorized=False,
+        create_new_asin_authorized=False,
         cost_basis='All costs per complete matched selling unit; explicit zero allowed, missing never zero')
 
 
@@ -156,7 +159,7 @@ def decide(record: dict, verification: dict, *, as_of: datetime) -> dict:
         result.update(decision='REJECTED_RESTRICTION',reasons=['REPORTED_SELLING_RESTRICTION'])
     elif verification.get('api_state')=='APPROVAL_REQUIRED' or 'APPROVAL_APPLICATION_REQUIRED' in sc:
         result.update(decision='REQUIRES_APPROVAL',reasons=['OBSERVED_APPROVAL_PATHWAY'])
-    elif (not aggregate_fresh or verification.get('listing_permission_verified') is not True
+    elif (not aggregate_fresh or verification.get('listing_review_gate_complete') is not True
           or not listing_expiry or as_of>datetime.fromisoformat(listing_expiry)):
         result['reasons']=['FRESH_API_AND_EXISTING_ASIN_OFFER_VERIFICATION_REQUIRED']
     elif (verification.get('fba_conflict_requires_review') or verification.get('fba_state')=='FBA_UNKNOWN'

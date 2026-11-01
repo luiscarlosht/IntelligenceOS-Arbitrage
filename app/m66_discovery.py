@@ -15,6 +15,7 @@ from app.observations import fingerprint, canonical
 def implementation() -> dict:
     root=Path(__file__).resolve().parent
     return {name:sha256(root/name) for name in ('m66.py','m66_verification.py','m66_opportunity.py','m66_discovery.py',
+        'm66_experiments.py',
         'm65.py','m65_intelligence.py','m65_ranking.py','m65_batch.py','m63_history.py','profitability.py','marketplace.py')}
 
 
@@ -91,6 +92,9 @@ def build(paths: list[Path],store: VerificationStore,history_dir: Path,*,as_of: 
         verification_revision=store.revision(),restrictions_proposal=inner,
         execution_authorized=False,live_executor_enabled=False,automatic_follow_on=False,
         manual_review_required=True,purchase_authorized=False)
+    manifest['intended_listing_workflow']='EXISTING_ASIN_OFFER_ONLY'
+    manifest['disabled_operations']=['getItemEligibilityPreview','getDefinitionsProductType','putListingsItem',
+                                    'patchListingsItem','Pricing','Fees','retailer_research']
     return manifest,ranked,review_audit
 
 

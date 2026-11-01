@@ -29,6 +29,24 @@ as modules beside M65. M60–M63 modules and private records are unchanged.
 
 ## Evidence model and review gate
 
+Research clarification: Amazon's [official Listings Restrictions guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/listings-restrictions-api-use-case-guide/listings-restrictions-api-use-case-guide_2021-08-01.md)
+describes an empty restriction list and also shows `{"restrictions":[{}]}` as a
+no-restrictions example. The [official response model](https://github.com/amzn/selling-partner-api-models/blob/main/models/listings-restrictions-api-model/listingsRestrictions_2021-08-01.json)
+requires `marketplaceId` on an actual restriction row. M66 therefore recognizes
+only `[]` and the exact single-empty-object example `[{}]`, under successful,
+explicit account/request US/New scope with a valid observation, as
+`NO_REPORTED_RESTRICTIONS`. Missing/null/non-array data, mixed placeholders,
+wrong scope and failed requests remain `UNKNOWN`. A real scoped restriction row
+with missing/empty reasons remains `OTHER_RESTRICTED`, not unrestricted.
+
+The state is never `SELLING_PERMISSION_CONFIRMED`. The previous aggregate boolean
+`listing_permission_verified` is replaced by `listing_review_gate_complete` to
+name a conservative review checklist rather than authorization. Outputs explicitly
+retain `selling_authorization_confirmed=false`, `offer_submission_status=NOT_SUBMITTED`
+and `catalog_match_grants_permission=false`. Catalog presence, popularity, sales
+ranks and seller counts never establish permission. Existing snapshots remain
+immutable; changed code-bound proposals need fresh review, not in-place migration.
+
 API outcomes retain M65's five states: `NO_REPORTED_RESTRICTIONS`,
 `APPROVAL_REQUIRED`, `NOT_ELIGIBLE`, `OTHER_RESTRICTED`, `UNKNOWN`. Successful
 HTTP/operation completion is separate from the outcome. M63's 20 successful
@@ -48,6 +66,11 @@ FBA is independently `FBA_ELIGIBLE`, `FBA_INELIGIBLE`, or `FBA_UNKNOWN`. A fee
 estimate and Copy listing access cannot verify FBA. Only an independent
 `MANUAL_FBA_ELIGIBILITY` observation can record an FBA conclusion. The schema
 refuses an offer/FBA assertion made with `MANUAL_COPY_LISTING`.
+Positive or negative FBA evidence additionally requires `fba_program=INBOUND`.
+Amazon's [getItemEligibilityPreview reference](https://developer-docs.amazon/sp-api/reference/getitemeligibilitypreview)
+distinguishes INBOUND and COMMINGLING programs. A commingling result or unspecified
+program cannot establish inbound eligibility. No preview endpoint is called or
+authorized by the restriction cohort; current permissions are not probed.
 
 Each observation records exact ASIN (or explicitly brand-only signal), brand,
 US marketplace, New condition, nonsecret account alias, date, verification method,
@@ -195,6 +218,14 @@ adapter remains a separately reviewed implementation task.
 
 ## Downstream identity and economics
 
+The intended path is **an offer for an existing, exact ASIN only**. Amazon's
+[listings workflow guide](https://developer-docs.amazon/sp-api/docs/building-listings-management-workflows-guide)
+places `getListingsRestrictions` before offer-only preparation, using product type
+`PRODUCT` and requirements `LISTING_OFFER_ONLY`. M66 records those planning fields
+and forbids new-ASIN creation and offer submission. It does not call product-type
+definitions, `putListingsItem`, `patchListingsItem`, or any submission/preview API.
+There is no automatic fallback to creating a new ASIN when matching fails.
+
 Create a blank contract with `app.m66 template --asin ASIN --output new.json`.
 The contract has Amazon and retailer product observations with ASIN/brand/title,
 GTIN, model, size, pack quantity, variation, URL, date and provenance; per-unit
@@ -257,6 +288,7 @@ references support review; offline code cannot authenticate an invented source.
 
 ```bash
 .venv/bin/python -m pytest -q tests/test_m66.py tests/test_m65.py
+.venv/bin/python -m pytest -q tests/test_m66_research.py
 .venv/bin/python -m pytest -q
 ```
 
@@ -296,3 +328,43 @@ unverified and blocked from seller-readiness claims.
 Private deliverables and literal verification/reproduction commands are under
 `var/m66-review-delivery/`; the new derived store is
 `var/m66-final/intelligence.sqlite3`. Runtime outputs are not committed.
+
+## Frozen experimental outcomes by brand and category
+
+Preparation now exports `M66_experiment_outcomes.json` plus per-ASIN, per-brand
+and per-category CSVs. Each frozen cohort is bound to the reviewed manifest's
+SHA-256, exact ordered ASINs and original ranking hash. The default available
+pool supports a diversified 20-ASIN experiment; a shortfall is reported without
+padding or silently increasing the request budget.
+
+Report later, separately authorized observations with this offline-only command:
+
+```text
+.venv/bin/python -m app.m66 experiment --store var/m66-final/intelligence.sqlite3 --input <frozen M66_review_manifest.json> --sha256 <literal cohort digest> --output <fresh outcome-report directory>
+```
+
+This reads saved, scoped, post-cohort eligibility observations and immutable
+results for that exact cohort. It never checks another ASIN or reserves a request.
+Store changes after outcomes arrive do not redefine the original cohort; reporting
+validates the immutable snapshot rather than regenerating a new experiment.
+
+Metrics separate selected, checked, not checked, successful operations, failures,
+conflicts and all five API outcomes. Empty cohorts of checked results have a null
+observed fraction, not a zero-success estimate. Conflicting observations become
+UNKNOWN. Measured fractions describe the checked sample only; they are not
+eligibility probabilities or brand-wide approval rates. FBA evidence is not
+inferred or evaluated by this restriction-only report. Actual offers remain
+unsubmitted by M66, and no listing authorization is asserted.
+
+Fresh clarification artifacts are prepared separately under
+`var/m66-research-review/`; prior review files, authorization records and permanent
+reservations are preserved. The regenerated cohort still needs a new exact-digest
+human review before any future live operation. No authorization is created here.
+
+Clarification validation: 1,374 tests passed, including 23 new research/experiment
+cases, and both isolated legacy/discovery sample modes passed. The regenerated
+cohort remains 20 ASINs across 17 brands and four equal five-product categories.
+All 20 are NOT_CHECKED in the experiment, so there are zero measured API outcomes
+and the observed fraction is null for every group. This is not an observed
+zero-percent success rate. All 77 historical exclusions and original report hashes
+remain unchanged; real claims, attempts and live Amazon calls remain zero.

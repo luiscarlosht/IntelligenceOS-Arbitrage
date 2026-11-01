@@ -88,6 +88,12 @@ def classify(stage: object, marketplace: str, condition: str, observed_at: str |
             if not isinstance(raw, dict) or raw.get('errors') or not isinstance(raw.get('restrictions'), list):
                 raise ValueError('Malformed response')
             rows = raw['restrictions']
+            # Amazon's official guide labels exactly [{}] a no-restrictions
+            # example, although the model requires marketplaceId on a row.
+            # Accept only this exact placeholder after successful US/New scope
+            # and observation validation above; mixed/malformed rows stay UNKNOWN.
+            if rows == [{}]:
+                rows = []
             found = []
             for row in rows:
                 if (not isinstance(row, dict) or row.get('marketplaceId') != marketplace
