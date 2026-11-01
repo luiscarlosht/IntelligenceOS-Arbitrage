@@ -2,16 +2,16 @@
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 import fcntl
-import getpass
 import hashlib
 import hmac
+import io
 import json
 import os
 from pathlib import Path
 import re
 import stat
 import tempfile
-import warnings
+import termios
 
 from app import m67_policy
 from app.m65_intelligence import build_audit, read_json
@@ -128,15 +128,36 @@ def snapshot(manifest_path: Path, digest: str, sources: list[Path], store_path: 
     return manifest, fresh, binding['seller_id']
 
 
+def _hidden_terminal_line(terminal, prompt: str) -> str:
+    """Read only the pinned controlling TTY; restore echo on every exit."""
+    fd = terminal.fileno()
+    previous = termios.tcgetattr(fd)
+    hidden = previous[:]
+    hidden[3] &= ~(termios.ECHO | termios.ECHONL)
+    try:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, hidden)
+        terminal.write(prompt)
+        terminal.flush()
+        line = terminal.readline()
+        if not line:
+            raise EOFError('Private terminal input unavailable')
+        return line.removesuffix('\n')
+    finally:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, previous)
+        terminal.write('\n')
+        terminal.flush()
+
+
 def confirm_account(expected_seller: str) -> bool:
-    """No argv/env/stdin bypass. getpass fails closed without hidden TTY input."""
-    with warnings.catch_warnings():
-        warnings.simplefilter('error', getpass.GetPassWarning)
-        with open('/dev/tty', 'r+') as terminal:
-            if not terminal.isatty():
-                raise ValueError('Private interactive terminal required')
-            supplied = getpass.getpass('Privately verified seller ID (hidden): ', stream=terminal)
-            phrase = getpass.getpass('Type I VERIFIED THE ACCOUNT; PREPARE ONLY (hidden): ', stream=terminal)
+    """No argv/env/stdin bypass or echoed-input fallback."""
+    fd = os.open('/dev/tty', os.O_RDWR | os.O_NOCTTY | os.O_CLOEXEC)
+    with os.fdopen(fd, 'r+b', buffering=0) as raw:
+        if not raw.isatty():
+            raise ValueError('Private interactive terminal required')
+        # Buffered r+ requires seeking, which Linux PTYs do not support.
+        with io.TextIOWrapper(raw, encoding='utf-8', write_through=True) as terminal:
+            supplied = _hidden_terminal_line(terminal, 'Privately verified seller ID (hidden): ')
+            phrase = _hidden_terminal_line(terminal, 'Type I VERIFIED THE ACCOUNT; PREPARE ONLY (hidden): ')
     return hmac.compare_digest(supplied, expected_seller) and hmac.compare_digest(phrase, CONFIRMATION)
 
 
