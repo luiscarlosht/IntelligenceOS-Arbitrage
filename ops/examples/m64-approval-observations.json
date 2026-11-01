@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "provenance": "Four manual observations supplied by the user in the M65 task. Review dates and additional requirements were not supplied.",
+  "observations": [
+    {
+      "asin": "B00L9X2CWQ", "brand": "OXO", "marketplace": "ATVPDKIKX0DER", "condition": "new_new",
+      "review_date": null, "application_scope": "BRAND", "approval_pathway": "INVOICE",
+      "invoice_required": true, "minimum_invoiced_units": 200, "minimum_invoice_count": 1,
+      "supplier_documentation_requirements": ["MANUFACTURER_OR_DISTRIBUTOR_PURCHASE_INVOICE"],
+      "immediate_approval_offered": false, "additional_requirements": null,
+      "source_reference": "user:M65:M64:B00L9X2CWQ", "review_status": "VERIFIED_USER_OBSERVATION"
+    },
+    {
+      "asin": "B001HA4JXQ", "brand": "Avery", "marketplace": "ATVPDKIKX0DER", "condition": "new_new",
+      "review_date": null, "application_scope": "BRAND", "approval_pathway": "INVOICE",
+      "invoice_required": true, "minimum_invoiced_units": 100, "minimum_invoice_count": 1,
+      "supplier_documentation_requirements": ["MANUFACTURER_OR_DISTRIBUTOR_PURCHASE_INVOICE"],
+      "immediate_approval_offered": false, "additional_requirements": null,
+      "source_reference": "user:M65:M64:B001HA4JXQ", "review_status": "VERIFIED_USER_OBSERVATION"
+    },
+    {
+      "asin": "B07H54NZ3K", "brand": "Command", "marketplace": "ATVPDKIKX0DER", "condition": "new_new",
+      "review_date": null, "application_scope": "BRAND", "approval_pathway": "INVOICE",
+      "invoice_required": true, "minimum_invoiced_units": 100, "minimum_invoice_count": 1,
+      "supplier_documentation_requirements": ["MANUFACTURER_OR_DISTRIBUTOR_PURCHASE_INVOICE"],
+      "immediate_approval_offered": false, "additional_requirements": null,
+      "source_reference": "user:M65:M64:B07H54NZ3K", "review_status": "VERIFIED_USER_OBSERVATION"
+    },
+    {
+      "asin": "B00AN8CTX0", "brand": "Whitmor", "marketplace": "ATVPDKIKX0DER", "condition": "new_new",
+      "review_date": null, "application_scope": "BRAND", "approval_pathway": "INVOICE",
+      "invoice_required": true, "minimum_invoiced_units": 100, "minimum_invoice_count": 1,
+      "supplier_documentation_requirements": ["MANUFACTURER_OR_DISTRIBUTOR_PURCHASE_INVOICE"],
+      "immediate_approval_offered": false, "additional_requirements": null,
+      "source_reference": "user:M65:M64:B00AN8CTX0", "review_status": "VERIFIED_USER_OBSERVATION"
+    }
+  ]
+}

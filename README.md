@@ -1,5 +1,11 @@
 # IntelligenceOS Arbitrage
 
+M65 adds [offline eligibility-first discovery and manual approval intelligence](docs/M65_ELIGIBILITY_FIRST.md).
+It imports saved account-specific restriction evidence, records append-only manual
+observations, and ranks an unchecked next cohort with explainable scores. It has
+no live execution, retailer research, approval application or purchase action.
+Untested candidates remain `UNKNOWN`; profitability evaluation remains disabled.
+
 V0.3 preparation is available for review: [provider research and cost decisions](docs/V03_PROVIDER_RESEARCH.md),
 [offline contracts and safeguards](docs/V03_PREPARATION.md), and
 [proposed SQLite backups with restore procedure](docs/SQLITE_BACKUPS.md).
