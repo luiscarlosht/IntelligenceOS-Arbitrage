@@ -7,7 +7,7 @@ from pathlib import Path
 import socket
 import subprocess
 import sys
-import warnings
+import pty
 
 import pytest
 
@@ -309,32 +309,39 @@ PRIVATE_CONFIRM = auth.confirm_account
     ('SYNTHETICSELLER',auth.CONFIRMATION,True),('OTHER',auth.CONFIRMATION,False),
     ('SYNTHETICSELLER','yes',False),('','',False)])
 def test_hidden_terminal_confirmation(seller,phrase,expected,monkeypatch):
-    import builtins
-    class Terminal:
-        def __enter__(self):return self
-        def __exit__(self,*args):pass
-        def isatty(self):return True
-    monkeypatch.setattr(builtins,'open',lambda *args,**kwargs:Terminal())
+    master,slave=pty.openpty();original=os.open
+    def open_tty(path,flags,*args,**kwargs):
+        if path=='/dev/tty':
+            assert flags & os.O_NOCTTY and flags & os.O_CLOEXEC
+            return os.dup(slave)
+        return original(path,flags,*args,**kwargs)
+    monkeypatch.setattr(auth.os,'open',open_tty)
     answers=iter((seller,phrase));prompts=[]
-    def hidden(prompt,**kwargs):prompts.append(prompt);return next(answers)
-    monkeypatch.setattr(auth.getpass,'getpass',hidden)
-    assert PRIVATE_CONFIRM('SYNTHETICSELLER') is expected
-    assert all('SYNTHETICSELLER' not in prompt for prompt in prompts)
+    def hidden(terminal,prompt):prompts.append(prompt);return next(answers)
+    monkeypatch.setattr(auth,'_hidden_terminal_line',hidden)
+    try:
+        assert PRIVATE_CONFIRM('SYNTHETICSELLER') is expected
+        assert len(prompts)==2
+        assert all('SYNTHETICSELLER' not in prompt for prompt in prompts)
+    finally:os.close(master);os.close(slave)
 
 
-def test_missing_tty_and_echo_fallback_fail_closed(monkeypatch):
-    import builtins
-    def unavailable(*args,**kwargs):raise OSError('no tty')
-    monkeypatch.setattr(builtins,'open',unavailable)
+def test_missing_tty_and_echo_control_failure_fail_closed(monkeypatch):
+    original=os.open
+    def unavailable(path,*args,**kwargs):
+        if path=='/dev/tty':raise OSError('no tty')
+        return original(path,*args,**kwargs)
+    monkeypatch.setattr(auth.os,'open',unavailable)
     with pytest.raises(OSError):PRIVATE_CONFIRM('SYNTHETICSELLER')
-    class Terminal:
-        def __enter__(self):return self
-        def __exit__(self,*args):pass
-        def isatty(self):return True
-    monkeypatch.setattr(builtins,'open',lambda *args,**kwargs:Terminal())
-    def echo(*args,**kwargs):warnings.warn('Hidden entry unavailable',auth.getpass.GetPassWarning)
-    monkeypatch.setattr(auth.getpass,'getpass',echo)
-    with pytest.raises(auth.getpass.GetPassWarning):PRIVATE_CONFIRM('SYNTHETICSELLER')
+    master,slave=pty.openpty()
+    def open_tty(path,*args,**kwargs):
+        return os.dup(slave) if path=='/dev/tty' else original(path,*args,**kwargs)
+    monkeypatch.setattr(auth.os,'open',open_tty)
+    def failed_control(*args):raise auth.termios.error('Echo control unavailable')
+    monkeypatch.setattr(auth.termios,'tcgetattr',failed_control)
+    try:
+        with pytest.raises(auth.termios.error):PRIVATE_CONFIRM('SYNTHETICSELLER')
+    finally:os.close(master);os.close(slave)
 
 
 @pytest.mark.parametrize('mask',[0,0o777])

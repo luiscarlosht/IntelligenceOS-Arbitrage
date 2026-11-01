@@ -33,6 +33,15 @@ bypass exists. M68 revalidates evidence after confirmation before writing anythi
 The validity window is exactly 15 minutes, beginning after confirmation; it cannot
 be extended by a CLI option. Keep the local UTC clock accurate.
 
+Ubuntu SSH PTYs are non-seekable character devices. Confirmation opens `/dev/tty`
+once using `os.open` and unbuffered binary I/O beneath a text wrapper, avoiding the
+buffered `r+` seek failure. Both inputs use this pinned descriptor with terminal
+echo disabled and settings restored in `finally`. Missing TTY, echo-control errors,
+EOF or interruption fail closed; stdin is never a fallback, even when it is a TTY.
+The exact constant-time comparisons, schema, expiry and request limits are unchanged.
+This code change invalidates old M68 code-bound receipts as intended. Preserve
+existing private artifacts; any later authorized preparation must use a fresh name.
+
 The artifact contains exactly the M67 schema, including `approved=true` and
 `execution_permission=true`, which M67's policy requires. These fields make it a
 sensitive execution-capable review artifact. **This M68 task authorizes preparation
