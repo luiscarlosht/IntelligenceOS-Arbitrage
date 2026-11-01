@@ -1,5 +1,10 @@
 # IntelligenceOS Arbitrage
 
+M67 adds [controlled Listings Restrictions execution](docs/M67_CONTROLLED_ELIGIBILITY_EXECUTION.md).
+Its default preflight is offline and read-only. Live execution requires a separate
+reviewed authorization, exact hashes and explicit flag; implementation and installation
+authorize no live run. Historical claims remain permanent.
+
 M66 adds [offline seller/FBA verification and profitability review](docs/M66_VERIFIED_ELIGIBILITY.md).
 It keeps Copy listing access separate from selling permission, prepares a new
 unchecked cohort from saved sources, and calculates economics only after the
