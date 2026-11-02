@@ -71,6 +71,8 @@ def main() -> int:
     args = parser.parse_args()
     if os.geteuid() != 0:
         parser.error('launcher requires root; payload always uses dedicated service UID')
+    if not os.path.ismount('/mnt/intelligenceos_data'):
+        raise ValueError('dedicated data volume is not mounted')
     account = pwd.getpwnam('intelligenceos-m78')
     if account.pw_uid == 0 or account.pw_gid == 0 or account.pw_shell not in ('/usr/sbin/nologin', '/bin/false'):
         raise ValueError('dedicated non-login account required')
