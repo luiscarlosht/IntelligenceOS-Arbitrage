@@ -70,6 +70,6 @@ def analyze(curated: list[dict], observations: list[dict], annotations: list[dic
         historical_excluded_in_catalog=sum(bool(p.get('permanently_excluded')) and p['in_catalog'] for p in historical.values()),
         historical_excluded_outside_catalog=sum(bool(p.get('permanently_excluded')) and not p['in_catalog'] for p in historical.values()),
         historical_seller_checks=sum(bool(p.get('previously_checked_seller_specific')) for p in historical.values()),
-        purchase_ready=0, eligibility='UNKNOWN', economics='UNKNOWN', network_requests=0,
+        purchase_ready=sum(bool(p['purchase_ready']) for p in records), eligibility='UNKNOWN', economics='UNKNOWN', network_requests=0,
         missing_fields={f: sum(p.get(f) is None for p in records) for f in FIELDS})
     return dict(summary=summary, catalog=records, annotations=[historical[a] for a in sorted(historical)], overlap=overlap)
