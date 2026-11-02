@@ -277,3 +277,13 @@ caps a future new one-shot operation at 1 authentication plus 20 first-page sear
 no executor, authorization artifact or registry is created. Private deterministic
 workbook/JSON/CSV reports bind input, code and output hashes. See
 [M74 evidence, command and future-operation proposal](M74_DISCOVERY_PLANNING.md).
+
+## M75 controlled Catalog expansion
+
+A separate manual executor pins the M74 completion, canonical/file manifest and
+exact contract before admitting one authentication plus twenty first-page keyword
+requests. A new permanent M75 registry, existing exclusive account lock, durable
+before-dispatch accounting, bounded TLS transport and fresh ten-minute owner
+authorization enforce no replay. Original M72 and M63–M74 evidence remain unchanged.
+Development ran only offline validation and synthetic tests; no live requests or
+authorization artifacts were created. See [M75 review and future owner procedure](M75_CONTROLLED_CATALOG_EXPANSION.md).

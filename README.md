@@ -1,5 +1,8 @@
 # IntelligenceOS Arbitrage
 
+M75 adds a [separately authorized one-shot Catalog expansion executor](docs/M75_CONTROLLED_CATALOG_EXPANSION.md),
+bound to the verified M74 plan and 21-request ceiling. Implementation and testing were offline; merging is not execution authorization.
+
 M74 adds [hash-bound offline discovery planning](docs/M74_DISCOVERY_PLANNING.md):
 verified M73 evidence, 51 proposed queries, overlap analysis and a separately authorized future M75 contract design.
 
