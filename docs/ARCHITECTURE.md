@@ -300,3 +300,21 @@ formula-safe CSV/Excel/JSON and a completion evidence manifest only after drift
 checks. All application source and input evidence are hash-bound. No transport,
 credential loading, registry writing or authorization action is part of this CLI.
 See [M76 controls and artifacts](M76_OFFLINE_CATALOG.md).
+
+## M77 controlled catalog discovery expansion
+
+`m77_policy` validates the immutable original M76 output inventory and reproduces
+its complete M73/M74/M75 evidence chain before exposing a credential-free preflight.
+It freezes all 31 reviewed q020–q050 first-page definitions, US marketplace,
+includedData and page size, with one LWA plus 31 search slots (620 observations).
+Separate M77 CLI, authorization, registry, transport, execution and reporting modules
+preserve the historical implementation and registries. Fresh interactive ten-minute
+owner permission binds exact code/evidence/account/request/budget hashes. Dispatch
+requires the explicit live flag and exact artifact digest, exclusive global account
+lock, durable sequential intent commits, immutable hash chain, pacing and hard
+180-second deadline. Any existing claim permanently prevents replay, including
+failure or hard kill. Read-only recovery exports only journaled normalized source
+observations through the existing M70 adapter and validates the original M76 baseline.
+The guarded offline wrapper rejects network and credential reads. See
+[M77 operator controls](M77_CONTROLLED_CATALOG_EXPANSION.md) and
+[safety audit](M77_SAFETY_AUDIT.md). No runtime selector, schedule or deployment changes.
