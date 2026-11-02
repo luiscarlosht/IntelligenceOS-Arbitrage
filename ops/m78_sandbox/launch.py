@@ -53,7 +53,9 @@ def command(mode: str, host_net: str, uid: int, gid: int) -> list[str]:
            '--setenv=PYTHONNOUSERSITE=1']
     for key, value in props.items():
         cmd += ['--property', f'{key}={value}']
-    cmd += ['/usr/bin/python3', '-B']
+    cmd += ['/usr/bin/env', '-i', 'PATH=/usr/bin:/bin',
+            'PYTHONPATH=/app:/deps', 'PYTHONDONTWRITEBYTECODE=1',
+            'PYTHONNOUSERSITE=1', '/usr/bin/python3', '-B']
     if mode == 'verify':
         cmd += ['/probe.py', host_net, str(uid)]
     else:
