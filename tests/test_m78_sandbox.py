@@ -53,6 +53,7 @@ def test_failed_probe_never_runs_analysis(monkeypatch, tmp_path):
     monkeypatch.setattr(launcher, 'BASE', tmp_path)
     monkeypatch.setattr(launcher.os, 'geteuid', lambda: 0)
     monkeypatch.setattr(launcher.os, 'readlink', lambda _: 'net:[123]')
+    monkeypatch.setattr(launcher.os.path, 'ismount', lambda _: True)
     monkeypatch.setattr(launcher.pwd, 'getpwnam', lambda _: SimpleNamespace(
         pw_uid=1234, pw_gid=1234, pw_shell='/usr/sbin/nologin'))
     monkeypatch.setattr(launcher, 'checked', lambda *args: None)
@@ -66,3 +67,12 @@ def test_failed_probe_never_runs_analysis(monkeypatch, tmp_path):
     assert len(calls) == 1
     assert '/probe.py' in calls[0]
     assert 'ops.m78_offline' not in calls[0]
+
+
+def test_unmounted_volume_refused(monkeypatch):
+    import sys
+    monkeypatch.setattr(sys, 'argv', ['launch.py', 'verify'])
+    monkeypatch.setattr(launcher.os, 'geteuid', lambda: 0)
+    monkeypatch.setattr(launcher.os.path, 'ismount', lambda _: False)
+    with pytest.raises(ValueError, match='not mounted'):
+        launcher.main()
