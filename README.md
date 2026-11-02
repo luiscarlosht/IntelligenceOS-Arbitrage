@@ -200,3 +200,9 @@ Pacing is process-local: concurrent runs are not quota-coordinated. These manual
 paths are outside the scheduled job and require their existing explicit execution
 gates. Listing permission and approval requirements do not establish FBA eligibility
 or purchase approval.
+
+M76 consolidates the validated M73/M75 evidence offline into **777 distinct real
+ASINs**, preserving provenance, 49 unresolved conflict ASINs and historical seller
+annotations. It exports JSON/CSV, an Excel workbook and hash-bound evidence, and
+proposes unused M77 queries for the remaining 223 ASINs. No record is purchase-ready.
+See [M76 command, counts and hashes](docs/M76_OFFLINE_CATALOG.md).

@@ -287,3 +287,16 @@ before-dispatch accounting, bounded TLS transport and fresh ten-minute owner
 authorization enforce no replay. Original M72 and M63–M74 evidence remain unchanged.
 Development ran only offline validation and synthetic tests; no live requests or
 authorization artifacts were created. See [M75 review and future owner procedure](M75_CONTROLLED_CATALOG_EXPANSION.md).
+
+### M76 offline consolidation
+
+`m76_evidence` composes the existing M73/M74 source-chain validators and read-only
+M75 immutable-registry inspector. It reconciles the original M75 M70-compatible
+source/summary against its terminal event-chain checkpoint before import.
+`m76_analysis` merges exact ASINs through existing identity contracts, retains
+verbatim M73 provenance, separates historical annotations and ranks unused M77
+query hypotheses from observed intent coverage. `m76` publishes deterministic,
+formula-safe CSV/Excel/JSON and a completion evidence manifest only after drift
+checks. All application source and input evidence are hash-bound. No transport,
+credential loading, registry writing or authorization action is part of this CLI.
+See [M76 controls and artifacts](M76_OFFLINE_CATALOG.md).
