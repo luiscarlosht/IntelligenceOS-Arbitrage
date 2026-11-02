@@ -266,3 +266,14 @@ reports retain per-ASIN provenance, all exclusions, unresolved GTIN alternatives
 diversity, research priority and discovery scenarios. The actual union is 377 real
 ASINs (623 remaining); no new network or seller-specific operations are enabled.
 See [M73 evidence and review procedure](M73_CATALOG_CONSOLIDATION.md).
+
+## M74 intelligent discovery planning (offline only)
+
+M74 verifies every M73 completion-manifest file and reuses the unchanged read-only
+source validator before planning. Fifty-one reviewable candidates distinguish 41
+unexecuted M71 definitions from ten new vocabulary hypotheses. Observed overlap and
+coverage stay separate from duplicate-scenario projections. A proposed M75 contract
+caps a future new one-shot operation at 1 authentication plus 20 first-page searches;
+no executor, authorization artifact or registry is created. Private deterministic
+workbook/JSON/CSV reports bind input, code and output hashes. See
+[M74 evidence, command and future-operation proposal](M74_DISCOVERY_PLANNING.md).
