@@ -1,0 +1,653 @@
+{
+  "authentication": {
+    "method": "POST",
+    "slot": 1,
+    "url": "https://api.amazon.com/auth/o2/token"
+  },
+  "budget": {
+    "additional_pages": 0,
+    "approvals": 0,
+    "authentication": 1,
+    "eligibility": 0,
+    "fba": 0,
+    "fees": 0,
+    "identifier": 0,
+    "keyword": 31,
+    "listings": 0,
+    "pricing": 0,
+    "purchases": 0,
+    "refreshes": 0,
+    "retailer": 0,
+    "retries": 0,
+    "total": 32
+  },
+  "execution_authorized": false,
+  "maximum_raw_observations": 620,
+  "operation_id": "M77-US-CATALOG-EXPLORE31-ONCE",
+  "original_proposal_sha256": "cf722824164e02b2ffeb08ffd479660747b553a687a6eb49403197d999792435",
+  "request_definitions_sha256": "6f07ab81c826d09055665029169aa4658ccf250c5870c43b32a695a44b6cea07",
+  "requests": [
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "travel toothbrush case",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q020",
+      "slot": 2
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "garden plant labels",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q021",
+      "slot": 3
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "aquarium cleaning brush",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q022",
+      "slot": 4
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "beading storage tray",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q023",
+      "slot": 5
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "tea infuser basket",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q024",
+      "slot": 6
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "vacuum storage bag",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q025",
+      "slot": 7
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "book binding rings",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q026",
+      "slot": 8
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "swimming ear plug case",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q027",
+      "slot": 9
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "microfiber applicator pad",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q028",
+      "slot": 10
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "sanding block",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q029",
+      "slot": 11
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "silicone scalp brush",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q030",
+      "slot": 12
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "watering can rose",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q031",
+      "slot": 13
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "bird cage perch",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q032",
+      "slot": 14
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "craft cutting mat",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q033",
+      "slot": 15
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "dough scraper",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q034",
+      "slot": 16
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "closet shelf separator",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q035",
+      "slot": 17
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "reusable notebook cover",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q036",
+      "slot": 18
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "resistance band handles",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q037",
+      "slot": 19
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "car visor clip",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q038",
+      "slot": 20
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "woodworking marking gauge",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q039",
+      "slot": 21
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "reusable shower cap",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q040",
+      "slot": 22
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "garden kneeling pad",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q041",
+      "slot": 23
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "pet travel bowl",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q042",
+      "slot": 24
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "felting needle holder",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q043",
+      "slot": 25
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "reusable baking liner",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q044",
+      "slot": 26
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "bedside storage caddy",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q045",
+      "slot": 27
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "desktop card holder",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q046",
+      "slot": 28
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "camping utensil pouch",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q047",
+      "slot": 29
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "automotive trim tool",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q048",
+      "slot": 30
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "tool roll pouch",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q049",
+      "slot": 31
+    },
+    {
+      "host": "sellingpartnerapi-na.amazon.com",
+      "method": "GET",
+      "parameters": {
+        "includedData": "summaries,identifiers,relationships,attributes,productTypes,classifications,dimensions",
+        "keywords": "cosmetic brush holder",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "pageSize": "20"
+      },
+      "path": "/catalog/2022-04-01/items",
+      "query_id": "q050",
+      "slot": 32
+    }
+  ],
+  "reviewed_definitions": [
+    {
+      "category_intent": "personal_care_accessories",
+      "keywords": "travel toothbrush case",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q020",
+      "rank": 1
+    },
+    {
+      "category_intent": "garden",
+      "keywords": "garden plant labels",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q021",
+      "rank": 2
+    },
+    {
+      "category_intent": "pet_accessories",
+      "keywords": "aquarium cleaning brush",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q022",
+      "rank": 3
+    },
+    {
+      "category_intent": "craft_supplies",
+      "keywords": "beading storage tray",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q023",
+      "rank": 4
+    },
+    {
+      "category_intent": "kitchen_accessories",
+      "keywords": "tea infuser basket",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q024",
+      "rank": 5
+    },
+    {
+      "category_intent": "home_storage",
+      "keywords": "vacuum storage bag",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q025",
+      "rank": 6
+    },
+    {
+      "category_intent": "office_accessories",
+      "keywords": "book binding rings",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q026",
+      "rank": 7
+    },
+    {
+      "category_intent": "sports_accessories",
+      "keywords": "swimming ear plug case",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q027",
+      "rank": 8
+    },
+    {
+      "category_intent": "automotive_accessories",
+      "keywords": "microfiber applicator pad",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q028",
+      "rank": 9
+    },
+    {
+      "category_intent": "hand_tools",
+      "keywords": "sanding block",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q029",
+      "rank": 10
+    },
+    {
+      "category_intent": "personal_care_accessories",
+      "keywords": "silicone scalp brush",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q030",
+      "rank": 11
+    },
+    {
+      "category_intent": "garden",
+      "keywords": "watering can rose",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q031",
+      "rank": 12
+    },
+    {
+      "category_intent": "pet_accessories",
+      "keywords": "bird cage perch",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q032",
+      "rank": 13
+    },
+    {
+      "category_intent": "craft_supplies",
+      "keywords": "craft cutting mat",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q033",
+      "rank": 14
+    },
+    {
+      "category_intent": "kitchen_accessories",
+      "keywords": "dough scraper",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q034",
+      "rank": 15
+    },
+    {
+      "category_intent": "home_storage",
+      "keywords": "closet shelf separator",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q035",
+      "rank": 16
+    },
+    {
+      "category_intent": "office_accessories",
+      "keywords": "reusable notebook cover",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q036",
+      "rank": 17
+    },
+    {
+      "category_intent": "sports_accessories",
+      "keywords": "resistance band handles",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q037",
+      "rank": 18
+    },
+    {
+      "category_intent": "automotive_accessories",
+      "keywords": "car visor clip",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q038",
+      "rank": 19
+    },
+    {
+      "category_intent": "hand_tools",
+      "keywords": "woodworking marking gauge",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q039",
+      "rank": 20
+    },
+    {
+      "category_intent": "personal_care_accessories",
+      "keywords": "reusable shower cap",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q040",
+      "rank": 21
+    },
+    {
+      "category_intent": "garden",
+      "keywords": "garden kneeling pad",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q041",
+      "rank": 22
+    },
+    {
+      "category_intent": "pet_accessories",
+      "keywords": "pet travel bowl",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q042",
+      "rank": 23
+    },
+    {
+      "category_intent": "craft_supplies",
+      "keywords": "felting needle holder",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q043",
+      "rank": 24
+    },
+    {
+      "category_intent": "kitchen_accessories",
+      "keywords": "reusable baking liner",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q044",
+      "rank": 25
+    },
+    {
+      "category_intent": "home_storage",
+      "keywords": "bedside storage caddy",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q045",
+      "rank": 26
+    },
+    {
+      "category_intent": "office_accessories",
+      "keywords": "desktop card holder",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q046",
+      "rank": 27
+    },
+    {
+      "category_intent": "sports_accessories",
+      "keywords": "camping utensil pouch",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q047",
+      "rank": 28
+    },
+    {
+      "category_intent": "automotive_accessories",
+      "keywords": "automotive trim tool",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q048",
+      "rank": 29
+    },
+    {
+      "category_intent": "hand_tools",
+      "keywords": "tool roll pouch",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q049",
+      "rank": 30
+    },
+    {
+      "category_intent": "personal_care_accessories",
+      "keywords": "cosmetic brush holder",
+      "observed_m75_pages_in_intent": 1,
+      "query_id": "q050",
+      "rank": 31
+    }
+  ]
+}

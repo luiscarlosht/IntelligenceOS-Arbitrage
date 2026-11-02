@@ -198,3 +198,18 @@ M77 remains an offline proposal: 23 unused query hypotheses offer 460 hypothetic
 slots and project 230 incremental ASINs at an assumed 50% duplicate rate. Yield is
 not guaranteed. Separate implementation, review and owner authorization remain
 future work; no M77 executor or permission artifact exists.
+
+## M77 — Controlled Catalog Discovery Expansion
+
+Implement the separately authorized one-shot scope for all 31 reviewed M76
+candidate phrases, q020–q050: at most one LWA + 31 Catalog first-page searches,
+620 raw observations, new permanent no-replay registry and preserved M72/M75 history.
+Deliver strict original-chain validation, interactive expiring authorization,
+locked durable accounting, bounded TLS/pacing/deadline, private compatible exports,
+read-only recovery and offline failure/security regression coverage.
+Implementation does not authorize live requests, deployment, purchases or a
+1,000-ASIN success claim. Baseline remains 777, with 223 remaining until separately
+authorized observed evidence proves otherwise. Correct the misleading M76
+“unobserved intent” rationale in new documentation without changing its outputs.
+See [M77 operator handoff](M77_CONTROLLED_CATALOG_EXPANSION.md) and
+[validation audit](M77_SAFETY_AUDIT.md).
