@@ -1,5 +1,8 @@
 # IntelligenceOS Arbitrage
 
+M74 adds [hash-bound offline discovery planning](docs/M74_DISCOVERY_PLANNING.md):
+verified M73 evidence, 51 proposed queries, overlap analysis and a separately authorized future M75 contract design.
+
 M73 adds [offline catalog consolidation and discovery-quality review](docs/M73_CATALOG_CONSOLIDATION.md):
 377 distinct real ASINs, preserved exclusions, unresolved identity conflicts and private Excel/CSV reports.
 
