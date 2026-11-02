@@ -105,8 +105,8 @@ The fixed scope is one LWA POST followed by exactly 31 US Catalog Items GET
 first pages, in reviewed order, with `pageSize=20` and the frozen includedData.
 The manifest enumerates every endpoint and parameter. There is no pagination,
 substitution, retry, refresh, resume, other endpoint or ASIN reservation. A short
-or empty valid page consumes its sole slot. Cursors are retained as redacted
-partial-window evidence and never dispatched.
+or empty valid page consumes its sole slot. Cursors remain in private pages as partial-window evidence, with known credential
+values redacted; they are never dispatched or included in the summary.
 
 Execution uses the existing global `candidate-execution.lock` with exclusive
 nonblocking flock, validates all bindings again under lock, and only then reads
@@ -153,7 +153,8 @@ contracts preserve conflicting observed alternatives and original field provenan
 An output does not replace the M76 catalog or resolve its conflicts. Missing
 attributes remain missing; seller eligibility, retailer matching, pricing, fees
 and economics remain UNKNOWN or disabled. Purchase authorization is false.
-No credentials, tokens, raw error messages or authorization contents are exported.
+No credentials, authentication tokens, raw error messages or authorization contents
+are exported. Opaque continuation cursors stay inside private page evidence only.
 
 For read-only recovery use `app.m77 report` with the same evidence options and a
 fresh `--output` directory outside historical evidence. It validates the complete

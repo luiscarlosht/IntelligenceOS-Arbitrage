@@ -25,7 +25,9 @@ self-hash or bind future edits.
 
 ## Real-evidence offline validation
 
-Two actual guarded preflights produced byte-identical review files. Process audit
+Two initial guarded preflights produced byte-identical review files. Two further
+post-regression preflights reproduced the same hashes and again preserved all 157
+protected entries. Process audit
 hooks prohibited network events and credential/owner-authorization artifact reads.
 Original M73/M74/M75 validation and exact M76 report reconstruction passed; both
 supplied M76 pins and the M75 checkpoint matched. All **157 protected evidence
@@ -98,7 +100,8 @@ constructors do not attempt host DNS lookup. DNS and connection prohibitions rem
 active. The SMTP diagnostic regression passed **70 tests** under this guard.
 
 Final targeted M77 validation: **145 passed in 499.26 seconds**.
-Full regression results are recorded below after completion.
+Final clean full regression: **2,210 passed in 713.16 seconds**, using
+`.venv/bin/python -m ops.m77_test_offline -q`. No tests were skipped or deselected.
 
 ## Operational limits
 
