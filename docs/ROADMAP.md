@@ -185,3 +185,16 @@ before-dispatch accounting, bounded TLS transport and fresh ten-minute owner
 authorization enforce no replay. Original M72 and M63–M74 evidence remain unchanged.
 Development ran only offline validation and synthetic tests; no live requests or
 authorization artifacts were created. See [M75 review and future owner procedure](M75_CONTROLLED_CATALOG_EXPANSION.md).
+
+### M76 — Offline Catalog Consolidation and M77 Discovery Planning
+
+Implemented offline consolidation: 377 M73 + 400 new M75 = 777 distinct real ASINs;
+223 remain. Outputs preserve provenance, identity gaps, 49 unresolved conflict
+ASINs, 97 historical exclusions and 40 seller-check annotations. Zero fully
+identity-complete or purchase-ready records. JSON/CSV/Excel and evidence hashes
+are documented in [M76](M76_OFFLINE_CATALOG.md).
+
+M77 remains an offline proposal: 23 unused query hypotheses offer 460 hypothetical
+slots and project 230 incremental ASINs at an assumed 50% duplicate rate. Yield is
+not guaranteed. Separate implementation, review and owner authorization remain
+future work; no M77 executor or permission artifact exists.
