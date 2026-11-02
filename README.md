@@ -214,3 +214,9 @@ permanent registry, a 32-request ceiling and no replay. See the
 [request manifest](docs/M77_REQUEST_MANIFEST.json) and
 [safety audit](docs/M77_SAFETY_AUDIT.md). No live authorization or execution was
 performed for implementation; eligibility and purchase authorization remain gated.
+
+M78 adds a separate offline consolidated catalog and identity-quality report over
+curated M76 decisions and saved M77 pages. It exports deterministic JSON, CSV,
+SQLite and Excel with input/output hashes and atomic no-overwrite publication.
+Implementation and synthetic validation only; production evidence execution needs
+separate authorization. See [M78 boundaries and validation](docs/M78_OFFLINE_CATALOG_QUALITY.md).
