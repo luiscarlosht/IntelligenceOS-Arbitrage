@@ -220,3 +220,9 @@ curated M76 decisions and saved M77 pages. It exports deterministic JSON, CSV,
 SQLite and Excel with input/output hashes and atomic no-overwrite publication.
 Implementation and synthetic validation only; production evidence execution needs
 separate authorization. See [M78 boundaries and validation](docs/M78_OFFLINE_CATALOG_QUALITY.md).
+
+M79 adds [offline Amazon sales-evidence coverage](docs/M79_AMAZON_SALES_INTELLIGENCE.md)
+over the original 1,397-ASIN M76/M77 union. It exports a private Excel workbook and
+machine handoff with explicit UNKNOWN metrics and blocked sourcing gates. Research
+Top 100/Top 20 lists order identity coverage only; demand shortlists remain empty
+until separately authorized sales/offer and eligibility evidence is available.
