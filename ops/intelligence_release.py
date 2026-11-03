@@ -9,8 +9,6 @@ import stat
 import subprocess
 import sys
 from ops.m78_sandbox.wheel_profile import authenticated_files,WHEELS,safe_name
-from app.evidence_io import publication,json_write,safe,digest
-from app.m78_reporting import write,encoded
 
 PROFILE='sales-intelligence-offline-v1'
 DESTINATION=Path('/mnt/intelligenceos_data/arbitrage/intelligence-isolated')
@@ -61,6 +59,8 @@ def source(repo:Path,commit:str) -> dict[str,bytes]:
 
 
 def build(repo:Path,commit:str,wheelhouse:Path,output:Path):
+    from app.evidence_io import publication,json_write,safe,digest
+    from app.m78_reporting import write
     repo=safe(repo);wheelhouse=safe(wheelhouse)
     sources=source(repo,commit)
     dependencies={'runtime/'+k.removeprefix('dependencies/'):v for k,v in authenticated_files(wheelhouse).items()}
@@ -79,6 +79,7 @@ def build(repo:Path,commit:str,wheelhouse:Path,output:Path):
 
 
 def inspect_release(root:Path,expected:str,repo:Path,commit:str,wheelhouse:Path):
+    from app.evidence_io import safe,digest
     # Rebuild expected bytes from independently reviewed Git and authenticated artifacts.
     root=safe(root)
     if digest(root/'manifest.json')!=expected:raise ValueError('Reviewed manifest pin mismatch')
@@ -95,10 +96,10 @@ def inspect_release(root:Path,expected:str,repo:Path,commit:str,wheelhouse:Path)
     actual={str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}
     if actual!=set(files)|{'manifest.json'}:raise ValueError('Extra/missing release files')
     for path in root.rglob('*'):
-        safe(path)
+        if path.is_symlink() or any(p.is_symlink() for p in path.parents):raise ValueError('Nonsymlink release objects required')
         if path.is_file() and path.stat().st_nlink!=1:raise ValueError('Hardlinked release file')
         if not path.is_file() and not path.is_dir():raise ValueError('Special release object')
-    if any(digest(root/name)!=hashlib.sha256(raw).hexdigest() for name,raw in files.items()):raise ValueError('Release byte mismatch')
+    if any((root/name).stat().st_size!=len(raw) or hashlib.sha256((root/name).read_bytes()).hexdigest()!=hashlib.sha256(raw).hexdigest() for name,raw in files.items()):raise ValueError('Release byte mismatch')
     return dict(integrity='PASS',source_commit=commit,dependency_integrity='PASS',independent_authentication='OWNER_REVIEW_REQUIRED',deployment_authorized=False)
 
 
@@ -135,7 +136,7 @@ def host_preflight() -> dict:
 
 def configuration(path:Path,expected:str) -> dict:
     """Validate local proposed configuration; no file creation or execution."""
-    from app.evidence_io import pinned
+    from app.evidence_io import pinned,safe
     from datetime import datetime
     data=pinned(path,expected)
     if (set(data)!={'schema','mode','release','release_sha256','manifest','manifest_sha256','history','output','as_of'}

@@ -98,3 +98,21 @@ def test_reporting_errors_are_redacted_and_nonzero(tmp_path,capsys):
         '--history',str(tmp_path/'state/db'),'--output',str(tmp_path/'out'),'--as-of','2026-11-03T12:00:00+00:00'])==1
     captured=capsys.readouterr()
     assert 'FAIL_CLOSED' in captured.err and 'missing-private-path' not in captured.err and 'Traceback' not in captured.err
+
+
+def test_preflight_command_has_no_excel_or_site_dependency():
+    result=subprocess.run([sys.executable,'-S','-B','-m','ops.intelligence_release','--help'],cwd=ROOT,capture_output=True,text=True)
+    assert result.returncode==0,result.stderr
+    assert 'host-preflight' in result.stdout
+
+
+def test_reviewed_source_names_are_not_authority_artifact_paths(tmp_path,monkeypatch):
+    # Test only the Git-source boundary without claiming fake dependencies are authenticated.
+    commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    wheels=tmp_path/'fixture-wheels';wheels.mkdir()
+    monkeypatch.setattr(r,'authenticated_files',lambda path:{'openpyxl/__init__.py':b'# SYNTHETIC TEST DOUBLE ONLY\n'})
+    output=tmp_path/'release';result=r.build(ROOT,commit,wheels,output)
+    assert (output/'runtime/app/m77_authorization.py').is_file()
+    assert r.inspect_release(output,result['manifest_sha256'],ROOT,commit,wheels)['integrity']=='PASS'
+    (output/'runtime/app/m77_authorization.py').write_text('# changed')
+    with pytest.raises(ValueError):r.inspect_release(output,result['manifest_sha256'],ROOT,commit,wheels)
