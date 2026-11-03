@@ -1,0 +1,36 @@
+[
+  {
+    "asin": "B00004OCNJ",
+    "market": {
+      "historical_30d": {
+        "seller_alias": "OWNER_ALIAS",
+        "marketplace": "ATVPDKIKX0DER",
+        "condition": "New",
+        "source": "UNKNOWN",
+        "source_reference": "UNKNOWN",
+        "observed_at": "UNKNOWN",
+        "confidence": "UNKNOWN",
+        "verified": false,
+        "value": {
+          "min": "UNKNOWN",
+          "max": "UNKNOWN",
+          "mean": "UNKNOWN"
+        },
+        "currency": "USD",
+        "basis": "New price 30d"
+      },
+      "sales_rank": {
+        "seller_alias": "OWNER_ALIAS",
+        "marketplace": "ATVPDKIKX0DER",
+        "condition": "New",
+        "source": "UNKNOWN",
+        "source_reference": "UNKNOWN",
+        "observed_at": "UNKNOWN",
+        "confidence": "UNKNOWN",
+        "verified": false,
+        "value": "UNKNOWN",
+        "basis": "observed category rank"
+      }
+    }
+  }
+]

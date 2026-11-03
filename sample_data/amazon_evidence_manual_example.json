@@ -1,0 +1,18 @@
+[
+  {
+    "asin": "B000YZASYO",
+    "is_synthetic": true,
+    "eligibility": {
+      "seller_alias": "OWNER_ALIAS",
+      "marketplace": "ATVPDKIKX0DER",
+      "condition": "New",
+      "source": "Illustrative transcription of existing owner observation",
+      "source_reference": "UNKNOWN",
+      "observed_at": "UNKNOWN",
+      "confidence": "UNKNOWN",
+      "verified": false,
+      "status": "APPROVAL_REQUIRED",
+      "approval_requirements": "See original Seller Central requirement; timestamp and seller scope still UNKNOWN"
+    }
+  }
+]
