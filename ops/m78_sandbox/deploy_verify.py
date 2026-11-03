@@ -23,13 +23,15 @@ REQUIRED_CHECKS = {
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, required=True)
+    parser.add_argument('--bundle', type=Path, required=True)
     parser.add_argument('--apply', action='store_true', help='requires prior explicit server-change approval')
     args = parser.parse_args()
     here = Path(__file__).resolve().parent
     report = {'timestamp': datetime.now(timezone.utc).isoformat(),
               'migration': 'NOT_RUN', 'target_security': 'NOT_RUN',
               'production_readiness': 'FAIL', 'production_execution': 'NOT_RUN'}
-    cmd = ['/usr/bin/python3', str(here / 'migrate.py'), '--manifest', str(args.manifest)]
+    cmd = ['/usr/bin/python3', '-B', str(here / 'install.py'), '--manifest', str(args.manifest),
+           '--bundle', str(args.bundle)]
     if args.apply:
         cmd.append('--apply')
     result = subprocess.run(cmd, capture_output=True, text=True, check=False)
@@ -55,7 +57,7 @@ def main() -> int:
         report['approval_gate'] = 'Preflight only; server-change approval required for --apply'
         print(json.dumps(report, indent=2))
         return 0
-    result = subprocess.run(['/usr/bin/python3', str(here / 'launch.py'), 'verify'],
+    result = subprocess.run(['/usr/bin/python3', '-B', str(here / 'launch.py'), 'verify'],
                             capture_output=True, text=True, check=False)
     try:
         checks = json.loads(result.stdout)

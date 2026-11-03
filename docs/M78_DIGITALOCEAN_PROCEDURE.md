@@ -1,223 +1,69 @@
-# M78 existing DigitalOcean sandbox: approval-gated migration and verification
+# M78 isolated DigitalOcean installation
 
-Status on 2026-11-03: **NOT READY / target enforcement NOT TESTED**.
-This is the single procedure for the existing sandbox; it supersedes the empty-layout
-installation steps in M78_SANDBOX_READINESS.md. Do not run prepare.sh on this sandbox.
-SSH was denied socket creation, but the existing read-only data-volume view was
-inspected. This session maps only UID/GID 0; output ownership and named ACL IDs
-require direct-host verification. No server change was made.
-No production M78 analysis, production evidence staging, API use or production service
-changes are part of this procedure.
+Status: **NOT READY**. This procedure supersedes the earlier existing-sandbox
+migration procedure. Development and PR preparation are authorized. Installing
+files on DigitalOcean, applying installation, and starting the synthetic unit
+require separate explicit owner approval. Production evidence staging, M78
+production execution, Amazon calls, M77 registry changes, ACL changes, service
+restarts and reboot are outside this authorization.
 
-## Approval boundary
+## Fixed paths and preservation
 
-Review this migration PR and the exact revision to install (the original launcher
-was introduced in PR #69). Obtain explicit owner approval
-**before installing/updating tools on DigitalOcean, applying migration, or starting
-the transient verification unit**. Approval must cover only this migration and
-synthetic security probe. It does not authorize production evidence or analysis.
-Do not use `launch.py run`; the current probe deliberately requires empty evidence.
+The only runtime destination is:
+`/mnt/intelligenceos_data/arbitrage/m78-isolated`.
+The existing `/mnt/intelligenceos_data/arbitrage/sandbox/m78` is preserved in full.
+Do not copy from it, traverse it for installation, strip its ACLs or change its
+ownership. M76/M77 evidence, the M77 registry and production services are untouched.
+A sibling beneath `sandbox` would inherit the incompatible ancestor boundary.
 
-Before approval, development validation uses only pytest temporary synthetic trees.
-The migration CLI defaults to a read-only preflight. The wrapper without --apply
-also performs preflight only: it neither migrates nor starts a unit. Merely having
-an --apply option is not approval to use it.
+`install.py`, `launch.py`, legacy `migrate.py` and the default read-only `audit.py`
+use the isolated destination. There is no destination CLI override. `prepare.sh`
+now refuses all execution; split empty-layout preparation bypasses integrity checks.
+The legacy migration utility remains for regression coverage but is not part of
+this procedure. Use the wrapper and fresh installer below.
 
-## Preconditions and trusted inventory
+Host facts supplied for this preparation: the dedicated volume is mounted;
+`/mnt/intelligenceos_data` and its `arbitrage` child are root-owned and ACL-free;
+`sandbox` has an extended ACL; the new destination is absent and not a symlink;
+intelligenceos-m78 has UID 997/GID 986. Recheck from the direct host context. The
+root-only development namespace cannot establish host account mappings.
 
-The existing volume must be mounted at `/mnt/intelligenceos_data`. The fixed sandbox
-path is `/mnt/intelligenceos_data/arbitrage/sandbox/m78`; there is no CLI override.
-The dedicated intelligenceos-m78 UID and primary GID must be nonzero, with a
-nologin/false shell. No processes may be running under that UID; the migration
-refuses an active account and never kills jobs. The operator must prevent concurrent
-root administration and service-account jobs throughout the procedure.
+## Exact read-only host preflight
 
-Require root ownership and no group/world write on sandbox ancestors, original
-app/, ops/, dependencies/, and all their contents. Require output/ to be service-owned
-and private (0700); evidence/ must be root-owned and allow non-owner read/traverse for the empty probe. Both must be empty. The migration
-rejects any nonempty evidence or output directory before reading their file contents,
-and does not rename, delete, chmod, chown or copy anything in those directories.
-If a check fails, stop for review; do not run recursive chown/chmod or remove ACLs.
-
-All inspected nodes must be regular files or directories: no symlinks (even internal
-ones), file hardlinks, special permission bits, device nodes, FIFOs, cross-device nested mounts,
-or extended/default POSIX ACLs. ACL checks use listxattr on every node and ancestor;
-inspection errors fail closed. This deliberately conservative policy rejects even
-an apparently restrictive extended ACL; any remediation needs separate review.
-
-Supply an independently reviewed **existing verification record** as a root-owned,
-non-writable JSON manifest, for example `/root/m78-reviewed-sha256.json`. Its ancestors
-must also pass the security checks. The object maps each original relative file path
-to its lowercase SHA-256 digest, e.g. `app/m78.py`, `ops/m78_offline.py`,
-`dependencies/openpyxl/__init__.py`. It must enumerate exactly 127 Python files in
-app/ plus ops/, and 401 dependency files. Use the previously trusted SHA-256 records;
-if they need conversion, review that conversion offline. Do not regenerate a trusted
-manifest from the current staging tree, and do not include any evidence paths.
-Missing records, missing/extra files, wrong counts or changed digests are stop conditions.
-Exception: canonical app/ops `__pycache__/<source>.cpython-312[.opt-1|.opt-2].pyc`
-files with an existing source counterpart are metadata-checked, listed explicitly in
-`preserved_untrusted_caches`, preserved in place and excluded from all runtime copies.
-Their contents are untrusted and never executed. Orphan, legacy, foreign-version or
-noncanonical caches are refused. Dependencies still require an exact inventory.
-The script does not assume reported counts prove integrity. Preflight also requires
-space for all missing copies plus a fixed 256 MiB free-space reserve; lack of space
-is a stop condition. The CLI uses umask 022 for new directories and mode 0444 for
-copied files; existing permissions are never silently repaired.
-
-Install the reviewed repository revision/tool files as root without exposing any
-credentials or evidence. The reviewed probe must be root-owned, regular, not writable
-by group/other, without ACLs or hardlinks. Stage no additional dependencies from the
-network: the existing pinned dependency tree is preserved and verified.
-
-## One approved deployment and verification sequence
-
-Run from the reviewed repository checkout in a direct DigitalOcean host SSH shell
-(not a container), only after approval.
-The commands use the system Python 3.12 on Ubuntu 24.04; no packages are installed.
-
-```sh
-# Read-only preflight; no unit or directory creation:
-sudo /usr/bin/python3 ops/m78_sandbox/deploy_verify.py \
-  --manifest /root/m78-reviewed-sha256.json
-
-# ONLY with explicit approval for server changes and the synthetic probe:
-sudo /usr/bin/python3 ops/m78_sandbox/deploy_verify.py \
-  --manifest /root/m78-reviewed-sha256.json --apply
-```
-
-Preflight must return zero and report PREFLIGHT_PASS. Review it before using --apply.
-The wrapper prints a JSON readiness report; capture stdout and the command exit status
-in the operator's approved audit location. Do not commit generated reports. A failed
-step returns nonzero, reports FAIL, and does not proceed to the next step. No command
-in the wrapper executes M78 or stages evidence. If the wrapper reports migration
-refusal, run migrate.py with the same manifest **without --apply** to see the reason;
-inspect permissions/ACLs and trusted records rather than bypassing the check.
-
-Migration creates root/, code/app/, code/ops/, deps/ and probe.py. It copies originals
-into the new layout with exclusive file creation, root ownership and mode 0444, then
-checks original and destination hashes and security metadata again. Originals remain
-unchanged in app/, ops/ and dependencies/. Existing destination files are reused only
-when every hash matches; no existing file is overwritten. An existing different probe
-is a stop condition, including after a tool upgrade. Agree on any replacement separately.
-
-A repeated successful apply preserves all original and destination inodes. Matching
-partial copies can resume; a truncated or differing file after interruption stops the
-procedure rather than being replaced. This is recoverable, not an all-or-nothing
-transaction. Files are fsynced, but the procedure does not claim crash-durable directory
-publication. Keep partial artifacts for review. Empty mountpoint directories and an
-empty probe.py mountpoint in root/ are allowed after systemd verification; payload
-files, symlinks and unsafe metadata there are refused. root/ is never populated with
-host configuration, databases or credentials by migration.
-
-## Synthetic target checks and pass criteria
-
-The wrapper starts only the fixed transient intelligenceos-m78-sandbox.service.
-It uses the non-root account, empty capability sets, NoNewPrivileges, read-only
-system mounts, a restricted root filesystem, dedicated writable output, PrivateNetwork,
-and IPAddressDeny=any. No host networking or production service configuration changes.
-It does not fall back to a host process if systemd or a namespace operation fails.
-
-The probe must exit zero and report every boolean true:
-
-- The payload runs as the expected non-root UID; no effective capabilities or privilege escalation.
-- Its network namespace identity differs from the invoking host context. Socket-based
-  interface discovery shows only loopback; IPv4 has no routes and IPv6 has no external routes.
-- Bounded TCP attempts to fixed public IPv4 and IPv6 destinations are denied. No DNS,
-  Amazon API, external listener or production endpoint is used. These connection attempts
-  occur only inside the private namespace; namespace creation failure prevents probe startup.
-- Verified code files can be read; pinned openpyxl 3.1.5 and et_xmlfile 2.0.0 import.
-  Evidence can be enumerated but remains empty. A uniquely named synthetic output
-  can be written/read/deleted. No report generation or M78 import/execution is required.
-- Writes to application, dependencies, evidence, runtime, root and tmp fail; host home,
-  mount, opt, credential-file, run and var paths are absent, inaccessible or empty placeholders.
-  Runtime /usr and library paths are intentionally readable; review them for locally
-  stored secrets before approval. Kernel proc/device pseudo-files are exceptions to
-  the persistent-write rule. Same-UID concurrent processes and privileged root operators
-  are outside the boundary, hence the idle-account requirement.
-
-Never use /sys/class/net alone to verify isolation: it may retain the host sysfs view.
-Namespace identity, live interface discovery, routes and denied connections must all
-agree. Development unshare EPERM is not a passing test and does not prove how the
-host service manager behaves.
-
-After success, review the JSON report, tool revision, trusted manifest digest and
-Ubuntu/kernel/systemd versions. The wrapper reports target_security PASS but leaves
-production_readiness PENDING_OWNER_REVIEW. It never grants production authorization.
-Repeat the approved sequence to demonstrate idempotence and a second passing probe.
-If the probe or JSON parsing fails, production_readiness remains FAIL. Do not remove
-security properties or relax assertions to obtain a pass.
-
-## Rollback and stop conditions
-
-If necessary under the same explicit approval, stop only the transient sandbox:
-
-```sh
-sudo sh ops/m78_sandbox/rollback.sh
-```
-
-An already collected unit may produce a nonzero stop result; verify its absence.
-Do not stop unrelated services. No persistent unit is installed and no host firewall,
-routes or interfaces change. Rollback leaves original artifacts, evidence, output
-and any new copies in place. Do not automatically delete partial copies or replace a
-conflicting probe. Further cleanup or ownership/ACL corrections need a reviewed,
-explicitly approved action. No reboot is required.
-
-## Readiness report
-
-| Gate | Development result | DigitalOcean result |
-|---|---|---|
-| Migration/check-only/idempotence/partial resume | PASS: synthetic temporary layouts | NOT RUN |
-| Hash drift, extras, conflicts, evidence/output refusal | PASS: synthetic negative tests | NOT RUN |
-| Symlinks/hardlinks/permissions/UID/ACL refusal | PASS: synthetic tests; UID/ACL cases simulated | NOT RUN |
-| Wrapper stops after migration/probe failure, no analysis | PASS: mocked subprocess tests | NOT RUN |
-| Namespace/interfaces/routes/connectivity/UID/mount enforcement | NOT VERIFIED in development | NOT RUN |
-| Actual staged metadata/ACL audit | Read-only namespace view; see final report | Direct-host identity verification required |
-| Production readiness | FAIL pending target validation and review | FAIL / NOT READY |
-
-Development validation: 2,252 full-suite tests passed in 778.55 seconds; the final
-focused suite separately passed all 34 current security tests (including tests added
-after full-suite collection). Both documented sample modes, shell syntax and diff
-checks passed. See follow-up PR #70 and M78_SANDBOX_READINESS.md. No server changes or production execution are authorized
-by this document. Stop here for explicit approval of the above concrete procedure.
-
-
-## Final readiness follow-up (2026-11-03)
-
-Final frozen validation: **2,284 full-suite tests passed in 900.57 seconds**,
-51 focused security tests passed, both sample modes and syntax/diff checks passed.
-This preparation supersedes the earlier validation totals above; see
-[M78_FINAL_READINESS.md](M78_FINAL_READINESS.md). PR #70's exact-inventory policy
-would reject the reported 125 extra application caches before copying anything.
-The cache exception above preserves all originals and never copies bytecode into
-code/. Python runs with `-B`, a clean environment and no user site packages.
-A destination cache is still an unexpected file and is refused.
-
-### First command on return: read-only diagnosis
-
-From the reviewed updated checkout on the DigitalOcean host:
+From the reviewed checkout, on the host, with no server mutation:
 
 ```sh
 sudo /usr/bin/python3 -B /root/IntelligenceOS-Arbitrage-M61/ops/m78_sandbox/audit.py
 ```
 
-This prints metadata/ACL locations, original file counts, account details, volume
-mounts and systemd version. It does not enumerate evidence/output contents, hash
-production evidence, stage files or start services. FAIL/NOT_TESTED is intentional:
-an audit is not a synthetic enforcement test. Preserve stdout in an approved private
-audit location. No dependency downloads, ACL repairs or execution are hidden in it.
+This inspects destination ancestors and absence, account identity and processes,
+namespace maps, mounts and systemd version. It does not traverse the old sandbox,
+read production evidence, create directories or launch a unit. Overall FAIL and
+NOT_TESTED are intentional: metadata cannot prove runtime isolation or dependency
+trust. Review every issue and the actual account mapping; a zero process exit code
+alone is not readiness. Symlinks, unexpected ACLs or inspection errors stop review.
 
-### Establishing the 528-entry trust inventory
+## Dependency trust: unresolved prerequisite
 
-Do this offline on the development/review machine. `inventory.py` reads committed
-Git blobs (replacement objects disabled, inherited Git settings cleared, object
-consistency verified) for all 126 app Python sources and only ops/m78_offline.py at an explicitly
-reviewed **full commit SHA**, not the current worktree. The source revision must be
-the revision independently established by the original staging records; the newest
-tool revision may differ. It combines these with exactly 401 `dependencies/...` to
-SHA-256 mappings from a separately authenticated dependency verification record.
-Its record digest must come from that authenticated record's original review,
-not a digest newly calculated from the sandbox or a modified record. Duplicate
-keys, traversal, wrong counts and mismatching record digests fail closed.
+The legacy profile requires 127 source records and **401 dependency records**.
+The latter include 193 Python sources, 193 generated bytecode files and 15 other
+files. Matching file counts and sandbox digests do not establish authenticity.
+Sources were previously independently matched against Git revision
+`aa549e23a84d46edc4817833d7c8cf16badc927b`; preserve that source revision separately
+from the newer installation tools.
+
+Recovery investigation for this PR examined local all-ref history for lock files,
+requirements, SHA-256 and provenance records; the M78 tooling history; repository
+search; PRs #69 and #70; and the final-readiness workflow run 41559567190.
+`requirements.txt` pins openpyxl 3.1.5 and development pytest 9.0.3, but contains no
+artifact hashes or transitive dependency inventory. The workflow uploads only
+`sample-opportunity-report` (artifact 13196911628); its configured paths are fictional
+workbooks/demo/pilot reports, not a dependency provenance record. No authenticated
+401-entry record was recovered from these sources. This is a bounded search, not
+proof that no owner-held record exists. No runtime tree hashes were promoted to trust.
+
+If an original authenticated record is recovered, build a candidate **offline on
+the review machine**, using its independently established digest:
 
 ```sh
 .venv/bin/python -B ops/m78_sandbox/inventory.py \
@@ -227,90 +73,116 @@ keys, traversal, wrong counts and mismatching record digests fail closed.
   --output /tmp/m78-candidate-sha256.json
 ```
 
-The two dependency variables are required provenance inputs, not values to guess.
-The source commit above was independently confirmed against the merged PR and all
-127 staged sources match its Git blobs. A different source revision requires review. The builder
-never reads staging and creates its output exclusively. Its output is a candidate,
-not self-authenticating proof: independently review the commit's origin, the record's
-origin, all paths and the emitted manifest digest. Preserve the original records and
-review attestation. Only after review and server-change approval install the exact
-candidate as root-owned /root/m78-reviewed-sha256.json without ACLs/group/world write.
-The manifest is absent today. The 127-source commit was independently verified, but
-no independently authenticated dependency record was found in this development run. Therefore no trusted manifest
-has been fabricated. If records are irrecoverable, separately approve a new, pinned,
-offline reconstruction from authenticated source/wheel artifacts and compare all
-528 files before adoption; file counts or the earlier 653-file comparison alone
-cannot authenticate a new inventory. Never bootstrap trust from sandbox hashes.
+Do not guess these variables or calculate the trusted digest from a newly harvested
+sandbox record. The builder reads committed Git blobs with replacement objects and
+inherited Git configuration disabled, checks object consistency, rejects duplicate
+keys/unsafe paths/counts and writes output exclusively. Its candidate still requires
+independent provenance review and a separately retained approval of its digest.
 
-### ACL migration decision: preserve the existing tree
+### Offline reconstruction if the record is irrecoverable
 
-The audit must first establish every access/default ACL on ancestors and originals.
-No permissive ACL allowlist or automatic setfacl/chmod/chown operation is introduced.
-Even restrictive extended ACLs remain rejected by migration and launcher. Read-only inspection found 703 ACL-bearing nodes, including the shared `sandbox`
-ancestor. Sampled ACLs grant only named-user read/traverse and no group/other access;
-named IDs are unmapped in this root-only namespace. Host identity verification is
-required before choosing remediation. No sampled default ACL was present.
+This is a review procedure, **not a currently executable approved installation**:
 
-If ACLs are confined to disposable new directories, an approved operator may create
-a fresh sibling layout under an already ACL-free, root-controlled parent, with
-explicit 0755 root-owned code/deps/evidence directories and a 0700 service-owned
-output directory. Copy **only** manifest-authenticated bytes using exclusive file
-creation, without preserving ACLs/xattrs/ownership from the source; never copy
-excluded app/ops bytecode or evidence/output. The 193 dependency caches remain
-part of the exact independently authenticated dependency inventory. Review every inherited ACL and mount before use.
-Keep the original sandbox intact for rollback. This is a proposed replacement
-installation, not an option silently enabled by migrate.py: the launcher has a
-fixed BASE, so changing that path or promoting a replacement requires a separate
-reviewed deployment patch and explicit server-change authorization.
+1. On a separate trusted acquisition machine, obtain openpyxl 3.1.5 and et_xmlfile
+   2.0.0 package artifacts from the approved publisher/index. Establish exact archive
+   names, versions and SHA-256 digests through independently authenticated publisher
+   metadata or approved signed provenance. Retain original metadata, retrieval origin,
+   review identity and approval. Wheel RECORD alone is not a trust anchor; neither are
+   hashes computed from the existing sandbox. No example hashes are supplied here.
+2. Transfer only approved artifacts and records to a clean offline build environment.
+   Verify their bytes against the independently approved digests before opening them.
+   Use an explicitly pinned Python 3.12 patch version, platform, installer and dependency
+   set. Record the build environment and all commands. Exclude development pytest.
+   Use a reviewed requirements file listing both pinned runtime packages with their
+   approved `--hash=sha256:...` entries. Install with `python -I -m pip install
+   --no-index --find-links APPROVED_WHEELHOUSE --require-hashes --no-deps
+   --no-compile --target CLEAN_DEPENDENCIES -r APPROVED_RUNTIME_REQUIREMENTS`.
+   All paths here are review placeholders, not host deployment commands.
+3. Keep generated bytecode out of the initial extraction. Independently review wheel
+   extraction and installed metadata. If reproducing the legacy 401-file tree,
+   determine and reproduce its exact bytecode generation recipe (Python patch,
+   logical source paths, optimization levels, invalidation mode, timestamps and
+   metadata). Rebuild twice in independent clean environments, compare bytes and
+   retain provenance. A wheel hash cannot authenticate preexisting generated pyc.
+4. Produce a new dependency record from those verified build outputs, independently
+   review it and approve its digest. Compare the candidate to any historical records
+   only as a diagnostic; differences never authorize adopting sandbox bytes. If 401
+   files cannot be reproduced with authenticated provenance, **STOP**. A bytecode-free
+   profile needs a separate reviewed code/profile change; do not pad the inventory,
+   invent hashes, silently change counts or reuse the 193 old caches.
+5. Combine the independently approved dependency record with verified Git sources
+   using inventory.py. Prepare an ACL-free bundle containing only `app/`, `ops/`
+   and `dependencies/` files enumerated in the approved manifest. Export source blobs
+   from the reviewed commit, excluding application bytecode. Independently compare
+   every bundle path/digest to that manifest. Retain artifacts, build records,
+   manifest digest and reviewer attestation outside the deployment tree.
 
-If any shared ancestor has an ACL, a sibling beneath it will not satisfy the current
-policy. Choose a reviewed ACL-free parent on the dedicated volume and revise the
-fixed BASE consistently, or approve a narrowly scoped ancestor ACL change after
-reviewing every affected consumer. Do not move shared paths, strip ACLs recursively,
-relax ancestor checks or mutate the existing tree to force a passing result.
-The read-only view identifies `/mnt/intelligenceos_data/arbitrage` as ACL-free, so
-a fresh `/mnt/intelligenceos_data/arbitrage/m78-isolated` is the smallest proposed
-replacement path. Confirm it and UID/GID mappings directly on the host first. The
-existing root-owned 0700 evidence directory also blocks nonroot enumeration;
-preflight now refuses it before copying. No permissions are changed automatically.
-The approved fresh empty evidence directory must support service read/traverse;
-the current conservative preflight requires non-owner r+x. Never apply that policy
-to existing production evidence without separately reviewing isolation and approval.
+Until this completes, the authenticated dependency manifest is a blocker.
+No dependencies are downloaded or built on the DigitalOcean host.
 
-### Enforcement and repeated execution review
+## Fresh installation design and approval-scoped commands
 
-- Same-device bind mounts are now rejected using /proc/self/mountinfo in addition
-  to device checks. Cross-device mounts, symlinks, hardlinks and ACLs remain refused.
-- PrivateUsers=yes is retained. systemd maps root and the configured service UID/GID
-  to themselves; do not substitute container UID mappings or chown data to nobody.
-  The probe now checks expected GID and a user namespace distinct from the caller.
-- RootDirectory and read-only binds remain fixed. The probe checks mount flags for
-  /app, /deps, /evidence and /usr as well as denied writes. Host /usr and libraries
-  remain part of the trusted computing base and need a local secret review.
-- Route inspection uses /proc/self/net, compatible with ProcSubset=pid. PrivateNetwork,
-  IPAddressDeny=any, empty capabilities and all namespace restrictions remain enabled.
-  Unsupported kernel/systemd/cgroup features must fail target verification; never
-  remove properties or use a host-process fallback.
-- The wrapper requires the exact complete named probe check set, with actual JSON
-  booleans true. A partial all-true response is now refused.
-- Keep the service UID idle, prevent concurrent root changes, and serialize every
-  audit/migration/probe. A fixed transient unit name refuses conflicting active
-  executions; do not kill an existing job automatically. After a successful apply,
-  repeat the same approved --apply command only after the unit is collected.
-  Preserve original/destination inodes and verify a second complete probe PASS.
-- Empty mountpoint placeholders created by systemd remain supported. Interrupted
-  mismatching copies and probe upgrades still stop for review without overwrite.
-- `launch.py run` is **not a ready trial procedure**: its mandatory probe requires
-  empty evidence. A separately reviewed evidence inventory, bounded read-only
-  mounts, trial-specific checks and explicit offline-trial authorization are still
-  required. No production readiness PASS can be claimed from synthetic checks.
+Only after the trust review, approve the exact tool revision, bundle, manifest and
+server-change operation. Place the approved root-owned ACL-free bundle at
+`/root/m78-approved-bundle` and approved manifest at `/root/m78-reviewed-sha256.json`
+under that separate approval. Installing/updating the reviewed checkout also requires
+server-change approval. Never source the bundle from the restricted sandbox.
 
-After the trust inventory and the ACL deployment decision are reviewed and approved,
-the smallest existing mutation command remains the single `deploy_verify.py
---manifest /root/m78-reviewed-sha256.json --apply` invocation above. It combines
-migration and synthetic verification, never the production trial. There is no safe
-one-command bypass for the presently missing trust records or unreviewed ACLs.
+All bundle and destination ancestors must be root-owned, free of group/world write,
+ACLs and symlinks. All files must be regular, single-link files without special bits.
+Unexpected nested mounts, including same-device binds, fail. Inspection errors fail
+closed. The dedicated account must be idle; the operator must serialize all root
+administration and account jobs. No jobs are killed automatically.
 
-Reference: [systemd execution environment, version 256](https://www.freedesktop.org/software/systemd/man/256/systemd.exec.html)
-documents UID mappings, root-relative bind destinations and proc namespace options.
-Target Ubuntu/systemd behavior still requires the approved synthetic host test.
+```sh
+# Read-only artifact/destination preflight, after approved artifact placement:
+sudo /usr/bin/python3 -B ops/m78_sandbox/deploy_verify.py \
+  --manifest /root/m78-reviewed-sha256.json --bundle /root/m78-approved-bundle
+
+# ONLY after explicit approval for server changes and the synthetic probe:
+sudo /usr/bin/python3 -B ops/m78_sandbox/deploy_verify.py \
+  --manifest /root/m78-reviewed-sha256.json --bundle /root/m78-approved-bundle --apply
+```
+
+Review PREFLIGHT_PASS before apply. The installer verifies the exact bundle inventory
+and profile, probe metadata, all existing destination files/directories, and free
+space (missing bytes plus 256 MiB reserve) before mutation. It creates root-owned
+0755 base/root/code/deps/evidence and private UID 997/GID 986 output (0700).
+Only new output is chowned; existing metadata is never repaired. Source bytes are
+copied exclusively to code/app, code/ops and deps, with mode 0444, fsync and digest
+checks. Sources and destinations are rechecked afterward. No ACLs/xattrs or ownership
+are inherited from source files. Runtime code, dependencies and evidence bind read-only.
+
+An existing matching partial installation can resume; conflicting/truncated files,
+nonempty evidence/output, unsafe metadata or unexpected entries stop without
+overwrite. A second successful apply preserves file inodes. Empty systemd mountpoint
+placeholders under root are allowed; payloads are refused. Publication is resumable,
+not atomic or guaranteed crash-durable. Preserve any interrupted artifacts for review.
+An interrupted output mkdir before chown may need separately approved remediation.
+
+The wrapper starts only the fixed transient intelligenceos-m78-sandbox unit after
+installation success. The probe requires the exact complete boolean check set for
+UID/GID, user/network namespaces, loopback-only interfaces, routes, denied IPv4/IPv6
+connections, capabilities, read-only binds, hidden host paths, dependency imports,
+empty evidence and synthetic output read/write/delete. It does not execute M78.
+Namespace failure has no host-process fallback. Keep PrivateUsers, PrivateNetwork,
+IPAddressDeny and all other restrictions intact; never weaken them for a PASS.
+Host runtime libraries and concurrent privileged administrators remain trusted.
+
+Retain two complete approved apply/probe reports (repeat only after the transient
+unit is collected), tool revision, manifest digest and runtime provenance. Synthetic
+PASS still leaves production readiness pending owner review. `launch.py run` is not
+an approved trial procedure: evidence staging and trial-specific checks require
+separate review and authorization. No production readiness claim is made here.
+
+Rollback under explicit approval may stop only the transient sandbox using
+`sudo sh ops/m78_sandbox/rollback.sh`. It preserves all installation artifacts and
+original trees. No persistent unit, production service restart, ACL removal, host
+network change, reboot or automatic cleanup is part of this installation.
+
+## Development validation for this preparation
+
+Python 3.12.3: 2,310 full-suite tests passed in 740.98 seconds with final code/tests
+held fixed. All 77 focused security tests passed, both fictional README sample modes
+passed in a clean environment with /tmp outputs, and shell syntax/whitespace checks
+passed. These results do not authenticate dependencies or establish target isolation.

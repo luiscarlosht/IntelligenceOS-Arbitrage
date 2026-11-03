@@ -20,7 +20,7 @@ spec.loader.exec_module(m)
     (True, True, dict.fromkeys(m.REQUIRED_CHECKS, True), 0, 2),
 ])
 def test_approval_and_failure_gates(monkeypatch, capsys, apply, migration_ok, probe, expected, calls_expected):
-    args = ['deploy_verify.py', '--manifest', '/reviewed/manifest.json']
+    args = ['deploy_verify.py', '--manifest', '/reviewed/manifest.json', '--bundle', '/reviewed/bundle']
     if apply:
         args.append('--apply')
     monkeypatch.setattr(sys, 'argv', args)
@@ -41,7 +41,7 @@ def test_approval_and_failure_gates(monkeypatch, capsys, apply, migration_ok, pr
 
 @pytest.mark.parametrize('stdout', ['invalid json', '{}', '{"migration":"PREFLIGHT_PASS"}'])
 def test_invalid_migration_result_never_starts_probe(monkeypatch, capsys, stdout):
-    monkeypatch.setattr(sys, 'argv', ['deploy_verify.py', '--manifest', '/reviewed/manifest.json', '--apply'])
+    monkeypatch.setattr(sys, 'argv', ['deploy_verify.py', '--manifest', '/reviewed/manifest.json', '--bundle', '/reviewed/bundle', '--apply'])
     calls = []
     def run(cmd, **kwargs):
         calls.append(cmd)

@@ -7,7 +7,7 @@ import re
 import stat
 import subprocess
 
-BASE = Path('/mnt/intelligenceos_data/arbitrage/sandbox/m78')
+BASE = Path('/mnt/intelligenceos_data/arbitrage/m78-isolated')
 
 
 def metadata(path: Path) -> None:
@@ -98,7 +98,7 @@ def main() -> int:
     if not os.path.ismount('/mnt/intelligenceos_data'):
         raise ValueError('dedicated data volume is not mounted')
     account = pwd.getpwnam('intelligenceos-m78')
-    if account.pw_uid == 0 or account.pw_gid == 0 or account.pw_shell not in ('/usr/sbin/nologin', '/bin/false'):
+    if (account.pw_uid, account.pw_gid) != (997, 986) or account.pw_shell not in ('/usr/sbin/nologin', '/bin/false'):
         raise ValueError('dedicated non-login account required')
     for name in ('root', 'code', 'deps', 'evidence', 'probe.py'):
         checked(BASE / name, account.pw_uid)
