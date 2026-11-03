@@ -1,3 +1,19 @@
+# Current dependency trust preparation
+
+**FAIL / NOT READY.** A separately reviewed bytecode-free wheel profile is proposed
+in [M78 dependency trust](M78_DEPENDENCY_TRUST.md), superseding historical requests
+below to reproduce 401 files and generated pyc. Exact source hashes, package pins,
+independent artifact review, complete inventory verification and reproducibility
+remain required. The new install CLI refuses legacy manifests and any bytecode.
+
+The owner reports a direct-host metadata audit at main 24fb4d1 with an absent isolated
+destination, mounted read/write volume, idle UID 997/GID 986 and no audit issues.
+This is supplied host evidence, not a target enforcement test. Artifact adoption,
+independent reproduction/review, server installation and synthetic target verification
+remain outstanding. No production readiness or deployment authorization is inferred.
+
+The reports below are historical; use the current dependency and deployment procedures.
+
 # M78 isolated preparation — current status
 
 **FAIL / NOT READY.** The fresh fixed destination is

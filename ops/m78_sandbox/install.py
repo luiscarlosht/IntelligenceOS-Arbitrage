@@ -11,7 +11,9 @@ import pwd
 import shutil
 import subprocess
 
-from migrate import secure, walk, digest, manifest, mountpoints, walk_error
+from migrate import secure, walk, digest, mountpoints, walk_error
+
+from wheel_profile import PROFILE, decode_manifest, safe_name
 
 BASE = Path('/mnt/intelligenceos_data/arbitrage/m78-isolated')
 
@@ -27,7 +29,7 @@ def boundary(path: Path) -> None:
 
 def install(base: Path, bundle: Path, expected: dict[str, str], probe: Path,
             uid: int, gid: int, apply: bool = False,
-            counts: tuple[int, int] = (127, 401)) -> dict:
+            counts: tuple[int, int | None] = (127, None)) -> dict:
     if not bundle.is_absolute() or '..' in bundle.parts:
         raise ValueError('absolute canonical bundle path required')
     boundary(base.parent)
@@ -41,13 +43,15 @@ def install(base: Path, bundle: Path, expected: dict[str, str], probe: Path,
         secure(parent)
     if not probe.is_file():
         raise ValueError('regular probe required')
+    for name in expected:
+        safe_name(name)
     actual = walk(bundle)
     if actual != expected:
         raise ValueError('bundle differs from trusted manifest, including extras')
     code = {k: v for k, v in actual.items() if k.startswith(('app/', 'ops/'))}
     deps = {k.removeprefix('dependencies/'): v for k, v in actual.items()
             if k.startswith('dependencies/')}
-    if (len(code) != counts[0] or len(deps) != counts[1]
+    if (len(code) != counts[0] or (counts[1] is not None and len(deps) != counts[1])
             or len(code) + len(deps) != len(actual)
             or any(not k.endswith('.py') for k in code)):
         raise ValueError('verified artifact counts/types differ from approved profile')
@@ -116,7 +120,7 @@ def install(base: Path, bundle: Path, expected: dict[str, str], probe: Path,
                 raise ValueError('copy integrity failure; preserve partial installation')
         install(base, bundle, expected, probe, uid, gid, False, counts)
     return {'migration': 'PASS' if apply else 'PREFLIGHT_PASS',
-            'installation': 'FRESH_ISOLATED', 'base': str(base),
+            'dependency_profile': PROFILE, 'installation': 'FRESH_ISOLATED', 'base': str(base),
             'code_files': len(code), 'dependency_files': len(deps),
             'target_isolation': 'NOT_TESTED', 'production_ready': False,
             'existing_sandbox': 'NOT_ACCESSED'}
@@ -139,7 +143,11 @@ def main() -> None:
         parser.error('dedicated account must be idle; never kill existing jobs')
     if args.apply:
         os.umask(0o022)
-    print(json.dumps(install(BASE, args.bundle, manifest(args.manifest),
+    secure(args.manifest)
+    for parent in args.manifest.parents:
+        secure(parent)
+    reviewed = decode_manifest(args.manifest.read_bytes())
+    print(json.dumps(install(BASE, args.bundle, reviewed['files'],
                              Path(__file__).with_name('probe.py'), 997, 986, args.apply), sort_keys=True))
 
 

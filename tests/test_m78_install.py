@@ -35,7 +35,7 @@ def fresh(tmp_path, monkeypatch):
     bundle = tmp_path / 'bundle'
     bundle.mkdir()
     expected = {}
-    for name in ('app/a.py', 'ops/b.py', 'dependencies/d.py', 'dependencies/d.pyc'):
+    for name in ('app/a.py', 'ops/b.py', 'dependencies/d.py', 'dependencies/e.py'):
         path = bundle / name
         path.parent.mkdir(exist_ok=True)
         path.write_bytes(b'independently approved synthetic bytes')
@@ -54,7 +54,7 @@ def test_fresh_preflight_apply_and_idempotence(fresh):
     assert run()['migration'] == 'PREFLIGHT_PASS'
     assert not base.exists()
     assert run(True)['migration'] == 'PASS'
-    assert (base / 'deps/d.pyc').read_bytes() == (bundle / 'dependencies/d.pyc').read_bytes()
+    assert (base / 'deps/e.py').read_bytes() == (bundle / 'dependencies/e.py').read_bytes()
     before = {p: p.stat().st_ino for p in base.rglob('*')}
     assert run(True)['migration'] == 'PASS'
     assert before == {p: p.stat().st_ino for p in base.rglob('*')}
@@ -66,7 +66,7 @@ def test_fresh_preflight_apply_and_idempotence(fresh):
 @pytest.mark.parametrize('change', ['drift', 'extra', 'missing', 'cache', 'symlink', 'hardlink', 'acl', 'acl_error', 'mount', 'space', 'writable', 'owner'])
 def test_bundle_fail_closed(fresh, monkeypatch, change):
     base, bundle, _, run = fresh
-    source = bundle / 'dependencies/d.pyc'
+    source = bundle / 'dependencies/e.py'
     if change == 'drift': source.write_bytes(b'changed')
     elif change == 'extra': (bundle / 'dependencies/extra').touch()
     elif change == 'missing': source.unlink()
@@ -141,7 +141,7 @@ def test_old_acl_sandbox_is_never_accessed(fresh, monkeypatch):
     assert sentinel.read_bytes() == b'preserve evidence and registry'
 
 
-@pytest.mark.parametrize('conflict', ['deps/d.pyc', 'evidence/private', 'output/private', 'root/payload'])
+@pytest.mark.parametrize('conflict', ['deps/e.py', 'evidence/private', 'output/private', 'root/payload'])
 def test_existing_conflicts_preserved(fresh, conflict):
     base, _, _, run = fresh
     run(True)
@@ -200,7 +200,7 @@ def test_destination_symlink_refused(fresh):
 
 def test_wrong_profile_refused(fresh):
     base, _, expected, run = fresh
-    expected.pop('dependencies/d.pyc')
+    expected.pop('dependencies/e.py')
     with pytest.raises(ValueError): run(True)
     assert not base.exists()
 
@@ -253,3 +253,13 @@ def test_production_root_ownership_check_is_not_replaced(fresh):
             PRODUCTION_SECURE(bundle)
     m.secure(bundle)
     m.walk(bundle)
+
+
+def test_even_manifest_listed_bytecode_is_refused(fresh):
+    base, bundle, expected, run = fresh
+    cache = bundle / 'dependencies/d.pyc'
+    cache.write_bytes(b'untrusted historical cache')
+    expected['dependencies/d.pyc'] = m.digest(cache)
+    with pytest.raises(ValueError, match='bytecode'):
+        run(True)
+    assert not base.exists()
