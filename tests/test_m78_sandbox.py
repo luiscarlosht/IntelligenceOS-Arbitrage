@@ -55,7 +55,7 @@ def test_failed_probe_never_runs_analysis(monkeypatch, tmp_path):
     monkeypatch.setattr(launcher.os, 'readlink', lambda _: 'net:[123]')
     monkeypatch.setattr(launcher.os.path, 'ismount', lambda _: True)
     monkeypatch.setattr(launcher.pwd, 'getpwnam', lambda _: SimpleNamespace(
-        pw_uid=1234, pw_gid=1234, pw_shell='/usr/sbin/nologin'))
+        pw_uid=997, pw_gid=986, pw_shell='/usr/sbin/nologin'))
     monkeypatch.setattr(launcher, 'checked', lambda *args: None)
     monkeypatch.setattr(sys, 'argv', ['launch.py', 'run'])
     calls = []

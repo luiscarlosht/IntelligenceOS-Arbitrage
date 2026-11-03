@@ -14,7 +14,7 @@ import shutil
 import stat
 import subprocess
 
-BASE = Path('/mnt/intelligenceos_data/arbitrage/sandbox/m78')
+BASE = Path('/mnt/intelligenceos_data/arbitrage/m78-isolated')
 ACL_KEYS = {'system.posix_acl_access', 'system.posix_acl_default'}
 
 
@@ -35,6 +35,10 @@ def mountpoints() -> set[Path]:
             for row in Path('/proc/self/mountinfo').read_text().splitlines()}
 
 
+def walk_error(error: OSError) -> None:
+    raise error
+
+
 def walk(path: Path, owner: int = 0, private: bool = False) -> dict[str, str]:
     secure(path, owner, private)
     if not path.is_dir():
@@ -43,7 +47,7 @@ def walk(path: Path, owner: int = 0, private: bool = False) -> dict[str, str]:
     if path in mounted:
         raise ValueError(f'nested mount rejected: {path}')
     files = {}
-    for parent, dirs, names in os.walk(path, followlinks=False):
+    for parent, dirs, names in os.walk(path, followlinks=False, onerror=walk_error):
         for name in dirs + names:
             item = Path(parent) / name
             secure(item, owner, private)

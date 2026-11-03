@@ -1,3 +1,64 @@
+# M78 isolated preparation — current status
+
+**FAIL / NOT READY.** The fresh fixed destination is
+`/mnt/intelligenceos_data/arbitrage/m78-isolated`. The existing
+`/mnt/intelligenceos_data/arbitrage/sandbox/m78` remains preserved and is never
+an installation source. The [current isolated procedure](M78_DIGITALOCEAN_PROCEDURE.md)
+supersedes all historical migration instructions below.
+
+The new installer uses a separately approved offline bundle, exact manifest checks,
+ACL-free root-controlled ancestors, exclusive copies, resumable matching partial
+installs and fail-closed conflict handling. The wrapper uses this fresh installer;
+no empty-layout shell bypass remains. Runtime paths consistently use the isolated
+base. No DigitalOcean changes, trial, API calls, registry updates, service restarts
+or reboot were performed.
+
+Dependency recovery examined local all-ref requirements/lock/provenance history,
+M78 tool history, repository search, prior PR provenance and CI artifact metadata.
+No authenticated dependency record was recovered. The current procedure documents
+verified-artifact offline reconstruction, independent review and the generated
+bytecode limitation. Neither old sandbox hashes nor counts establish trust.
+The mandatory 401-file dependency profile is unchanged; reconstruction that cannot
+satisfy it needs a separate reviewed profile change.
+
+Remaining blockers: independently authenticated dependency record and approved bundle;
+direct-host identity/mount/ACL preflight; separately authorized installation and two
+complete synthetic target verification passes. Production staging/execution requires
+additional authorization and trial-specific design. Development tests do not clear
+any target enforcement or production gate.
+
+Exact read-only host preflight:
+
+```sh
+sudo /usr/bin/python3 -B /root/IntelligenceOS-Arbitrage-M61/ops/m78_sandbox/audit.py
+```
+
+This audit never traverses the old sandbox and intentionally reports readiness FAIL
+with target isolation NOT_TESTED. See the current procedure for review criteria and
+approval-scoped artifact preflight and installation commands.
+
+## Isolated preparation validation
+
+Python 3.12.3, final code/tests held fixed throughout the full run:
+
+- Full repository suite: **2,310 passed in 740.98 seconds**.
+- Focused M78 security suite: **77 passed in 2.23 seconds** (26 new tests).
+- Both README sample modes passed with a clean environment and output/database
+  files under /tmp; only bundled fictional inputs were used.
+- Shell syntax and git diff --check passed.
+
+Coverage includes fixed paths, ACL boundaries and inspection errors, exact dependency
+bytes (including bytecode), fresh preflight without mutation, first installation,
+matching partial resume, idempotence, protected evidence/output, original sandbox
+preservation, symlinks/hardlinks, mounts, drift/extras and fail-closed wrapper gates.
+The new UID/GID output creation and kernel/systemd enforcement still require the
+separately approved host checks; synthetic local fixtures do not establish them.
+
+## Historical final-readiness report (before isolated preparation)
+
+The following observations and test counts describe main at 03d42c1, not this PR.
+Its next-step migration instructions are superseded by the current procedure.
+
 # M78 final readiness — 2026-11-03
 
 **Overall: FAIL / NOT READY for an offline production trial.** Development

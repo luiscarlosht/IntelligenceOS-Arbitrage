@@ -1,3 +1,5 @@
+> Superseded for deployment by [the isolated installation procedure](M78_DIGITALOCEAN_PROCEDURE.md). Historical preparation instructions below must not be executed.
+
 # M78 sandbox security readiness — 2026-11-02
 
 Existing-sandbox migration procedure: [M78_DIGITALOCEAN_PROCEDURE.md](M78_DIGITALOCEAN_PROCEDURE.md).
