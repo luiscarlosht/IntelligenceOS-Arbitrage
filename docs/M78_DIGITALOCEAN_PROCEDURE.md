@@ -52,7 +52,10 @@ app/ plus ops/, and 401 dependency files. Use the previously trusted SHA-256 rec
 if they need conversion, review that conversion offline. Do not regenerate a trusted
 manifest from the current staging tree, and do not include any evidence paths.
 Missing records, missing/extra files, wrong counts or changed digests are stop conditions.
-The script does not assume reported counts prove integrity.
+The script does not assume reported counts prove integrity. Preflight also requires
+space for all missing copies plus a fixed 256 MiB free-space reserve; lack of space
+is a stop condition. The CLI uses umask 022 for new directories and mode 0444 for
+copied files; existing permissions are never silently repaired.
 
 Install the reviewed repository revision/tool files as root without exposing any
 credentials or evidence. The reviewed probe must be root-owned, regular, not writable
@@ -61,7 +64,8 @@ network: the existing pinned dependency tree is preserved and verified.
 
 ## One approved deployment and verification sequence
 
-Run from the reviewed repository checkout on DigitalOcean only after approval.
+Run from the reviewed repository checkout in a direct DigitalOcean host SSH shell
+(not a container), only after approval.
 The commands use the system Python 3.12 on Ubuntu 24.04; no packages are installed.
 
 ```sh
@@ -118,7 +122,7 @@ The probe must exit zero and report every boolean true:
   Evidence can be enumerated but remains empty. A uniquely named synthetic output
   can be written/read/deleted. No report generation or M78 import/execution is required.
 - Writes to application, dependencies, evidence, runtime, root and tmp fail; host home,
-  mount, opt, credential-file, run and var paths are absent or empty placeholders.
+  mount, opt, credential-file, run and var paths are absent, inaccessible or empty placeholders.
   Runtime /usr and library paths are intentionally readable; review them for locally
   stored secrets before approval. Kernel proc/device pseudo-files are exceptions to
   the persistent-write rule. Same-UID concurrent processes and privileged root operators
@@ -163,6 +167,8 @@ explicitly approved action. No reboot is required.
 | Actual staged inventory, ownership and ACL audit | Not accessed | NOT RUN |
 | Production readiness | FAIL pending target validation and review | FAIL / NOT READY |
 
-Exact development test counts and full-suite results are recorded in the PR and
-M78_SANDBOX_READINESS.md. No server changes or production execution are authorized
+Development validation: 2,252 full-suite tests passed in 778.55 seconds; the final
+focused suite separately passed all 34 current security tests (including tests added
+after full-suite collection). Both documented sample modes, shell syntax and diff
+checks passed. See follow-up PR #70 and M78_SANDBOX_READINESS.md. No server changes or production execution are authorized
 by this document. Stop here for explicit approval of the above concrete procedure.
