@@ -26,7 +26,7 @@ def test_approval_and_failure_gates(monkeypatch, capsys, apply, migration_ok, pr
     def run(cmd, **kwargs):
         calls.append(cmd)
         if len(calls) == 1:
-            return SimpleNamespace(returncode=0 if migration_ok else 1, stdout='{"migration":"PASS"}')
+            return SimpleNamespace(returncode=0 if migration_ok else 1, stdout=json.dumps({'migration': 'PASS' if apply else 'PREFLIGHT_PASS'}))
         return SimpleNamespace(returncode=0, stdout=json.dumps(probe))
     monkeypatch.setattr(m.subprocess, 'run', run)
     assert m.main() == expected
@@ -35,3 +35,16 @@ def test_approval_and_failure_gates(monkeypatch, capsys, apply, migration_ok, pr
     assert report['production_execution'] == 'NOT_RUN'
     assert report['production_readiness'] != 'PASS'
     assert not any('ops.m78_offline' in item for cmd in calls for item in cmd)
+
+
+@pytest.mark.parametrize('stdout', ['invalid json', '{}', '{"migration":"PREFLIGHT_PASS"}'])
+def test_invalid_migration_result_never_starts_probe(monkeypatch, capsys, stdout):
+    monkeypatch.setattr(sys, 'argv', ['deploy_verify.py', '--manifest', '/reviewed/manifest.json', '--apply'])
+    calls = []
+    def run(cmd, **kwargs):
+        calls.append(cmd)
+        return SimpleNamespace(returncode=0, stdout=stdout)
+    monkeypatch.setattr(m.subprocess, 'run', run)
+    assert m.main() == 1
+    assert len(calls) == 1
+    assert json.loads(capsys.readouterr().out)['target_security'] == 'NOT_RUN'
