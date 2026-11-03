@@ -1,0 +1,24 @@
+[
+  {
+    "asin": "B000YZASYO",
+    "eligibility": {
+      "status": "APPROVAL_REQUIRED",
+      "source": "User-supplied Seller Central observation",
+      "observed_at": "UNKNOWN",
+      "approval_requirements": "Manufacturer/distributor invoice dated May 7, 2026 or later; at least 300 combined units; retail order confirmations or invoices not accepted"
+    },
+    "observations": {
+      "brand": "FISKARS",
+      "amazon_selling_price": "59.84",
+      "price_basis": "Lowest displayed price; condition and New Buy Box UNKNOWN; not used as financial selling price",
+      "price_observed_at": "UNKNOWN",
+      "sales_rank": "435",
+      "category": "UNKNOWN",
+      "competing_offers": "9",
+      "evidence_source": "User-supplied Seller Central observation",
+      "evidence_observed_at": "UNKNOWN",
+      "data_confidence": "Manual; observation timestamp not supplied",
+      "notes": "9 used and new offers; not verified New-condition competition. Approval blocks regardless of hypothetical profit."
+    }
+  }
+]
