@@ -46,8 +46,11 @@ for folder in ('/app', '/deps', '/evidence', '/usr', '/tmp', '/'):
     check('write_denied_' + folder, denied)
 for path in ('/root', '/home', '/mnt', '/opt', '/etc/shadow', '/run', '/var'):
     item = Path(path)
-    check('host_hidden_' + path, not item.exists() or
-          (item.is_dir() and not any(item.iterdir())))
+    try:
+        hidden = not item.exists() or (item.is_dir() and not any(item.iterdir()))
+    except PermissionError:
+        hidden = True
+    check('host_hidden_' + path, hidden)
 for folder in ('/app', '/deps', '/evidence'):
     list(Path(folder).iterdir())
     check('readable_' + folder, os.access(folder, os.R_OK | os.X_OK))
