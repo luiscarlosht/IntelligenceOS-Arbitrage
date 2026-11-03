@@ -3,6 +3,7 @@ import argparse
 import os
 from pathlib import Path
 import pwd
+import re
 import stat
 import subprocess
 
@@ -20,7 +21,15 @@ def metadata(path: Path) -> None:
         raise ValueError(f'special mode or hardlink: {path}')
 
 
+def mountpoints() -> set[Path]:
+    return {Path(re.sub(r'\\([0-7]{3})', lambda m: chr(int(m[1], 8)), row.split()[4]))
+            for row in Path('/proc/self/mountinfo').read_text().splitlines()}
+
+
 def checked(path: Path, uid: int, writable: bool = False) -> str:
+    mounted = mountpoints()
+    if path in mounted:
+        raise ValueError(f'nested mount rejected: {path}')
     for item in [path, *path.parents]:
         st = item.lstat()
         if stat.S_ISLNK(st.st_mode):
@@ -33,6 +42,8 @@ def checked(path: Path, uid: int, writable: bool = False) -> str:
         raise ValueError('output must be private and service-owned')
     if not writable:
         for item in path.rglob('*'):
+            if item in mounted or item.lstat().st_dev != path.stat().st_dev:
+                raise ValueError(f'nested mount rejected: {item}')
             st = item.lstat()
             metadata(item)
             if stat.S_ISLNK(st.st_mode) or st.st_uid != 0 or st.st_mode & 0o022:
@@ -70,7 +81,7 @@ def command(mode: str, host_net: str, uid: int, gid: int) -> list[str]:
             'PYTHONPATH=/app:/deps', 'PYTHONDONTWRITEBYTECODE=1',
             'PYTHONNOUSERSITE=1', '/usr/bin/python3', '-B']
     if mode == 'verify':
-        cmd += ['/probe.py', host_net, str(uid)]
+        cmd += ['/probe.py', host_net, str(uid), str(gid), os.readlink('/proc/self/ns/user')]
     else:
         cmd += ['-m', 'ops.m78_offline', '--catalog', '/evidence/M76_catalog.csv',
                 '--annotations', '/evidence/annotations.json', '--sources',

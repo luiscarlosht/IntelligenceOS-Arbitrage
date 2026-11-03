@@ -138,3 +138,59 @@ def test_insufficient_space_stops_before_copy(staged, monkeypatch):
     with pytest.raises(ValueError, match='insufficient free space'):
         run(True)
     assert not (base / 'code').exists()
+
+
+def test_canonical_cache_preserved_but_never_copied(staged):
+    base, _, run = staged
+    cache = base / 'app/__pycache__/a.cpython-312.pyc'
+    cache.parent.mkdir()
+    cache.write_bytes(b'untrusted executable bytecode')
+    before = cache.stat().st_ino
+    report = run(True)
+    assert report['preserved_untrusted_caches'] == ['app/__pycache__/a.cpython-312.pyc']
+    assert cache.stat().st_ino == before
+    assert cache.read_bytes() == b'untrusted executable bytecode'
+    assert not (base / 'code/app/__pycache__').exists()
+    assert run(True)['migration'] == 'PASS'
+
+
+@pytest.mark.parametrize('name', ['app/a.pyc', 'app/__pycache__/orphan.cpython-312.pyc',
+                                  'app/__pycache__/a.cpython-311.pyc',
+                                  'app/__pycache__/a.cpython-312.opt-9.pyc',
+                                  'dependencies/extra.pyc'])
+def test_unrecognized_cache_never_ignored(staged, name):
+    base, _, run = staged
+    path = base / name
+    path.parent.mkdir(exist_ok=True)
+    path.write_bytes(b'cache')
+    with pytest.raises(ValueError):
+        run(True)
+    assert not (base / 'code').exists()
+
+
+def test_cache_security_metadata_still_checked(staged):
+    base, _, run = staged
+    path = base / 'app/__pycache__/a.cpython-312.pyc'
+    path.parent.mkdir()
+    path.write_bytes(b'cache')
+    path.chmod(0o666)
+    with pytest.raises(ValueError, match='ownership/mode'):
+        run(True)
+    assert not (base / 'code').exists()
+
+
+def test_same_device_bind_mount_rejected(staged, monkeypatch):
+    base, _, run = staged
+    monkeypatch.setattr(m, 'mountpoints', lambda: {base / 'app/a.py'})
+    with pytest.raises(ValueError, match='nested mount'):
+        run(True)
+    assert not (base / 'code').exists()
+
+
+def test_root_private_evidence_cannot_pass_preflight(staged):
+    base, _, run = staged
+    (base / 'evidence').chmod(0o700)
+    with pytest.raises(ValueError, match='read/traverse'):
+        run(True)
+    assert not (base / 'code').exists()
+    assert (base / 'evidence').stat().st_mode & 0o777 == 0o700

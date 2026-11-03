@@ -15,7 +15,9 @@ spec.loader.exec_module(m)
     (True, False, None, 1, 1),
     (True, True, {'network': False}, 1, 2),
     (True, True, {}, 1, 2),
-    (True, True, {'network': True, 'filesystem': True}, 0, 2),
+    (True, True, {'network': True}, 1, 2),
+    (True, True, dict.fromkeys(m.REQUIRED_CHECKS, 1), 1, 2),
+    (True, True, dict.fromkeys(m.REQUIRED_CHECKS, True), 0, 2),
 ])
 def test_approval_and_failure_gates(monkeypatch, capsys, apply, migration_ok, probe, expected, calls_expected):
     args = ['deploy_verify.py', '--manifest', '/reviewed/manifest.json']

@@ -13,13 +13,15 @@ def check(name, condition):
     results[name] = bool(condition)
 
 
+check('nonroot_gid', os.getgid() == int(sys.argv[3]) != 0)
+check('distinct_user_namespace', os.readlink('/proc/self/ns/user') != sys.argv[4])
 check('nonroot_uid', os.getuid() == int(sys.argv[2]) != 0)
 check('distinct_network_namespace', os.readlink('/proc/self/ns/net') != sys.argv[1])
 check('loopback_only', {name for _, name in socket.if_nameindex()} <= {'lo'})
-routes = Path('/proc/net/route').read_text().splitlines()[1:]
+routes = Path('/proc/self/net/route').read_text().splitlines()[1:]
 check('no_ipv4_routes', not routes)
 # Every non-loopback IPv6 route must be absent, including default routes.
-routes6 = Path('/proc/net/ipv6_route').read_text().splitlines()
+routes6 = Path('/proc/self/net/ipv6_route').read_text().splitlines()
 check('no_external_ipv6_routes', all(row.split()[-1] == 'lo' for row in routes6))
 # Never attempt even a diagnostic connection until separation is established.
 if not all(results.values()):
@@ -35,6 +37,10 @@ for family, address in [(socket.AF_INET, ('1.1.1.1', 443)),
         except OSError:
             denied = True
         check(f'connect_denied_{family}', denied)
+mounts = {row.split()[4]: row.split()[5].split(',')
+          for row in Path('/proc/self/mountinfo').read_text().splitlines()}
+check('readonly_bind_mounts', all('ro' in mounts.get(p, [])
+                                for p in ('/app', '/deps', '/evidence', '/usr')))
 for folder in ('/app', '/deps', '/evidence', '/usr', '/tmp', '/'):
     path = Path(folder) / ('m78-denial-' + uuid.uuid4().hex)
     try:
