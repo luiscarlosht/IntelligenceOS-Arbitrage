@@ -11,6 +11,7 @@ spec = importlib.util.spec_from_file_location('m78_install', HERE / 'install.py'
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 sys.path.pop(0)
+PRODUCTION_SECURE = m.secure
 
 
 @pytest.fixture
@@ -20,8 +21,17 @@ def fresh(tmp_path, monkeypatch):
     monkeypatch.setattr(m, 'mountpoints', lambda: mounts() - set(tmp_path.parents))
     secure = m.secure
     exempt = set(tmp_path.parents)
-    monkeypatch.setattr(m, 'secure', lambda p, owner=0, private=False: None if p in exempt
-                        else secure(p, os.getuid() if owner == 0 else owner, private))
+    def synthetic_secure(path, owner=0, private=False):
+        # Only synthetic nodes stand in for root-owned deployment files. Keep
+        # the real checker for modes, ACLs, file types, hardlinks and ownership.
+        if path in exempt:
+            return  # pytest's harness ancestors are outside the tested boundary.
+        if owner == 0 and (path == tmp_path or tmp_path in path.parents):
+            owner = os.getuid()
+        return secure(path, owner, private)
+    # Imported walk() resolves secure in migrate's globals, not install's.
+    monkeypatch.setattr(m, 'secure', synthetic_secure)
+    monkeypatch.setattr(sys.modules['migrate'], 'secure', synthetic_secure)
     bundle = tmp_path / 'bundle'
     bundle.mkdir()
     expected = {}
@@ -53,7 +63,7 @@ def test_fresh_preflight_apply_and_idempotence(fresh):
     assert (base / 'output').stat().st_mode & 0o777 == 0o700
 
 
-@pytest.mark.parametrize('change', ['drift', 'extra', 'missing', 'cache', 'symlink', 'hardlink', 'acl', 'acl_error', 'mount', 'space'])
+@pytest.mark.parametrize('change', ['drift', 'extra', 'missing', 'cache', 'symlink', 'hardlink', 'acl', 'acl_error', 'mount', 'space', 'writable', 'owner'])
 def test_bundle_fail_closed(fresh, monkeypatch, change):
     base, bundle, _, run = fresh
     source = bundle / 'dependencies/d.pyc'
@@ -73,12 +83,30 @@ def test_bundle_fail_closed(fresh, monkeypatch, change):
                 return ['system.posix_acl_access']
             return original(path, **kw)
         monkeypatch.setattr(os, 'listxattr', attrs)
+    elif change == 'writable':
+        source.chmod(0o666)
+    elif change == 'owner':
+        original = Path.lstat
+        def wrong_owner(path):
+            info = original(path)
+            if path == source:
+                values = list(info)
+                values[4] = os.getuid() + 1
+                return os.stat_result(values)
+            return info
+        monkeypatch.setattr(Path, 'lstat', wrong_owner)
     elif change == 'mount':
         monkeypatch.setattr(sys.modules['migrate'], 'mountpoints', lambda: {source})
     else:
         from types import SimpleNamespace
         monkeypatch.setattr(m.shutil, 'disk_usage', lambda _: SimpleNamespace(free=0))
-    with pytest.raises((ValueError, OSError)):
+    reason = {
+        'symlink': 'unsafe file type', 'hardlink': 'hardlink',
+        'acl': 'ACL', 'acl_error': 'ACL inspection denied',
+        'mount': 'nested mount', 'space': 'insufficient free space',
+        'writable': 'unsafe ownership/mode', 'owner': 'unsafe ownership/mode',
+    }.get(change, 'bundle differs from trusted manifest')
+    with pytest.raises((ValueError, OSError), match=reason):
         run(True)
     assert not base.exists()
 
@@ -185,3 +213,43 @@ def test_walk_inspection_error_is_fatal(fresh, monkeypatch):
     monkeypatch.setattr(os, 'walk', denied)
     with pytest.raises(PermissionError): run(True)
     assert not base.exists()
+
+
+@pytest.mark.parametrize('entry', ['direct', 'walk'])
+def test_fixture_keeps_real_security_checks(fresh, entry):
+    _, bundle, _, _ = fresh
+    source = bundle / 'app/a.py'
+    migration = sys.modules['migrate']
+    assert m.secure is migration.secure
+    assert m.walk is migration.walk
+    # Reach the real checker through both call paths, then require the precise
+    # error. An unrelated early failure must not count as a security regression.
+    if entry == 'direct':
+        m.secure(source)
+    else:
+        m.walk(bundle)
+    source.chmod(0o666)
+    with pytest.raises(ValueError, match='unsafe ownership/mode'):
+        if entry == 'direct':
+            m.secure(source)
+        else:
+            m.walk(bundle)
+
+
+def test_fixture_preserves_explicit_owner_checks(fresh):
+    base, _, _, _ = fresh
+    # An explicit different owner still fails, including through the wrapper.
+    with pytest.raises(ValueError, match='unsafe ownership/mode'):
+        m.secure(base.parent, os.getuid() + 1)
+
+
+def test_production_root_ownership_check_is_not_replaced(fresh):
+    _, bundle, _, _ = fresh
+    assert PRODUCTION_SECURE.__defaults__ == (0, False)
+    # On the real nonroot CI runner, the unpatched production checker must
+    # refuse the same bundle that the synthetic ownership adapter accepts.
+    if os.getuid() != 0:
+        with pytest.raises(ValueError, match='unsafe ownership/mode'):
+            PRODUCTION_SECURE(bundle)
+    m.secure(bundle)
+    m.walk(bundle)
