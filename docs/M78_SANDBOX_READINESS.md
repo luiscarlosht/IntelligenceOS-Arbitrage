@@ -130,10 +130,13 @@ checks pinned dependency imports. Root mountpoint placeholders may survive repea
 verification; payload files there are rejected. No target sandbox paths were accessed
 or changed in this preparation. DigitalOcean remains NOT TESTED / NOT READY.
 
-Development validation of this update: 30 focused tests passed, including migration
+Development validation of this update: 34 focused tests passed, including migration
 idempotence and negative cases, plus wrapper failure gates. UID and ACL test cases
 simulate unsafe metadata; they do not verify kernel enforcement. Both sample modes
-passed. The full suite is running; the PR will record its final result.
+passed. The full suite passed 2,252 tests in 778.55 seconds. It collected the initial
+migration tests before the later additions; the final focused suite separately
+passed all 34 current security tests. Shell syntax and diff checks passed.
+Follow-up review: https://github.com/luiscarlosht/IntelligenceOS-Arbitrage/pull/70.
 
 The probe now stops before creating any socket if UID, namespace, interface or
 route checks fail. Four additional tests assert this gate with socket creation
