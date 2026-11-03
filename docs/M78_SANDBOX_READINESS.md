@@ -8,8 +8,9 @@ registry changes, deployment, service/network changes or reboot performed.
 
 Observed here: `unshare --net -- sh -c 'readlink /proc/self/ns/net; ls /sys/class/net'`
 exits 1: `unshare failed: Operation not permitted`. The execution environment
-restricts namespace creation even though its effective UID is root. The precise
-host/container capability or seccomp policy causing EPERM has not been inspected.
+restricts namespace creation even though its effective UID is root. The process lacks effective CAP_SYS_ADMIN (required for this operation) and
+has seccomp filtering enabled (mode 2). The seccomp policy itself was not read;
+the missing capability is sufficient to explain this development refusal.
 
 The previously reported host interface names alone do not prove that unshare
 succeeded or failed. A network namespace does not automatically replace the
@@ -92,7 +93,8 @@ remove evidence or reuse a partially written output. No production services chan
 |---|---|
 | Development namespace creation | FAIL: EPERM; no isolation claim |
 | Original host-interface incident root cause | UNRESOLVED: original execution evidence absent |
-| Launcher configuration and staging negative tests | PASS: 6 tests |
+| Launcher configuration and staging negative tests | PASS: 7 tests |
+| Full baseline suite, Python 3.12.3 | PASS: 2,233 tests in 730.36 seconds |
 | Both README sample modes (synthetic/offline) | PASS |
 | Target namespace/interface/route/connect checks | NOT RUN — required |
 | Target UID, read-only mounts, hidden host paths, output checks | NOT RUN — required |
@@ -100,5 +102,14 @@ remove evidence or reuse a partially written output. No production services chan
 | Staged artifact hashes and dependency inventory | NOT REVERIFIED — required |
 | Production readiness | FAIL pending target evidence and review |
 
-The full suite result is recorded below when available. Development unit tests
-validate construction and refusal logic; they do not verify kernel enforcement.
+Validation completed 2026-11-03 UTC: `.venv/bin/python -m pytest -q`
+passed 2,233 baseline tests (collected before the new test file existed).
+`.venv/bin/python -m pytest -q tests/test_m78_sandbox.py` separately passed
+all seven new tests. Both README sample modes, shell syntax checks and
+`git diff --check` passed. Development unit tests validate construction and
+refusal logic; they do not verify kernel enforcement.
+
+Review PR: https://github.com/luiscarlosht/IntelligenceOS-Arbitrage/pull/69.
+No merge or deployment was performed. The branch was published through the
+connected GitHub integration because local Git push could not resolve github.com;
+local and remote commit histories differ but the proposed file contents match.
