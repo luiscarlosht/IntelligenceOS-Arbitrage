@@ -262,6 +262,7 @@ def analyze(snapshot: dict, now: datetime) -> dict:
             restriction_reasons=list(permission.reason_codes) if permission else [],
             total_offer_count=offer.total_count if offer and offer.total_count is not None else 'UNKNOWN',
             current_gtins=list(observed_catalog.gtins) if observed_catalog else [],
+            catalog_identity={k:getattr(observed_catalog,k) for k in ('brand','model','quantity')} if observed_catalog else {},
             variation_parent_asins=list(observed_catalog.parent_asins) if observed_catalog else [],
             returned_offer_count=offer.returned_offers if offer and offer.returned_offers is not None else 'UNKNOWN',
             offer_detail_coverage='UNKNOWN' if not offer or offer.returned_offers is None or offer.new_count is None else
