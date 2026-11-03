@@ -129,3 +129,12 @@ def test_empty_mountpoints_survive_repeat_migration(staged):
     (base / 'root/unexpected').write_text('payload')
     with pytest.raises(ValueError, match='payload'):
         run(True)
+
+
+def test_insufficient_space_stops_before_copy(staged, monkeypatch):
+    from types import SimpleNamespace
+    base, _, run = staged
+    monkeypatch.setattr(m.shutil, 'disk_usage', lambda _: SimpleNamespace(free=0))
+    with pytest.raises(ValueError, match='insufficient free space'):
+        run(True)
+    assert not (base / 'code').exists()
