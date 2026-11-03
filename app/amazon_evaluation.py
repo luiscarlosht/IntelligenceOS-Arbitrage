@@ -1,5 +1,6 @@
 """Manual Amazon evaluation; offline by default, never purchase authorization."""
 import argparse
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import json
@@ -19,6 +20,17 @@ COSTS = ('purchase', 'sales_tax', 'inbound_shipping', 'preparation', 'packaging'
 # Fixed, documented screening heuristics, not demand forecasts.
 MIN_MONTHLY_SALES = 30
 MAX_OFFERS = 10
+
+
+@dataclass(frozen=True)
+class EvaluationPolicy:
+    minimum_profit: Decimal = Decimal('5')
+    minimum_roi: Decimal = Decimal('50')
+
+    def __post_init__(self):
+        if any(not isinstance(v, Decimal) or not v.is_finite() or v < 0
+               for v in (self.minimum_profit, self.minimum_roi)):
+            raise ValueError('Finite nonnegative Decimal thresholds required')
 
 
 def timestamp(value: object, now: datetime, hours: int = 24) -> bool:
@@ -50,7 +62,8 @@ def mapping(value: object) -> dict:
     return value if isinstance(value, dict) else {}
 
 
-def financial(record: dict, mode: str, scenario: str, now: datetime) -> dict:
+def financial(record: dict, mode: str, scenario: str, now: datetime,
+              policy: EvaluationPolicy = EvaluationPolicy()) -> dict:
     inputs = mapping(mapping(mapping(record.get('financials')).get(mode)).get(scenario))
     sale = amount(inputs.get('selling_price'), now)
     missing = [] if sale is not None and sale > 0 else ['selling_price']
@@ -79,11 +92,11 @@ def financial(record: dict, mode: str, scenario: str, now: datetime) -> dict:
     mapped = {k: values[k] for k in ('sales_tax', 'inbound_shipping', 'preparation',
               'packaging', 'other_cost', 'referral_fee', 'fulfillment_fee', 'storage', 'transaction_cost')}
     mapped['transaction_cost'] += values['placement'] + values['returns_allowance']
-    result = analyze(values['purchase'], sale, mapped)
+    result = analyze(values['purchase'], sale, mapped, policy.minimum_roi, policy.minimum_profit)
     return dict(complete=True, missing=[], net_profit=str(result.net_profit),
         net_margin_percent=str(result.net_profit/sale*100), roi_percent=str(result.roi),
         invested_cost=str(result.acquisition_cost), break_even_price=str(result.break_even_price),
-        passes=result.net_profit >= 5 and result.roi >= 50)
+        passes=result.net_profit >= policy.minimum_profit and result.roi >= policy.minimum_roi)
 
 
 def observed_check(record: dict, key: str, now: datetime) -> bool:
@@ -91,14 +104,15 @@ def observed_check(record: dict, key: str, now: datetime) -> bool:
     return evidence(item, now) and item.get('value') is True
 
 
-def evaluate(record: dict, now: datetime) -> dict:
+def evaluate(record: dict, now: datetime,
+             policy: EvaluationPolicy = EvaluationPolicy()) -> dict:
     if now.utcoffset() is None or not re.fullmatch(r'B[A-Z0-9]{9}', record.get('asin', '')):
         raise ValueError('ASIN and aware evaluation time required')
     eligibility = mapping(record.get('eligibility'))
     status = eligibility.get('status', UNKNOWN)
     if status not in ELIGIBILITY:
         raise ValueError('Invalid eligibility status')
-    finances = {mode: {s: financial(record, mode, s, now) for s in SCENARIOS} for mode in MODES}
+    finances = {mode: {s: financial(record, mode, s, now, policy) for s in SCENARIOS} for mode in MODES}
     result = dict(asin=record['asin'], decision='BLOCKED_DATA', reasons=[], financials=finances,
                   purchase_authorized=False, evaluated_at=now.isoformat(), buy_candidate_modes=[])
     # Positive approval/restriction observations always block, even if now stale.

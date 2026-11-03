@@ -248,3 +248,7 @@ no deployment authorization or live API execution.
 
 Manual Amazon FBA/FBM evaluation and the `Amazon_Evaluation` tab: see
 [inspection, Fiskars approval block and exact preview/publication commands](docs/AMAZON_EVALUATION.md).
+
+The [analysis engine MVP](docs/ANALYSIS_ENGINE_MVP.md) adds attributed market
+summaries, configurable thresholds, optional immutable snapshots and preview-bound
+computed Sheets output while reusing the existing evaluation engine.
