@@ -9,11 +9,23 @@ import subprocess
 BASE = Path('/mnt/intelligenceos_data/arbitrage/sandbox/m78')
 
 
+def metadata(path: Path) -> None:
+    st = path.lstat()
+    if {'system.posix_acl_access', 'system.posix_acl_default'}.intersection(
+            os.listxattr(path, follow_symlinks=False)):
+        raise ValueError(f'extended/default ACL rejected: {path}')
+    if not (stat.S_ISDIR(st.st_mode) or stat.S_ISREG(st.st_mode)):
+        raise ValueError(f'unsafe file type: {path}')
+    if st.st_mode & 0o7000 or (stat.S_ISREG(st.st_mode) and st.st_nlink != 1):
+        raise ValueError(f'special mode or hardlink: {path}')
+
+
 def checked(path: Path, uid: int, writable: bool = False) -> str:
     for item in [path, *path.parents]:
         st = item.lstat()
         if stat.S_ISLNK(st.st_mode):
             raise ValueError(f'symlink rejected: {item}')
+        metadata(item)
         if item != path or not writable:
             if st.st_uid != 0 or st.st_mode & 0o022:
                 raise ValueError(f'unsafe ownership/mode: {item}')
@@ -22,6 +34,7 @@ def checked(path: Path, uid: int, writable: bool = False) -> str:
     if not writable:
         for item in path.rglob('*'):
             st = item.lstat()
+            metadata(item)
             if stat.S_ISLNK(st.st_mode) or st.st_uid != 0 or st.st_mode & 0o022:
                 raise ValueError(f'unsafe staged file: {item}')
     return str(path)
@@ -79,8 +92,10 @@ def main() -> int:
     for name in ('root', 'code', 'deps', 'evidence', 'probe.py'):
         checked(BASE / name, account.pw_uid)
     checked(BASE / 'output', account.pw_uid, True)
-    if any((BASE / 'root').iterdir()):
-        raise ValueError('root directory must be empty before launch')
+    for item in (BASE / 'root').rglob('*'):
+        if item.is_file() and (item.relative_to(BASE / 'root').as_posix() != 'probe.py'
+                               or item.stat().st_size != 0):
+            raise ValueError('root contains payload files rather than empty mountpoints')
     host_net = os.readlink('/proc/self/ns/net')
     clean_env = {'PATH': '/usr/sbin:/usr/bin:/sbin:/bin'}
     verified = subprocess.run(command('verify', host_net, account.pw_uid, account.pw_gid),
