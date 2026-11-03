@@ -98,7 +98,7 @@ def main(argv=None) -> int:
             print(json.dumps({'status':snapshot['status'],'requests_consumed':snapshot['requests_consumed']}))
             return 0 if snapshot['status']=='COMPLETED_NO_REPLAY' else 2
         else:
-            snapshot=inspect(args.private/LEDGER)
+            snapshot=inspect(args.private/LEDGER,historical=True)
             export(snapshot,args.output,datetime.fromisoformat(args.as_of.replace('Z','+00:00')))
             print('M80 read-only evidence recovery; no credentials, requests or resume')
         return 0

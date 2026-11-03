@@ -90,7 +90,12 @@ class Transport:
         try: response=opener.open(request,timeout=10)
         except HTTPError as error: response=error
         with response:
-            status=response.status; headers=dict(response.headers or {}); raw=response.read(LIMITS[definition['phase']]+1)
+            status=response.status
+            pairs=list((response.headers or {}).items())
+            names=[str(k).casefold() for k,_ in pairs]
+            if any(names.count(k)>1 for k in ('x-amzn-ratelimit-limit','retry-after')):
+                raise ValueError('Ambiguous duplicate HTTP control headers')
+            headers=dict(pairs); raw=response.read(LIMITS[definition['phase']]+1)
         if len(raw)>LIMITS[definition['phase']]: raise ValueError('Response exceeds bound')
         if status!=200: return dict(status=status,headers=headers,body={})
         body=json.loads(raw,object_pairs_hook=unique,parse_constant=lambda _: (_ for _ in ()).throw(ValueError('Nonfinite response')))
