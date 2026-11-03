@@ -256,3 +256,7 @@ computed Sheets output while reusing the existing evaluation engine.
 Amazon analysis now uses the [canonical Intake workbook](docs/CANONICAL_ANALYSIS_WORKBOOK.md).
 See migration risks and exact read-only DigitalOcean verification commands before
 considering any separately approved publication.
+
+[M85 Amazon evidence population](docs/M85_AMAZON_EVIDENCE_POPULATION.md) adds
+eligibility-first per-ASIN gap reports, scoped manual templates, coverage counts,
+and separate read-only evaluation seed proposals. It performs no workbook writes.
