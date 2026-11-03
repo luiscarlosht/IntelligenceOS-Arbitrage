@@ -226,3 +226,9 @@ over the original 1,397-ASIN M76/M77 union. It exports a private Excel workbook 
 machine handoff with explicit UNKNOWN metrics and blocked sourcing gates. Research
 Top 100/Top 20 lists order identity coverage only; demand shortlists remain empty
 until separately authorized sales/offer and eligibility evidence is available.
+
+M80 adds an [owner-gated Top-20 sales research pilot](docs/M80_AMAZON_RESEARCH_PILOT.md):
+42 HTTP requests maximum, exact ASIN/request authorization, a separate permanent
+no-replay ledger, typed sales/offer/restriction evidence and category-scoped review
+ranking. Development/demo data is synthetic only; no live acquisition or sourcing
+is authorized by this milestone.

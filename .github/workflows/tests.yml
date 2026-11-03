@@ -26,6 +26,10 @@ jobs:
           python -m pytest -q tests/test_m78*.py
       - name: Focused M79 offline evidence tests
         run: python -m pytest -q tests/test_m79.py tests/test_m76.py tests/test_m78.py
+      - name: Focused M80 synthetic pilot tests
+        run: python -m pytest -q tests/test_m80.py tests/test_m79.py
+      - name: Offline M80 synthetic demonstration
+        run: python -B -m app.m80_demo --output /tmp/m80-ci-demo
       - run: python -m pytest -q
       - run: python -m app.orchestrator
       - run: ARBITRAGE_MODE=discovery ARBITRAGE_REPORT=var/discovery.xlsx python -m app.orchestrator
