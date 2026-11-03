@@ -51,12 +51,18 @@ def run(manifest:Path,manifest_sha:str,output:Path,history:Path,as_of:datetime) 
     if history.is_relative_to('/mnt') or history.parent==output.parent or history.is_relative_to(output) or output.is_relative_to(history.parent):
         raise ValueError('Separate private local history required')
     ledger,ledger_sha,receipts,pins,handoff=inputs(manifest,manifest_sha)
+    with offline(reads=[ledger]):
+        amazon=load_ledger(ledger,ledger_sha,as_of)
+    # Inherit all original source boundaries even when only their derived ledger is supplied.
     protected=[Path(p) for p in pins]
+    archived={Path(p) for p in amazon['protected_roots']}
+    if handoff is not None:archived.update(Path(p).parent for p in handoff.get('input_sha256',{}))
     if any(history.is_relative_to(p.parent) or p.is_relative_to(history.parent) for p in protected):raise ValueError('History must not overlap original evidence')
+    if any(history.is_relative_to(p) or p.is_relative_to(history.parent) for p in archived):raise ValueError('History must not overlap archived source roots')
     code=implementation()
-    with publication(output,protected) as stage:
+    with publication(output,protected,archived_roots=archived) as stage:
         with offline(reads=[ledger],writes=[stage,history.parent]):
-            amazon=load_ledger(ledger,ledger_sha,as_of);kind=amazon['source_kind'];synthetic=amazon['synthetic']
+            kind=amazon['source_kind'];synthetic=amazon['synthetic']
             universe=[]
             if handoff is not None:
                 from app.m80_contract import source

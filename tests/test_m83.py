@@ -113,3 +113,34 @@ def test_original_artifact_mutation_fails_closed(completed):
     with pytest.raises(ValueError,match='artifact digest'):
         run(manifest,digest(manifest),root/'tampered-report',root/'own-state/observations.sqlite3',NOW)
     assert not (root/'tampered-report').exists()
+
+
+def test_inherited_original_source_roots_are_never_writable(completed):
+    root,report=completed;manifest=root/'inputs/manifest.json'
+    before=(root/'synthetic-old/original.json').read_bytes()
+    with pytest.raises(ValueError):
+        run(manifest,digest(manifest),root/'synthetic-old/report',root/'own-state/observations.sqlite3',NOW)
+    # Omitting the optional handoff still retains acquisition-plan source boundaries.
+    obj=json.loads(manifest.read_text());obj.pop('handoff');standalone=root/'inputs/ledger-only.json';json_write(standalone,obj)
+    with pytest.raises(ValueError):
+        run(standalone,digest(standalone),root/'synthetic-old/report',root/'own-state/observations.sqlite3',NOW)
+    with pytest.raises(ValueError):
+        run(standalone,digest(standalone),root/'other-report',root/'synthetic-old/history.sqlite3',NOW)
+    assert (root/'synthetic-old/original.json').read_bytes()==before
+    assert not (root/'synthetic-old/report').exists() and not (root/'synthetic-old/history.sqlite3').exists()
+
+
+def test_archived_directory_guards_need_no_original_filesystem_access(tmp_path,monkeypatch):
+    from app.evidence_io import publication
+    original=tmp_path/'inaccessible-original'
+    real_dir=Path.is_dir;real_link=Path.is_symlink
+    def directory(path):
+        if path==original:raise PermissionError('archived host absent')
+        return real_dir(path)
+    def link(path):
+        if path==original:raise PermissionError('archived host absent')
+        return real_link(path)
+    monkeypatch.setattr(Path,'is_dir',directory);monkeypatch.setattr(Path,'is_symlink',link)
+    with publication(tmp_path/'fresh',[],archived_roots=[original]) as stage:json_write(stage/'result.json',dict(purchase_authorized=False))
+    with pytest.raises((ValueError,PermissionError)):
+        with publication(original/'report',[],archived_roots=[original]):pass

@@ -105,3 +105,12 @@ Proposed maximum for the same twenty products: **two HTTP attempts** (one LWA au
 Amazon documents a default batch usage plan of 0.5 requests/second, burst1; honor lower returned limits and Retry-After by stopping, never automatic retry. Owner must verify current seller authorization and developer/application Pricing/Product Listing permissions against the provider's current role matrix before approving. The batch estimate is not a fee guarantee, storage/other costs still need explicit evidence, and it does not prove FBA permission or invoice acceptability. Recheck current usage/charges with the account owner; no paid service or API acquisition is enabled by this proposal.
 
 Sources reviewed 2026-11-03: [batch operation/usage](https://developer-docs.amazon.com/sp-api/reference/getmyfeesestimates), [batch maximum and prerequisites](https://developer-docs.amazon.com/sp-api/docs/get-product-fees-batch), [operation role matrix](https://developer-docs.amazon.com/sp-api/docs/product-fees-api). Revalidate provider documentation before implementing or approving that separate pilot.
+
+Archived acquisition plans retain every original source directory as a deny-write boundary,
+including M76/M77 roots inherited through M79. Downstream report/history paths are checked
+against these roots even when the optional handoff is omitted. These archived boundaries
+are compared as validated absolute directory names; their original files need not be
+available or readable on the reporting host. Actual staged inputs still receive strict
+nonsymlink, single-link, byte-pin and read-only journal checks. No authority-path guard is
+relaxed for evidence: only Git-authenticated release **source code** names (for example
+`m77_authorization.py`) use the separate exact source-map verifier.

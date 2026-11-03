@@ -29,7 +29,11 @@ def demonstrate_decisions(root:Path):
     handoff=universe/'M79_walmart_handoff.json'
     historical=[dict(asin=f'B9{i:08d}',marketplace=contract['marketplace_id'],title='SYNTHETIC historical identity only',sourcing_allowed=False)
                 for i in range(1377)]
-    json_write(handoff,dict(ready_for_walmart_sourcing=False,priority20=contract['targets'],all_asins=contract['targets']+historical))
+    old=root/'synthetic-old';old.mkdir(mode=0o700)
+    prior=old/'original.json';json_write(prior,dict(evidence_class='SYNTHETIC',historical_only=True))
+    contract['protected_roots'].append(str(old.resolve()))
+    json_write(handoff,dict(ready_for_walmart_sourcing=False,priority20=contract['targets'],all_asins=contract['targets']+historical,
+                           input_sha256={str(prior):digest(prior)}))
     contract['handoff_sha256']=digest(handoff)
     clock=Clock();journal=Journal(acquisition/'synthetic-m80.sqlite3',dict(plan=contract,authorization_sha256='0'*64,synthetic=True))
     run_claimed(journal,transport,contract,before_request=lambda:None,pacer=Pacer(clock.monotonic,clock.sleep),monotonic=clock.monotonic,utcnow=clock.utcnow)

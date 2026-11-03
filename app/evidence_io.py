@@ -75,10 +75,13 @@ def offline(reads=(),writes=()):
 
 
 @contextmanager
-def publication(output:Path, protected:list[Path]):
+def publication(output:Path, protected:list[Path], *, archived_roots=()):
     output=safe(output); roots=[safe(p) for p in protected]
+    frozen=[Path(p) for p in archived_roots]
+    if any(not p.is_absolute() or '..' in p.parts for p in frozen):raise ValueError('Canonical archived boundaries required')
     if (output.exists() or not output.parent.is_dir() or output.is_relative_to('/mnt')
-            or any(output.is_relative_to(p if p.is_dir() else p.parent) or p.is_relative_to(output) for p in roots)):
+            or any(output.is_relative_to(p if p.is_dir() else p.parent) or p.is_relative_to(output) for p in roots)
+            or any(output.is_relative_to(p) or p.is_relative_to(output) for p in frozen)):
         raise ValueError('Fresh local output outside protected evidence required')
     stage=Path(tempfile.mkdtemp(prefix='.decision-stage-',dir=output.parent));stage.chmod(0o700)
     try:
