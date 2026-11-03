@@ -21,6 +21,10 @@ check('no_ipv4_routes', not routes)
 # Every non-loopback IPv6 route must be absent, including default routes.
 routes6 = Path('/proc/net/ipv6_route').read_text().splitlines()
 check('no_external_ipv6_routes', all(row.split()[-1] == 'lo' for row in routes6))
+# Never attempt even a diagnostic connection until separation is established.
+if not all(results.values()):
+    print(json.dumps(results, sort_keys=True, indent=2), flush=True)
+    raise SystemExit(1)
 for family, address in [(socket.AF_INET, ('1.1.1.1', 443)),
                         (socket.AF_INET6, ('2606:4700:4700::1111', 443))]:
     with socket.socket(family, socket.SOCK_STREAM) as sock:
@@ -41,9 +45,23 @@ for folder in ('/app', '/deps', '/evidence', '/usr', '/tmp', '/'):
         denied = True
     check('write_denied_' + folder, denied)
 for path in ('/root', '/home', '/mnt', '/opt', '/etc/shadow', '/run', '/var'):
-    check('host_hidden_' + path, not Path(path).exists())
+    item = Path(path)
+    try:
+        hidden = not item.exists() or (item.is_dir() and not any(item.iterdir()))
+    except PermissionError:
+        hidden = True
+    check('host_hidden_' + path, hidden)
 for folder in ('/app', '/deps', '/evidence'):
-    check('readable_' + folder, bool(list(Path(folder).iterdir())))
+    list(Path(folder).iterdir())
+    check('readable_' + folder, os.access(folder, os.R_OK | os.X_OK))
+for file in ('/app/app/m78.py', '/app/ops/m78_offline.py'):
+    with open(file, 'rb') as stream:
+        check('code_read_' + file, bool(stream.read(1)))
+check('evidence_empty', not any(Path('/evidence').iterdir()))
+import openpyxl
+import et_xmlfile
+check('pinned_openpyxl', openpyxl.__version__ == '3.1.5')
+check('pinned_et_xmlfile', et_xmlfile.__version__ == '2.0.0')
 path = Path('/output') / ('probe-' + uuid.uuid4().hex)
 path.write_text('synthetic security probe')
 check('output_read_write', path.read_text() == 'synthetic security probe')
