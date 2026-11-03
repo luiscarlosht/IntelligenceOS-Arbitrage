@@ -1,5 +1,8 @@
 # M78 sandbox security readiness — 2026-11-02
 
+Existing-sandbox migration procedure: [M78_DIGITALOCEAN_PROCEDURE.md](M78_DIGITALOCEAN_PROCEDURE.md).
+Its approval-gated instructions supersede the empty-layout installation plan below.
+
 Decision: **FAIL / NOT READY for production** until target verification and review.
 No production M78 execution, evidence staging, credential access, API replay,
 registry changes, deployment, service/network changes or reboot performed.
@@ -113,3 +116,26 @@ Review PR: https://github.com/luiscarlosht/IntelligenceOS-Arbitrage/pull/69.
 No merge or deployment was performed. The branch was published through the
 connected GitHub integration because local Git push could not resolve github.com;
 local and remote commit histories differ but the proposed file contents match.
+
+
+## Existing-sandbox deployment preparation — 2026-11-03
+
+Added read-only preflight and an explicit --apply migration preserving the original
+app/, ops/ and dependencies/ trees. It requires the independently trusted original
+SHA-256 inventory, checks ownership/modes and extended/default ACLs, rejects unsafe
+links and conflicts, refuses nonempty evidence/output, and verifies copied artifacts.
+The wrapper runs only migration and the synthetic security probe, prints a JSON
+readiness report, and never invokes M78. The probe now supports empty evidence and
+checks pinned dependency imports. Root mountpoint placeholders may survive repeated
+verification; payload files there are rejected. No target sandbox paths were accessed
+or changed in this preparation. DigitalOcean remains NOT TESTED / NOT READY.
+
+Development validation of this update: 30 focused tests passed, including migration
+idempotence and negative cases, plus wrapper failure gates. UID and ACL test cases
+simulate unsafe metadata; they do not verify kernel enforcement. Both sample modes
+passed. The full suite is running; the PR will record its final result.
+
+The probe now stops before creating any socket if UID, namespace, interface or
+route checks fail. Four additional tests assert this gate with socket creation
+forbidden. This closes a gap in the earlier probe, which recorded failures but
+could continue to diagnostic connection attempts. No such probe was run on target.
