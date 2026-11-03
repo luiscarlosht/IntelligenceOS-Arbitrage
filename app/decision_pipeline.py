@@ -1,5 +1,8 @@
 """Offline pinned Amazon-ledger + saved-receipt decision reporting. No acquisition clients."""
 import argparse
+import json
+import sqlite3
+import sys
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from app.evidence_io import digest,offline,pinned,publication,json_write,safe
@@ -48,12 +51,18 @@ def run(manifest:Path,manifest_sha:str,output:Path,history:Path,as_of:datetime) 
     if history.is_relative_to('/mnt') or history.parent==output.parent or history.is_relative_to(output) or output.is_relative_to(history.parent):
         raise ValueError('Separate private local history required')
     ledger,ledger_sha,receipts,pins,handoff=inputs(manifest,manifest_sha)
+    with offline(reads=[ledger]):
+        amazon=load_ledger(ledger,ledger_sha,as_of)
+    # Inherit all original source boundaries even when only their derived ledger is supplied.
     protected=[Path(p) for p in pins]
+    archived={Path(p) for p in amazon['protected_roots']}
+    if handoff is not None:archived.update(Path(p).parent for p in handoff.get('input_sha256',{}))
     if any(history.is_relative_to(p.parent) or p.is_relative_to(history.parent) for p in protected):raise ValueError('History must not overlap original evidence')
+    if any(history.is_relative_to(p) or p.is_relative_to(history.parent) for p in archived):raise ValueError('History must not overlap archived source roots')
     code=implementation()
-    with publication(output,protected) as stage:
+    with publication(output,protected,archived_roots=archived) as stage:
         with offline(reads=[ledger],writes=[stage,history.parent]):
-            amazon=load_ledger(ledger,ledger_sha,as_of);kind=amazon['source_kind'];synthetic=amazon['synthetic']
+            kind=amazon['source_kind'];synthetic=amazon['synthetic']
             universe=[]
             if handoff is not None:
                 from app.m80_contract import source
@@ -124,8 +133,12 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('manifest','output','history'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--manifest-sha256',required=True);p.add_argument('--as-of',required=True)
-    a=p.parse_args(argv);report=run(a.manifest,a.manifest_sha256,a.output,a.history,datetime.fromisoformat(a.as_of))
+    a=p.parse_args(argv)
+    try:report=run(a.manifest,a.manifest_sha256,a.output,a.history,datetime.fromisoformat(a.as_of))
+    except (ValueError,OSError,sqlite3.Error) as exc:
+        print(json.dumps(dict(status='FAIL_CLOSED',error_type=type(exc).__name__)),file=sys.stderr);return 1
     print('OFFLINE_DECISION_COMPLETE: '+str(report['executive']['asins'])+' ASINs; '+report['source_kind']+'; 0 live requests; proposals only')
+    return 0
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':raise SystemExit(main())

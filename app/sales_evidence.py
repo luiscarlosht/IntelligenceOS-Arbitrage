@@ -21,7 +21,7 @@ def load_ledger(path:Path,expected_sha:str,as_of:datetime) -> dict:
     recorded_at=max(times) if times else as_of
     report['historical_rows']=analyze(snapshot,recorded_at)['rows']
     if digest(path)!=expected_sha:raise ValueError('Ledger changed during read-only import')
-    report.update(handoff_sha256=binding['plan']['handoff_sha256'],schema=1,evidence_sha256=expected_sha,source_kind='SYNTHETIC' if synthetic else 'AUTHORIZED_LIVE',
+    report.update(protected_roots=binding['plan']['protected_roots'],handoff_sha256=binding['plan']['handoff_sha256'],schema=1,evidence_sha256=expected_sha,source_kind='SYNTHETIC' if synthetic else 'AUTHORIZED_LIVE',
                   source_code_sha256=binding['plan']['implementation_sha256'])
     return report
 

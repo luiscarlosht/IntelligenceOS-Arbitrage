@@ -326,3 +326,10 @@ report publication. `decision_history` owns a distinct append-only derived SQLit
 it never writes acquisition ledgers or the M77 registry. `decision_workbook` exposes
 category-scoped evidence and auditable formulas, while JSON preserves unrounded gates.
 Network/process audit guards supplement, but do not replace, OS isolation.
+
+M84 `ops.intelligence_release` exports reviewed Git objects plus independently pinned
+pure-Python wheels. The release profile has no historical file-count constraint and
+never installs into M78. Runtime entry verifies its externally reviewed manifest before
+imports under Python `-I -S -B`. Code is proposed read-only on the dedicated volume;
+new owner-private state/reports remain outside `/mnt`. Kernel isolation, OS trust,
+actual target security and all host changes require separate approval.

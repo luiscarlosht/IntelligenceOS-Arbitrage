@@ -219,3 +219,8 @@ profitability; M83: integrated offline dashboard/workbook and separate weekly ob
 history. These milestones remain proposals until reviewed/merged. Live Amazon acquisition,
 Walmart sourcing, purchases and deployment each require separate authorization; no
 historical catalog list price or synthetic result clears those gates.
+
+M84 prepares an independently reproducible, bytecode-free offline release, local
+configuration validation, read-only host preflight and isolated operational runbook.
+Target security remains NOT_TESTED until separately authorized host validation;
+artifact authentication, staging and deployment remain owner approval gates.

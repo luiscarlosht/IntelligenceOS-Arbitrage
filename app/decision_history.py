@@ -32,9 +32,11 @@ def database(path:Path):
     if any(Path(str(path)+suffix).exists() for suffix in ('-wal','-shm','-journal')):raise ValueError('Unexpected history sidecar')
     if not created:
         # Validate a preexisting file without changing its journal mode or schema.
-        with sqlite3.connect(path.as_uri()+'?mode=ro',uri=True,timeout=0) as readonly:
+        readonly=sqlite3.connect(path.as_uri()+'?mode=ro',uri=True,timeout=0)
+        try:
             schema=tuple(row[0] for row in readonly.execute("SELECT sql FROM sqlite_master WHERE sql IS NOT NULL AND name NOT LIKE 'sqlite_%' ORDER BY rowid"))
             if schema!=DDL:raise ValueError('Exact history schema required')
+        finally:readonly.close()
     db=sqlite3.connect(path,timeout=0)
     try:
         db.execute('PRAGMA journal_mode=DELETE');db.execute('PRAGMA synchronous=FULL')
