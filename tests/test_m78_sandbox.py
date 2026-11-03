@@ -13,7 +13,7 @@ def test_required_boundaries():
                  'NoNewPrivileges=yes', 'CapabilityBoundingSet=', 'User=1234',
                  'IPAddressDeny=any', 'RestrictNamespaces=yes'):
         assert prop in cmd
-    assert cmd[-3:] == ['/probe.py', 'net:[123]', '1234']
+    assert cmd[-5:-1] == ['/probe.py', 'net:[123]', '1234', '1234']
     assert not any('/root:' in value or '/mnt:/mnt' in value for value in cmd)
 
 
@@ -76,3 +76,9 @@ def test_unmounted_volume_refused(monkeypatch):
     monkeypatch.setattr(launcher.os.path, 'ismount', lambda _: False)
     with pytest.raises(ValueError, match='not mounted'):
         launcher.main()
+
+
+def test_same_device_stage_mount_rejected(tmp_path, monkeypatch):
+    monkeypatch.setattr(launcher, 'mountpoints', lambda: {tmp_path})
+    with pytest.raises(ValueError, match='nested mount'):
+        launcher.checked(tmp_path, 1234)

@@ -8,11 +8,14 @@ import sys
 import pytest
 
 
-@pytest.mark.parametrize('failure', ['namespace', 'interface', 'route', 'uid'])
+@pytest.mark.parametrize('failure', ['namespace', 'interface', 'route', 'uid', 'gid', 'user_namespace'])
 def test_no_connection_attempt_before_separation(monkeypatch, capsys, failure):
-    monkeypatch.setattr(sys, 'argv', ['probe.py', 'net:[host]', '1234'])
+    monkeypatch.setattr(sys, 'argv', ['probe.py', 'net:[host]', '1234', '1234', 'user:[host]'])
+    monkeypatch.setattr(os, 'getgid', lambda: 0 if failure == 'gid' else 1234)
     monkeypatch.setattr(os, 'getuid', lambda: 0 if failure == 'uid' else 1234)
-    monkeypatch.setattr(os, 'readlink', lambda _: 'net:[host]' if failure == 'namespace' else 'net:[private]')
+    monkeypatch.setattr(os, 'readlink', lambda p: (
+        'user:[host]' if failure == 'user_namespace' else 'user:[private]')
+        if p.endswith('/user') else ('net:[host]' if failure == 'namespace' else 'net:[private]'))
     monkeypatch.setattr(socket, 'if_nameindex', lambda: [(1, 'eth0' if failure == 'interface' else 'lo')])
     monkeypatch.setattr(Path, 'read_text', lambda p: ('header\neth0 route' if failure == 'route' else 'header') if str(p).endswith('/route') else '')
     def forbidden(*args, **kwargs):

@@ -7,6 +7,19 @@ import subprocess
 import sys
 
 
+REQUIRED_CHECKS = {
+    'nonroot_gid', 'distinct_user_namespace', 'readonly_bind_mounts',
+    'nonroot_uid', 'distinct_network_namespace', 'loopback_only', 'no_ipv4_routes',
+    'no_external_ipv6_routes', 'connect_denied_2', 'connect_denied_10',
+    'evidence_empty', 'pinned_openpyxl', 'pinned_et_xmlfile', 'output_read_write',
+    'no_capabilities', 'no_new_privileges',
+    *('write_denied_' + p for p in ('/app', '/deps', '/evidence', '/usr', '/tmp', '/')),
+    *('host_hidden_' + p for p in ('/root', '/home', '/mnt', '/opt', '/etc/shadow', '/run', '/var')),
+    *('readable_' + p for p in ('/app', '/deps', '/evidence')),
+    'code_read_/app/app/m78.py', 'code_read_/app/ops/m78_offline.py',
+}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, required=True)
@@ -49,6 +62,7 @@ def main() -> int:
     except json.JSONDecodeError:
         checks = {}
     passed = (result.returncode == 0 and isinstance(checks, dict) and bool(checks)
+              and set(checks) == REQUIRED_CHECKS
               and all(value is True for value in checks.values()))
     report['target_security'] = 'PASS' if passed else 'FAIL'
     report['checks'] = checks

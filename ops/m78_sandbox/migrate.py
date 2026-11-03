@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import pwd
+import re
 import shutil
 import stat
 import subprocess
@@ -29,20 +30,49 @@ def secure(path: Path, owner: int = 0, private: bool = False) -> None:
         raise ValueError(f'extended/default ACL rejected: {path}')
 
 
+def mountpoints() -> set[Path]:
+    return {Path(re.sub(r'\\([0-7]{3})', lambda m: chr(int(m[1], 8)), row.split()[4]))
+            for row in Path('/proc/self/mountinfo').read_text().splitlines()}
+
+
 def walk(path: Path, owner: int = 0, private: bool = False) -> dict[str, str]:
     secure(path, owner, private)
     if not path.is_dir():
         raise ValueError(f'directory required: {path}')
+    mounted = mountpoints()
+    if path in mounted:
+        raise ValueError(f'nested mount rejected: {path}')
     files = {}
     for parent, dirs, names in os.walk(path, followlinks=False):
         for name in dirs + names:
             item = Path(parent) / name
             secure(item, owner, private)
-            if item.stat().st_dev != path.stat().st_dev:
+            if item in mounted or item.stat().st_dev != path.stat().st_dev:
                 raise ValueError(f'nested mount rejected: {item}')
             if item.is_file():
                 files[item.relative_to(path).as_posix()] = digest(item)
     return files
+
+
+def source_inventory(files: dict[str, str]) -> tuple[dict[str, str], list[str]]:
+    """Omit only canonical app/ops caches with a verified source counterpart.
+
+    walk() has already checked every cache's metadata. Cache bytes are never
+    trusted, imported, copied or deleted; dependency inventory remains exact.
+    """
+    caches = []
+    for name in files:
+        path = PurePosixPath(name)
+        if path.parts[0] not in ('app', 'ops') or path.suffix != '.pyc':
+            continue
+        match = re.fullmatch(r'(.+)\.cpython-312(?:\.opt-[12])?\.pyc', path.name)
+        if path.parent.name != '__pycache__' or match is None:
+            raise ValueError('noncanonical Python cache rejected')
+        source = str(path.parent.parent / (match[1] + '.py'))
+        if source not in files:
+            raise ValueError('orphan Python cache rejected')
+        caches.append(name)
+    return {k: v for k, v in files.items() if k not in caches}, sorted(caches)
 
 
 def digest(path: Path) -> str:
@@ -86,6 +116,8 @@ def migrate(base: Path, expected: dict[str, str], probe: Path, uid: int,
         secure(path, uid if name == 'output' else 0, name == 'output')
         if path.stat().st_dev != base.stat().st_dev:
             raise ValueError(f'cross-device staging rejected: {path}')
+        if name == 'evidence' and path.stat().st_mode & 0o005 != 0o005:
+            raise ValueError('empty evidence directory requires non-owner read/traverse for the probe')
         if not path.is_dir() or any(path.iterdir()):
             raise ValueError(f'{name} must be an empty directory; contents untouched')
     actual = {}
@@ -93,6 +125,7 @@ def migrate(base: Path, expected: dict[str, str], probe: Path, uid: int,
         if (base / name).stat().st_dev != base.stat().st_dev:
             raise ValueError('original artifacts must be on the dedicated volume')
         actual.update({f'{name}/{key}': value for key, value in walk(base / name).items()})
+    actual, caches = source_inventory(actual)
     if actual != expected:
         raise ValueError('original artifacts differ from trusted manifest (including extra files)')
     code = {k: v for k, v in actual.items() if not k.startswith('dependencies/')}
@@ -162,7 +195,7 @@ def migrate(base: Path, expected: dict[str, str], probe: Path, uid: int,
                 raise ValueError('incomplete copy')
     return {'migration': 'PASS' if apply else 'PREFLIGHT_PASS', 'code_files': len(code),
             'dependency_files': len(deps), 'evidence': 'EMPTY_UNTOUCHED',
-            'originals': 'PRESERVED', 'target_isolation': 'NOT_TESTED',
+            'originals': 'PRESERVED', 'preserved_untrusted_caches': caches, 'target_isolation': 'NOT_TESTED',
             'production_ready': False}
 
 
