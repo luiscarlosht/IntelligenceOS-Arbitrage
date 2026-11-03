@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Walmart research observation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "asin",
+    "walmart_url",
+    "walmart_title",
+    "walmart_upc",
+    "walmart_model",
+    "walmart_brand",
+    "walmart_pack_count",
+    "match_status",
+    "walmart_price",
+    "shipping_cost",
+    "seller",
+    "fulfillment",
+    "availability",
+    "research_timestamp",
+    "evidence_url",
+    "confidence",
+    "notes"
+  ],
+  "properties": {
+    "asin": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000,
+      "pattern": "^B[A-Z0-9]{9}$"
+    },
+    "walmart_url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "walmart_title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "walmart_upc": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "walmart_model": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "walmart_brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "walmart_pack_count": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "match_status": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000,
+      "enum": [
+        "EXACT_MATCH",
+        "POSSIBLE_MATCH",
+        "NO_MATCH",
+        "NOT_FOUND",
+        "REVIEW_REQUIRED"
+      ]
+    },
+    "walmart_price": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "shipping_cost": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "seller": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "fulfillment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "availability": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "research_timestamp": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "evidence_url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "confidence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45000
+    }
+  },
+  "description": "UNKNOWN is explicit missing evidence; exact matches additionally require independently reviewed identity evidence in Python validation. Money is USD decimal text."
+}

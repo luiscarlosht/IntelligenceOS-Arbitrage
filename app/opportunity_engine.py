@@ -61,6 +61,11 @@ def evaluate(amazon:dict, quote:dict, fees:dict, risks:dict, now:datetime, *, sy
         if url.scheme!='https' or url.hostname not in ('www.walmart.com','walmart.com') or url.username or url.password or url.port not in (None,443):
             raise ValueError('Saved Walmart HTTPS product quote required')
         if quote.get('identity_verified') is not True:raise ValueError('Independent identity review required')
+        if quote.get('availability') != 'IN_STOCK':raise ValueError('Confirmed Walmart stock required')
+        if quote.get('product_condition') != 'NEW':raise ValueError('Explicit Walmart New condition required')
+        for key in ('seller','fulfillment'):
+            if not isinstance(quote.get(key),str) or not quote[key].strip() or quote[key]=='UNKNOWN':
+                raise ValueError('Observed Walmart '+key+' required')
         prior=amazon.get('identity',{});a=risks.get('verified_amazon_identity');q=quote.get('identity',{})
         if not isinstance(a,dict):raise ValueError('Independent exact Amazon identity review required')
         for key in ('gtin',*IDENTITY):

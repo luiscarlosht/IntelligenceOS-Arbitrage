@@ -68,3 +68,12 @@ def test_thresholds_unrounded_and_shipping_in_acquisition():
 
 def test_synthetic_cannot_be_live():
     assert evaluate(*case(),NOW,synthetic=False)['status']=='EXCLUDED'
+
+
+@pytest.mark.parametrize('field,value',[
+    ('availability','UNKNOWN'),('availability','OUT_OF_STOCK'),
+    ('product_condition','USED'),('seller','UNKNOWN'),('fulfillment',''),
+])
+def test_walmart_offer_context_must_be_observed(field,value):
+    a,q,f,r=case();q[field]=value
+    assert evaluate(a,q,f,r,NOW,synthetic=True)['status']=='EXCLUDED'

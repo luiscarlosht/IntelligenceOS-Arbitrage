@@ -16,6 +16,7 @@ def case():
     common.update(currency='USD',evidence_class='SYNTHETIC',observed_at=NOW.isoformat(),owner_reviewed=True,
                   artifact_sha256='1'*64,source_reference='offline independently reviewed synthetic artifact')
     q=dict(deepcopy(common),kind='WALMART_QUOTE',source_reference='https://www.walmart.com/ip/SYNTHETIC',
+        availability='IN_STOCK',product_condition='NEW',seller='Fictional fixture seller',fulfillment='Fictional fixture fulfillment',
         identity_verified=True,variation_verified=True,identity=deepcopy(identity),purchase_price='10',
         **{k:'0' for k in COSTS[:6]})
     f=dict(common,kind='AMAZON_FBA_FEE_ESTIMATE',sale_price='30',fulfillment='FBA',quantity=1,

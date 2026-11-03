@@ -1,5 +1,9 @@
 # IntelligenceOS Arbitrage
 
+The [Google Sheets research pilot](docs/GOOGLE_SHEETS_RESEARCH.md) publishes the real
+M79 Top 20 for Browser Use with ASIN upserts, preserved research, dry-run exports and
+explicit credential configuration. M81–M84 decision support retains all evidence gates.
+
 M75 adds a [separately authorized one-shot Catalog expansion executor](docs/M75_CONTROLLED_CATALOG_EXPANSION.md),
 bound to the verified M74 plan and 21-request ceiling. Implementation and testing were offline; merging is not execution authorization.
 
