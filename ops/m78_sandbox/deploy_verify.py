@@ -27,7 +27,17 @@ def main() -> int:
         report['failure'] = 'Migration refused; inspect staging/manifest/ACLs. No probe launched.'
         print(json.dumps(report, indent=2))
         return 1
-    report['migration'] = json.loads(result.stdout)
+    try:
+        migration = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        migration = {}
+    wanted = 'PASS' if args.apply else 'PREFLIGHT_PASS'
+    if not isinstance(migration, dict) or migration.get('migration') != wanted:
+        report['migration'] = 'FAIL'
+        report['failure'] = 'Invalid migration result; no probe launched.'
+        print(json.dumps(report, indent=2))
+        return 1
+    report['migration'] = migration
     if not args.apply:
         report['approval_gate'] = 'Preflight only; server-change approval required for --apply'
         print(json.dumps(report, indent=2))
