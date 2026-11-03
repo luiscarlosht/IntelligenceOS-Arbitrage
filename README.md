@@ -1,5 +1,9 @@
 # IntelligenceOS Arbitrage
 
+The [Google Sheets research pilot](docs/GOOGLE_SHEETS_RESEARCH.md) publishes the real
+M79 Top 20 for Browser Use with ASIN upserts, preserved research, dry-run exports and
+explicit credential configuration. M81–M84 decision support retains all evidence gates.
+
 M75 adds a [separately authorized one-shot Catalog expansion executor](docs/M75_CONTROLLED_CATALOG_EXPANSION.md),
 bound to the verified M74 plan and 21-request ceiling. Implementation and testing were offline; merging is not execution authorization.
 
@@ -232,3 +236,12 @@ M80 adds an [owner-gated Top-20 sales research pilot](docs/M80_AMAZON_RESEARCH_P
 no-replay ledger, typed sales/offer/restriction evidence and category-scoped review
 ranking. Development/demo data is synthetic only; no live acquisition or sourcing
 is authorized by this milestone.
+
+M81–M84 prepare offline decision support after an explicitly authorized M80 pilot.
+See [owner readiness](docs/M81_READINESS.md), [conservative economics](docs/M82_PROFITABILITY.md)
+and [integrated reporting](docs/M83_DECISION_PIPELINE.md). A fictional workbook can be generated
+with `python -B -m app.decision_demo --output /tmp/intelligence-fictional-demo`.
+Synthetic results and inventory proposals never authorize sourcing or purchases.
+The [M84 release runbook](docs/M84_DEPLOYMENT_PREPARATION.md) prepares verified,
+bytecode-free offline bundles and read-only preflight/configuration checks. It contains
+no deployment authorization or live API execution.

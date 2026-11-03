@@ -57,7 +57,11 @@ def offline(reads=(),writes=()):
                 readonly=value.startswith('file:') and parse_qs(parsed.query).get('mode')==['ro'] and path in read_paths
                 if not readonly and not any(path.is_relative_to(root) for root in write_roots):
                     raise PermissionError('SQLite writes outside owned history forbidden')
-            if event in ('open','os.mkdir','os.remove','os.rename','os.symlink','os.link') and args and isinstance(args[0],(str,bytes,os.PathLike)):
+            if event in ('os.symlink','os.link'):raise PermissionError('Offline outputs forbid symlinks/hardlinks')
+            if event=='os.rename':
+                destination=Path(os.fsdecode(args[1])).resolve()
+                if not any(destination.is_relative_to(root) for root in write_roots):raise PermissionError('Rename outside owned outputs forbidden')
+            if event in ('open','os.mkdir','os.remove','os.rename','os.rmdir','os.chmod','os.utime','os.truncate') and args and isinstance(args[0],(str,bytes,os.PathLike)):
                 path=Path(os.fsdecode(args[0])).resolve()
                 is_code=path.suffix in ('.py','.pyc') and path.is_relative_to(Path(__file__).resolve().parent)
                 if SENSITIVE.search(str(path)) and not is_code:raise PermissionError('Private authority access forbidden')
@@ -71,10 +75,13 @@ def offline(reads=(),writes=()):
 
 
 @contextmanager
-def publication(output:Path, protected:list[Path]):
+def publication(output:Path, protected:list[Path], *, archived_roots=()):
     output=safe(output); roots=[safe(p) for p in protected]
+    frozen=[Path(p) for p in archived_roots]
+    if any(not p.is_absolute() or '..' in p.parts for p in frozen):raise ValueError('Canonical archived boundaries required')
     if (output.exists() or not output.parent.is_dir() or output.is_relative_to('/mnt')
-            or any(output.is_relative_to(p if p.is_dir() else p.parent) or p.is_relative_to(output) for p in roots)):
+            or any(output.is_relative_to(p if p.is_dir() else p.parent) or p.is_relative_to(output) for p in roots)
+            or any(output.is_relative_to(p) or p.is_relative_to(output) for p in frozen)):
         raise ValueError('Fresh local output outside protected evidence required')
     stage=Path(tempfile.mkdtemp(prefix='.decision-stage-',dir=output.parent));stage.chmod(0o700)
     try:

@@ -1,2 +1,3 @@
 # Optional manual Sheets intake only; no google application-default credentials.
 google-auth[cryptography]>=2.40,<3
+requests>=2.32.4,<3

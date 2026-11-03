@@ -15,8 +15,13 @@ def load_ledger(path:Path,expected_sha:str,as_of:datetime) -> dict:
     if type(synthetic) is not bool:raise ValueError('Explicit synthetic/live provenance required')
     if not synthetic and binding.get('authorization_sha256') in (None,'0'*64):raise ValueError('Live permission provenance missing')
     report=analyze(snapshot,as_of)
+    # Preserve original observation content independently of today's freshness gates.
+    frames=snapshot['responses'].values()
+    times=[datetime.fromisoformat(v['observed_at']) for v in frames]
+    recorded_at=max(times) if times else as_of
+    report['historical_rows']=analyze(snapshot,recorded_at)['rows']
     if digest(path)!=expected_sha:raise ValueError('Ledger changed during read-only import')
-    report.update(schema=1,evidence_sha256=expected_sha,source_kind='SYNTHETIC' if synthetic else 'AUTHORIZED_LIVE',
+    report.update(protected_roots=binding['plan']['protected_roots'],handoff_sha256=binding['plan']['handoff_sha256'],schema=1,evidence_sha256=expected_sha,source_kind='SYNTHETIC' if synthetic else 'AUTHORIZED_LIVE',
                   source_code_sha256=binding['plan']['implementation_sha256'])
     return report
 

@@ -213,3 +213,14 @@ authorized observed evidence proves otherwise. Correct the misleading M76
 “unobserved intent” rationale in new documentation without changing its outputs.
 See [M77 operator handoff](M77_CONTROLLED_CATALOG_EXPANSION.md) and
 [validation audit](M77_SAFETY_AUDIT.md).
+
+M81: owner pilot readiness and archived code provenance; M82: exact saved-receipt
+profitability; M83: integrated offline dashboard/workbook and separate weekly observation
+history. These milestones remain proposals until reviewed/merged. Live Amazon acquisition,
+Walmart sourcing, purchases and deployment each require separate authorization; no
+historical catalog list price or synthetic result clears those gates.
+
+M84 prepares an independently reproducible, bytecode-free offline release, local
+configuration validation, read-only host preflight and isolated operational runbook.
+Target security remains NOT_TESTED until separately authorized host validation;
+artifact authentication, staging and deployment remain owner approval gates.
