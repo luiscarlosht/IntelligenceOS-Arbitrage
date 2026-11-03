@@ -1,0 +1,220 @@
+[
+  {
+    "asin": "B000000001",
+    "is_synthetic": true,
+    "identity": {
+      "amazon_product": {"brand": "Synthetic", "title": "Synthetic fixture", "gtin": "012345678905", "model": "TEST", "size": "one size", "pack_quantity": 1, "variation": "blue", "observed_at": "2026-11-03T16:00:00+00:00", "source_reference": "SYNTHETIC ONLY", "url": "https://www.amazon.com/dp/B000000001"},
+      "retailer_product": {"brand": "Synthetic", "title": "Synthetic fixture", "gtin": "012345678905", "model": "TEST", "size": "one size", "pack_quantity": 1, "variation": "blue", "observed_at": "2026-11-03T16:00:00+00:00", "source_reference": "SYNTHETIC ONLY", "url": "https://www.walmart.com/ip/123"}
+    },
+    "eligibility": {"status": "ELIGIBLE", "source": "SYNTHETIC ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "seller_documentation": {"value": true, "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "policy_checks": {"value": true, "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "monthly_sales": {"value": 50, "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "competing_offers": {"value": 5, "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "fba_eligible": {"value": true, "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00"},
+    "financials": {
+      "FBA": {
+        "conservative": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "5.40",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "5",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        },
+        "base": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "6.00",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "5",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        },
+        "optimistic": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "6.60",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "5",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBA",
+            "price_basis": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        }
+      },
+      "FBM": {
+        "conservative": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "5.40",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "7",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "36", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        },
+        "base": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "6.00",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "7",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "40", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        },
+        "optimistic": {
+          "purchase": {"value": "10", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "sales_tax": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "inbound_shipping": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "preparation": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "packaging": {"value": "0.5", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "other_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "referral_fee": {
+            "value": "6.60",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "fulfillment_fee": {
+            "value": "7",
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "currency": "USD",
+            "asin": "B000000001",
+            "condition": "New",
+            "mode": "FBM",
+            "price_basis": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"}
+          },
+          "storage": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "placement": {"value": "0.25", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "returns_allowance": {"value": "1", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "transaction_cost": {"value": "0", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD"},
+          "selling_price": {"value": "44", "source": "SYNTHETIC TEST ONLY", "observed_at": "2026-11-03T16:00:00+00:00", "currency": "USD", "asin": "B000000001", "condition": "New"}
+        }
+      }
+    }
+  }
+]

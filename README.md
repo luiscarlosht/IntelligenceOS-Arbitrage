@@ -245,3 +245,6 @@ Synthetic results and inventory proposals never authorize sourcing or purchases.
 The [M84 release runbook](docs/M84_DEPLOYMENT_PREPARATION.md) prepares verified,
 bytecode-free offline bundles and read-only preflight/configuration checks. It contains
 no deployment authorization or live API execution.
+
+Manual Amazon FBA/FBM evaluation and the `Amazon_Evaluation` tab: see
+[inspection, Fiskars approval block and exact preview/publication commands](docs/AMAZON_EVALUATION.md).
