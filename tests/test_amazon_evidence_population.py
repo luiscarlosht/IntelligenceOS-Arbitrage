@@ -52,6 +52,7 @@ def test_restrictions_preserved_and_no_rank_or_mixed_offer_conversion():
     result = report([row], 'owner', NOW)['records'][0]
     assert result['decision'] == 'BLOCKED'
     assert result['gaps']['demand'] and result['gaps']['competing_offers']
+    assert result['analysis']['market']['competing_offers']['value'] == 'UNKNOWN'
     assert result['analysis']['eligibility']['status'] == 'APPROVAL_REQUIRED'
 
 

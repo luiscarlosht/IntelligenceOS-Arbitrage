@@ -45,6 +45,16 @@ def prepare(record: dict, seller: str, now: datetime) -> tuple[dict, list[str]]:
             problems.extend(k for k, v in expected.items() if node.get(k) != v)
             if node.get('confidence') not in ('HIGH', 'MEDIUM', 'LOW'):
                 problems.append('confidence')
+            metric = path.removeprefix('market.')
+            if metric in ('monthly_sales', 'competing_offers'):
+                if type(node.get('value')) is not int or node['value'] < 0:
+                    problems.append('nonnegative_integer')
+                basis = node.get('basis')
+                supported = (basis == 'new_offer_count' if metric == 'competing_offers' else
+                    basis in ('authorized_sales', 'bought_past_month_lower_bound') or
+                    basis == 'validated_estimate' and known(node.get('model_validation_reference')))
+                if not supported:
+                    problems.append('supported_evidence_basis')
             if problems:
                 issues.extend(path+'.'+p for p in problems)
                 # Keep explicit restrictions even if stale or incompletely attributed.
