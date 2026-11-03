@@ -124,7 +124,7 @@ def prepare(handoff: Path, expected_sha: str, private: Path) -> dict:
         purchase_authorized=False, walmart_sourcing_authorized=False)
 
 
-def validate(plan: dict) -> None:
+def validate(plan: dict, *, current_code: bool = True) -> None:
     required = {'schema','operation_id','marketplace_id','condition','private_root','handoff_path','handoff_sha256',
                 'account_sha256','protected_roots','asins','targets','requests','budget','rates','maximum_seconds','implementation_sha256',
                 'purchase_authorized','walmart_sourcing_authorized'}
@@ -138,7 +138,12 @@ def validate(plan: dict) -> None:
             or not isinstance(plan['protected_roots'],list) or not plan['protected_roots']
             or any(not Path(root).is_absolute() or str(Path(root).resolve())!=root for root in plan['protected_roots'])
             or any(Path(plan['private_root']).resolve().is_relative_to(root) for root in plan['protected_roots'])
-            or plan['requests'] != definitions(plan['asins']) or plan['implementation_sha256'] != implementation()
+            or plan['requests'] != definitions(plan['asins'])
+            or not isinstance(plan['implementation_sha256'],dict) or not plan['implementation_sha256']
+            or any(not isinstance(k,str) or not k.endswith('.py') or '..' in Path(k).parts
+                   or Path(k).is_absolute() or not isinstance(v,str) or not re.fullmatch('[a-f0-9]{64}',v)
+                   for k,v in plan['implementation_sha256'].items())
+            or current_code and plan['implementation_sha256'] != implementation()
             or plan['purchase_authorized'] is not False or plan['walmart_sourcing_authorized'] is not False):
         raise ValueError('Exact M80 code/ASIN/request/budget contract required')
 

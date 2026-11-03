@@ -5,6 +5,8 @@ from decimal import Decimal, InvalidOperation
 from typing import Literal
 from app.m65_intelligence import US
 from app.observations import fingerprint
+from app.normalization import gtin
+from app.m65_intelligence import ASIN
 
 
 @dataclass(frozen=True)
@@ -23,6 +25,8 @@ class Catalog:
     brand: str | None
     model: str | None
     quantity: int | None
+    gtins: tuple[str, ...] = ()
+    parent_asins: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -99,8 +103,22 @@ def catalog(body: dict, asin: str) -> Catalog:
     if quantity is not None: integer(quantity,1)
     for key in ('brand','modelNumber'):
         if summary.get(key) is not None: text(summary[key])
+    identifiers=set(); parents=set()
+    for scoped in body.get('identifiers',[]):
+        if scoped.get('marketplaceId')!=US: raise ValueError('Identifier marketplace mismatch')
+        for item in scoped.get('identifiers',[]):
+            if item.get('identifierType') in ('UPC','EAN','GTIN'):
+                value=gtin(item.get('identifier'))
+                if not value: raise ValueError('Explicit valid GTIN required')
+                identifiers.add(value)
+    for scoped in body.get('relationships',[]):
+        if scoped.get('marketplaceId')!=US: raise ValueError('Relationship marketplace mismatch')
+        for relation in scoped.get('relationships',[]):
+            for parent in relation.get('parentAsins',[]):
+                if not isinstance(parent,str) or not ASIN.fullmatch(parent): raise ValueError('Valid variation parent ASIN required')
+                parents.add(parent)
     return Catalog(asin,tuple(ranks), None if classification is None else classification=='VARIATION_PARENT',
-                   summary.get('brand'),summary.get('modelNumber'),quantity)
+                   summary.get('brand'),summary.get('modelNumber'),quantity,tuple(sorted(identifiers)),tuple(sorted(parents)))
 
 
 def offers(body: dict, asin: str) -> Offers:
@@ -233,12 +251,22 @@ def analyze(snapshot: dict, now: datetime) -> dict:
                 prior=target.get(old,target.get('pack_quantity') if old=='quantity' else None)
                 if prior not in (None,'UNKNOWN') and current is not None and str(prior).strip().casefold()!=str(current).strip().casefold():
                     identity_issues.append('CHANGED_'+old.upper())
+        if observed_catalog and observed_catalog.gtins:
+            old_gtin=target.get('gtin')
+            if old_gtin not in (None,'UNKNOWN') and gtin(old_gtin) not in observed_catalog.gtins: identity_issues.append('CHANGED_GTIN')
+            if len(observed_catalog.gtins)>1: identity_issues.append('MULTIPLE_CURRENT_GTINS_REVIEW')
         row=dict(asin=asin, evidence_class='SYNTHETIC_TEST' if snapshot['binding'].get('synthetic') else 'AUTHORIZED_M80_OBSERVATION', marketplace=US, account_binding_sha256=plan['account_sha256'], condition='new_new',
             identity={key:target.get(key,'UNKNOWN') for key in ('brand','title','gtin','upc_values','model','quantity','size','variation')},
             provenance={str(s):{'observed_at':replies[s]['observed_at'],'source_sha256':replies[s]['source_sha256']} for s in (i+2,22,i+23) if s in replies}, ranks=[asdict(rank) for rank in ranks], category_relative_ranks=[],
             listing_permission=permission.status if permission else 'UNKNOWN',
             restriction_reasons=list(permission.reason_codes) if permission else [],
             total_offer_count=offer.total_count if offer and offer.total_count is not None else 'UNKNOWN',
+            current_gtins=list(observed_catalog.gtins) if observed_catalog else [],
+            variation_parent_asins=list(observed_catalog.parent_asins) if observed_catalog else [],
+            returned_offer_count=offer.returned_offers if offer and offer.returned_offers is not None else 'UNKNOWN',
+            offer_detail_coverage='UNKNOWN' if not offer or offer.returned_offers is None or offer.new_count is None else
+                'COMPLETE_REPORTED_NEW' if offer.returned_offers==offer.new_count else 'PARTIAL_OR_FILTERED_REPORTED',
+            confidence='SUPPORTED_OBSERVATIONS_ONLY' if ranks or offer or permission else 'UNKNOWN',
             new_offer_count=offer.new_count if offer and offer.new_count is not None else 'UNKNOWN',
             prices=[asdict(p) for p in offer.prices] if offer else [],
             buy_box_observed=True if offer and (offer.buy_box_winner_observed or any(p.basis=='buy_box_observed' and p.landed_usd for p in offer.prices)) else 'UNKNOWN',

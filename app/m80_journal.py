@@ -95,7 +95,7 @@ class Journal:
     def close(self) -> None: self.db.close()
 
 
-def inspect(path:Path) -> dict:
+def inspect(path:Path, *, historical: bool = False) -> dict:
     db=readonly(path)
     try:
         for table in ('operation','events'):
@@ -106,7 +106,7 @@ def inspect(path:Path) -> dict:
         if len(operations)!=1: raise ValueError('Single operation binding required')
         binding=json.loads(operations[0][0]); plan=binding['plan']
         from app.m80_contract import validate
-        validate(plan)
+        validate(plan, current_code=not historical)
         prior='0'*64; claimed=started=ended=False; attempts=[]; responses={}; status='UNCERTAIN_NO_REPLAY'
         for kind,slot,raw,previous,digest in db.execute('SELECT * FROM events ORDER BY rowid'):
             value=json.loads(raw)
