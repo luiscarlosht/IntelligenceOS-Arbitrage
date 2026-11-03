@@ -252,3 +252,7 @@ Manual Amazon FBA/FBM evaluation and the `Amazon_Evaluation` tab: see
 The [analysis engine MVP](docs/ANALYSIS_ENGINE_MVP.md) adds attributed market
 summaries, configurable thresholds, optional immutable snapshots and preview-bound
 computed Sheets output while reusing the existing evaluation engine.
+
+Amazon analysis now uses the [canonical Intake workbook](docs/CANONICAL_ANALYSIS_WORKBOOK.md).
+See migration risks and exact read-only DigitalOcean verification commands before
+considering any separately approved publication.

@@ -5,8 +5,10 @@ from typing import Protocol
 
 from app.amazon_evaluation import mapping
 from app.amazon_evaluation_sheets import HEADERS, seed, snapshot
-from app.amazon_research_queue import SOURCE
+from app.sheets_intake import SPREADSHEET as SOURCE
+from app.amazon_research_queue import TAB as QUEUE_TAB, candidates, index as queue_index, IDENTITY
 from app.sheets_publisher import index
+from app.observations import fingerprint
 
 MARKET_FIELDS = ('current_price', 'historical_30d', 'historical_90d', 'sales_rank',
                  'category', 'monthly_sales', 'competing_offers', 'price_volatility')
@@ -63,7 +65,14 @@ class SheetsEvidence:
 
     def records(self) -> list[dict]:
         self.client.select(SOURCE)
-        values = snapshot(self.client, self.client.metadata())
+        metadata = self.client.metadata()
+        if QUEUE_TAB not in {s['properties']['title'] for s in metadata['sheets']}:
+            raise ValueError('Required Amazon_Research_Queue tab missing')
+        queue = self.client.values(QUEUE_TAB)
+        queue_index(queue)
+        identities = candidates([IDENTITY] + [r[:len(IDENTITY)] for r in queue[1:] if any(r)])
+        values = snapshot(self.client, metadata)
+        self.snapshot_sha256 = fingerprint([queue, values])
         positions, _ = index(values, HEADERS)
         rows = []
         for asin, n in positions.items():
@@ -77,7 +86,9 @@ class SheetsEvidence:
             record['input_conflicts'] = [key for key in ('eligibility_status', 'approval_requirements')
                                         if str(row[HEADERS.index(key)]) != expected[HEADERS.index(key)]]
             rows.append(record)
-        return ManualAmazon(rows).records()
+        evidence = {r['asin']: r for r in rows}
+        # Queue cells establish identity only; never promote retailer research to facts.
+        return ManualAmazon([evidence.get(row[1], {'asin': row[1]}) for row in identities]).records()
 
 
 def legacy_market(record: dict) -> dict:

@@ -358,10 +358,14 @@ class SheetsClient:
         self.access = token.get('access_token')
         if not isinstance(self.access, str) or not self.access:
             raise ValueError('Invalid token response')
+        self.writable = writable
         self.base = 'https://sheets.googleapis.com/v4/spreadsheets/'+SPREADSHEET+'/values/'
 
     def request(self, suffix, payload=None):
-        req = Request(self.base.rstrip('/')+suffix if suffix.startswith(':') else self.base+suffix, data=None if payload is None else canonical(payload).encode(),
+        if payload is not None and not getattr(self, 'writable', False):
+            raise PermissionError('Read-only Sheets client cannot write')
+        url = self.base.rstrip('/')+suffix if suffix.startswith((':', '?')) else self.base+suffix
+        req = Request(url, data=None if payload is None else canonical(payload).encode(),
             headers={'Authorization':'Bearer '+self.access, 'Content-Type':'application/json'},
             method='GET' if payload is None else 'POST')
         with build_opener(ProxyHandler({}), NoRedirect()).open(req, timeout=15) as response:

@@ -93,6 +93,7 @@ class QueueClient(SheetsClient):
         self.base = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheet + '/'
 
     def metadata(self) -> dict:
+        # A query belongs on the spreadsheet resource, with no trailing slash.
         return self.request('?fields=spreadsheetId,sheets.properties')
 
     def values(self, tab: str) -> list:

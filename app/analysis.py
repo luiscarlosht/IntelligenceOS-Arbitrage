@@ -59,7 +59,7 @@ def main(argv=None):
         proposal=load(args.publish_preview)
         with Path('/tmp/arbitrage-analysis-publication.lock').open('a') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-            result=publish(client(True),proposal,datetime.now(timezone.utc))
+            result=publish(client(True),proposal,datetime.now(timezone.utc),approved=args.approved)
         output(args.output,result)
         return
     if args.approved or args.sheets and args.keepa_manual:

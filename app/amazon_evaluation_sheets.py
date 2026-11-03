@@ -7,7 +7,8 @@ from pathlib import Path
 from urllib.parse import quote
 
 from app.amazon_evaluation import UNKNOWN, evaluate
-from app.amazon_research_queue import QueueClient, SOURCE
+from app.amazon_research_queue import QueueClient
+from app.sheets_intake import SPREADSHEET as SOURCE
 from app.sheets_publisher import index, update
 from datetime import datetime, timezone
 
@@ -86,7 +87,7 @@ def snapshot(client, metadata):
 
 
 def publish(client, records, live=False):
-    client.select(SOURCE)  # Exact requested workbook; never Walmart intake workbook.
+    client.select(SOURCE)  # Canonical Intake workbook.
     metadata = client.metadata()
     existing = snapshot(client, metadata)
     requests = plan(records, metadata, existing)

@@ -1,5 +1,9 @@
 # Analysis engine MVP
 
+Workbook routing and preview schema are superseded by
+[canonical workbook integration](CANONICAL_ANALYSIS_WORKBOOK.md). Use its current
+read-only verification commands; historical acceptance below describes PR83.
+
 ## Existing functionality assessment (before implementation)
 
 PR 82 is merged. Its `amazon_evaluation` already supports FBA/FBM, three price

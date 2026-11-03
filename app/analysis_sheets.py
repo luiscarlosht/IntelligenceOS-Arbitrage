@@ -7,7 +7,7 @@ from app.analysis_adapters import ManualAmazon, SheetsEvidence
 from app.analysis_engine import analyze_record
 from app.observations import canonical, fingerprint
 from app.sheets_publisher import index, update
-from app.amazon_research_queue import SOURCE
+from app.sheets_intake import SPREADSHEET as SOURCE
 from urllib.parse import quote
 
 TAB = 'Amazon_Analysis'
@@ -70,20 +70,26 @@ def plan(reports: list[dict], meta: dict, existing: list) -> list[dict]:
 def preview(client, records: list[dict], now: datetime, policy: EvaluationPolicy = EvaluationPolicy(),
             from_sheets: bool = False) -> dict:
     client.select(SOURCE)
+    source_sha256 = None
     if from_sheets:
-        records=SheetsEvidence(client).records()
+        evidence = SheetsEvidence(client)
+        records = evidence.records()
+        source_sha256 = evidence.snapshot_sha256
     records=ManualAmazon(records).records()
     reports=[analyze_record(r,now,policy) for r in records]
     meta=client.metadata();existing=values(client,meta)
     requests=plan(reports,meta,existing)
-    return dict(schema='analysis_publication_preview_v1',workbook=SOURCE,
-        evaluated_at=now.isoformat(), from_sheets=from_sheets,records=records,reports=reports,
+    return dict(schema='analysis_publication_preview_v2',workbook=SOURCE,
+        evaluated_at=now.isoformat(), from_sheets=from_sheets, source_sha256=source_sha256,
+        records=records,reports=reports,
         policy=dict(minimum_profit=str(policy.minimum_profit),minimum_roi=str(policy.minimum_roi)),
         snapshot_sha256=fingerprint([meta,existing]), requests=requests)
 
 
-def publish(client, proposal: dict, now: datetime) -> dict:
-    if (proposal.get('schema') != 'analysis_publication_preview_v1' or proposal.get('workbook') != SOURCE
+def publish(client, proposal: dict, now: datetime, *, approved: bool = False) -> dict:
+    if not approved:
+        raise PermissionError('Explicit owner approval required')
+    if (proposal.get('schema') != 'analysis_publication_preview_v2' or proposal.get('workbook') != SOURCE
             or not timestamp(proposal.get('evaluated_at'),now,hours=0.25)):
         raise ValueError('Fresh fifteen-minute preview required')
     when=datetime.fromisoformat(proposal['evaluated_at'])
