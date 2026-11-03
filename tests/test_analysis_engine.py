@@ -143,9 +143,14 @@ def test_append_only_history_dedup_and_unrelated_db_preserved(tmp_path):
 
 class Client:
     def __init__(self):
-        self.meta=dict(sheets=[dict(properties=dict(title='Historical',sheetId=0))])
+        self.meta=dict(sheets=[dict(properties=dict(title='Historical',sheetId=0)),
+            dict(properties=dict(title='Amazon_Research_Queue',sheetId=1))])
         self.saved=[];self.writes=0
-    def select(self,book):assert book=='1FcbY7OLu5Vz50IehxuA23E6obwuxt6_SYtFgRUac0ps'
+    def values(self,tab):
+        from tests.test_amazon_research_queue import rows
+        from app.amazon_research_queue import HEADERS as QUEUE_HEADERS
+        return [QUEUE_HEADERS] + rows()
+    def select(self,book):assert book=='1q9TPwNTka_wzSo_T283LBP7iFpfAorR3_QYB19LKDHA'
     def metadata(self):return deepcopy(self.meta)
     def request(self,suffix,payload=None):
         if payload is None:return dict(values=deepcopy(self.saved))
@@ -163,23 +168,23 @@ def test_preview_publish_readback_and_sparse_upsert():
     client=Client();proposal=preview(client,[fiskars()],NOW)
     assert client.writes==0
     assert proposal['reports'][0]['decision']=='BLOCKED'
-    assert publish(client,proposal,NOW+timedelta(minutes=1))['mode']=='published'
+    assert publish(client,proposal,NOW+timedelta(minutes=1),approved=True)['mode']=='published'
     client.saved[0].append('manual');client.saved[1].append('preserve this')
     proposal=preview(client,[fiskars()],NOW)
     assert len(proposal['requests'])==1
-    publish(client,proposal,NOW)
+    publish(client,proposal,NOW,approved=True)
     assert len(client.saved)==2 and client.saved[1][-1]=='preserve this'
     assert all(r['updateCells']['start']['sheetId']!=0 for r in proposal['requests'])
 
 
 def test_changed_snapshot_expired_preview_and_tampering_never_write():
     client=Client();proposal=preview(client,[fiskars()],NOW)
-    with pytest.raises(ValueError):publish(client,proposal,NOW+timedelta(minutes=16))
+    with pytest.raises(ValueError):publish(client,proposal,NOW+timedelta(minutes=16),approved=True)
     proposal['reports'][0]['decision']='BUY_CANDIDATE'
-    with pytest.raises(ValueError):publish(client,proposal,NOW)
+    with pytest.raises(ValueError):publish(client,proposal,NOW,approved=True)
     proposal=preview(client,[fiskars()],NOW)
     client.meta['sheets'][0]['properties']['title']='changed'
-    with pytest.raises(ValueError):publish(client,proposal,NOW)
+    with pytest.raises(ValueError):publish(client,proposal,NOW,approved=True)
     assert client.writes==0
 
 
@@ -205,9 +210,9 @@ def test_sheets_adapter_preserves_conflicts_and_fails_closed():
     client.meta['sheets'].append(dict(properties=dict(title='Amazon_Evaluation',sheetId=106,
         gridProperties=dict(rowCount=2002,columnCount=24))))
     client.saved=[INPUT_HEADERS,seed(fiskars())]
-    assert SheetsEvidence(client).records()[0]['asin']=='B000YZASYO'
+    assert next(r for r in SheetsEvidence(client).records() if r['asin']=='B000YZASYO')['asin']=='B000YZASYO'
     client.saved[1][INPUT_HEADERS.index('eligibility_status')]='ELIGIBLE'
-    report=analyze_record(SheetsEvidence(client).records()[0],NOW)
+    report=analyze_record(next(r for r in SheetsEvidence(client).records() if r['asin']=='B000YZASYO'),NOW)
     assert report['decision']=='BLOCKED'
     assert report['input_evidence']['input_conflicts']==['eligibility_status']
 
@@ -218,7 +223,7 @@ def test_publication_rechecks_input_freshness_at_current_time():
     record['eligibility']['observed_at']=(NOW-timedelta(hours=24)+timedelta(minutes=1)).isoformat()
     client=Client();proposal=preview(client,[record],NOW)
     assert proposal['reports'][0]['decision']=='BUY_CANDIDATE'
-    with pytest.raises(ValueError,match='expired'):publish(client,proposal,NOW+timedelta(minutes=2))
+    with pytest.raises(ValueError,match='expired'):publish(client,proposal,NOW+timedelta(minutes=2),approved=True)
     assert client.writes==0
 
 
