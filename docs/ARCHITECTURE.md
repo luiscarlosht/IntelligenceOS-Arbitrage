@@ -318,3 +318,11 @@ observations through the existing M70 adapter and validates the original M76 bas
 The guarded offline wrapper rejects network and credential reads. See
 [M77 operator controls](M77_CONTROLLED_CATALOG_EXPANSION.md) and
 [safety audit](M77_SAFETY_AUDIT.md). No runtime selector, schedule or deployment changes.
+
+M81–M83 downstream decision support reads owner-pinned original M80 journals without
+relaxing live code pins. `sales_evidence`, `opportunity_engine` and `decision_pipeline`
+separate provenance/freshness, conservative exact-match Decimal economics, and private
+report publication. `decision_history` owns a distinct append-only derived SQLite database;
+it never writes acquisition ledgers or the M77 registry. `decision_workbook` exposes
+category-scoped evidence and auditable formulas, while JSON preserves unrounded gates.
+Network/process audit guards supplement, but do not replace, OS isolation.

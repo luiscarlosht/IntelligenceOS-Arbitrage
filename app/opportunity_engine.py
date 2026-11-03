@@ -17,7 +17,7 @@ def amount(value) -> Decimal:
     if isinstance(value,bool) or value in (None,'',UNKNOWN):raise ValueError('Explicit USD amount required')
     try:result=Decimal(str(value))
     except InvalidOperation:raise ValueError('Invalid amount') from None
-    if not result.is_finite() or result<0:raise ValueError('Finite nonnegative amount required')
+    if not result.is_finite() or result<0 or result>Decimal('1000000000') or abs(result.as_tuple().exponent)>18:raise ValueError('Finite nonnegative amount required')
     return result
 
 
@@ -61,11 +61,13 @@ def evaluate(amazon:dict, quote:dict, fees:dict, risks:dict, now:datetime, *, sy
         if url.scheme!='https' or url.hostname not in ('www.walmart.com','walmart.com') or url.username or url.password or url.port not in (None,443):
             raise ValueError('Saved Walmart HTTPS product quote required')
         if quote.get('identity_verified') is not True:raise ValueError('Independent identity review required')
-        a=amazon.get('identity',{});q=quote.get('identity',{})
+        prior=amazon.get('identity',{});a=risks.get('verified_amazon_identity');q=quote.get('identity',{})
+        if not isinstance(a,dict):raise ValueError('Independent exact Amazon identity review required')
+        for key in ('gtin',*IDENTITY):
+            if known(prior.get(key)) and a.get(key)!=prior[key]:raise ValueError('Reviewed Amazon identity contradicts frozen '+key)
         observed_identity=amazon.get('catalog_identity',{})
         for key in ('brand','model','quantity'):
             if not known(observed_identity.get(key)) or observed_identity[key]!=a.get(key):raise ValueError('Current catalog '+key+' verification required')
-        if risks.get('verified_amazon_identity')!=a:raise ValueError('Independent exact Amazon variation/size review required')
         av=gtin(a.get('gtin') if known(a.get('gtin')) else '')
         current=amazon.get('current_gtins',[])
         if not av or current!=[av] or gtin(q.get('gtin',''))!=av:raise ValueError('Exact current checksum-valid GTIN required')

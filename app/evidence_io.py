@@ -57,7 +57,11 @@ def offline(reads=(),writes=()):
                 readonly=value.startswith('file:') and parse_qs(parsed.query).get('mode')==['ro'] and path in read_paths
                 if not readonly and not any(path.is_relative_to(root) for root in write_roots):
                     raise PermissionError('SQLite writes outside owned history forbidden')
-            if event in ('open','os.mkdir','os.remove','os.rename','os.symlink','os.link') and args and isinstance(args[0],(str,bytes,os.PathLike)):
+            if event in ('os.symlink','os.link'):raise PermissionError('Offline outputs forbid symlinks/hardlinks')
+            if event=='os.rename':
+                destination=Path(os.fsdecode(args[1])).resolve()
+                if not any(destination.is_relative_to(root) for root in write_roots):raise PermissionError('Rename outside owned outputs forbidden')
+            if event in ('open','os.mkdir','os.remove','os.rename','os.rmdir','os.chmod','os.utime','os.truncate') and args and isinstance(args[0],(str,bytes,os.PathLike)):
                 path=Path(os.fsdecode(args[0])).resolve()
                 is_code=path.suffix in ('.py','.pyc') and path.is_relative_to(Path(__file__).resolve().parent)
                 if SENSITIVE.search(str(path)) and not is_code:raise PermissionError('Private authority access forbidden')
