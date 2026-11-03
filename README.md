@@ -238,3 +238,6 @@ See [owner readiness](docs/M81_READINESS.md), [conservative economics](docs/M82_
 and [integrated reporting](docs/M83_DECISION_PIPELINE.md). A fictional workbook can be generated
 with `python -B -m app.decision_demo --output /tmp/intelligence-fictional-demo`.
 Synthetic results and inventory proposals never authorize sourcing or purchases.
+The [M84 release runbook](docs/M84_DEPLOYMENT_PREPARATION.md) prepares verified,
+bytecode-free offline bundles and read-only preflight/configuration checks. It contains
+no deployment authorization or live API execution.

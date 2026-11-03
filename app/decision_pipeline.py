@@ -1,5 +1,8 @@
 """Offline pinned Amazon-ledger + saved-receipt decision reporting. No acquisition clients."""
 import argparse
+import json
+import sqlite3
+import sys
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from app.evidence_io import digest,offline,pinned,publication,json_write,safe
@@ -124,8 +127,12 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('manifest','output','history'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--manifest-sha256',required=True);p.add_argument('--as-of',required=True)
-    a=p.parse_args(argv);report=run(a.manifest,a.manifest_sha256,a.output,a.history,datetime.fromisoformat(a.as_of))
+    a=p.parse_args(argv)
+    try:report=run(a.manifest,a.manifest_sha256,a.output,a.history,datetime.fromisoformat(a.as_of))
+    except (ValueError,OSError,sqlite3.Error) as exc:
+        print(json.dumps(dict(status='FAIL_CLOSED',error_type=type(exc).__name__)),file=sys.stderr);return 1
     print('OFFLINE_DECISION_COMPLETE: '+str(report['executive']['asins'])+' ASINs; '+report['source_kind']+'; 0 live requests; proposals only')
+    return 0
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':raise SystemExit(main())
