@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import pwd
+import shutil
 import stat
 import subprocess
 
@@ -118,6 +119,16 @@ def migrate(base: Path, expected: dict[str, str], probe: Path, uid: int,
         secure(target_probe)
         if not target_probe.is_file() or digest(target_probe) != digest(probe):
             raise ValueError('existing probe differs; no overwrite permitted')
+    needed = 0
+    for name, wanted in planned.items():
+        for relative in wanted:
+            if not (base / name / relative).exists():
+                source = base / (relative if name == 'code' else 'dependencies/' + relative)
+                needed += source.stat().st_size
+    if not target_probe.exists():
+        needed += probe.stat().st_size
+    if shutil.disk_usage(base).free < needed + 256 * 1024 * 1024:
+        raise ValueError('insufficient free space for copies plus 256 MiB safety reserve')
     if apply:
         for name in ('root', 'code', 'deps'):
             (base / name).mkdir(mode=0o755, exist_ok=True)
@@ -170,6 +181,8 @@ def main() -> None:
                           capture_output=True, check=False)
     if idle.returncode != 1:
         parser.error('service account must have no active processes; do not kill jobs automatically')
+    if args.apply:
+        os.umask(0o022)  # New directories remain traversable by the service UID.
     print(json.dumps(migrate(BASE, manifest(args.manifest), Path(__file__).with_name('probe.py'),
                              account.pw_uid, args.apply), sort_keys=True))
 
