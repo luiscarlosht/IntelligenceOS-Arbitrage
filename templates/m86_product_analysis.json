@@ -1,0 +1,10 @@
+{
+  "schema": "walmart_product_analysis_input_v1",
+  "expected_candidates": 6,
+  "recovery_blockers": [
+    "Original six-candidate batch membership has not been recovered reliably. Supply original source record IDs and saved artifacts before populating candidates.",
+    "Do not substitute the independent 20-ASIN research cohort, illustrative fixtures, or an arbitrary subset of older Walmart populations."
+  ],
+  "source_inventory": [],
+  "candidates": []
+}

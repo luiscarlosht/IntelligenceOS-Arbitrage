@@ -260,3 +260,12 @@ considering any separately approved publication.
 [M85 Amazon evidence population](docs/M85_AMAZON_EVIDENCE_POPULATION.md) adds
 eligibility-first per-ASIN gap reports, scoped manual templates, coverage counts,
 and separate read-only evaluation seed proposals. It performs no workbook writes.
+
+## M86 independent Walmart product research
+
+`python -m app.product_analysis --input templates/m86_product_analysis.json --output /tmp/m86-review`
+creates private JSON/Excel reports without provider requests or workbook writes.
+Financial and market assessments are independent of selling eligibility; buying
+remains gated. The template records the unrecovered six-candidate source gap and
+produces zero invented products. See [audit and input contract](docs/M86_PRODUCT_ANALYSIS.md),
+[Amazon coverage](docs/M86_AMAZON_COVERAGE.md) and [provider assessment](docs/M86_PROVIDER_ASSESSMENT.md).
