@@ -337,3 +337,11 @@ actual target security and all host changes require separate approval.
 M87: `walmart_evidence` imports pinned six-row Walmart batches or saved Agent exports,
 normalizes to M86 and emits safe local reports plus a nonexecuting SP-API preview.
 See [M87 evidence integration](M87_EVIDENCE_INTEGRATION.md). No provider is enabled.
+
+## M88 browser intake
+
+`app.walmart_intake` validates six human-reviewed local browser observations in
+M87's batch schema, including canonical Walmart URLs, price/pack/variant/seller,
+aware fresh timestamps and SHA256-pinned local evidence. It publishes a private
+M87 batch offline; Amazon evidence and missing costs remain unknown. Existing M88
+ledgers/reports are untouched. See [procedure](M88_BROWSER_INTAKE.md).

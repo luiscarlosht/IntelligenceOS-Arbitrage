@@ -1,0 +1,249 @@
+{
+  "schema": "walmart_pilot_batch_v1",
+  "name": "m88-real-six-pilot",
+  "batch_kind": "NEW_PILOT",
+  "purchase_authorized": false,
+  "other_cost_basis": "excludes_retailer_shipping",
+  "observations": [
+    {
+      "source_candidate_id": "m88-browser:1",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNVERIFIED_LEAD_ONLY",
+        "walmart_item_id": "13952053139",
+        "url": "https://www.walmart.com/ip/13952053139"
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    },
+    {
+      "source_candidate_id": "m88-browser:2",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNVERIFIED_LEAD_ONLY",
+        "walmart_item_id": "17011265",
+        "url": "https://www.walmart.com/ip/17011265"
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    },
+    {
+      "source_candidate_id": "m88-browser:3",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNVERIFIED_LEAD_ONLY",
+        "walmart_item_id": "37481849",
+        "url": "https://www.walmart.com/ip/37481849"
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    },
+    {
+      "source_candidate_id": "m88-browser:4",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNVERIFIED_LEAD_ONLY",
+        "walmart_item_id": "47070933",
+        "url": "https://www.walmart.com/ip/47070933"
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    },
+    {
+      "source_candidate_id": "m88-browser:5",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNVERIFIED_LEAD_ONLY",
+        "walmart_item_id": "721324153",
+        "url": "https://www.walmart.com/ip/721324153"
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    },
+    {
+      "source_candidate_id": "m88-browser:6",
+      "human_reviewed": false,
+      "reviewer": null,
+      "research_lead": {
+        "status": "UNSPECIFIED",
+        "walmart_item_id": null,
+        "url": null
+      },
+      "walmart_product": {
+        "walmart_item_id": null,
+        "url": null,
+        "title": null,
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": null,
+        "variation": null,
+        "seller": null,
+        "shipping_availability": null,
+        "observed_at": null,
+        "source_reference": null
+      },
+      "acquisition": {
+        "purchase": {
+          "value": null,
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": null,
+          "currency": "USD"
+        }
+      },
+      "source_evidence": {
+        "path": null,
+        "sha256": null,
+        "description": null
+      }
+    }
+  ]
+}

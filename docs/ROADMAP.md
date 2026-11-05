@@ -228,3 +228,9 @@ artifact authentication, staging and deployment remain owner approval gates.
 M87 prepares offline six-product Walmart evidence integration with M86, explicit
 new-batch identity, saved Agent exports and bounded Amazon request previews.
 Fresh collection and a reviewed approval-bound live executor remain separate gates.
+
+M88 adds a source-only human-reviewed browser intake and six-row blank template
+with five explicitly unverified historical leads. Offline validation publishes
+M87-compatible input without network access or Amazon budget changes. Real source
+observations and exact Amazon matching remain outstanding. See
+[browser intake](M88_BROWSER_INTAKE.md).
