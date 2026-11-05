@@ -288,3 +288,10 @@ M89 DigitalOcean preparation adds protected environment configuration, exact
 12/49 ledger transfer validation, DNS/TCP/TLS-only preflight and an explicitly
 opted-in, single-use authentication command. Deployment and live validation remain
 operator gates. See [deployment readiness](M89_DIGITALOCEAN_DEPLOYMENT.md).
+
+M90 read-only validation preparation: one Catalog Items GET for B001BE12BA,
+US summaries only, with full M89 ledger continuation and charged attempt 14.
+Implementation and synthetic tests do not establish live readiness. Production
+13-attempt hash, seller permissions, shared lock and a fresh token broker remain
+blockers; no authentication, deployment, main merge or live execution authorized.
+See [M90 preparation](M90_SP_API_VALIDATION.md).
