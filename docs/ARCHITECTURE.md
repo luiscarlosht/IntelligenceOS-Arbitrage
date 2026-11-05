@@ -363,3 +363,13 @@ then compares retained barcode/brand/model/size/pack observations offline. Textu
 triage is separate from exact matching; pack contents and sellable-package counts
 remain distinct. It emits a per-product gap report and Browser Use checklist
 without source, ledger or credential writes. See [evidence limits and procedure](M88_IDENTITY_ENRICHMENT.md).
+
+## M88 enriched-source reconciliation
+
+`app.m88_reconcile` pins the new Browser Use JSON and original 7/49 search receipts,
+compares barcode/model/MPN/brand/variant/package evidence, and classifies research
+pairings without promoting incomplete identities. Required source exceptions,
+agent-versus-human flags and screenshot references remain explicit. It reuses
+M87/M86 for new private financial reports, preserving old price observations and
+leaving unsupported profitability unknown. No transport or ledger writer is used.
+See [classification and actual results](M88_ENRICHED_RECONCILIATION.md).

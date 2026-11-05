@@ -247,3 +247,10 @@ ASINs offline before additional calls. Preserve all source evidence and 7/49 led
 produce per-product barcode/variant/package gaps and a prioritized ordinary-browser
 handoff. Three textual leads remain unverified; no compatible lead is established
 for the other three cohorts. See [offline identity comparison](M88_IDENTITY_ENRICHMENT.md).
+
+M88 enriched reconciliation imported a second authentic six-row Browser Use JSON
+and compared all 60 saved pairs offline: 0 exact, 34 rejected, 26 needing review.
+No additional Amazon requests; cumulative accounting remains 7/49 COMPLETE.
+Required source conflicts, missing screenshots and model/package ambiguities block
+acceptance and supported profitability. New M86 JSON/Excel and missing-data reports
+preserve the original evidence. See [reconciliation](M88_ENRICHED_RECONCILIATION.md).
