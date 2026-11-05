@@ -333,3 +333,7 @@ never installs into M78. Runtime entry verifies its externally reviewed manifest
 imports under Python `-I -S -B`. Code is proposed read-only on the dedicated volume;
 new owner-private state/reports remain outside `/mnt`. Kernel isolation, OS trust,
 actual target security and all host changes require separate approval.
+
+M87: `walmart_evidence` imports pinned six-row Walmart batches or saved Agent exports,
+normalizes to M86 and emits safe local reports plus a nonexecuting SP-API preview.
+See [M87 evidence integration](M87_EVIDENCE_INTEGRATION.md). No provider is enabled.
