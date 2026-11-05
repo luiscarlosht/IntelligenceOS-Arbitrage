@@ -1,0 +1,34 @@
+{
+  "status": "INCOMPLETE",
+  "original_six_recovered": 0,
+  "inventory": [
+    {
+      "path": "/root/IntelligenceOS-Arbitrage/var/walmart-browser-2026-10-28/observations.json",
+      "sha256": "af2fde8f2fbde4f282c756428f21f8f8cb23ad2a90ae07511b955e5aa6d1b687",
+      "mtime_ns": 1793212553718043641,
+      "population": 0,
+      "finding": "No reliable original six-member designation; source unchanged"
+    },
+    {
+      "path": "/root/IntelligenceOS-Arbitrage/var/walmart-amazon-review-20261028/comparison-summary.json",
+      "sha256": "7e0f7300dde9fab144e30da0ce7167183697214bd130fdac9f3f140ebac3b9e3",
+      "mtime_ns": 1793217918822461604,
+      "population": 10,
+      "finding": "No reliable original six-member designation; source unchanged"
+    },
+    {
+      "path": "/root/IntelligenceOS-Arbitrage/var/walmart-identity-shortlist-20261029/identity-shortlist.json",
+      "sha256": "046c6281446f9d0cea686e3d307544548ecb99b1c9520ba9d4a66ad935ab36ef",
+      "mtime_ns": 1793232073505666929,
+      "population": 8,
+      "finding": "No reliable original six-member designation; source unchanged"
+    },
+    {
+      "path": "/root/IntelligenceOS-Arbitrage/var/sheets-amazon-five-offline-20261030/source-audit.json",
+      "sha256": "7a4eddc43f888308482c9d9647f557c288b384d969ff30399e59281605cfc8a8",
+      "mtime_ns": 1793325027723680752,
+      "population": 5,
+      "finding": "No reliable original six-member designation; source unchanged"
+    }
+  ]
+}

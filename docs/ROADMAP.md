@@ -224,3 +224,7 @@ M84 prepares an independently reproducible, bytecode-free offline release, local
 configuration validation, read-only host preflight and isolated operational runbook.
 Target security remains NOT_TESTED until separately authorized host validation;
 artifact authentication, staging and deployment remain owner approval gates.
+
+M87 prepares offline six-product Walmart evidence integration with M86, explicit
+new-batch identity, saved Agent exports and bounded Amazon request previews.
+Fresh collection and a reviewed approval-bound live executor remain separate gates.

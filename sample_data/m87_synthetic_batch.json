@@ -1,0 +1,4123 @@
+{
+  "schema": "walmart_pilot_batch_v1",
+  "batch_kind": "SYNTHETIC_DEMO",
+  "other_cost_basis": "excludes_retailer_shipping",
+  "observations": [
+    {
+      "source_candidate_id": "SYNTHETIC:1",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 1",
+        "gtin": "012345678011",
+        "model": "SYNTHETIC-1",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000001",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000001",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000001",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 1",
+          "gtin": "012345678011",
+          "model": "SYNTHETIC-1",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000001",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000001",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000001",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000001",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    },
+    {
+      "source_candidate_id": "SYNTHETIC:2",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 2",
+        "gtin": "012345678028",
+        "model": "SYNTHETIC-2",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000002",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000002",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000002",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 2",
+          "gtin": "012345678028",
+          "model": "SYNTHETIC-2",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000002",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000002",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000002",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000002",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    },
+    {
+      "source_candidate_id": "SYNTHETIC:3",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 3",
+        "gtin": "012345678035",
+        "model": "SYNTHETIC-3",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000003",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000003",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000003",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 3",
+          "gtin": "012345678035",
+          "model": "SYNTHETIC-3",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000003",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000003",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000003",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000003",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    },
+    {
+      "source_candidate_id": "SYNTHETIC:4",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 4",
+        "gtin": "012345678042",
+        "model": "SYNTHETIC-4",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000004",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000004",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000004",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 4",
+          "gtin": "012345678042",
+          "model": "SYNTHETIC-4",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000004",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000004",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000004",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000004",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    },
+    {
+      "source_candidate_id": "SYNTHETIC:5",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 5",
+        "gtin": "012345678059",
+        "model": "SYNTHETIC-5",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000005",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000005",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000005",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 5",
+          "gtin": "012345678059",
+          "model": "SYNTHETIC-5",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000005",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000005",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000005",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000005",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    },
+    {
+      "source_candidate_id": "SYNTHETIC:6",
+      "walmart_product": {
+        "brand": "Synthetic",
+        "title": "SYNTHETIC demonstration product 6",
+        "gtin": "012345678066",
+        "model": "SYNTHETIC-6",
+        "size": "one size",
+        "pack_quantity": 1,
+        "variation": "blue",
+        "observed_at": "2026-11-03T16:00:00+00:00",
+        "source_reference": "SYNTHETIC saved reference",
+        "url": "https://www.walmart.com/ip/900000006",
+        "confidence": "HIGH",
+        "walmart_item_id": "900000006",
+        "verified": true
+      },
+      "acquisition": {
+        "purchase": {
+          "value": "10",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "retailer_shipping": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC shipping"
+        },
+        "sales_tax": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "inbound_shipping": {
+          "value": "1",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "preparation": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "packaging": {
+          "value": "0.5",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        },
+        "other_cost": {
+          "value": "0",
+          "source": "SYNTHETIC TEST ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "currency": "USD",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      },
+      "amazon": {
+        "asin": "B000000006",
+        "product": {
+          "brand": "Synthetic",
+          "title": "SYNTHETIC demonstration product 6",
+          "gtin": "012345678066",
+          "model": "SYNTHETIC-6",
+          "size": "one size",
+          "pack_quantity": 1,
+          "variation": "blue",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "source_reference": "SYNTHETIC saved reference",
+          "url": "https://www.amazon.com/dp/B000000006",
+          "confidence": "HIGH",
+          "verified": true
+        },
+        "financials": {
+          "FBA": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "5",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBA",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          },
+          "FBM": {
+            "conservative": {
+              "referral_fee": {
+                "value": "5.40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "36",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "36",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "base": {
+              "referral_fee": {
+                "value": "6.00",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "40",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "40",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            },
+            "optimistic": {
+              "referral_fee": {
+                "value": "6.60",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "fulfillment_fee": {
+                "value": "7",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "mode": "FBM",
+                "price_basis": {
+                  "value": "44",
+                  "source": "SYNTHETIC TEST ONLY",
+                  "observed_at": "2026-11-03T16:00:00+00:00",
+                  "currency": "USD",
+                  "confidence": "HIGH",
+                  "verified": true,
+                  "source_reference": "SYNTHETIC saved reference"
+                },
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "storage": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "placement": {
+                "value": "0.25",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "returns_allowance": {
+                "value": "1",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "transaction_cost": {
+                "value": "0",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              },
+              "selling_price": {
+                "value": "44",
+                "source": "SYNTHETIC TEST ONLY",
+                "observed_at": "2026-11-03T16:00:00+00:00",
+                "currency": "USD",
+                "asin": "B000000006",
+                "condition": "New",
+                "confidence": "HIGH",
+                "verified": true,
+                "source_reference": "SYNTHETIC saved reference"
+              }
+            }
+          }
+        },
+        "market": {
+          "monthly_sales": {
+            "value": 50,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "authorized_sales",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000006",
+            "marketplace": "ATVPDKIKX0DER"
+          },
+          "competing_offers": {
+            "value": 5,
+            "source": "SYNTHETIC TEST ONLY",
+            "observed_at": "2026-11-03T16:00:00+00:00",
+            "confidence": "HIGH",
+            "condition": "New",
+            "basis": "new_offer_count",
+            "verified": true,
+            "source_reference": "SYNTHETIC saved reference",
+            "asin": "B000000006",
+            "marketplace": "ATVPDKIKX0DER"
+          }
+        },
+        "eligibility": {
+          "status": "UNKNOWN",
+          "source": "SYNTHETIC ONLY",
+          "observed_at": "2026-11-03T16:00:00+00:00",
+          "confidence": "HIGH",
+          "verified": true,
+          "source_reference": "SYNTHETIC saved reference"
+        }
+      }
+    }
+  ]
+}

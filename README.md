@@ -269,3 +269,7 @@ Financial and market assessments are independent of selling eligibility; buying
 remains gated. The template records the unrecovered six-candidate source gap and
 produces zero invented products. See [audit and input contract](docs/M86_PRODUCT_ANALYSIS.md),
 [Amazon coverage](docs/M86_AMAZON_COVERAGE.md) and [provider assessment](docs/M86_PROVIDER_ASSESSMENT.md).
+
+M87 adds [offline Walmart-to-Amazon evidence integration](docs/M87_EVIDENCE_INTEGRATION.md):
+six-row saved Agent imports, explicit new batches, M86 normalization/reports and
+candidate-specific Amazon request previews. Live execution remains disabled.
