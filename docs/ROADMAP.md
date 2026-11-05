@@ -234,3 +234,10 @@ with five explicitly unverified historical leads. Offline validation publishes
 M87-compatible input without network access or Amazon budget changes. Real source
 observations and exact Amazon matching remain outstanding. See
 [browser intake](M88_BROWSER_INTAKE.md).
+
+M88 executor: a separate owner-invoked read-only 31-attempt conditional SP-API
+pilot, cumulative ceiling 49, durable pre-dispatch accounting and no replay.
+Unresolved source identities remain unresolved; offers/fees require exact matches.
+Offline synthetic tests cover failures, interruption, accounting and reports.
+See [executor handoff](M88_AMAZON_EXECUTOR.md). Live results belong to private
+versioned reports; implementation alone is not proof of successful acquisition.

@@ -345,3 +345,13 @@ M87's batch schema, including canonical Walmart URLs, price/pack/variant/seller,
 aware fresh timestamps and SHA256-pinned local evidence. It publishes a private
 M87 batch offline; Amazon evidence and missing costs remain unknown. Existing M88
 ledgers/reports are untouched. See [procedure](M88_BROWSER_INTAKE.md).
+
+## M88 bounded SP-API research executor
+
+`app.m88` combines existing TLS/pacing/catalog/pricing/fee parsers with an explicit
+31-attempt conditional plan and the original cumulative 49-attempt JSON ledger.
+Atomic fsync reservations precede dispatch; exclusive account/ledger locks and a
+permanent cohort claim prevent replay. `m88_evidence` requires exact verified
+source and Amazon identity before offers/fees. `recover` is credential-free and
+report-only, reusing M87/M86 with unknowns and hypothetical sale-price bases.
+See [scope, credentials and recovery](M88_AMAZON_EXECUTOR.md).
