@@ -24,6 +24,7 @@ from app.provider_contracts import Evidence
 from app.provider_runtime import ProviderFailure
 from app.ops_notifications import NoRedirect
 from app.amazon_pacing import OperationPacer
+from app.amazon_transport_diagnostics import classify_transport
 
 DIRECTORY = Path.home() / '.intelligenceos-arbitrage-amazon'
 FIELDS = ('client_id', 'client_secret', 'refresh_token')
@@ -155,11 +156,16 @@ def _request_json(request: Request) -> dict:
     """Verified TLS, no proxies/redirects/retries; only safe HTTP/code metadata."""
     status = None
     rate_headers = {}
+    stage = 'tls_context'
     try:
-        opener = build_opener(ProxyHandler({}), NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
+        context = ssl.create_default_context()
+        stage = 'opener'
+        opener = build_opener(ProxyHandler({}), NoRedirect(), HTTPSHandler(context=context))
+        stage = 'open'
         with opener.open(request, timeout=10) as response:
             status = response.status
             rate_headers = dict(getattr(response, 'headers', {}) or {})
+            stage = 'read'
             if status != 200:
                 body = response.read(MAX_ERROR_BYTES + 1)
                 raise AmazonFailure('Amazon response rejected', reason='http_error', http_status=status,
@@ -193,8 +199,10 @@ def _request_json(request: Request) -> dict:
     except AmazonFailure as error:
         error.rate_headers = rate_headers
         raise
-    except Exception:
-        raise AmazonFailure('Amazon transport or response failed', reason='transport_error', http_status=status) from None
+    except Exception as error:
+        failure = AmazonFailure('Amazon transport or response failed', reason='transport_error', http_status=status)
+        failure.transport_diagnostics = classify_transport(error, stage)
+        raise failure from None
 
 
 def exchange_token(credentials: dict, transport=request_json) -> str:

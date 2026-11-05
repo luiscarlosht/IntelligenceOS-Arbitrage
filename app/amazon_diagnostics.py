@@ -76,6 +76,8 @@ def failure_metadata(error: BaseException) -> dict:
                     reason=error.reason if error.reason in FAILURE_REASONS else 'operation_failed')
         if error.validation_label in LABELS:
             data['validation_label'] = error.validation_label
+        if error.reason == 'transport_error' and hasattr(error, 'transport_diagnostics'):
+            data['transport'] = error.transport_diagnostics
     if getattr(error, 'pacing', None):
         data['pacing'] = error.pacing
     return data

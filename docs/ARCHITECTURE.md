@@ -1,5 +1,11 @@
 # Architecture
 
+M89's offline authentication-readiness command prohibits DNS/connections/HTTP,
+checks unconnected sockets and TLS configuration, and preserves prior evidence.
+The shared adapter now retains sanitized nested transport category/errno/stage.
+The current sandbox denies Internet socket creation; no application network
+bypass or live retry is added. See [diagnosis](M89_AUTHENTICATION_DIAGNOSIS.md).
+
 M89 now has a separate bounded Walmart research continuation that reuses saved
 Catalog evidence, appends to the original cumulative Amazon ledger and recovers
 M86 reports without replaying failed calls. See

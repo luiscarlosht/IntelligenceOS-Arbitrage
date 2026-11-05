@@ -1,5 +1,12 @@
 # Roadmap
 
+- M89 offline authentication diagnosis: local Internet socket creation reproduces
+  EPERM in the restricted runtime; historical nested exception was not retained.
+  Added sanitized transport diagnostics and an offline readiness report. No new
+  Amazon attempts: 12/49 used, 37 remaining. A future retry requires approved
+  network access and a separate authorized scope; see
+  [authentication diagnosis](M89_AUTHENTICATION_DIAGNOSIS.md).
+
 - M89 Walmart continuation: imported authorized Drive research; independently
   checked saved Catalog identity for B001BE12BA; preserved dimensional/core-size
   caveats and both UPC-conflict NEEDS_REVIEW rows. Bounded read-only executor and
