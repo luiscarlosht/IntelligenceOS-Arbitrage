@@ -87,9 +87,11 @@ Keep the existing `/current` symlink and offline release unchanged.
 
 ## Preflight
 
-From the reviewed release directory on the VM:
+From the reviewed release directory on the VM (disable core dumps before any
+command reads credential configuration):
 
 ```bash
+ulimit -c 0
 runuser -u intelligenceos-arbitrage -- .venv/bin/python -m app.m89_deployment preflight \
   --ledger /var/lib/intelligenceos-arbitrage/m89/ledger.json \
   --env-file /etc/intelligenceos-arbitrage/m89/live.env --offline
@@ -166,5 +168,8 @@ its hash/count back to the source before any further separately approved work.
 - Actual authoritative ledger copied locally to a protected temporary directory
   and hash-verified; source remained unchanged at 12/49. No credentials read.
 - Legacy and discovery sample modes succeeded; `git diff --check` passed.
-- Full repository regression results are recorded in the implementation handoff.
-  No host, Docker or live API validation is implied by these offline checks.
+- Full repository regression run: 2,979 passed, 9 skipped (1,075.71 seconds).
+  The latest focused M89 run passed all 11 tests, including three added after
+  full-suite collection. No host, Docker or live API validation is implied.
+- Branch publication was attempted but blocked by sandbox DNS resolution for
+  github.com. Commit and PR description are retained locally; no PR was opened.
