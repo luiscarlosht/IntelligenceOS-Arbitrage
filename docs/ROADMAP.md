@@ -254,3 +254,10 @@ No additional Amazon requests; cumulative accounting remains 7/49 COMPLETE.
 Required source conflicts, missing screenshots and model/package ambiguities block
 acceptance and supported profitability. New M86 JSON/Excel and missing-data reports
 preserve the original evidence. See [reconciliation](M88_ENRICHED_RECONCILIATION.md).
+
+M88 targeted verification ranked 26 unresolved pairs and performed one approved
+three-ASIN Catalog detail pass. Four new HTTP attempts (auth + three details) bring
+the unchanged cumulative accounting history to 11/49 COMPLETE. Independent Amazon
+MPNs/dimensions are now retained, but source/model/package ambiguities leave zero
+exact matches and zero supported profitability products. No offers/fees sent.
+See [targeted continuation](M88_TARGETED_VERIFICATION.md).

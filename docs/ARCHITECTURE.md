@@ -373,3 +373,12 @@ agent-versus-human flags and screenshot references remain explicit. It reuses
 M87/M86 for new private financial reports, preserving old price observations and
 leaving unsupported profitability unknown. No transport or ledger writer is used.
 See [classification and actual results](M88_ENRICHED_RECONCILIATION.md).
+
+## M88 targeted Catalog continuation
+
+`app.m88_targeted` ranks the 26 unresolved pairs and authorizes a fixed three-ASIN
+Catalog pass with conditional offers/fees. `m88_targeted_state` preserves the first
+seven ledger entries/original claim and adds a separate one-shot claim under the
+same durable 49-attempt accounting. `m88_targeted_evidence` retains scoped MPN,
+formulation, package and dimension data without source-field upgrades or aliases.
+Report-only recovery reuses M87/M86. See [scope and observed result](M88_TARGETED_VERIFICATION.md).
