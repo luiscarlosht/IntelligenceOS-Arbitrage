@@ -402,3 +402,8 @@ source/ASIN classifications and hashes, and ranks distinct ASINs for independent
 Walmart research. It publishes private M86 insufficient-data reports and a
 non-executable conditional request plan without changing the 11/49 ledger.
 See [M89 sourcing](M89_AMAZON_FIRST_SOURCING.md).
+
+M89 DigitalOcean preparation adds protected environment configuration, exact
+12/49 ledger transfer validation, DNS/TCP/TLS-only preflight and an explicitly
+opted-in, single-use authentication command. Deployment and live validation remain
+operator gates. See [deployment readiness](M89_DIGITALOCEAN_DEPLOYMENT.md).

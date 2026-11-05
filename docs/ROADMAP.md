@@ -283,3 +283,8 @@ No new Amazon HTTP requests; ledger remains 11/49 COMPLETE with 38 remaining.
 Independent exact Walmart retail identity and complete M86 economics remain the
 next gates; three verified profitable products are not yet established.
 See [M89 sourcing](M89_AMAZON_FIRST_SOURCING.md).
+
+M89 DigitalOcean preparation adds protected environment configuration, exact
+12/49 ledger transfer validation, DNS/TCP/TLS-only preflight and an explicitly
+opted-in, single-use authentication command. Deployment and live validation remain
+operator gates. See [deployment readiness](M89_DIGITALOCEAN_DEPLOYMENT.md).
