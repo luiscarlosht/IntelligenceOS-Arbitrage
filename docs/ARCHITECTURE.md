@@ -355,3 +355,11 @@ permanent cohort claim prevent replay. `m88_evidence` requires exact verified
 source and Amazon identity before offers/fees. `recover` is credential-free and
 report-only, reusing M87/M86 with unknowns and hypothetical sale-price bases.
 See [scope, credentials and recovery](M88_AMAZON_EXECUTOR.md).
+
+## M88 offline identity enrichment
+
+`app.m88_identity` verifies the completed 7/49 ledger and hashed search receipts,
+then compares retained barcode/brand/model/size/pack observations offline. Textual
+triage is separate from exact matching; pack contents and sellable-package counts
+remain distinct. It emits a per-product gap report and Browser Use checklist
+without source, ledger or credential writes. See [evidence limits and procedure](M88_IDENTITY_ENRICHMENT.md).

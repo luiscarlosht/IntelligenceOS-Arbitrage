@@ -241,3 +241,9 @@ Unresolved source identities remain unresolved; offers/fees require exact matche
 Offline synthetic tests cover failures, interruption, accounting and reports.
 See [executor handoff](M88_AMAZON_EXECUTOR.md). Live results belong to private
 versioned reports; implementation alone is not proof of successful acquisition.
+
+M88 identity enrichment: inspect the 60 saved candidate records / 56 distinct
+ASINs offline before additional calls. Preserve all source evidence and 7/49 ledger;
+produce per-product barcode/variant/package gaps and a prioritized ordinary-browser
+handoff. Three textual leads remain unverified; no compatible lead is established
+for the other three cohorts. See [offline identity comparison](M88_IDENTITY_ENRICHMENT.md).
