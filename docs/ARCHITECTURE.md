@@ -1,5 +1,11 @@
 # Architecture
 
+M89 now has a separate bounded Walmart research continuation that reuses saved
+Catalog evidence, appends to the original cumulative Amazon ledger and recovers
+M86 reports without replaying failed calls. See
+[M89 continuation](M89_WALMART_CONTINUATION.md). The observed authentication
+transport failure leaves 12/49 used and all new Amazon commercial inputs UNKNOWN.
+
 ## V0.3 preparation (offline only)
 
 New provider contracts separate catalog, fees, eligibility and demand evidence;

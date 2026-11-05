@@ -1,5 +1,12 @@
 # Roadmap
 
+- M89 Walmart continuation: imported authorized Drive research; independently
+  checked saved Catalog identity for B001BE12BA; preserved dimensional/core-size
+  caveats and both UPC-conflict NEEDS_REVIEW rows. Bounded read-only executor and
+  M86 report recovery added. Authentication transport failure consumed one attempt
+  (12/49 total, 37 remaining); offers, eligibility and fees remain unresolved.
+  See [continuation evidence and limits](M89_WALMART_CONTINUATION.md).
+
 ## Kroger source investigation — 2026-10-27
 
 [Kroger access/terms assessment](KROGER_ASSESSMENT.md) and a
