@@ -382,3 +382,11 @@ seven ledger entries/original claim and adds a separate one-shot claim under the
 same durable 49-attempt accounting. `m88_targeted_evidence` retains scoped MPN,
 formulation, package and dimension data without source-field upgrades or aliases.
 Report-only recovery reuses M87/M86. See [scope and observed result](M88_TARGETED_VERIFICATION.md).
+
+## M89 offline Amazon-first queue
+
+`app.m89` reuses authenticated M88 receipt projections, preserves all original
+source/ASIN classifications and hashes, and ranks distinct ASINs for independent
+Walmart research. It publishes private M86 insufficient-data reports and a
+non-executable conditional request plan without changing the 11/49 ledger.
+See [M89 sourcing](M89_AMAZON_FIRST_SOURCING.md).

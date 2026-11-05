@@ -261,3 +261,11 @@ the unchanged cumulative accounting history to 11/49 COMPLETE. Independent Amazo
 MPNs/dimensions are now retained, but source/model/package ambiguities leave zero
 exact matches and zero supported profitability products. No offers/fees sent.
 See [targeted continuation](M88_TARGETED_VERIFICATION.md).
+
+## M89 Amazon-first sourcing: offline research preparation
+
+Offline shortlist/checklist generator implemented from saved M88 Catalog evidence.
+No new Amazon HTTP requests; ledger remains 11/49 COMPLETE with 38 remaining.
+Independent exact Walmart retail identity and complete M86 economics remain the
+next gates; three verified profitable products are not yet established.
+See [M89 sourcing](M89_AMAZON_FIRST_SOURCING.md).
