@@ -379,3 +379,10 @@ business evidence. No unsupported match is promoted and no purchase is authorize
 
 Post-M93 backlog: M90.3b authority infrastructure, new dashboards, automatic
 sourcing/purchasing, and additional infrastructure. These are outside M91.
+
+M92 completes the offline review of 60 original source/ASIN pairs: 57 research
+rejections and 3 unresolved leads. Elmer's 17011265 / B000Q3KHCM is strongest by
+identity evidence; none passes exact identity. FBA profitability remains UNKNOWN.
+M93 requires independent package/model identity, DFW landed acquisition evidence,
+and complete fresh FBA cost/eligibility evidence. See [M92 POC](M92_REAL_PRODUCT_PROFITABILITY.md).
+No new milestone or infrastructure is added.

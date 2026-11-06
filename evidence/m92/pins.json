@@ -1,0 +1,36 @@
+{
+  "schema": "m92_pins_v1",
+  "m91_pins_sha256": "f2cba6fee1c89b27ebd394ab3c1c05b70985f00708ddbde7a061b4ef07c3358d",
+  "artifacts": [
+    {
+      "path": "walmart-identity-enrichment-original.json",
+      "original_path": "var/m88-real-six-pilot/20261105T033415756534Z-reconciliation/walmart-identity-enrichment-original.json",
+      "sha256": "1b34b116cf509bf2da718e33efd1770a47e3e2bae4e0c5d84bcdcd6b5ce5a85a",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-9.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-9.json",
+      "sha256": "88357f95cf869325c874c78dd680ac465181fd239fd98dceef7d00854a8fe938",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-10.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-10.json",
+      "sha256": "935259d000c6d47778f1e7574edad40865c9370ddf87933cb88c4c3e3886b238",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-11.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-11.json",
+      "sha256": "7f940934bbfb2ac12452833773a825a25158b71a2d1e70c5cd1c6bdeaf2f046f",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "offline-review.json",
+      "sha256": "43a76d808903b9c67f785aa317a350def6d97d56ca51e7b82dba24669e54e890",
+      "kind": "DERIVED_OFFLINE_REVIEW",
+      "original_path": "M92 offline analysis of pinned M91/M88 observations"
+    }
+  ]
+}

@@ -487,3 +487,11 @@ and their Catalog receipts, reuses Walmart normalization, strict matching and M8
 comparison/workbook reporting, and produces a historical research inventory plus
 M92 checklist. It reads no ledger, lock or credentials and changes no existing
 validation gates. See [M91 guide](M91_EVIDENCE_BASELINE.md).
+
+## M92 — Offline real-product POC
+
+`app.m92` reviews all 60 saved M91 pairs using existing reconciliation, strict
+matching, product analysis and workbook components. It pins prior Walmart
+enrichment/Catalog details and separates derived rejections from source observations.
+Sacramento quotes remain historical; actionable DFW inputs and unsupported fees
+stay UNKNOWN. See [M92 result and collection checklist](M92_REAL_PRODUCT_PROFITABILITY.md).

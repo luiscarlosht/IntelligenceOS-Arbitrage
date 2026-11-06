@@ -1,0 +1,516 @@
+{
+  "candidate_id": "m88-real-six-pilot:721324153",
+  "evidence": {
+    "comparisons": {
+      "brand": {
+        "amazon": "GORILLA",
+        "status": "MATCH",
+        "walmart": "Gorilla"
+      },
+      "formulation": {
+        "amazon_item_form": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Liquid"
+          }
+        ],
+        "status": "UNRESOLVED_UNLESS_INDEPENDENTLY_SCOPED",
+        "walmart_description": "One 5.75 fl oz bottle of crystal clear, non-foaming, water-resistant glue"
+      },
+      "gtin": {
+        "amazon": "",
+        "amazon_identifiers": [
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00052427005519",
+            "value": "0052427005519"
+          },
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00368547956328",
+            "value": "0368547956328"
+          },
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00368547956366",
+            "value": "0368547956366"
+          },
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00700761016615",
+            "value": "0700761016615"
+          },
+          {
+            "identifier_type": "GTIN",
+            "normalized_gtin": "00052427005519",
+            "value": "00052427005519"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00052427005519",
+            "value": "052427005519"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00368547956328",
+            "value": "368547956328"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00368547956366",
+            "value": "368547956366"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00700761016615",
+            "value": "700761016615"
+          }
+        ],
+        "walmart": "00052427005519"
+      },
+      "independent_human_signoff": false,
+      "manufacturer_model": {
+        "amazon": "4572502",
+        "status": "DIFFERENT_LABELS",
+        "walmart": "1906833"
+      },
+      "manufacturer_part_number": {
+        "amazon": "4572502",
+        "status": "DIFFERENT_LABELS",
+        "walmart": "1906833"
+      },
+      "quantity_packaging": {
+        "amazon_item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_package_quantity": 1,
+        "equivalence": "UNKNOWN",
+        "relationships": [
+          {
+            "child_asins": [],
+            "parent_asins": [
+              "B0DBVLXPQ5"
+            ],
+            "relationship_type": "VARIATION",
+            "theme": "SIZE_NAME/STYLE_NAME",
+            "theme_attributes": [
+              "size",
+              "style"
+            ]
+          },
+          {
+            "child_asins": [],
+            "parent_asins": [
+              "B09WB2VC2S",
+              "B0C8B8BB1S"
+            ],
+            "relationship_type": "PACKAGE_HIERARCHY",
+            "theme": "",
+            "theme_attributes": []
+          }
+        ],
+        "walmart_basis": "Reported count of contents; Amazon sellable-package equivalence unverified",
+        "walmart_count": 1
+      },
+      "size": {
+        "amazon_size": "5.75 Fl Oz",
+        "amazon_unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Fl Oz"
+            },
+            "value": "5.75"
+          }
+        ],
+        "status": "NO_UNIT_OR_PACKAGE_EQUIVALENCE_INFERRED",
+        "walmart_structured_size": "UNKNOWN"
+      }
+    },
+    "identity": {
+      "exact": false,
+      "mismatches": [
+        "model",
+        "variation"
+      ],
+      "missing": [
+        "amazon.gtin",
+        "amazon.valid_gtin",
+        "catalog.mapping_issues",
+        "manufacturer_part_number.mismatch",
+        "model.mismatch",
+        "retailer.size",
+        "size.explicit_identity",
+        "source.conflicting_observations",
+        "source.verified_identity",
+        "variation.mismatch"
+      ]
+    },
+    "product": {
+      "asin": "B07GQ1CT47",
+      "brand": "GORILLA",
+      "confidence": "MEDIUM",
+      "dimensions": [
+        {
+          "item": {
+            "height": {
+              "unit": "inches",
+              "value": "6.8"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "1.6"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.2"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "1.6"
+            }
+          },
+          "marketplaceId": "ATVPDKIKX0DER",
+          "package": {
+            "height": {
+              "unit": "inches",
+              "value": "1.6393921243120717"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "6.8099999930538"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.46076612758"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "1.649999998317"
+            }
+          }
+        }
+      ],
+      "gtin": "",
+      "identifiers": [
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00052427005519",
+          "value": "0052427005519"
+        },
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00368547956328",
+          "value": "0368547956328"
+        },
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00368547956366",
+          "value": "0368547956366"
+        },
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00700761016615",
+          "value": "0700761016615"
+        },
+        {
+          "identifier_type": "GTIN",
+          "normalized_gtin": "00052427005519",
+          "value": "00052427005519"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00052427005519",
+          "value": "052427005519"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00368547956328",
+          "value": "368547956328"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00368547956366",
+          "value": "368547956366"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00700761016615",
+          "value": "700761016615"
+        }
+      ],
+      "manufacturer": "The Gorilla Glue Company",
+      "manufacturer_part_number": "4572502",
+      "manufacturer_part_number_alternatives": [
+        "4572502"
+      ],
+      "mapping_issues": [
+        "Ambiguous GTIN identifiers",
+        "Package hierarchy requires source verification"
+      ],
+      "model": "4572502",
+      "observed_at": "2026-11-05T12:39:10.905665+00:00",
+      "pack_quantity": 1,
+      "relationships": [
+        {
+          "child_asins": [],
+          "parent_asins": [
+            "B0DBVLXPQ5"
+          ],
+          "relationship_type": "VARIATION",
+          "theme": "SIZE_NAME/STYLE_NAME",
+          "theme_attributes": [
+            "size",
+            "style"
+          ]
+        },
+        {
+          "child_asins": [],
+          "parent_asins": [
+            "B09WB2VC2S",
+            "B0C8B8BB1S"
+          ],
+          "relationship_type": "PACKAGE_HIERARCHY",
+          "theme": "",
+          "theme_attributes": []
+        }
+      ],
+      "retained_attributes": {
+        "brand": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "GORILLA"
+          }
+        ],
+        "bullet_point": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "All purpose glue: This Gorilla glue is formulated for virtually all projects and repairs; it bonds wood, stone, metal, ceramic, foam, glass & more"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Crystal clear: Clear Gorilla glue leaves a discreet finish to keep the focus on your project, not the glue"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Non-foaming: This liquid glue does not foam as part of the curing process"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Water resistant: Gorilla glue clear formula works wherever the work is; indoor and out, rain or shine"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Incredibly strong: Our adhesive glue makes a Gorilla Tough bond while still being easy to use"
+          }
+        ],
+        "color": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Clear"
+          }
+        ],
+        "externally_assigned_product_identifier": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0368547956366"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0368547956328"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0052427005519"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0700761016615"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "gtin",
+            "value": "00052427005519"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "368547956328"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "052427005519"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "368547956366"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "700761016615"
+          }
+        ],
+        "included_components": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "(1) 5.75oz Bottle of Clear Gorilla Glue"
+          }
+        ],
+        "item_dimensions": [
+          {
+            "height": {
+              "unit": "inches",
+              "value": "6.8"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "1.6"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "inches",
+              "value": "1.6"
+            }
+          }
+        ],
+        "item_form": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Liquid"
+          }
+        ],
+        "item_package_dimensions": [
+          {
+            "height": {
+              "unit": "centimeters",
+              "value": "17.2974"
+            },
+            "length": {
+              "unit": "centimeters",
+              "value": "4.1640559999999995"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "centimeters",
+              "value": "4.191"
+            }
+          }
+        ],
+        "item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "item_package_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "kilograms",
+            "value": "0.209"
+          }
+        ],
+        "item_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "pounds",
+            "value": "0.2"
+          }
+        ],
+        "manufacturer": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "The Gorilla Glue Company"
+          }
+        ],
+        "material": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Polyurethane"
+          }
+        ],
+        "model_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "4572502"
+          }
+        ],
+        "number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "part_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "4572502"
+          }
+        ],
+        "size": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "5.75 Fl Oz"
+          }
+        ],
+        "style": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Bottle 1 Pack"
+          }
+        ],
+        "unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Fl Oz"
+            },
+            "value": "5.75"
+          }
+        ]
+      },
+      "size": "5.75 Fl Oz",
+      "source": "Amazon SP-API Catalog Items 2022-04-01",
+      "source_reference": "M88 catalog B07GQ1CT47",
+      "title": "Gorilla Crystal Clear Glue, All Purpose, 5.75 oz Bottle",
+      "url": "https://www.amazon.com/dp/B07GQ1CT47",
+      "variation": "{\"color\": \"Clear\", \"size\": \"5.75 Fl Oz\", \"style\": \"Bottle 1 Pack\"}",
+      "verified": true
+    },
+    "retention": "Allowlisted normalized attributes; no raw payload or source-field upgrades"
+  },
+  "number": 10,
+  "observed_at": "2026-11-05T12:39:10.917395+00:00",
+  "phase": "detail"
+}
