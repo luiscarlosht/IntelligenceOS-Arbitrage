@@ -1,0 +1,353 @@
+{
+  "schema": "walmart_pilot_batch_v1",
+  "name": "m88-real-six-pilot",
+  "batch_kind": "NEW_PILOT",
+  "purchase_authorized": false,
+  "other_cost_basis": "excludes_retailer_shipping",
+  "observations": [
+    {
+      "source_candidate_id": "m88-real-six-pilot:17011265",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 17011265",
+        "observed_at": "2026-11-05T02:38:29Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "17011265",
+        "url": "https://www.walmart.com/ip/Elmer-s-Liquid-School-Glue-Washable-4oz-1-Count/17011265",
+        "title": "Elmer’s Liquid School Glue",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 1,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "4 oz; 1 count; single",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 17011265",
+          "observed_at": "2026-11-05T02:38:29Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "1.17",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "17011265",
+        "title": "Elmer’s Liquid School Glue",
+        "pack_size": "4 oz; 1 count; single",
+        "observed_price_usd": "1.17",
+        "observed_at_utc": "2026-11-05T02:38:29Z",
+        "url": "https://www.walmart.com/ip/Elmer-s-Liquid-School-Glue-Washable-4oz-1-Count/17011265",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    },
+    {
+      "source_candidate_id": "m88-real-six-pilot:13952053139",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 13952053139",
+        "observed_at": "2026-11-05T02:38:33Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "13952053139",
+        "url": "https://www.walmart.com/ip/Duracell-Coppertop-AA-Alkaline-Batteries-8-PK/13952053139",
+        "title": "Duracell Coppertop AA Alkaline Batteries",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 8,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "AA; 8/PK",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 13952053139",
+          "observed_at": "2026-11-05T02:38:33Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "9.73",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "13952053139",
+        "title": "Duracell Coppertop AA Alkaline Batteries",
+        "pack_size": "AA; 8/PK",
+        "observed_price_usd": "9.73",
+        "observed_at_utc": "2026-11-05T02:38:33Z",
+        "url": "https://www.walmart.com/ip/Duracell-Coppertop-AA-Alkaline-Batteries-8-PK/13952053139",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    },
+    {
+      "source_candidate_id": "m88-real-six-pilot:37481849",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 37481849",
+        "observed_at": "2026-11-05T02:38:38Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "37481849",
+        "url": "https://www.walmart.com/ip/Post-it-Super-Sticky-Notes-Canary-Yellow-3-in-x-3-in-4-Pads/37481849",
+        "title": "Post-it Super Sticky Notes Canary Yellow",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 4,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "3 x 3 in; 4 pads; 90 sheets per pad",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 37481849",
+          "observed_at": "2026-11-05T02:38:38Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "5.97",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "37481849",
+        "title": "Post-it Super Sticky Notes Canary Yellow",
+        "pack_size": "3 x 3 in; 4 pads; 90 sheets per pad",
+        "observed_price_usd": "5.97",
+        "observed_at_utc": "2026-11-05T02:38:38Z",
+        "url": "https://www.walmart.com/ip/Post-it-Super-Sticky-Notes-Canary-Yellow-3-in-x-3-in-4-Pads/37481849",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    },
+    {
+      "source_candidate_id": "m88-real-six-pilot:47070933",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 47070933",
+        "observed_at": "2026-11-05T02:38:42Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "47070933",
+        "url": "https://www.walmart.com/ip/Scotch-Transparent-Tape-3-4-in-x-1000-in-4-Rolls/47070933",
+        "title": "Scotch Transparent Tape",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 4,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "3/4 x 1000 in; 4 rolls; single pack",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 47070933",
+          "observed_at": "2026-11-05T02:38:42Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "8.79",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "47070933",
+        "title": "Scotch Transparent Tape",
+        "pack_size": "3/4 x 1000 in; 4 rolls; single pack",
+        "observed_price_usd": "8.79",
+        "observed_at_utc": "2026-11-05T02:38:42Z",
+        "url": "https://www.walmart.com/ip/Scotch-Transparent-Tape-3-4-in-x-1000-in-4-Rolls/47070933",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    },
+    {
+      "source_candidate_id": "m88-real-six-pilot:721324153",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 721324153",
+        "observed_at": "2026-11-05T02:38:46Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "721324153",
+        "url": "https://www.walmart.com/ip/Gorilla-Clear-Glue-5-75-Ounce-Bottle-Pack-of-1-Bottle/721324153",
+        "title": "Gorilla Clear Glue",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 1,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "5.75 oz; 1 bottle",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 721324153",
+          "observed_at": "2026-11-05T02:38:46Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "11.18",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "721324153",
+        "title": "Gorilla Clear Glue",
+        "pack_size": "5.75 oz; 1 bottle",
+        "observed_price_usd": "11.18",
+        "observed_at_utc": "2026-11-05T02:38:46Z",
+        "url": "https://www.walmart.com/ip/Gorilla-Clear-Glue-5-75-Ounce-Bottle-Pack-of-1-Bottle/721324153",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    },
+    {
+      "source_candidate_id": "m88-real-six-pilot:711088244",
+      "walmart_product": {
+        "source": "Browser Use public Walmart pages",
+        "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 711088244",
+        "observed_at": "2026-11-05T02:38:50Z",
+        "confidence": "MEDIUM",
+        "verified": false,
+        "walmart_item_id": "711088244",
+        "url": "https://www.walmart.com/ip/Pen-Gear-Invisible-Tape-Clear-3-4-x-1000-4-Roll-of-Tape/711088244",
+        "title": "Pen + Gear Invisible Tape Clear",
+        "brand": "UNKNOWN",
+        "gtin": "UNKNOWN",
+        "model": "UNKNOWN",
+        "size": "UNKNOWN",
+        "pack_quantity": 4,
+        "variation": "UNKNOWN",
+        "seller": "Walmart.com",
+        "shipping_availability": "Shipping offered in browser context",
+        "delivery_context": "Sacramento, CA 95829 (not DFW)",
+        "pack_description": "3/4 x 1000 in; 4 rolls; single pack",
+        "pack_quantity_basis": "Reported count of contents; Amazon sellable-package equivalence unverified"
+      },
+      "acquisition": {
+        "purchase": {
+          "source": "Browser Use public Walmart pages",
+          "source_reference": "Drive 1_EVnzVvcADVZA1g6YkR-Kwu5KfqkjNJ_ / Browser Use 492c2722-82b1-44a7-b83d-fb0136f061f6 / 711088244",
+          "observed_at": "2026-11-05T02:38:50Z",
+          "confidence": "MEDIUM",
+          "verified": false,
+          "value": "5.88",
+          "currency": "USD"
+        },
+        "retailer_shipping": {
+          "value": "UNKNOWN",
+          "currency": "USD"
+        }
+      },
+      "original_browser_observation": {
+        "walmart_item_id": "711088244",
+        "title": "Pen + Gear Invisible Tape Clear",
+        "pack_size": "3/4 x 1000 in; 4 rolls; single pack",
+        "observed_price_usd": "5.88",
+        "observed_at_utc": "2026-11-05T02:38:50Z",
+        "url": "https://www.walmart.com/ip/Pen-Gear-Invisible-Tape-Clear-3-4-x-1000-4-Roll-of-Tape/711088244",
+        "seller": "Walmart.com",
+        "shipping_charge_usd": null,
+        "availability": "Shipping offered in browser context"
+      },
+      "source_evidence": {
+        "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+        "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f"
+      },
+      "review_status": "OWNER_SUPPLIED_BROWSER_SUMMARY; no independent field-level human review or screenshots supplied"
+    }
+  ],
+  "source_inventory": [
+    {
+      "path": "/root/IntelligenceOS-Arbitrage-clean/var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+      "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f",
+      "role": "original Drive browser evidence"
+    }
+  ],
+  "delivery_context": "Sacramento, CA 95829 (not DFW)",
+  "original_notes": [
+    "All sold and shipped by Walmart.com",
+    "Shipping arrival tomorrow shown in browser context, not verified for DFW",
+    "No GTIN/UPC confirmed",
+    "No Amazon match, fees, tax, inbound shipping, demand or eligibility verified"
+  ]
+}

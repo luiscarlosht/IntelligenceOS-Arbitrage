@@ -368,3 +368,14 @@ freeze/claims/writers/network, and implement a separately reviewed fixed-path
 production adapter. Every deployment, provisioning, source audit, freeze, cutover
 and eventual live operation still needs its own explicit approval. No rollback
 reset or automatic replay is permitted.
+
+## Simplified M91–M93 path
+
+M91 provides a reproducible offline real-evidence baseline with six unresolved
+Walmart/Catalog research leads, provenance and an M92 evidence checklist. See
+[M91 guide](M91_EVIDENCE_BASELINE.md). M92 must establish one independently
+verified exact match and complete fresh profitability inputs; M93 depends on that
+business evidence. No unsupported match is promoted and no purchase is authorized.
+
+Post-M93 backlog: M90.3b authority infrastructure, new dashboards, automatic
+sourcing/purchasing, and additional infrastructure. These are outside M91.

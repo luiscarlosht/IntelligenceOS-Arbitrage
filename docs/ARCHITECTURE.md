@@ -479,3 +479,11 @@ mean no writers, never fallback to old accounting. External authenticated anchor
 actual host freeze/runtime/writer/network evidence and fixed production adapter
 remain M90.3b blockers. Reporting, credentials, account lock and `/current` stay
 untouched.
+
+## M91 — Reproducible evidence baseline
+
+The standalone offline `app.m91` command pins six real saved Walmart observations
+and their Catalog receipts, reuses Walmart normalization, strict matching and M86
+comparison/workbook reporting, and produces a historical research inventory plus
+M92 checklist. It reads no ledger, lock or credentials and changes no existing
+validation gates. See [M91 guide](M91_EVIDENCE_BASELINE.md).

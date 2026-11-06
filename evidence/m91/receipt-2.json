@@ -1,0 +1,837 @@
+{
+  "candidate_id": "m88-real-six-pilot:17011265",
+  "evidence": {
+    "candidates": [
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B000Q3KHCM",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000003049",
+              "value": "0026000003049"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000203043",
+              "value": "0026000203043"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000213042",
+              "value": "0026000213042"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00026000203043",
+              "value": "00026000203043"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00026000213042",
+              "value": "00026000213042"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000003049",
+              "value": "026000003049"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000203043",
+              "value": "026000203043"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000213042",
+              "value": "026000213042"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers",
+            "Package hierarchy requires source verification",
+            "Variation theme values incomplete"
+          ],
+          "model": "E304",
+          "observed_at": "2026-11-05T03:02:35.286793+00:00",
+          "pack_quantity": 1,
+          "size": "4 Oz.",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B000Q3KHCM",
+          "title": "Elmer's Liquid School Glue, Washable, Safe and Nontoxic, 4oz, 1 Count - Back to School Supplies",
+          "url": "https://www.amazon.com/dp/B000Q3KHCM",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B072J37ZZD",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "10026000003046",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "10026000003046",
+              "value": "10026000003046"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "E304NR",
+          "observed_at": "2026-11-05T03:02:35.287555+00:00",
+          "pack_quantity": 1,
+          "size": "4 Oz. - 12 count",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B072J37ZZD",
+          "title": "Elmer's Liquid School Glue, Slime & Craft, Safe and Non-Toxic, Washable, White, 4 Ounces Each, 12 Count - For Classroom, Home, Office, Teacher Supplies, #1 Teacher Brand",
+          "url": "https://www.amazon.com/dp/B072J37ZZD",
+          "variation": "{\"color\": \"White\", \"size\": \"4 Oz. - 12 count\", \"style\": \"12 Count\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B074762X1J",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "00026000001274",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000001274",
+              "value": "0026000001274"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000001274",
+              "value": "026000001274"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "026000001274",
+          "observed_at": "2026-11-05T03:02:35.287988+00:00",
+          "pack_quantity": 1,
+          "size": "4 Ounces",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B074762X1J",
+          "title": "Elmer's Washable Liquid School Glue for Kids Art Projects, 4 Ounce, 2 Count",
+          "url": "https://www.amazon.com/dp/B074762X1J",
+          "variation": "{\"color\": \"Clear\", \"size\": \"4 Ounces\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B014T4C58W",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "00638458969930",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00638458969930",
+              "value": "0638458969930"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00638458969930",
+              "value": "00638458969930"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00638458969930",
+              "value": "638458969930"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "E304",
+          "observed_at": "2026-11-05T03:02:35.288474+00:00",
+          "pack_quantity": 1,
+          "size": "3 Pack",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B014T4C58W",
+          "title": "Elmer's Washable No-Run School Glue, 4 oz, 3 Pack",
+          "url": "https://www.amazon.com/dp/B014T4C58W",
+          "variation": "{\"color\": \"White\", \"size\": \"3 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.model",
+            "amazon.pack_quantity",
+            "amazon.positive_pack_quantity",
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0GZ8G4ZVP",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "00026000103046",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00026000103046",
+              "value": "00026000103046"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification",
+            "Variation theme values incomplete"
+          ],
+          "model": "",
+          "observed_at": "2026-11-05T03:02:35.288860+00:00",
+          "pack_quantity": null,
+          "size": "4 oz.",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0GZ8G4ZVP",
+          "title": "Elmer's Washable Liquid School Glue, 4 oz., White, 48/Box",
+          "url": "https://www.amazon.com/dp/B0GZ8G4ZVP",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B08BFDVHWB",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "00026000186087",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000186087",
+              "value": "0026000186087"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000186087",
+              "value": "026000186087"
+            }
+          ],
+          "mapping_issues": [
+            "Variation theme values incomplete"
+          ],
+          "model": "2078586",
+          "observed_at": "2026-11-05T03:02:35.289262+00:00",
+          "pack_quantity": 1,
+          "size": "4-Ounces",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B08BFDVHWB",
+          "title": "Elmer’s Disappearing Purple Liquid School Glue, 4-Ounces, 1 Count",
+          "url": "https://www.amazon.com/dp/B08BFDVHWB",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0006HUJJO",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00013587182243",
+              "value": "0013587182243"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021112714708",
+              "value": "0021112714708"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000003407",
+              "value": "0026000003407"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000248679",
+              "value": "0026000248679"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00068080360100",
+              "value": "0068080360100"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00521375684881",
+              "value": "0521375684881"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00638084614495",
+              "value": "0638084614495"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00640206450980",
+              "value": "0640206450980"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00641438178567",
+              "value": "0641438178567"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00641438201838",
+              "value": "0641438201838"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00641438598747",
+              "value": "0641438598747"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00659233104124",
+              "value": "0659233104124"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00683203388399",
+              "value": "0683203388399"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00746122878294",
+              "value": "0746122878294"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00781624971098",
+              "value": "0781624971098"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00787739768844",
+              "value": "0787739768844"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00794149844419",
+              "value": "0794149844419"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00799198000847",
+              "value": "0799198000847"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00799916315611",
+              "value": "0799916315611"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00800011202024",
+              "value": "0800011202024"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00800188029141",
+              "value": "0800188029141"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00801593158938",
+              "value": "0801593158938"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00804993421930",
+              "value": "0804993421930"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00806791960246",
+              "value": "0806791960246"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00809301942206",
+              "value": "0809301942206"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00823019572807",
+              "value": "0823019572807"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00999900448909",
+              "value": "0999900448909"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "04913603182669",
+              "value": "4913603182669"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "06709309297428",
+              "value": "6709309297428"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "07487993830730",
+              "value": "7487993830730"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "07929502543620",
+              "value": "7929502543620"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00013587182243",
+              "value": "013587182243"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021112714708",
+              "value": "021112714708"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000003407",
+              "value": "026000003407"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000248679",
+              "value": "026000248679"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00068080360100",
+              "value": "068080360100"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00521375684881",
+              "value": "521375684881"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00638084614495",
+              "value": "638084614495"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00640206450980",
+              "value": "640206450980"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00641438178567",
+              "value": "641438178567"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00641438201838",
+              "value": "641438201838"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00641438598747",
+              "value": "641438598747"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00659233104124",
+              "value": "659233104124"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00683203388399",
+              "value": "683203388399"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00746122878294",
+              "value": "746122878294"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00781624971098",
+              "value": "781624971098"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00787739768844",
+              "value": "787739768844"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00794149844419",
+              "value": "794149844419"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00799198000847",
+              "value": "799198000847"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00799916315611",
+              "value": "799916315611"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00800011202024",
+              "value": "800011202024"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00800188029141",
+              "value": "800188029141"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00801593158938",
+              "value": "801593158938"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00804993421930",
+              "value": "804993421930"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00806791960246",
+              "value": "806791960246"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00809301942206",
+              "value": "809301942206"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00823019572807",
+              "value": "823019572807"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00999900448909",
+              "value": "999900448909"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers"
+          ],
+          "model": "E340",
+          "observed_at": "2026-11-05T03:02:35.290403+00:00",
+          "pack_quantity": 1,
+          "size": "1 Gallon",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0006HUJJO",
+          "title": "Elmer's White Liquid School Glue, 1 Gallon, Safe, Washable, 1 Count, - #1 Teacher Brand, Bulk Arts & Crafts, Projects, Classroom Supplies, Great for Making Slime",
+          "url": "https://www.amazon.com/dp/B0006HUJJO",
+          "variation": "{\"color\": \"White\", \"size\": \"1 Gallon\", \"style\": \"Gallon Glue\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0719KJZ3C",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "10026000113226",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "10026000113226",
+              "value": "10026000113226"
+            }
+          ],
+          "mapping_issues": [
+            "Variation theme values incomplete"
+          ],
+          "model": "E1322NR",
+          "observed_at": "2026-11-05T03:02:35.291794+00:00",
+          "pack_quantity": 1,
+          "size": "4 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0719KJZ3C",
+          "title": "Elmer's Glue-All, Multi-Purpose Liquid Glue, 4oz, 12 Count - #1 Teacher Brand, Arts & Crafts, Non-Toxic",
+          "url": "https://www.amazon.com/dp/B0719KJZ3C",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0G2N48SPJ",
+          "brand": "Elmer's",
+          "confidence": "MEDIUM",
+          "gtin": "00026000180214",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00026000180214",
+              "value": "0026000180214"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00026000180214",
+              "value": "026000180214"
+            }
+          ],
+          "mapping_issues": [
+            "Variation theme values incomplete"
+          ],
+          "model": "2078586-5",
+          "observed_at": "2026-11-05T03:02:35.292176+00:00",
+          "pack_quantity": 1,
+          "size": "4-Ounces",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0G2N48SPJ",
+          "title": "Elmer’s Disappearing Purple Liquid School Glue, 4-Ounces, 5 Count",
+          "url": "https://www.amazon.com/dp/B0G2N48SPJ",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.model",
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0CTNWBRS7",
+          "brand": "Darice",
+          "confidence": "MEDIUM",
+          "gtin": "00652695701177",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00652695701177",
+              "value": "0652695701177"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00652695701177",
+              "value": "652695701177"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "",
+          "observed_at": "2026-11-05T03:02:35.292575+00:00",
+          "pack_quantity": 1,
+          "size": "4 fl oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0CTNWBRS7",
+          "title": "Darice Washable School Glue 4oz - 24-Pack White Liquid Glues for Kids - Extra-Strong for Slime, Arts and Crafts, Back to School Supplies - Glue Bottle with Adjustable Twist Closure",
+          "url": "https://www.amazon.com/dp/B0CTNWBRS7",
+          "variation": "{\"color\": \"24 Pack - 4oz\", \"size\": \"4 fl oz\"}",
+          "verified": true
+        }
+      }
+    ],
+    "more_results": true,
+    "selected_asin": null,
+    "status": "UNRESOLVED",
+    "total_results": 85
+  },
+  "number": 2,
+  "observed_at": "2026-11-05T03:02:35.297712+00:00",
+  "phase": "search"
+}

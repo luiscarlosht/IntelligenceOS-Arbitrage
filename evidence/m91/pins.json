@@ -1,0 +1,54 @@
+{
+  "schema": "m91_pins_v1",
+  "as_of": "2026-11-06T00:00:00+00:00",
+  "artifacts": [
+    {
+      "path": "walmart-observations-original.json",
+      "original_path": "var/m88-real-six-pilot/20261105T024559954007Z/walmart-observations-original.json",
+      "sha256": "4b4ea954da4fa18e529dad71154c1f4f3e11e75d8e202b6029ae50f2f463cf5f",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "six-product-manifest.json",
+      "original_path": "var/m88-real-six-pilot/20261105T024559954007Z/six-product-manifest.json",
+      "sha256": "d05aa25eab6bba16a733fd2b3e4d43ee74a78d9ad5646f87c05d25acdf0ca5ac",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-2.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-2.json",
+      "sha256": "a9f4f5df8571fed099d6003188b56d017a86b929dccac6d5e1c426d21ace4433",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-3.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-3.json",
+      "sha256": "d48fbf6668212fc88f9eca835de5a901d0ce1c6260ef290a4bce1255df4f3f8e",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-4.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-4.json",
+      "sha256": "35dc3faf3a5408f66cbbed9e8e7c3ad178648980b1aa7d1806d03bdc35a69345",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-5.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-5.json",
+      "sha256": "ef243c0abaf8327a1dd7b6d409ffe2b9e45d93b8d8e1a41b258fad7fc4ffaf14",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-6.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-6.json",
+      "sha256": "1c0ad804007d16ebe7ed64a5ad03c307ae0812e25964d7e3f1b1270b8515b5d9",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-7.json",
+      "original_path": "var/m88-real-six-pilot/m88-executor-v1-20261105T0301Z/receipt-7.json",
+      "sha256": "edde18cbd53b75a76a1deeb0afe744ac43a28ad0a97f6d8d91d9355bc3957cff",
+      "kind": "REAL_SAVED_RESEARCH"
+    }
+  ]
+}
