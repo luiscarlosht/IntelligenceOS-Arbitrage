@@ -32,8 +32,15 @@ def configuration(path: Path) -> dict:
         raise ValueError('Configuration must be outside repository')
     if path.stat().st_size > 16384:
         raise ValueError('Bounded configuration required')
+    return parse_configuration(path.read_bytes())
+
+
+def parse_configuration(raw: bytes) -> dict:
+    """Parse only the exact bounded bytes validated by a privileged reader."""
+    if not isinstance(raw, bytes) or len(raw) > 16384:
+        raise ValueError('Bounded configuration required')
     values = {}
-    for line in path.read_text().splitlines():
+    for line in raw.decode('utf-8').splitlines():
         if not line or line.startswith('#'):
             continue
         key, sep, value = line.partition('=')

@@ -1,5 +1,20 @@
 # Architecture
 
+M92's offline report now includes pinned public research renderings and a separate
+derived continuation review of the three remaining pairs. It preserves existing
+matching and financial gates, exposes collection limitations and adds a decision
+sheet without promoting research clues or cached non-DFW prices to verified input.
+See [M92 continuation](M92_REAL_PRODUCT_PROFITABILITY.md).
+
+The M92 clarification adds a pinned offline collection plan for user-supplied ZIP
+76063 and separate final/identity/eligibility/economics verdicts. No collector,
+account integration or financial formula change is introduced. New external
+collection remains unauthorized; prior source observations retain their context.
+
+M90.1 adds an offline-tested controlled authentication-14 / conditional Catalog-15
+core. Live execution remains blocked on reviewed shared-lock/service permissions
+and genuine account evidence. See [M90.1 guide](M901_CONTROLLED_VALIDATION.md).
+
 M89's offline authentication-readiness command prohibits DNS/connections/HTTP,
 checks unconnected sockets and TLS configuration, and preserves prior evidence.
 The shared adapter now retains sanitized nested transport category/errno/stage.
@@ -407,3 +422,87 @@ M89 DigitalOcean preparation adds protected environment configuration, exact
 12/49 ledger transfer validation, DNS/TCP/TLS-only preflight and an explicitly
 opted-in, single-use authentication command. Deployment and live validation remain
 operator gates. See [deployment readiness](M89_DIGITALOCEAN_DEPLOYMENT.md).
+
+M90 adds a manual one-GET Catalog validator with pinned full 13-attempt M89
+history, durable attempt-14 reservation, shared account/ledger locks and no LWA
+or retry capability. Import and preflight are offline. Fresh in-memory token,
+seller/role evidence and production hash remain execution prerequisites.
+See [M90 contract and operator handoff](M90_SP_API_VALIDATION.md).
+
+## M90.2 privileged Amazon broker (offline review)
+
+[Secure execution broker](M902_SECURE_EXECUTION_BROKER.md) adds a fixed requester
+protocol and privileged one-shot core. Protected operator approval binds release,
+account evidence, credential source, original ledger and existing lock identities.
+An exclusive durable independent claim consumes approval before attempt 14;
+attempt 15 requires durable successful authentication. Both locks span the full
+workflow. There is no installed launcher or live CLI. Production readiness remains
+blocked on kernel requester attestation, immutable-release verification, egress
+policy and review of legacy writers, especially M89's ledger-only lock. Existing
+offline services and `/current` remain unchanged.
+
+## M90.2a broker hardening and readiness assessment
+
+[M90.2a findings](M902A_SECURITY_READINESS.md) adds exact nested authorization
+contracts and pinned directory/file descriptor storage for broker reads, claims
+and durable ledger replacement. Credentials and historical accounting are each
+validated from one snapshot. Existing APIs and conditional 14/15 accounting remain.
+Visible production releases are group writable; ledger/credential ancestry fails
+root-only readiness or is inaccessible. Ledger integrity, runtime service state
+and firewall policy are not verified. The recommended future launcher is a
+root-operated one-shot Unix-domain endpoint with kernel SO_PEERCRED authentication,
+not a persistent daemon. No launcher or production change is installed.
+
+## M90.2b read-only ledger verification and protected storage
+
+[Ledger/storage readiness](M902B_LEDGER_STORAGE_READINESS.md) adds a fixed-path,
+network-free verifier with read-only no-atime descriptors, independently reviewed
+existing lock identities, account-before-ledger flock order and complete snapshot
+history/claim checks. Pure history validation is shared with M90 without importing
+legacy network runners into the verifier. No production verification is performed;
+the current application-owned ancestry fails its root-only contract. Strategy B,
+a dedicated root-controlled authority with formal single-authority cutover and
+preserved claims, is recommended for separate review. No migration, reporting
+service change, new account lock or production policy is provisioned.
+
+## M90.2c Strategy B authority cutover model
+
+[Authority cutover design](M902C_AUTHORITY_CUTOVER_DESIGN.md) adds a pure nine-phase
+single-authority model with transition/evidence/approval bindings, claim and raw
+byte preservation, journal replay and terminal recovery decisions. Uncertain
+manifest commit means no writers; durable NEW authority never falls back to OLD.
+The source auditor, durable filesystem backend, independent nonce/checkpoint
+registry, fixed-new-path verifier and SO_PEERCRED launcher remain specified future
+components, not operational commands. Root-only M90.2b checks remain unchanged.
+No production migration, credentials access, reporting change or account-lock
+replacement is performed; `/current` remains V0.2.
+
+## M90.3a durable authority infrastructure (synthetic only)
+
+[Durable authority readiness](M903A_DURABLE_AUTHORITY_READINESS.md) implements
+exclusive hash-chained intent/completion records, a separately retained nonce/
+checkpoint registry, acknowledged external checkpoint receipts, strict manifest
+publication, weaker-profile read-only source auditing and successor verification.
+The separate offline adapter calls the unchanged M90.2c model. All filesystem
+constructors are fixture-only under `/tmp`; no production command or operational
+approval loader exists. Pending/uncertain publication and checkpoint disagreement
+mean no writers, never fallback to old accounting. External authenticated anchor,
+actual host freeze/runtime/writer/network evidence and fixed production adapter
+remain M90.3b blockers. Reporting, credentials, account lock and `/current` stay
+untouched.
+
+## M91 — Reproducible evidence baseline
+
+The standalone offline `app.m91` command pins six real saved Walmart observations
+and their Catalog receipts, reuses Walmart normalization, strict matching and M86
+comparison/workbook reporting, and produces a historical research inventory plus
+M92 checklist. It reads no ledger, lock or credentials and changes no existing
+validation gates. See [M91 guide](M91_EVIDENCE_BASELINE.md).
+
+## M92 — Offline real-product POC
+
+`app.m92` reviews all 60 saved M91 pairs using existing reconciliation, strict
+matching, product analysis and workbook components. It pins prior Walmart
+enrichment/Catalog details and separates derived rejections from source observations.
+Sacramento quotes remain historical; actionable DFW inputs and unsupported fees
+stay UNKNOWN. See [M92 result and collection checklist](M92_REAL_PRODUCT_PROFITABILITY.md).

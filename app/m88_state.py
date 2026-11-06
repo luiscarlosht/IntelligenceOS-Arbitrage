@@ -68,9 +68,13 @@ def lock(path: Path):
 
 
 def ledger(path: Path) -> dict:
-    value = read(path)
+    return validate_ledger(read(path))
+
+
+def validate_ledger(value: dict) -> dict:
+    """Validate a single already-read ledger snapshot without filesystem access."""
     attempts = value.get('attempts')
-    if (value.get('pilot') != 'm88-real-six-pilot' or value.get('ceiling') != 49
+    if (value.get('pilot') != 'm88-real-six-pilot' or type(value.get('ceiling')) is not int or value.get('ceiling') != 49
             or value.get('purchase_authorized') is not False
             or value.get('includes_authentication_and_retries') is not True
             or not isinstance(attempts, list) or type(value.get('attempts_used')) is not int

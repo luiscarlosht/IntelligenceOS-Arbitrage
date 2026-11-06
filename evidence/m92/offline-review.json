@@ -1,0 +1,168 @@
+{
+  "kind": "DERIVED_OFFLINE_REVIEW",
+  "procedure": "docs/M88_ENRICHED_RECONCILIATION.md; docs/M88_TARGETED_VERIFICATION.md",
+  "limitation": "Research rejection from retained observations only; no independent human signoff or new observations. Source conflicts persist.",
+  "rejections": [
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B072J37ZZD",
+      "amazon_title": "Elmer's Liquid School Glue, Slime & Craft, Safe and Non-Toxic, Washable, White, 4 Ounces Each, 12 Count - For Classroom, Home, Office, Teacher Supplies, #1 Teacher Brand",
+      "amazon_size": "4 Oz. - 12 count",
+      "reason": "12-count offer versus one bottle; sellable quantity incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B074762X1J",
+      "amazon_title": "Elmer's Washable Liquid School Glue for Kids Art Projects, 4 Ounce, 2 Count",
+      "amazon_size": "4 Ounces",
+      "reason": "2-count offer versus one bottle; sellable quantity incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B014T4C58W",
+      "amazon_title": "Elmer's Washable No-Run School Glue, 4 oz, 3 Pack",
+      "amazon_size": "3 Pack",
+      "reason": "3-pack offer versus one bottle; sellable quantity incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B0GZ8G4ZVP",
+      "amazon_title": "Elmer's Washable Liquid School Glue, 4 oz., White, 48/Box",
+      "amazon_size": "4 oz.",
+      "reason": "48/Box offer versus one bottle; sellable quantity incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B08BFDVHWB",
+      "amazon_title": "Elmer\u2019s Disappearing Purple Liquid School Glue, 4-Ounces, 1 Count",
+      "amazon_size": "4-Ounces",
+      "reason": "Disappearing Purple formulation versus white school glue; variation incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B0006HUJJO",
+      "amazon_title": "Elmer's White Liquid School Glue, 1 Gallon, Safe, Washable, 1 Count, - #1 Teacher Brand, Bulk Arts & Crafts, Projects, Classroom Supplies, Great for Making Slime",
+      "amazon_size": "1 Gallon",
+      "reason": "1 Gallon versus one 4 fl oz bottle; size incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B0719KJZ3C",
+      "amazon_title": "Elmer's Glue-All, Multi-Purpose Liquid Glue, 4oz, 12 Count - #1 Teacher Brand, Arts & Crafts, Non-Toxic",
+      "amazon_size": "4 Fl Oz",
+      "reason": "Glue-All multi-purpose formulation versus School Glue; product model/family incompatible."
+    },
+    {
+      "walmart_item_id": "17011265",
+      "asin": "B0G2N48SPJ",
+      "amazon_title": "Elmer\u2019s Disappearing Purple Liquid School Glue, 4-Ounces, 5 Count",
+      "amazon_size": "4-Ounces",
+      "reason": "Disappearing Purple formulation versus white school glue; variation incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B0BTZ7KJ54",
+      "amazon_title": "Duracell AA Batteries, Alkaline, 8 Count | Coppertop | Power Boost | Long-Lasting | For Household Devices",
+      "amazon_size": "8 AA Batteries (Pack of 2)",
+      "reason": "8 AA Batteries (Pack of 2) versus one retail eight-cell pack; sellable quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B0035LCFNQ",
+      "amazon_title": "Duracell Coppertop AA Batteries, 24 Count, 12-Year Shelf Life, Long-lasting",
+      "amazon_size": "24 Count (Pack of 1)",
+      "reason": "24 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B0B1DF9NVJ",
+      "amazon_title": "DURACELL Coppertop AA Batteries, 28 Count, 12-Year Shelf Life, Recloseable Storage",
+      "amazon_size": "AA - 28 Count (pack of 1)",
+      "reason": "28 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B003SIOZB6",
+      "amazon_title": "DURACELL Coppertop AA Batteries, 16 Count, 12-Year Shelf Life, Long-Lasting",
+      "amazon_size": "16 Count (Pack of 1)",
+      "reason": "16 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B003CZX4A8",
+      "amazon_title": "Duracell Coppertop AA Batteries, 10 Count, 12-Year Shelf Life, Long-lasting",
+      "amazon_size": "10 Count (Pack of 1)",
+      "reason": "10 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B01CCFYSK8",
+      "amazon_title": "DURACELL Coppertop Alkaline Batteries with Duralock Power Preserve Technology Aa 20/Pk (Durmn1500b20z)",
+      "amazon_size": "",
+      "reason": "20/Pk versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B00000JHQ6",
+      "amazon_title": "Duracell Alkaline Powerboost AA4 Battery, 4 Count",
+      "amazon_size": "4 AA Batteries (Pack of 1)",
+      "reason": "4 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "asin": "B002UXRXEG",
+      "amazon_title": "DURACELL Coppertop AA Batteries, 20 Count, 12-Year Shelf Life, Long-Lasting",
+      "amazon_size": "20 Count (Pack of 1)",
+      "reason": "20 cells versus eight cells; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "37481849",
+      "asin": "B0DC7GVCTY",
+      "amazon_title": "Post-it Notes, 3 in x 3 in, 4 Sticky Notes Pads, 50 Sheets per Pad, The Iconic Canary Yellow Note, School Supplies and O\ufb03ce Products (Pack of 2)",
+      "amazon_size": "3 in x 3 in",
+      "reason": "50 sheets per pad and Pack of 2 versus four pads of 90 sheets each; contents/variation incompatible."
+    },
+    {
+      "walmart_item_id": "37481849",
+      "asin": "B00006JNNE",
+      "amazon_title": "Post-it Notes, 3 x 3 in, The Iconic Canary Yellow Note, 12 Pads",
+      "amazon_size": "3\" x 3\"",
+      "reason": "12 Pads versus four pads; contents quantity incompatible."
+    },
+    {
+      "walmart_item_id": "721324153",
+      "asin": "B074J7XQZT",
+      "amazon_title": "Gorilla Clear Glue, All Purpose, Polyurethane, 3.75 oz Bottle",
+      "amazon_size": "3.75 Fl Oz",
+      "reason": "3.75 Fl Oz is incompatible with both recorded source sizes (5.75 fl oz and conflicting 0.5 oz); source conflict is not resolved."
+    },
+    {
+      "walmart_item_id": "721324153",
+      "asin": "B07MWRV574",
+      "amazon_title": "Gorilla Clear Glue, All Purpose, Polyurethane, 3.75 oz Bottle, 2-Pack",
+      "amazon_size": "3.75 Fl Oz",
+      "reason": "3.75 Fl Oz is incompatible with both recorded source sizes (5.75 fl oz and conflicting 0.5 oz); source conflict is not resolved."
+    },
+    {
+      "walmart_item_id": "721324153",
+      "asin": "B06WP8CRQR",
+      "amazon_title": "Gorilla Clear Glue, 1.75 ounce Bottle, Clear (Pack of 4)",
+      "amazon_size": "4 - Pack",
+      "reason": "1.75 ounce bottles in a four-pack versus one bottle and recorded 5.75/0.5 oz conflict; incompatible size/quantity."
+    },
+    {
+      "walmart_item_id": "711088244",
+      "asin": "B016Z5TWSO",
+      "amazon_title": "Highland 6200K6 Invisible Permanent Mending Tape, 3/4-Inch x 1000-Inch, 1-Inch Core, Clear, 6/Pack",
+      "amazon_size": "0.75 Inches Width x 28 Yards Length",
+      "reason": "6/Pack versus four rolls; contents quantity incompatible; source brand conflict remains."
+    },
+    {
+      "walmart_item_id": "711088244",
+      "asin": "B0H7QSCCRC",
+      "amazon_title": "ZXUAPESTIKX 48 Rolls Crystal Clear Tape, 3/4\"x 1000\" with Tape Dispenser",
+      "amazon_size": "3/4\" x 1000\"",
+      "reason": "48 Rolls versus four rolls; contents quantity incompatible; source brand conflict remains."
+    }
+  ]
+}

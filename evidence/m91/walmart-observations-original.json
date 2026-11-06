@@ -1,0 +1,84 @@
+{
+  "cohort_id": "m88-real-six-pilot",
+  "source": "Browser Use public Walmart pages",
+  "browser_run_id": "492c2722-82b1-44a7-b83d-fb0136f061f6",
+  "delivery_context": "Sacramento, CA 95829 (not DFW)",
+  "currency": "USD",
+  "amazon_http_attempts": 0,
+  "amazon_http_attempt_cap": 49,
+  "purchase_authorized": false,
+  "notes": [
+    "All sold and shipped by Walmart.com",
+    "Shipping arrival tomorrow shown in browser context, not verified for DFW",
+    "No GTIN/UPC confirmed",
+    "No Amazon match, fees, tax, inbound shipping, demand or eligibility verified"
+  ],
+  "products": [
+    {
+      "walmart_item_id": "17011265",
+      "title": "Elmer’s Liquid School Glue",
+      "pack_size": "4 oz; 1 count; single",
+      "observed_price_usd": 1.17,
+      "observed_at_utc": "2026-11-05T02:38:29Z",
+      "url": "https://www.walmart.com/ip/Elmer-s-Liquid-School-Glue-Washable-4oz-1-Count/17011265",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    },
+    {
+      "walmart_item_id": "13952053139",
+      "title": "Duracell Coppertop AA Alkaline Batteries",
+      "pack_size": "AA; 8/PK",
+      "observed_price_usd": 9.73,
+      "observed_at_utc": "2026-11-05T02:38:33Z",
+      "url": "https://www.walmart.com/ip/Duracell-Coppertop-AA-Alkaline-Batteries-8-PK/13952053139",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    },
+    {
+      "walmart_item_id": "37481849",
+      "title": "Post-it Super Sticky Notes Canary Yellow",
+      "pack_size": "3 x 3 in; 4 pads; 90 sheets per pad",
+      "observed_price_usd": 5.97,
+      "observed_at_utc": "2026-11-05T02:38:38Z",
+      "url": "https://www.walmart.com/ip/Post-it-Super-Sticky-Notes-Canary-Yellow-3-in-x-3-in-4-Pads/37481849",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    },
+    {
+      "walmart_item_id": "47070933",
+      "title": "Scotch Transparent Tape",
+      "pack_size": "3/4 x 1000 in; 4 rolls; single pack",
+      "observed_price_usd": 8.79,
+      "observed_at_utc": "2026-11-05T02:38:42Z",
+      "url": "https://www.walmart.com/ip/Scotch-Transparent-Tape-3-4-in-x-1000-in-4-Rolls/47070933",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    },
+    {
+      "walmart_item_id": "721324153",
+      "title": "Gorilla Clear Glue",
+      "pack_size": "5.75 oz; 1 bottle",
+      "observed_price_usd": 11.18,
+      "observed_at_utc": "2026-11-05T02:38:46Z",
+      "url": "https://www.walmart.com/ip/Gorilla-Clear-Glue-5-75-Ounce-Bottle-Pack-of-1-Bottle/721324153",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    },
+    {
+      "walmart_item_id": "711088244",
+      "title": "Pen + Gear Invisible Tape Clear",
+      "pack_size": "3/4 x 1000 in; 4 rolls; single pack",
+      "observed_price_usd": 5.88,
+      "observed_at_utc": "2026-11-05T02:38:50Z",
+      "url": "https://www.walmart.com/ip/Pen-Gear-Invisible-Tape-Clear-3-4-x-1000-4-Roll-of-Tape/711088244",
+      "seller": "Walmart.com",
+      "shipping_charge_usd": null,
+      "availability": "Shipping offered in browser context"
+    }
+  ]
+}

@@ -1,0 +1,556 @@
+{
+  "candidate_id": "m88-real-six-pilot:47070933",
+  "evidence": {
+    "candidates": [
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0000AQOAB",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00021200527876",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200527876",
+              "value": "0021200527876"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200527876",
+              "value": "00021200527876"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200527876",
+              "value": "021200527876"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "600K6",
+          "observed_at": "2026-11-05T03:02:38.171513+00:00",
+          "pack_quantity": 1,
+          "size": "6 Rolls",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0000AQOAB",
+          "title": "Scotch Transparent Tape, Clear Tape Engineered for Office and Home Use, 1 Inch Core, 3/4 in x 1000 in, 6 Boxes",
+          "url": "https://www.amazon.com/dp/B0000AQOAB",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"6 Rolls\", \"style\": \"6 Rolls\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B003GSBA5C",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00051141913346",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00051141913346",
+              "value": "0051141913346"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00051141913346",
+              "value": "00051141913346"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00051141913346",
+              "value": "051141913346"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "600K24",
+          "observed_at": "2026-11-05T03:02:38.171895+00:00",
+          "pack_quantity": 1,
+          "size": "24 Rolls",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B003GSBA5C",
+          "title": "Scotch Transparent Tape, 1 Inch Core, Refills, 3/4 in. x 1,000 in.",
+          "url": "https://www.amazon.com/dp/B003GSBA5C",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"24 Rolls\", \"style\": \"Tape\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B001BE12BA",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00021200471797",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200471797",
+              "value": "0021200471797"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200471797",
+              "value": "00021200471797"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200471797",
+              "value": "021200471797"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "600K3",
+          "observed_at": "2026-11-05T03:02:38.174392+00:00",
+          "pack_quantity": 1,
+          "size": "3 Rolls",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B001BE12BA",
+          "title": "Scotch Transparent Tape, 1 Inch Core 3/4 in x 1000 in, 3 Boxes, Clear",
+          "url": "https://www.amazon.com/dp/B001BE12BA",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"3 Rolls\", \"style\": \"3 Rolls\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0FNFPJGDX",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00199284256668",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00199284256668",
+              "value": "0199284256668"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00199284256668",
+              "value": "199284256668"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "810K10",
+          "observed_at": "2026-11-05T03:02:38.174653+00:00",
+          "pack_quantity": 1,
+          "size": "3/4 inch x 1000 inches 1 inch core",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0FNFPJGDX",
+          "title": "Scotch Magic Tape Refill Rolls, Invisible Matte Finish, 3/4\" x 1000\" (1\" Core), 2-Pack (20 Total Rolls), Permanent Adhesive for Office, School, and Gift Wrapping",
+          "url": "https://www.amazon.com/dp/B0FNFPJGDX",
+          "variation": "{\"color\": \"Clear (Invisible on Paper)\", \"size\": \"3/4 inch x 1000 inches 1 inch core\", \"style\": \"20 Rolls\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0006BAFKI",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00021200591488",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200591488",
+              "value": "0021200591488"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200591488",
+              "value": "00021200591488"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200591488",
+              "value": "021200591488"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "810K4",
+          "observed_at": "2026-11-05T03:02:38.174881+00:00",
+          "pack_quantity": 1,
+          "size": "0.75 x 1000 inches (4 rolls)",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0006BAFKI",
+          "title": "Scotch Magic Tape, Invisible, 4 Rolls",
+          "url": "https://www.amazon.com/dp/B0006BAFKI",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"0.75 x 1000 inches (4 rolls)\", \"style\": \"Tape\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0FZPLZFZM",
+          "brand": "Zizlurnar",
+          "confidence": "MEDIUM",
+          "gtin": "00740625212708",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00740625212708",
+              "value": "0740625212708"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00740625212708",
+              "value": "740625212708"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "ZL0001",
+          "observed_at": "2026-11-05T03:02:38.175130+00:00",
+          "pack_quantity": 1,
+          "size": "3/4 x 1000 in",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0FZPLZFZM",
+          "title": "Zizlurnar 12 Rolls Transparent Tape Refills Rolls, Clear Tape, 1 in Core, 3/4 x 1000 in, Gift Packaging Tape Refill Roll for Office, Home, School",
+          "url": "https://www.amazon.com/dp/B0FZPLZFZM",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"3/4 x 1000 in\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B00KKXI68U",
+          "brand": "Highland",
+          "confidence": "MEDIUM",
+          "gtin": "00051141356952",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00051141356952",
+              "value": "0051141356952"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00051141356952",
+              "value": "00051141356952"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00051141356952",
+              "value": "051141356952"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "5910K12",
+          "observed_at": "2026-11-05T03:02:38.175399+00:00",
+          "pack_quantity": 1,
+          "size": "0.75 Inches Width x 28 Yards Length",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B00KKXI68U",
+          "title": "Highland Transparent Tape, 3/4\" x 1000\", 1\" Core, Clear, 12/Pack (5910K12)",
+          "url": "https://www.amazon.com/dp/B00KKXI68U",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"0.75 Inches Width x 28 Yards Length\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0000DH8HT",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00021200519017",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200519017",
+              "value": "0021200519017"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200519017",
+              "value": "00021200519017"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200519017",
+              "value": "021200519017"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "810K3",
+          "observed_at": "2026-11-05T03:02:38.175642+00:00",
+          "pack_quantity": 1,
+          "size": "1000-Inches",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0000DH8HT",
+          "title": "Scotch Magic Tape, Invisible, 3 Rolls",
+          "url": "https://www.amazon.com/dp/B0000DH8HT",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"1000-Inches\", \"style\": \"3 Rolls\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B00275Y72I",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00021200472701",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200472701",
+              "value": "0021200472701"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200472701",
+              "value": "00021200472701"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200472701",
+              "value": "021200472701"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "600K12",
+          "observed_at": "2026-11-05T03:02:38.175933+00:00",
+          "pack_quantity": 1,
+          "size": "12 Rolls",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B00275Y72I",
+          "title": "Scotch Transparent Tape, Clear Tape, 1 Inch Core, 3/4 in x 1000 in",
+          "url": "https://www.amazon.com/dp/B00275Y72I",
+          "variation": "{\"color\": \"Transparent\", \"size\": \"12 Rolls\", \"style\": \"Tape\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0GV1QZVWL",
+          "brand": "Scotch",
+          "confidence": "MEDIUM",
+          "gtin": "00068060306838",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00068060306838",
+              "value": "00068060306838"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "815K3",
+          "observed_at": "2026-11-05T03:02:38.176285+00:00",
+          "pack_quantity": 1,
+          "size": "0.75 in. x 1000 in.",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0GV1QZVWL",
+          "title": "Scotch Gift Wrap Tape, Clear, 0.75 in. x 1000 in., 3 Rolls Tape Refills",
+          "url": "https://www.amazon.com/dp/B0GV1QZVWL",
+          "variation": "{\"color\": \"Clear\", \"size\": \"0.75 in. x 1000 in.\"}",
+          "verified": true
+        }
+      }
+    ],
+    "more_results": true,
+    "selected_asin": null,
+    "status": "UNRESOLVED",
+    "total_results": 247
+  },
+  "number": 5,
+  "observed_at": "2026-11-05T03:02:38.179510+00:00",
+  "phase": "search"
+}

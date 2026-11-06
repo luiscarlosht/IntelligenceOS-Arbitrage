@@ -1,0 +1,78 @@
+{
+  "schema": "m92_pins_v1",
+  "m91_pins_sha256": "f2cba6fee1c89b27ebd394ab3c1c05b70985f00708ddbde7a061b4ef07c3358d",
+  "artifacts": [
+    {
+      "path": "walmart-identity-enrichment-original.json",
+      "original_path": "var/m88-real-six-pilot/20261105T033415756534Z-reconciliation/walmart-identity-enrichment-original.json",
+      "sha256": "1b34b116cf509bf2da718e33efd1770a47e3e2bae4e0c5d84bcdcd6b5ce5a85a",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-9.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-9.json",
+      "sha256": "88357f95cf869325c874c78dd680ac465181fd239fd98dceef7d00854a8fe938",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-10.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-10.json",
+      "sha256": "935259d000c6d47778f1e7574edad40865c9370ddf87933cb88c4c3e3886b238",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "receipt-11.json",
+      "original_path": "var/m88-real-six-pilot/m88-targeted-verification-v1/receipt-11.json",
+      "sha256": "7f940934bbfb2ac12452833773a825a25158b71a2d1e70c5cd1c6bdeaf2f046f",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "offline-review.json",
+      "sha256": "43a76d808903b9c67f785aa317a350def6d97d56ca51e7b82dba24669e54e890",
+      "kind": "DERIVED_OFFLINE_REVIEW",
+      "original_path": "M92 offline analysis of pinned M91/M88 observations"
+    },
+    {
+      "path": "public-manufacturer-review.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "721fa1b528b4dd35d8b714f79f3447ea5191ad33898c084520eccc7f504f5ad5",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "public-page-retrieval.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "9a52dd2c7eb6bcdb1958b9a9325e562e3cd66ece1f2235016686f0be23a38c59",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "public-research-discovery.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "1377996921357612cb3f7f07ce8adcded5625c6a789e5c0680c93e2f8aeafaef",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "public-supplemental-sources.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "8c0c18d6a3d2835bdcbe71ce4a0d13ad9d12c1b4565e6f7123629f3f589abe85",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "public-targeted-search.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "26c8776dcec297320ecce30ba130bee3a4ccd1c1557ebd46cd2c341ee239b471",
+      "kind": "REAL_SAVED_RESEARCH"
+    },
+    {
+      "path": "continuation-review.json",
+      "original_path": "M92 public research continuation",
+      "sha256": "0933f2152191e1df71d829ef9bf4a1df6a1f1356c375dba42554778c868b4357",
+      "kind": "DERIVED_OFFLINE_REVIEW"
+    },
+    {
+      "path": "completion-plan.json",
+      "original_path": "User M92 clarification and offline collection planning",
+      "sha256": "8f73aff2c69abf895f9828dd7975b889f7b712f8c749dab18a3382e4651a2e12",
+      "kind": "DERIVED_OFFLINE_REVIEW"
+    }
+  ]
+}

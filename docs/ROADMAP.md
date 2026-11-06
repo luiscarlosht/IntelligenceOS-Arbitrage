@@ -1,5 +1,9 @@
 # Roadmap
 
+M90.1 adds an offline-tested controlled authentication-14 / conditional Catalog-15
+core. Live execution remains blocked on reviewed shared-lock/service permissions
+and genuine account evidence. See [M90.1 guide](M901_CONTROLLED_VALIDATION.md).
+
 - M89 offline authentication diagnosis: local Internet socket creation reproduces
   EPERM in the restricted runtime; historical nested exception was not retained.
   Added sanitized transport diagnostics and an offline readiness report. No new
@@ -288,3 +292,110 @@ M89 DigitalOcean preparation adds protected environment configuration, exact
 12/49 ledger transfer validation, DNS/TCP/TLS-only preflight and an explicitly
 opted-in, single-use authentication command. Deployment and live validation remain
 operator gates. See [deployment readiness](M89_DIGITALOCEAN_DEPLOYMENT.md).
+
+M90 read-only validation preparation: one Catalog Items GET for B001BE12BA,
+US summaries only, with full M89 ledger continuation and charged attempt 14.
+Implementation and synthetic tests do not establish live readiness. Production
+13-attempt hash, seller permissions, shared lock and a fresh token broker remain
+blockers; no authentication, deployment, main merge or live execution authorized.
+See [M90 preparation](M90_SP_API_VALIDATION.md).
+
+## M90.2 — Secure execution broker
+
+Offline broker core, fixed requester protocol, protected authorization/evidence
+contract, existing lock identity checks, durable independent consumption and
+synthetic security/crash tests implemented for review. See
+[M90.2 design and blockers](M902_SECURE_EXECUTION_BROKER.md). No live enablement,
+production changes or Amazon requests. Historical budget remains 13/49 used.
+
+M90.3 readiness: independently review and implement the one-shot privileged
+launcher, kernel requester identity and immutable release verification; reconcile
+all legacy Amazon writers and M89 account-lock omission; approve network boundary,
+protected filesystem provisioning and retained claim storage. Deployment and live
+two-request execution each require separate explicit authorization.
+
+## M90.2a — Security hardening and evidence-based readiness
+
+Exact nested schemas, single-snapshot credentials/history and descriptor-relative
+broker persistence are implemented with synthetic security regressions. Read-only
+visible production inventory identifies installed legacy runners, group-writable
+release sources and untrusted/inaccessible ledger/credential ancestry. Host runtime
+state, firewall and current ledger remain blocked by sandbox access; historical
+13/49 is not a fresh verification. See [M90.2a assessment](M902A_SECURITY_READINESS.md).
+
+M90.3 must resolve host evidence, filesystem/legacy writer coordination, immutable
+release verification and the one-shot SO_PEERCRED launcher/independent egress design.
+Deployment and live requests still need separate authorization; no production
+permissions, services, `/current`, ledger or account lock changed in M90.2a.
+
+## M90.2b — Ledger verifier and storage migration design
+
+Offline-tested fixed-invocation verifier uses existing locks only, no persistent
+writes, no network and a pure full-history validator. Kernel flock state is
+transient and requires separate production verification approval. Current ledger
+ownership and missing reviewed policy remain blockers; production is not verified.
+See [M90.2b plan](M902B_LEDGER_STORAGE_READINESS.md) for A/B alternatives and the
+recommended dedicated protected-state Strategy B. M90.3 must review source audit,
+writer isolation, immutable runtime, claim retention and durable authority cutover,
+including a fixed-path verifier revision before any ledger relocation. Existing
+reporting restrictions and V0.2 `/current` remain unchanged; no migration is run.
+
+## M90.2c — Protected authority cutover design
+
+Pure offline Strategy B transition model, claim reconciliation checks, evidence/
+approval bindings and successor-verifier predicate are implemented with synthetic
+tests. See [M90.2c design](M902C_AUTHORITY_CUTOVER_DESIGN.md) for the full writer
+matrix, maintenance-freeze source audit, durable commit/recovery, immutable runtime,
+one-shot kernel-authenticated launcher and deny-default network proposals.
+
+M90.3 must first implement/review real source/FS/journal/verifier/runtime adapters
+and independent nonce retention offline. Current source ownership, credential
+isolation, complete claims/writer evidence and actual egress remain blockers.
+Provisioning, freeze, per-transition cutover, deployment and any live requests each
+need separate approvals. No production migration or reporting/current change here.
+
+## M90.3a — Durable authority filesystem infrastructure
+
+Synthetic filesystem-backed journal, independent nonce/checkpoint registry,
+retained acknowledgement, source audit, manifest and successor verifier are
+implemented with subprocess crash/fsync/rollback/security tests. See
+[M90.3a evidence and limits](M903A_DURABLE_AUTHORITY_READINESS.md). No production
+invocation, migration, live request or protected-state provisioning is enabled.
+
+M90.3b must independently review the protocol, integrate authenticated external
+checkpoint retention and real protected approvals/receipts, attest host/runtime/
+freeze/claims/writers/network, and implement a separately reviewed fixed-path
+production adapter. Every deployment, provisioning, source audit, freeze, cutover
+and eventual live operation still needs its own explicit approval. No rollback
+reset or automatic replay is permitted.
+
+## Simplified M91–M93 path
+
+M91 provides a reproducible offline real-evidence baseline with six unresolved
+Walmart/Catalog research leads, provenance and an M92 evidence checklist. See
+[M91 guide](M91_EVIDENCE_BASELINE.md). M92 must establish one independently
+verified exact match and complete fresh profitability inputs; M93 depends on that
+business evidence. No unsupported match is promoted and no purchase is authorized.
+
+Post-M93 backlog: M90.3b authority infrastructure, new dashboards, automatic
+sourcing/purchasing, and additional infrastructure. These are outside M91.
+
+M92 completes the offline review of 60 original source/ASIN pairs: 57 research
+rejections and 3 unresolved leads. Elmer's 17011265 / B000Q3KHCM is strongest by
+identity evidence; none passes exact identity. FBA profitability remains UNKNOWN.
+M93 requires independent package/model identity, DFW landed acquisition evidence,
+and complete fresh FBA cost/eligibility evidence. See [M92 POC](M92_REAL_PRODUCT_PROFITABILITY.md).
+No new milestone or infrastructure is added.
+
+The November 6 M92 public research continuation retains manufacturer-family and
+retailer-code evidence for the three remaining leads, with updated Excel/JSON
+decisions and a targeted collection plan. M92 remains open: no exact package match,
+fresh DFW landed cost, complete FBA economics or seller eligibility is established.
+No M93 work or M92 sub-milestone is started.
+
+M92's subsequent offline clarification fixes the DFW reference to Mansfield TX
+76063 and applies the five supplied final classifications while preserving separate
+identity, eligibility and economics verdicts. All three remaining pairs are
+INSUFFICIENT_EVIDENCE; 57 supported contradictions are REJECTED_IDENTITY. The
+[targeted collection plan](M92_COLLECTION_PLAN.md) requires separate authorization
+before new public or account collection. M92 remains open.

@@ -1,0 +1,577 @@
+{
+  "candidate_id": "m88-real-six-pilot:37481849",
+  "evidence": {
+    "candidates": [
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0DC7GVCTY",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [],
+          "mapping_issues": [],
+          "model": "7100278299",
+          "observed_at": "2026-11-05T03:02:37.324712+00:00",
+          "pack_quantity": 1,
+          "size": "3 in x 3 in",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0DC7GVCTY",
+          "title": "Post-it Notes, 3 in x 3 in, 4 Sticky Notes Pads, 50 Sheets per Pad, The Iconic Canary Yellow Note, School Supplies and Oﬃce Products (Pack of 2)",
+          "url": "https://www.amazon.com/dp/B0DC7GVCTY",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3 in x 3 in\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0GX7M49PW",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00199874029016",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00199874029016",
+              "value": "0199874029016"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00199874029016",
+              "value": "199874029016"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "654-16CY-SR",
+          "observed_at": "2026-11-05T03:02:37.325024+00:00",
+          "pack_quantity": 1,
+          "size": "3\" x 3\" (32 Pads)",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0GX7M49PW",
+          "title": "Post-it Notes, 32 Sticky Note Pads, 2400 Count, 3 x 3 in., School Supplies and Office Products, The Iconic Canary Yellow Note",
+          "url": "https://www.amazon.com/dp/B0GX7M49PW",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3\\\" x 3\\\" (32 Pads)\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B00006JNNE",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200697258",
+              "value": "0021200697258"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "30021200155773",
+              "value": "30021200155773"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200697258",
+              "value": "021200697258"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers",
+            "Package hierarchy requires source verification"
+          ],
+          "model": "654",
+          "observed_at": "2026-11-05T03:02:37.328628+00:00",
+          "pack_quantity": 1,
+          "size": "3\" x 3\"",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B00006JNNE",
+          "title": "Post-it Notes, 3 x 3 in, The Iconic Canary Yellow Note, 12 Pads",
+          "url": "https://www.amazon.com/dp/B00006JNNE",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3\\\" x 3\\\"\", \"style\": \"3 \\\" x 3 \\\"\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0BPJQ8G6M",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00076308410391",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00076308410391",
+              "value": "0076308410391"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00076308410391",
+              "value": "00076308410391"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00076308410391",
+              "value": "076308410391"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "654R-24SSCY-CP",
+          "observed_at": "2026-11-05T03:02:37.329070+00:00",
+          "pack_quantity": 1,
+          "size": "3\" x 3\"",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0BPJQ8G6M",
+          "title": "Post-it 100% Recycled Super Sticky Notes, 3 x 3 in, Canary Yellow, 24 Pads",
+          "url": "https://www.amazon.com/dp/B0BPJQ8G6M",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3\\\" x 3\\\"\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0002DOEOS",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00021200531248",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200531248",
+              "value": "0021200531248"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200531248",
+              "value": "00021200531248"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200531248",
+              "value": "021200531248"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "660-5SSCY",
+          "observed_at": "2026-11-05T03:02:37.331475+00:00",
+          "pack_quantity": 1,
+          "size": "4 x 6 in, 5 Pads",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0002DOEOS",
+          "title": "Post-it Super Sticky Lined Notes, 5 Sticky Note Pads, 4 x 6 in., School Supplies for Students, Ideal for Textbooks, Notebooks, Walls and Vertical Surfaces, Canary Yellow",
+          "url": "https://www.amazon.com/dp/B0002DOEOS",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"4 x 6 in, 5 Pads\", \"style\": \"Notes\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0BPJVMLBF",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00068060469922",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00068060469922",
+              "value": "0068060469922"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00068060469922",
+              "value": "00068060469922"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00068060469922",
+              "value": "068060469922"
+            }
+          ],
+          "mapping_issues": [],
+          "model": "654R-5SSCY",
+          "observed_at": "2026-11-05T03:02:37.331713+00:00",
+          "pack_quantity": 1,
+          "size": "3.1\" x 3.1\"",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0BPJVMLBF",
+          "title": "Post-it 100% Recycled Super Sticky Notes, 3 x 3 in, Canary Yellow, 5 Pads",
+          "url": "https://www.amazon.com/dp/B0BPJVMLBF",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3.1\\\" x 3.1\\\"\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0002DOF7E",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200531217",
+              "value": "00021200531217"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00051141968797",
+              "value": "00051141968797"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00628304115581",
+              "value": "00628304115581"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200531217",
+              "value": "021200531217"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers"
+          ],
+          "model": "654-12SSCY",
+          "observed_at": "2026-11-05T03:02:37.331933+00:00",
+          "pack_quantity": 1,
+          "size": "12 Pads",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0002DOF7E",
+          "title": "Post-it Super Sticky Notes, 12 Sticky Note Pads, 3 x 3 in., School Supplies, Office Products, Sticky Notes for Vertical Surfaces, Monitors, Walls and Windows, Canary Yellow",
+          "url": "https://www.amazon.com/dp/B0002DOF7E",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"12 Pads\", \"style\": \"Canary Yellow\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0GT25YHP8",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00638060850435",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00638060850435",
+              "value": "0638060850435"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00638060850435",
+              "value": "638060850435"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "654-16CY-SR",
+          "observed_at": "2026-11-05T03:02:37.332282+00:00",
+          "pack_quantity": 1,
+          "size": "3\" x 3\" (16 Pads)",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0GT25YHP8",
+          "title": "Post-it Notes, 16 Sticky Note Pads, 3 x 3 in., School Supplies and Office Products, The Iconic Canary Yellow Note",
+          "url": "https://www.amazon.com/dp/B0GT25YHP8",
+          "variation": "{\"color\": \"Canary Yellow\", \"size\": \"3\\\" x 3\\\" (16 Pads)\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0002DOF7O",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00021200531262",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200531262",
+              "value": "0021200531262"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200531262",
+              "value": "00021200531262"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200531262",
+              "value": "021200531262"
+            }
+          ],
+          "mapping_issues": [
+            "Variation theme values incomplete"
+          ],
+          "model": "675-6SSCY",
+          "observed_at": "2026-11-05T03:02:37.332690+00:00",
+          "pack_quantity": 1,
+          "size": "4\" x 4\"",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0002DOF7O",
+          "title": "Post-it Super Sticky Notes, 4 x 4 in, Canary Yellow, 6 Lined Pads",
+          "url": "https://www.amazon.com/dp/B0002DOF7O",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [
+            "pack_quantity"
+          ],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0039507MO",
+          "brand": "Post-it",
+          "confidence": "MEDIUM",
+          "gtin": "00021200707360",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00021200707360",
+              "value": "0021200707360"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00021200707360",
+              "value": "00021200707360"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00021200707360",
+              "value": "021200707360"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification",
+            "Variation theme values incomplete"
+          ],
+          "model": "635-5PKSS",
+          "observed_at": "2026-11-05T03:02:37.337193+00:00",
+          "pack_quantity": 1,
+          "size": "2\" x 5\"",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0039507MO",
+          "title": "Post-it Notes, 3 in x 5 in, 5 Lined Sticky Notes Pads, 100 Sheets per Pad, Canary Yellow, The Original Post-it Note, School Supplies and Oﬃce Products",
+          "url": "https://www.amazon.com/dp/B0039507MO",
+          "variation": "",
+          "verified": true
+        }
+      }
+    ],
+    "more_results": true,
+    "selected_asin": null,
+    "status": "UNRESOLVED",
+    "total_results": 155
+  },
+  "number": 4,
+  "observed_at": "2026-11-05T03:02:37.338648+00:00",
+  "phase": "search"
+}

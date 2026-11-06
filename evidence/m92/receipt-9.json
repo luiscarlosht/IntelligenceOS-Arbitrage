@@ -1,0 +1,531 @@
+{
+  "candidate_id": "m88-real-six-pilot:17011265",
+  "evidence": {
+    "comparisons": {
+      "brand": {
+        "amazon": "Elmer's",
+        "status": "MATCH",
+        "walmart": "Elmer's"
+      },
+      "formulation": {
+        "amazon_item_form": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Liquid"
+          }
+        ],
+        "status": "UNRESOLVED_UNLESS_INDEPENDENTLY_SCOPED",
+        "walmart_description": "One 4 fl oz bottle of white washable non-toxic no-run liquid school glue; dries clear"
+      },
+      "gtin": {
+        "amazon": "",
+        "amazon_identifiers": [
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00026000003049",
+            "value": "0026000003049"
+          },
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00026000203043",
+            "value": "0026000203043"
+          },
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00026000213042",
+            "value": "0026000213042"
+          },
+          {
+            "identifier_type": "GTIN",
+            "normalized_gtin": "00026000203043",
+            "value": "00026000203043"
+          },
+          {
+            "identifier_type": "GTIN",
+            "normalized_gtin": "00026000213042",
+            "value": "00026000213042"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00026000003049",
+            "value": "026000003049"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00026000203043",
+            "value": "026000203043"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00026000213042",
+            "value": "026000213042"
+          }
+        ],
+        "walmart": "00026000003049"
+      },
+      "independent_human_signoff": false,
+      "manufacturer_model": {
+        "amazon": "E304",
+        "status": "DIFFERENT_LABELS",
+        "walmart": "SAP_2089725"
+      },
+      "manufacturer_part_number": {
+        "amazon": "E304",
+        "status": "DIFFERENT_LABELS",
+        "walmart": "2089725"
+      },
+      "quantity_packaging": {
+        "amazon_item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_package_quantity": 1,
+        "equivalence": "UNKNOWN",
+        "relationships": [
+          {
+            "child_asins": [],
+            "parent_asins": [
+              "B007JURMIM",
+              "B00885TKE6",
+              "B00PE13YDK",
+              "B00QFX4XRM",
+              "B00XCQODUM",
+              "B00YAO1HHW",
+              "B014I5E7Z6",
+              "B014T4C58W",
+              "B074762X1J",
+              "B074825JLD",
+              "B074H6GPBH",
+              "B074HD2JCX",
+              "B074KYG8LK",
+              "B07JX51N5Y",
+              "B07MZB5GND",
+              "B08NGYMF2B",
+              "B0GZ8G4ZVP"
+            ],
+            "relationship_type": "PACKAGE_HIERARCHY",
+            "theme": "",
+            "theme_attributes": []
+          },
+          {
+            "child_asins": [],
+            "parent_asins": [
+              "B07532G1QG"
+            ],
+            "relationship_type": "VARIATION",
+            "theme": "SIZE_NAME/UNIT_COUNT",
+            "theme_attributes": [
+              "size",
+              "unit_count"
+            ]
+          }
+        ],
+        "walmart_basis": "Reported count of contents; Amazon sellable-package equivalence unverified",
+        "walmart_count": 1
+      },
+      "size": {
+        "amazon_size": "4 Oz.",
+        "amazon_unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Fl Oz"
+            },
+            "value": "4.0"
+          }
+        ],
+        "status": "NO_UNIT_OR_PACKAGE_EQUIVALENCE_INFERRED",
+        "walmart_structured_size": "UNKNOWN"
+      }
+    },
+    "identity": {
+      "exact": false,
+      "mismatches": [
+        "model"
+      ],
+      "missing": [
+        "amazon.gtin",
+        "amazon.valid_gtin",
+        "amazon.variation",
+        "catalog.mapping_issues",
+        "manufacturer_part_number.mismatch",
+        "model.mismatch",
+        "retailer.size",
+        "size.explicit_identity",
+        "source.verified_identity",
+        "variation.mismatch"
+      ]
+    },
+    "product": {
+      "asin": "B000Q3KHCM",
+      "brand": "Elmer's",
+      "confidence": "MEDIUM",
+      "dimensions": [
+        {
+          "item": {
+            "height": {
+              "unit": "inches",
+              "value": "1.25"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "2.5"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.2"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "5.5"
+            }
+          },
+          "marketplaceId": "ATVPDKIKX0DER",
+          "package": {
+            "height": {
+              "unit": "inches",
+              "value": "0.9799999990004"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "5.5899999942982"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.31085178942"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "2.399999997552"
+            }
+          }
+        }
+      ],
+      "gtin": "",
+      "identifiers": [
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00026000003049",
+          "value": "0026000003049"
+        },
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00026000203043",
+          "value": "0026000203043"
+        },
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00026000213042",
+          "value": "0026000213042"
+        },
+        {
+          "identifier_type": "GTIN",
+          "normalized_gtin": "00026000203043",
+          "value": "00026000203043"
+        },
+        {
+          "identifier_type": "GTIN",
+          "normalized_gtin": "00026000213042",
+          "value": "00026000213042"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00026000003049",
+          "value": "026000003049"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00026000203043",
+          "value": "026000203043"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00026000213042",
+          "value": "026000213042"
+        }
+      ],
+      "manufacturer": "Elmers",
+      "manufacturer_part_number": "E304",
+      "manufacturer_part_number_alternatives": [
+        "E304"
+      ],
+      "mapping_issues": [
+        "Ambiguous GTIN identifiers",
+        "Package hierarchy requires source verification",
+        "Variation theme values incomplete"
+      ],
+      "model": "E304",
+      "observed_at": "2026-11-05T12:39:10.003419+00:00",
+      "pack_quantity": 1,
+      "relationships": [
+        {
+          "child_asins": [],
+          "parent_asins": [
+            "B007JURMIM",
+            "B00885TKE6",
+            "B00PE13YDK",
+            "B00QFX4XRM",
+            "B00XCQODUM",
+            "B00YAO1HHW",
+            "B014I5E7Z6",
+            "B014T4C58W",
+            "B074762X1J",
+            "B074825JLD",
+            "B074H6GPBH",
+            "B074HD2JCX",
+            "B074KYG8LK",
+            "B07JX51N5Y",
+            "B07MZB5GND",
+            "B08NGYMF2B",
+            "B0GZ8G4ZVP"
+          ],
+          "relationship_type": "PACKAGE_HIERARCHY",
+          "theme": "",
+          "theme_attributes": []
+        },
+        {
+          "child_asins": [],
+          "parent_asins": [
+            "B07532G1QG"
+          ],
+          "relationship_type": "VARIATION",
+          "theme": "SIZE_NAME/UNIT_COUNT",
+          "theme_attributes": [
+            "size",
+            "unit_count"
+          ]
+        }
+      ],
+      "retained_attributes": {
+        "brand": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Elmer's"
+          }
+        ],
+        "bullet_point": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Make slime and bond materials like paper, wood, fabric and ceramics"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Safe, washable and non-toxic - ideal for children"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "No-run formula is adjustable before setting and dries clear"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "The #1 teacher brand, it's great for arts, crafts and school projects"
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Smooth, classic white glue formula is perfect for making slime at home or in the classroom!"
+          }
+        ],
+        "color": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "White"
+          }
+        ],
+        "externally_assigned_product_identifier": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "gtin",
+            "value": "00026000203043"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "gtin",
+            "value": "00026000213042"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "026000203043"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "026000003049"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "026000213042"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0026000213042"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0026000003049"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0026000203043"
+          }
+        ],
+        "included_components": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "4-ounce bottle of Elmer's Clear Washable School Glue"
+          }
+        ],
+        "item_dimensions": [
+          {
+            "height": {
+              "unit": "inches",
+              "value": "1.25"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "2.5"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "inches",
+              "value": "5.5"
+            }
+          }
+        ],
+        "item_form": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Liquid"
+          }
+        ],
+        "item_package_dimensions": [
+          {
+            "height": {
+              "unit": "centimeters",
+              "value": "14.1986"
+            },
+            "length": {
+              "unit": "centimeters",
+              "value": "2.4892"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "centimeters",
+              "value": "6.096"
+            }
+          }
+        ],
+        "item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "item_package_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "kilograms",
+            "value": "0.141"
+          }
+        ],
+        "item_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "pounds",
+            "value": "0.2"
+          }
+        ],
+        "manufacturer": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Elmers"
+          }
+        ],
+        "material": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "natrual"
+          }
+        ],
+        "model_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "E304"
+          }
+        ],
+        "number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "part_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "E304"
+          }
+        ],
+        "size": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "4 Oz."
+          }
+        ],
+        "style": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "1 Count"
+          }
+        ],
+        "unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Fl Oz"
+            },
+            "value": "4.0"
+          }
+        ]
+      },
+      "size": "4 Oz.",
+      "source": "Amazon SP-API Catalog Items 2022-04-01",
+      "source_reference": "M88 catalog B000Q3KHCM",
+      "title": "Elmer's Liquid School Glue, Washable, Safe and Nontoxic, 4oz, 1 Count - Back to School Supplies",
+      "url": "https://www.amazon.com/dp/B000Q3KHCM",
+      "variation": "",
+      "verified": true
+    },
+    "retention": "Allowlisted normalized attributes; no raw payload or source-field upgrades"
+  },
+  "number": 9,
+  "observed_at": "2026-11-05T12:39:10.007727+00:00",
+  "phase": "detail"
+}

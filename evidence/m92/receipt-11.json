@@ -1,0 +1,370 @@
+{
+  "candidate_id": "m88-real-six-pilot:13952053139",
+  "evidence": {
+    "comparisons": {
+      "brand": {
+        "amazon": "DURACELL",
+        "status": "MATCH",
+        "walmart": "Duracell"
+      },
+      "formulation": {
+        "amazon_item_form": [],
+        "status": "UNRESOLVED_UNLESS_INDEPENDENTLY_SCOPED",
+        "walmart_description": "Eight 1.5V non-rechargeable AA alkaline cells, one retail 8-pack; Walmart packaging field Single Piece"
+      },
+      "gtin": {
+        "amazon": "00041333825014",
+        "amazon_identifiers": [
+          {
+            "identifier_type": "EAN",
+            "normalized_gtin": "00041333825014",
+            "value": "0041333825014"
+          },
+          {
+            "identifier_type": "UPC",
+            "normalized_gtin": "00041333825014",
+            "value": "041333825014"
+          }
+        ],
+        "walmart": "00041333051604"
+      },
+      "independent_human_signoff": false,
+      "manufacturer_model": {
+        "amazon": "1",
+        "status": "UNKNOWN",
+        "walmart": "UNKNOWN"
+      },
+      "manufacturer_part_number": {
+        "amazon": "MN1500B8Z",
+        "status": "UNKNOWN",
+        "walmart": "UNKNOWN"
+      },
+      "quantity_packaging": {
+        "amazon_item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "amazon_package_quantity": 1,
+        "equivalence": "UNKNOWN",
+        "relationships": [
+          {
+            "child_asins": [],
+            "parent_asins": [
+              "B0DWY189WB"
+            ],
+            "relationship_type": "VARIATION",
+            "theme": "STYLE",
+            "theme_attributes": [
+              "style"
+            ]
+          }
+        ],
+        "walmart_basis": "Reported count of contents; Amazon sellable-package equivalence unverified",
+        "walmart_count": 8
+      },
+      "size": {
+        "amazon_size": "8 Count (Pack of 1)",
+        "amazon_unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Count"
+            },
+            "value": "8.0"
+          }
+        ],
+        "status": "NO_UNIT_OR_PACKAGE_EQUIVALENCE_INFERRED",
+        "walmart_structured_size": "UNKNOWN"
+      }
+    },
+    "identity": {
+      "exact": false,
+      "mismatches": [
+        "gtin",
+        "pack_quantity"
+      ],
+      "missing": [
+        "model.explicit_identity",
+        "retailer.model",
+        "retailer.size",
+        "retailer.variation",
+        "size.explicit_identity",
+        "source.verified_identity",
+        "variation.explicit_identity"
+      ]
+    },
+    "product": {
+      "asin": "B003SI0TD4",
+      "brand": "DURACELL",
+      "confidence": "MEDIUM",
+      "dimensions": [
+        {
+          "item": {
+            "height": {
+              "unit": "inches",
+              "value": 1
+            },
+            "length": {
+              "unit": "inches",
+              "value": "3.5"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.5"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "4.2"
+            }
+          },
+          "marketplaceId": "ATVPDKIKX0DER",
+          "package": {
+            "height": {
+              "unit": "inches",
+              "value": "1.0599999989188"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "4.449999995461"
+            },
+            "weight": {
+              "unit": "pounds",
+              "value": "0.42108292042"
+            },
+            "width": {
+              "unit": "inches",
+              "value": "3.699999996226"
+            }
+          }
+        }
+      ],
+      "gtin": "00041333825014",
+      "identifiers": [
+        {
+          "identifier_type": "EAN",
+          "normalized_gtin": "00041333825014",
+          "value": "0041333825014"
+        },
+        {
+          "identifier_type": "UPC",
+          "normalized_gtin": "00041333825014",
+          "value": "041333825014"
+        }
+      ],
+      "manufacturer": "Duracell Distributing, Inc",
+      "manufacturer_part_number": "MN1500B8Z",
+      "manufacturer_part_number_alternatives": [
+        "MN1500B8Z"
+      ],
+      "mapping_issues": [],
+      "model": "1",
+      "observed_at": "2026-11-05T12:39:11.889888+00:00",
+      "pack_quantity": 1,
+      "relationships": [
+        {
+          "child_asins": [],
+          "parent_asins": [
+            "B0DWY189WB"
+          ],
+          "relationship_type": "VARIATION",
+          "theme": "STYLE",
+          "theme_attributes": [
+            "style"
+          ]
+        }
+      ],
+      "retained_attributes": {
+        "brand": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "DURACELL"
+          }
+        ],
+        "bullet_point": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "COMPATIBLE WITH HUNDREDS OF EVERYDAY DEVICES: Works with TV remotes, children's toys, gaming controllers (Nintendo, Wii), smoke detectors, baby monitors, digital cameras, flashlights, clocks, wireless keyboards, computer mice, and any device requiring AA/LR6 batteries."
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "12-YEAR STORAGE GUARANTEE: Every Duracell Coppertop AA battery is guaranteed to remain ready for up to 12 years in storage. Stock up with confidence."
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "POWER BOOST INGREDIENTS: Duracell's exclusive POWER BOOST Ingredients deliver dependable, long-lasting performance in your devices."
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "QUALITY YOU CAN COUNT ON: Every Duracell battery is manufactured to strict standards and guaranteed against defects in material and workmanship. Trusted by families from everyday device to home safety use."
+          },
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "FAMILY-PACK VALUE: 8 AA batteries in a re-closable, organized pack—because your family's devices never wait for a convenient time to run out of battery power. Keep Duracell stocked and stay ready."
+          }
+        ],
+        "color": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Black"
+          }
+        ],
+        "externally_assigned_product_identifier": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "ean",
+            "value": "0041333825014"
+          },
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": "upc",
+            "value": "041333825014"
+          }
+        ],
+        "included_components": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "True"
+          }
+        ],
+        "item_dimensions": [
+          {
+            "height": {
+              "unit": "inches",
+              "value": "1.0"
+            },
+            "length": {
+              "unit": "inches",
+              "value": "3.5"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "inches",
+              "value": "4.2"
+            }
+          }
+        ],
+        "item_package_dimensions": [
+          {
+            "height": {
+              "unit": "centimeters",
+              "value": "11.303"
+            },
+            "length": {
+              "unit": "centimeters",
+              "value": "2.6924"
+            },
+            "marketplace_id": "ATVPDKIKX0DER",
+            "width": {
+              "unit": "centimeters",
+              "value": "9.398"
+            }
+          }
+        ],
+        "item_package_quantity": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "item_package_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "kilograms",
+            "value": "0.191"
+          }
+        ],
+        "item_weight": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "unit": "pounds",
+            "value": "0.5"
+          }
+        ],
+        "manufacturer": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Duracell Distributing, Inc"
+          }
+        ],
+        "material": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "Aluminum"
+          }
+        ],
+        "model_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "1"
+          }
+        ],
+        "number_of_items": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": 1
+          }
+        ],
+        "part_number": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "MN1500B8Z"
+          }
+        ],
+        "size": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "8 Count (Pack of 1)"
+          }
+        ],
+        "style": [
+          {
+            "language_tag": "en_US",
+            "marketplace_id": "ATVPDKIKX0DER",
+            "value": "8 Count"
+          }
+        ],
+        "unit_count": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "type": {
+              "language_tag": "en_US",
+              "value": "Count"
+            },
+            "value": "8.0"
+          }
+        ]
+      },
+      "size": "8 Count (Pack of 1)",
+      "source": "Amazon SP-API Catalog Items 2022-04-01",
+      "source_reference": "M88 catalog B003SI0TD4",
+      "title": "Duracell Coppertop AA Batteries, 8 Count, 12-Year Shelf Life, Long-lasting",
+      "url": "https://www.amazon.com/dp/B003SI0TD4",
+      "variation": "{\"color\": \"Black\", \"size\": \"8 Count (Pack of 1)\", \"style\": \"8 Count\"}",
+      "verified": true
+    },
+    "retention": "Allowlisted normalized attributes; no raw payload or source-field upgrades"
+  },
+  "number": 11,
+  "observed_at": "2026-11-05T12:39:11.894361+00:00",
+  "phase": "detail"
+}

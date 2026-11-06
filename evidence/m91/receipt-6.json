@@ -1,0 +1,618 @@
+{
+  "candidate_id": "m88-real-six-pilot:721324153",
+  "evidence": {
+    "candidates": [
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B0CRGS2GDQ",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427011923",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427011923",
+              "value": "00052427011923"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "4572502DF",
+          "observed_at": "2026-11-05T03:02:39.111027+00:00",
+          "pack_quantity": 1,
+          "size": "5.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B0CRGS2GDQ",
+          "title": "Gorilla Clear Glue, 5.75 Ounce Bottle (Pack of 6) - Crystal Clear, All Purpose, and Water Resistant",
+          "url": "https://www.amazon.com/dp/B0CRGS2GDQ",
+          "variation": "{\"color\": \"Clear\", \"size\": \"5.75 Fl Oz\", \"style\": \"Bottle 6 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B07GQ1CT47",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427005519",
+              "value": "0052427005519"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00368547956328",
+              "value": "0368547956328"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00368547956366",
+              "value": "0368547956366"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00700761016615",
+              "value": "0700761016615"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427005519",
+              "value": "00052427005519"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427005519",
+              "value": "052427005519"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00368547956328",
+              "value": "368547956328"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00368547956366",
+              "value": "368547956366"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00700761016615",
+              "value": "700761016615"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers",
+            "Package hierarchy requires source verification"
+          ],
+          "model": "4572502",
+          "observed_at": "2026-11-05T03:02:39.112743+00:00",
+          "pack_quantity": 1,
+          "size": "5.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B07GQ1CT47",
+          "title": "Gorilla Crystal Clear Glue, All Purpose, 5.75 oz Bottle",
+          "url": "https://www.amazon.com/dp/B07GQ1CT47",
+          "variation": "{\"color\": \"Clear\", \"size\": \"5.75 Fl Oz\", \"style\": \"Bottle 1 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B09WB2VC2S",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427017895",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427017895",
+              "value": "0052427017895"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427017895",
+              "value": "052427017895"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "110015",
+          "observed_at": "2026-11-05T03:02:39.113326+00:00",
+          "pack_quantity": 1,
+          "size": "5.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B09WB2VC2S",
+          "title": "Gorilla Clear Glue, All Purpose, Polyurethane, 5.75 oz, 2-Pack",
+          "url": "https://www.amazon.com/dp/B09WB2VC2S",
+          "variation": "{\"color\": \"Clear\", \"size\": \"5.75 Fl Oz\", \"style\": \"Bottle 2 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B06WD6R96X",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427450012",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427450012",
+              "value": "0052427450012"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427450012",
+              "value": "00052427450012"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427450012",
+              "value": "052427450012"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "4500104",
+          "observed_at": "2026-11-05T03:02:39.113718+00:00",
+          "pack_quantity": 1,
+          "size": "1.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B06WD6R96X",
+          "title": "Gorilla Clear Glue, All Purpose, 1.75 oz Bottle",
+          "url": "https://www.amazon.com/dp/B06WD6R96X",
+          "variation": "{\"color\": \"Clear\", \"size\": \"1.75 Fl Oz\", \"style\": \"Bottle 1 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B074J7XQZT",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427453754",
+              "value": "0052427453754"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00090952308156",
+              "value": "0090952308156"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00357665980599",
+              "value": "0357665980599"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427453754",
+              "value": "00052427453754"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427453754",
+              "value": "052427453754"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00090952308156",
+              "value": "090952308156"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00357665980599",
+              "value": "357665980599"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers",
+            "Package hierarchy requires source verification"
+          ],
+          "model": "4537502",
+          "observed_at": "2026-11-05T03:02:39.117324+00:00",
+          "pack_quantity": 1,
+          "size": "3.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B074J7XQZT",
+          "title": "Gorilla Clear Glue, All Purpose, Polyurethane, 3.75 oz Bottle",
+          "url": "https://www.amazon.com/dp/B074J7XQZT",
+          "variation": "{\"color\": \"Clear\", \"size\": \"3.75 Fl Oz\", \"style\": \"Bottle 1 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B08K1TVKN5",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427010759",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427010759",
+              "value": "0052427010759"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427010759",
+              "value": "052427010759"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification"
+          ],
+          "model": "105911",
+          "observed_at": "2026-11-05T03:02:39.117922+00:00",
+          "pack_quantity": 1,
+          "size": "4 - Pack",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B08K1TVKN5",
+          "title": "Gorilla Clear Glue, 3.75 Ounce Bottle, Clear, (Pack of 4)",
+          "url": "https://www.amazon.com/dp/B08K1TVKN5",
+          "variation": "{\"color\": \"Clear\", \"size\": \"4 - Pack\", \"style\": \"4 - Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B07MWRV574",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427006844",
+              "value": "0052427006844"
+            },
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00664888726515",
+              "value": "0664888726515"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427006844",
+              "value": "00052427006844"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427006844",
+              "value": "052427006844"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00664888726515",
+              "value": "664888726515"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers",
+            "Package hierarchy requires source verification"
+          ],
+          "model": "4537505",
+          "observed_at": "2026-11-05T03:02:39.118449+00:00",
+          "pack_quantity": 1,
+          "size": "3.75 Fl Oz",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B07MWRV574",
+          "title": "Gorilla Clear Glue, All Purpose, Polyurethane, 3.75 oz Bottle, 2-Pack",
+          "url": "https://www.amazon.com/dp/B07MWRV574",
+          "variation": "{\"color\": \"Clear\", \"size\": \"3.75 Fl Oz\", \"style\": \"Bottle 2 Pack\"}",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B00OAAUAX8",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427770011",
+          "identifiers": [
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427770011",
+              "value": "00052427770011"
+            }
+          ],
+          "mapping_issues": [
+            "Variation theme values incomplete"
+          ],
+          "model": "112658",
+          "observed_at": "2026-11-05T03:02:39.118854+00:00",
+          "pack_quantity": 1,
+          "size": "20g",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B00OAAUAX8",
+          "title": "Gorilla Super Glue Gel, Clear, 20 g, All Purpose, Fast Setting",
+          "url": "https://www.amazon.com/dp/B00OAAUAX8",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.variation",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B09YKK1PHW",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "00052427018106",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427018106",
+              "value": "0052427018106"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "00052427018106",
+              "value": "00052427018106"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427018106",
+              "value": "052427018106"
+            }
+          ],
+          "mapping_issues": [
+            "Package hierarchy requires source verification",
+            "Variation theme values incomplete"
+          ],
+          "model": "110188",
+          "observed_at": "2026-11-05T03:02:39.121348+00:00",
+          "pack_quantity": 1,
+          "size": "Pack of 2",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B09YKK1PHW",
+          "title": "Gorilla Super Glue, Clear Glue, Four 3 Gram Tubes (Pack of 2) - All Purpose and Fast Setting for Projects and Repairs",
+          "url": "https://www.amazon.com/dp/B09YKK1PHW",
+          "variation": "",
+          "verified": true
+        }
+      },
+      {
+        "identity": {
+          "exact": false,
+          "mismatches": [],
+          "missing": [
+            "amazon.gtin",
+            "amazon.valid_gtin",
+            "brand.explicit_identity",
+            "catalog.mapping_issues",
+            "model.explicit_identity",
+            "retailer.brand",
+            "retailer.gtin",
+            "retailer.model",
+            "retailer.size",
+            "retailer.valid_gtin",
+            "retailer.variation",
+            "size.explicit_identity",
+            "source.verified_identity",
+            "variation.explicit_identity"
+          ]
+        },
+        "product": {
+          "asin": "B06WP8CRQR",
+          "brand": "GORILLA",
+          "confidence": "MEDIUM",
+          "gtin": "",
+          "identifiers": [
+            {
+              "identifier_type": "EAN",
+              "normalized_gtin": "00052427450012",
+              "value": "0052427450012"
+            },
+            {
+              "identifier_type": "GTIN",
+              "normalized_gtin": "10052427450033",
+              "value": "10052427450033"
+            },
+            {
+              "identifier_type": "UPC",
+              "normalized_gtin": "00052427450012",
+              "value": "052427450012"
+            }
+          ],
+          "mapping_issues": [
+            "Ambiguous GTIN identifiers"
+          ],
+          "model": "4500104-4",
+          "observed_at": "2026-11-05T03:02:39.121794+00:00",
+          "pack_quantity": 1,
+          "size": "4 - Pack",
+          "source": "Amazon SP-API Catalog Items 2022-04-01",
+          "source_reference": "M88 catalog B06WP8CRQR",
+          "title": "Gorilla Clear Glue, 1.75 ounce Bottle, Clear (Pack of 4)",
+          "url": "https://www.amazon.com/dp/B06WP8CRQR",
+          "variation": "{\"color\": \"Yellow\", \"size\": \"4 - Pack\", \"style\": \"4 - Pack\"}",
+          "verified": true
+        }
+      }
+    ],
+    "more_results": true,
+    "selected_asin": null,
+    "status": "UNRESOLVED",
+    "total_results": 77
+  },
+  "number": 6,
+  "observed_at": "2026-11-05T03:02:39.125569+00:00",
+  "phase": "search"
+}
