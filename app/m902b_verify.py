@@ -49,10 +49,12 @@ def _metadata(info, *, directory=False, private=False):
         raise ValueError('Untrusted file')
 
 
-def _flags(*, directory=False) -> int:
-    required = ('O_NOFOLLOW', 'O_CLOEXEC', 'O_NOATIME', 'O_NONBLOCK')
+def _flags(*, directory=False, traversal=False) -> int:
+    required = ('O_NOFOLLOW', 'O_CLOEXEC', 'O_NOATIME', 'O_NONBLOCK', 'O_DIRECTORY', 'O_PATH')
     if any(not getattr(os, name, 0) for name in required):
         raise ValueError('Metadata-safe access unavailable')
+    if traversal:
+        return os.O_PATH | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_DIRECTORY
     return (os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NOATIME | os.O_NONBLOCK
             | (os.O_DIRECTORY if directory else 0))
 
@@ -65,14 +67,16 @@ class _Directory:
         if not path.is_absolute() or '..' in path.parts or not path.is_relative_to(ANCHOR):
             raise ValueError('Fixed absolute path required')
         try:
-            fd = os.open('/', _flags(directory=True))
+            # O_PATH only outside the protected anchor (synthetic test seam).
+            # Production ANCHOR='/' retains strict O_NOATIME on every component.
+            fd = os.open('/', _flags(directory=True, traversal=ANCHOR != Path('/')))
             self.chain.append((None, '/', fd, ANCHOR == Path('/'), _snapshot(os.fstat(fd))))
             current = Path('/')
             for name in path.parts[1:]:
                 current /= name
                 parent = self.chain[-1][2]
                 before = os.stat(name, dir_fd=parent, follow_symlinks=False)
-                fd = os.open(name, _flags(directory=True), dir_fd=parent)
+                fd = os.open(name, _flags(directory=True, traversal=not current.is_relative_to(ANCHOR)), dir_fd=parent)
                 self.chain.append((parent, name, fd, current.is_relative_to(ANCHOR), _snapshot(os.fstat(fd))))
                 if _identity(before) != _identity(os.fstat(fd)):
                     raise ValueError('Directory replaced')

@@ -207,6 +207,8 @@ def test_metadata_safe_access_required(fixture,monkeypatch):
 def test_no_fallback_if_noatime_denied(fixture,monkeypatch):
     real=os.open;calls=[]
     def denied(name,flags,*args,**kwargs):
+        if flags & os.O_PATH:
+            return real(name,flags,*args,**kwargs)
         calls.append(flags)
         assert flags & os.O_NOATIME
         raise PermissionError('No O_NOATIME permission')
@@ -217,7 +219,11 @@ def test_no_fallback_if_noatime_denied(fixture,monkeypatch):
 def test_open_flags_and_lock_order(fixture,monkeypatch):
     real_open=os.open;real_flock=fcntl.flock;opened={};locked=[]
     def checked(name,flags,*args,**kwargs):
-        assert flags & os.O_NOFOLLOW and flags & os.O_CLOEXEC and flags & os.O_NOATIME
+        assert flags & os.O_NOFOLLOW and flags & os.O_CLOEXEC
+        if flags & os.O_PATH:
+            assert flags & os.O_DIRECTORY
+        else:
+            assert flags & os.O_NOATIME
         assert not flags & (os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND)
         fd=real_open(name,flags,*args,**kwargs);opened[fd]=name;return fd
     def locking(fd,operation):
@@ -296,3 +302,35 @@ def test_import_has_no_legacy_network_runner():
     result=subprocess.run([sys.executable,'-I','-B','-c',code,str(root)],capture_output=True,text=True)
     assert result.returncode==0,result.stderr
     assert result.stdout.strip()=='app.m902_history,app.m902b_verify'
+
+
+def test_nonroot_ancestor_traversal(fixture, monkeypatch):
+    """Model EPERM on foreign-owned ancestors even when tests run as root."""
+    real = os.open
+    traversed = []
+    def checked(name, flags, *args, **kwargs):
+        fd = real(name, flags & ~os.O_NOATIME, *args, **kwargs) if flags & os.O_PATH else None
+        if fd is not None:
+            traversed.append(fd)
+            return fd
+        # Only protected directories/files may request a readable descriptor.
+        if name in ('/', 'tmp', fixture.parent.name):
+            raise PermissionError('foreign-owned ancestor')
+        assert flags & os.O_NOATIME
+        return real(name, flags, *args, **kwargs)
+    monkeypatch.setattr(os, 'open', checked)
+    assert verifier.verify()['baseline_match'] is True
+    assert traversed
+
+
+def test_production_anchor_keeps_noatime(monkeypatch):
+    monkeypatch.setattr(verifier, 'ANCHOR', Path('/'))
+    calls = []
+    def denied(name, flags, *args, **kwargs):
+        calls.append(flags)
+        assert flags & os.O_NOATIME and not flags & os.O_PATH
+        raise PermissionError('strict production access')
+    monkeypatch.setattr(os, 'open', denied)
+    with pytest.raises(PermissionError):
+        verifier._Directory(Path('/'))
+    assert len(calls) == 1

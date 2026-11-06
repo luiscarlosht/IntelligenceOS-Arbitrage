@@ -318,7 +318,8 @@ def test_verifier_has_no_writes_or_provisioning(harness,monkeypatch):
     h=harness;h.run();real=os.open;tracked=[]
     def checked(path,flags,*args,**kwargs):
         assert not flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND)
-        assert flags&os.O_NOATIME and flags&os.O_NOFOLLOW and flags&os.O_CLOEXEC
+        assert flags&os.O_NOFOLLOW and flags&os.O_CLOEXEC
+        assert flags&os.O_NOATIME or flags&os.O_PATH
         fd=real(path,flags,*args,**kwargs)
         if path=='runtime.bin':tracked.append(fd)
         return fd
@@ -420,3 +421,40 @@ def test_weaker_source_profile_does_not_relax_protected_storage(harness):
     h.review.reviewed_profiles[storage.identity(info)]=(12345,0o600,info.st_ctime_ns)
     h.store.source.validate(fake)
     with pytest.raises(storage.Blocked):h.store.fs.validate(fake)
+
+
+def test_ancestor_traversal_and_strict_fixture_access(tmp_path, monkeypatch):
+    tmp_path.chmod(0o700)
+    real = os.open
+    calls = []
+    def checked(name, flags, *args, **kwargs):
+        calls.append((name, flags))
+        if name != tmp_path.name:
+            # Same restriction as a nonroot caller on root-owned ancestors.
+            if flags & os.O_NOATIME:
+                raise PermissionError('foreign-owned ancestor')
+            assert flags & os.O_PATH and flags & os.O_DIRECTORY
+        else:
+            assert flags & os.O_NOATIME and not flags & os.O_PATH
+        return real(name, flags, *args, **kwargs)
+    monkeypatch.setattr(os, 'open', checked)
+    with storage.FixtureFS(tmp_path) as fs:
+        for key, fd in fs.dirs.items():
+            if key != str(tmp_path):
+                with pytest.raises(OSError): os.listdir(fd)
+    assert calls
+
+
+def test_fixture_noatime_denied_has_no_fallback(tmp_path, monkeypatch):
+    tmp_path.chmod(0o700)
+    real = os.open
+    denied = []
+    def checked(name, flags, *args, **kwargs):
+        if name == tmp_path.name:
+            denied.append(flags)
+            assert flags & os.O_NOATIME and not flags & os.O_PATH
+            raise PermissionError('strict fixture access')
+        return real(name, flags, *args, **kwargs)
+    monkeypatch.setattr(os, 'open', checked)
+    with pytest.raises(PermissionError): storage.FixtureFS(tmp_path)
+    assert len(denied) == 1

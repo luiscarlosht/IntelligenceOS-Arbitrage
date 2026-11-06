@@ -42,15 +42,18 @@ class FixtureFS:
         self.root, self.uid, self.fault = root, os.getuid(), fault or (lambda _: None)
         self.dirs, self.edges, self.poisoned = {}, [], False
         try:
-            flags = self.flags(directory=True)
-            fd = os.open('/', flags)
+            # Ancestors are only traversed/stat'ed: O_PATH needs no ownership
+            # privilege and cannot read entries or update directory atime.
+            traversal = self.flags(directory=True, traversal=True)
+            fd = os.open('/', traversal)
             self.dirs['/'] = fd
             path = Path('/')
             for part in root.parts[1:]:
                 parent = fd
                 before = os.stat(part, dir_fd=parent, follow_symlinks=False)
-                fd = os.open(part, flags, dir_fd=parent)
                 path /= part
+                flags = self.flags(directory=True) if path == root else traversal
+                fd = os.open(part, flags, dir_fd=parent)
                 self.dirs[str(path)] = fd
                 self.edges.append((parent, part, fd, identity(os.fstat(fd)), path == root))
                 if identity(before) != identity(os.fstat(fd)):
@@ -64,9 +67,11 @@ class FixtureFS:
             raise
 
     @staticmethod
-    def flags(*, directory=False):
-        if any(not getattr(os, name, 0) for name in ('O_NOATIME','O_NOFOLLOW','O_CLOEXEC','O_DIRECTORY')):
+    def flags(*, directory=False, traversal=False):
+        if any(not getattr(os, name, 0) for name in ('O_NOATIME','O_NOFOLLOW','O_CLOEXEC','O_DIRECTORY','O_PATH')):
             raise Blocked('METADATA_SAFE_ACCESS_REQUIRED')
+        if traversal:
+            return os.O_PATH | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_DIRECTORY
         return os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NOATIME | os.O_NONBLOCK | (os.O_DIRECTORY if directory else 0)
 
     def close(self):
