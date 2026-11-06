@@ -339,3 +339,17 @@ recommended dedicated protected-state Strategy B. M90.3 must review source audit
 writer isolation, immutable runtime, claim retention and durable authority cutover,
 including a fixed-path verifier revision before any ledger relocation. Existing
 reporting restrictions and V0.2 `/current` remain unchanged; no migration is run.
+
+## M90.2c — Protected authority cutover design
+
+Pure offline Strategy B transition model, claim reconciliation checks, evidence/
+approval bindings and successor-verifier predicate are implemented with synthetic
+tests. See [M90.2c design](M902C_AUTHORITY_CUTOVER_DESIGN.md) for the full writer
+matrix, maintenance-freeze source audit, durable commit/recovery, immutable runtime,
+one-shot kernel-authenticated launcher and deny-default network proposals.
+
+M90.3 must first implement/review real source/FS/journal/verifier/runtime adapters
+and independent nonce retention offline. Current source ownership, credential
+isolation, complete claims/writer evidence and actual egress remain blockers.
+Provisioning, freeze, per-transition cutover, deployment and any live requests each
+need separate approvals. No production migration or reporting/current change here.

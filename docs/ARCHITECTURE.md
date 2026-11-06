@@ -453,3 +453,15 @@ the current application-owned ancestry fails its root-only contract. Strategy B,
 a dedicated root-controlled authority with formal single-authority cutover and
 preserved claims, is recommended for separate review. No migration, reporting
 service change, new account lock or production policy is provisioned.
+
+## M90.2c Strategy B authority cutover model
+
+[Authority cutover design](M902C_AUTHORITY_CUTOVER_DESIGN.md) adds a pure nine-phase
+single-authority model with transition/evidence/approval bindings, claim and raw
+byte preservation, journal replay and terminal recovery decisions. Uncertain
+manifest commit means no writers; durable NEW authority never falls back to OLD.
+The source auditor, durable filesystem backend, independent nonce/checkpoint
+registry, fixed-new-path verifier and SO_PEERCRED launcher remain specified future
+components, not operational commands. Root-only M90.2b checks remain unchanged.
+No production migration, credentials access, reporting change or account-lock
+replacement is performed; `/current` remains V0.2.
