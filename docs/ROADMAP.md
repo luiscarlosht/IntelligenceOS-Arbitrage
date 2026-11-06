@@ -353,3 +353,18 @@ and independent nonce retention offline. Current source ownership, credential
 isolation, complete claims/writer evidence and actual egress remain blockers.
 Provisioning, freeze, per-transition cutover, deployment and any live requests each
 need separate approvals. No production migration or reporting/current change here.
+
+## M90.3a — Durable authority filesystem infrastructure
+
+Synthetic filesystem-backed journal, independent nonce/checkpoint registry,
+retained acknowledgement, source audit, manifest and successor verifier are
+implemented with subprocess crash/fsync/rollback/security tests. See
+[M90.3a evidence and limits](M903A_DURABLE_AUTHORITY_READINESS.md). No production
+invocation, migration, live request or protected-state provisioning is enabled.
+
+M90.3b must independently review the protocol, integrate authenticated external
+checkpoint retention and real protected approvals/receipts, attest host/runtime/
+freeze/claims/writers/network, and implement a separately reviewed fixed-path
+production adapter. Every deployment, provisioning, source audit, freeze, cutover
+and eventual live operation still needs its own explicit approval. No rollback
+reset or automatic replay is permitted.

@@ -465,3 +465,17 @@ registry, fixed-new-path verifier and SO_PEERCRED launcher remain specified futu
 components, not operational commands. Root-only M90.2b checks remain unchanged.
 No production migration, credentials access, reporting change or account-lock
 replacement is performed; `/current` remains V0.2.
+
+## M90.3a durable authority infrastructure (synthetic only)
+
+[Durable authority readiness](M903A_DURABLE_AUTHORITY_READINESS.md) implements
+exclusive hash-chained intent/completion records, a separately retained nonce/
+checkpoint registry, acknowledged external checkpoint receipts, strict manifest
+publication, weaker-profile read-only source auditing and successor verification.
+The separate offline adapter calls the unchanged M90.2c model. All filesystem
+constructors are fixture-only under `/tmp`; no production command or operational
+approval loader exists. Pending/uncertain publication and checkpoint disagreement
+mean no writers, never fallback to old accounting. External authenticated anchor,
+actual host freeze/runtime/writer/network evidence and fixed production adapter
+remain M90.3b blockers. Reporting, credentials, account lock and `/current` stay
+untouched.
