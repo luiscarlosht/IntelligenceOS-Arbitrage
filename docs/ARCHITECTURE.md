@@ -506,3 +506,11 @@ matching, product analysis and workbook components. It pins prior Walmart
 enrichment/Catalog details and separates derived rejections from source observations.
 Sacramento quotes remain historical; actionable DFW inputs and unsupported fees
 stay UNKNOWN. See [M92 result and collection checklist](M92_REAL_PRODUCT_PROFITABILITY.md).
+
+## M93 Amazon-first selection
+
+`app.m93` reuses M92 pinned evidence validation, M89 Amazon identity ranking and
+`product_analysis.assess` for offline Amazon-first reports. Research priority,
+seller-specific New listing/approval/FBA restrictions and economics are independent.
+The 30-row queue has no supported selling opportunities; missing costs never
+produce verified profit. See [M93 selection](M93_AMAZON_FIRST_SELECTION.md).

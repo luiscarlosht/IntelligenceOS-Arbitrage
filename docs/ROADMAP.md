@@ -399,3 +399,12 @@ identity, eligibility and economics verdicts. All three remaining pairs are
 INSUFFICIENT_EVIDENCE; 57 supported contradictions are REJECTED_IDENTITY. The
 [targeted collection plan](M92_COLLECTION_PLAN.md) requires separate authorization
 before new public or account collection. M92 remains open.
+
+## M93 — authorized offline Amazon-first selection
+
+The new M93 request authorizes offline selection despite unresolved M92 evidence.
+M93 reuses retained receipts to rank up to 30 Amazon research leads before further
+Walmart sourcing. All 30 have UNKNOWN seller eligibility; zero defensible selling
+opportunities or verified profits exist. M92 remains open. Seller screening,
+exact identity and full fresh economics remain evidence gates, not inferred
+outcomes. See [M93 selection and evidence gaps](M93_AMAZON_FIRST_SELECTION.md).
