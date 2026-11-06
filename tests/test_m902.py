@@ -23,6 +23,14 @@ def fake_owner(monkeypatch, target):
         return SimpleNamespace(st_uid=12345, st_mode=info.st_mode, st_nlink=info.st_nlink,
                                st_dev=info.st_dev, st_ino=info.st_ino)
     monkeypatch.setattr(Path, 'lstat', altered)
+    from app import m902_storage
+    target_info = real(target)
+    original_metadata = m902_storage.metadata
+    def metadata(info, uid, **kwargs):
+        if (info.st_dev, info.st_ino) == (target_info.st_dev, target_info.st_ino):
+            raise ValueError('Synthetic ownership mismatch')
+        return original_metadata(info, uid, **kwargs)
+    monkeypatch.setattr(m902_storage, 'metadata', metadata)
 
 
 @pytest.fixture
@@ -468,7 +476,7 @@ def test_replacement_during_open(broker, monkeypatch):
     descriptors = []
     def replaced(path, flags, *args, **kwargs):
         fd = real(path, flags, *args, **kwargs)
-        if path == broker.account_lock and flags & os.O_RDWR:
+        if path == broker.account_lock.name and flags & os.O_RDWR:
             descriptors.append(fd)
             broker.account_lock.rename(broker.root/'old-lock')
             write(broker.account_lock, {})

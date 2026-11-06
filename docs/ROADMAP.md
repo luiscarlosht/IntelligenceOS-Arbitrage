@@ -313,3 +313,17 @@ launcher, kernel requester identity and immutable release verification; reconcil
 all legacy Amazon writers and M89 account-lock omission; approve network boundary,
 protected filesystem provisioning and retained claim storage. Deployment and live
 two-request execution each require separate explicit authorization.
+
+## M90.2a — Security hardening and evidence-based readiness
+
+Exact nested schemas, single-snapshot credentials/history and descriptor-relative
+broker persistence are implemented with synthetic security regressions. Read-only
+visible production inventory identifies installed legacy runners, group-writable
+release sources and untrusted/inaccessible ledger/credential ancestry. Host runtime
+state, firewall and current ledger remain blocked by sandbox access; historical
+13/49 is not a fresh verification. See [M90.2a assessment](M902A_SECURITY_READINESS.md).
+
+M90.3 must resolve host evidence, filesystem/legacy writer coordination, immutable
+release verification and the one-shot SO_PEERCRED launcher/independent egress design.
+Deployment and live requests still need separate authorization; no production
+permissions, services, `/current`, ledger or account lock changed in M90.2a.

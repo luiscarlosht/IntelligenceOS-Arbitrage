@@ -14,7 +14,7 @@ import ssl
 import stat
 
 from app.m67_state import secure
-from app.m88_state import ledger, lock, read, sha, stamp, write
+from app.m88_state import ledger, lock, read, sha, stamp, write, validate_ledger
 from app.m89_deployment import BASELINE, configuration
 
 ASIN = 'B001BE12BA'
@@ -33,9 +33,25 @@ def canonical_hash(value: dict) -> str:
 
 def history(path: Path, expected: str) -> dict:
     """Pin ALL bytes, then prove continuation from the reviewed 12-attempt ledger."""
-    if not re.fullmatch('[0-9a-f]{64}', expected) or sha(path) != expected:
+    # Retain the legacy path security check; validate one immutable snapshot.
+    secure(path)
+    if path.stat().st_size > 8*1024*1024:
+        raise ValueError('Bounded ledger required')
+    return history_bytes(path.read_bytes(), expected)
+
+
+def history_bytes(raw: bytes, expected: str) -> dict:
+    """Validate one descriptor-read snapshot, avoiding independent hash/read opens."""
+    from app.m80_contract import unique
+    if (not isinstance(raw, bytes) or len(raw) > 8*1024*1024
+            or not isinstance(expected, str) or not re.fullmatch('[0-9a-f]{64}', expected)
+            or hashlib.sha256(raw).hexdigest() != expected):
         raise ValueError('Reviewed full 13-attempt ledger SHA-256 required')
-    value = ledger(path)
+    value = json.loads(raw, object_pairs_hook=unique,
+                       parse_constant=lambda _: (_ for _ in ()).throw(ValueError('Nonfinite JSON')))
+    if not isinstance(value, dict):
+        raise ValueError('Ledger object required')
+    value = validate_ledger(value)
     if value['attempts_used'] != 13 or value.get('m89_authentication_only') != 'CLAIMED_NO_REPLAY':
         raise ValueError('Authoritative completed M89 authentication required')
     last = value['attempts'][-1]

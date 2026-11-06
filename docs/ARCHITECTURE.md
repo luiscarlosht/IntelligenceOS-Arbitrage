@@ -429,3 +429,15 @@ workflow. There is no installed launcher or live CLI. Production readiness remai
 blocked on kernel requester attestation, immutable-release verification, egress
 policy and review of legacy writers, especially M89's ledger-only lock. Existing
 offline services and `/current` remain unchanged.
+
+## M90.2a broker hardening and readiness assessment
+
+[M90.2a findings](M902A_SECURITY_READINESS.md) adds exact nested authorization
+contracts and pinned directory/file descriptor storage for broker reads, claims
+and durable ledger replacement. Credentials and historical accounting are each
+validated from one snapshot. Existing APIs and conditional 14/15 accounting remain.
+Visible production releases are group writable; ledger/credential ancestry fails
+root-only readiness or is inaccessible. Ledger integrity, runtime service state
+and firewall policy are not verified. The recommended future launcher is a
+root-operated one-shot Unix-domain endpoint with kernel SO_PEERCRED authentication,
+not a persistent daemon. No launcher or production change is installed.
