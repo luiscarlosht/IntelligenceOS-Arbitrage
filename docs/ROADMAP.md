@@ -327,3 +327,15 @@ M90.3 must resolve host evidence, filesystem/legacy writer coordination, immutab
 release verification and the one-shot SO_PEERCRED launcher/independent egress design.
 Deployment and live requests still need separate authorization; no production
 permissions, services, `/current`, ledger or account lock changed in M90.2a.
+
+## M90.2b — Ledger verifier and storage migration design
+
+Offline-tested fixed-invocation verifier uses existing locks only, no persistent
+writes, no network and a pure full-history validator. Kernel flock state is
+transient and requires separate production verification approval. Current ledger
+ownership and missing reviewed policy remain blockers; production is not verified.
+See [M90.2b plan](M902B_LEDGER_STORAGE_READINESS.md) for A/B alternatives and the
+recommended dedicated protected-state Strategy B. M90.3 must review source audit,
+writer isolation, immutable runtime, claim retention and durable authority cutover,
+including a fixed-path verifier revision before any ledger relocation. Existing
+reporting restrictions and V0.2 `/current` remain unchanged; no migration is run.

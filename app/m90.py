@@ -41,37 +41,9 @@ def history(path: Path, expected: str) -> dict:
 
 
 def history_bytes(raw: bytes, expected: str) -> dict:
-    """Validate one descriptor-read snapshot, avoiding independent hash/read opens."""
-    from app.m80_contract import unique
-    if (not isinstance(raw, bytes) or len(raw) > 8*1024*1024
-            or not isinstance(expected, str) or not re.fullmatch('[0-9a-f]{64}', expected)
-            or hashlib.sha256(raw).hexdigest() != expected):
-        raise ValueError('Reviewed full 13-attempt ledger SHA-256 required')
-    value = json.loads(raw, object_pairs_hook=unique,
-                       parse_constant=lambda _: (_ for _ in ()).throw(ValueError('Nonfinite JSON')))
-    if not isinstance(value, dict):
-        raise ValueError('Ledger object required')
-    value = validate_ledger(value)
-    if value['attempts_used'] != 13 or value.get('m89_authentication_only') != 'CLAIMED_NO_REPLAY':
-        raise ValueError('Authoritative completed M89 authentication required')
-    last = value['attempts'][-1]
-    if (last.get('phase') != 'authentication' or last.get('candidate_id') is not None
-            or last.get('operation') != 'm89-authentication-only' or last.get('status') != 'COMPLETE'
-            or last.get('token_received') is not True):
-        raise ValueError('Successful attempt 13 record required')
-    for key in ('reserved_at', 'completed_at'):
-        dt = datetime.fromisoformat(last[key])
-        if dt.tzinfo is None or dt.utcoffset() is None:
-            raise ValueError('Aware authentication timestamps required')
-    if datetime.fromisoformat(last['completed_at']) < datetime.fromisoformat(last['reserved_at']):
-        raise ValueError('Invalid authentication chronology')
-    prior = deepcopy(value)
-    prior.pop('m89_authentication_only')
-    prior['attempts'].pop()
-    prior['attempts_used'] = 12
-    if canonical_hash(prior) != BASELINE:
-        raise ValueError('Complete authoritative first twelve attempts changed')
-    return value
+    """Compatibility seam for the shared pure, network-free history validator."""
+    from app.m902_history import validate_snapshot
+    return validate_snapshot(raw, expected, BASELINE)
 
 
 def preflight(path: Path, expected: str) -> dict:

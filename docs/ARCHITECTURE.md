@@ -441,3 +441,15 @@ root-only readiness or is inaccessible. Ledger integrity, runtime service state
 and firewall policy are not verified. The recommended future launcher is a
 root-operated one-shot Unix-domain endpoint with kernel SO_PEERCRED authentication,
 not a persistent daemon. No launcher or production change is installed.
+
+## M90.2b read-only ledger verification and protected storage
+
+[Ledger/storage readiness](M902B_LEDGER_STORAGE_READINESS.md) adds a fixed-path,
+network-free verifier with read-only no-atime descriptors, independently reviewed
+existing lock identities, account-before-ledger flock order and complete snapshot
+history/claim checks. Pure history validation is shared with M90 without importing
+legacy network runners into the verifier. No production verification is performed;
+the current application-owned ancestry fails its root-only contract. Strategy B,
+a dedicated root-controlled authority with formal single-authority cutover and
+preserved claims, is recommended for separate review. No migration, reporting
+service change, new account lock or production policy is provisioned.
