@@ -417,3 +417,15 @@ history, durable attempt-14 reservation, shared account/ledger locks and no LWA
 or retry capability. Import and preflight are offline. Fresh in-memory token,
 seller/role evidence and production hash remain execution prerequisites.
 See [M90 contract and operator handoff](M90_SP_API_VALIDATION.md).
+
+## M90.2 privileged Amazon broker (offline review)
+
+[Secure execution broker](M902_SECURE_EXECUTION_BROKER.md) adds a fixed requester
+protocol and privileged one-shot core. Protected operator approval binds release,
+account evidence, credential source, original ledger and existing lock identities.
+An exclusive durable independent claim consumes approval before attempt 14;
+attempt 15 requires durable successful authentication. Both locks span the full
+workflow. There is no installed launcher or live CLI. Production readiness remains
+blocked on kernel requester attestation, immutable-release verification, egress
+policy and review of legacy writers, especially M89's ledger-only lock. Existing
+offline services and `/current` remain unchanged.

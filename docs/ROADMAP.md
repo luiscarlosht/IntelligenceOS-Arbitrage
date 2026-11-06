@@ -299,3 +299,17 @@ Implementation and synthetic tests do not establish live readiness. Production
 13-attempt hash, seller permissions, shared lock and a fresh token broker remain
 blockers; no authentication, deployment, main merge or live execution authorized.
 See [M90 preparation](M90_SP_API_VALIDATION.md).
+
+## M90.2 — Secure execution broker
+
+Offline broker core, fixed requester protocol, protected authorization/evidence
+contract, existing lock identity checks, durable independent consumption and
+synthetic security/crash tests implemented for review. See
+[M90.2 design and blockers](M902_SECURE_EXECUTION_BROKER.md). No live enablement,
+production changes or Amazon requests. Historical budget remains 13/49 used.
+
+M90.3 readiness: independently review and implement the one-shot privileged
+launcher, kernel requester identity and immutable release verification; reconcile
+all legacy Amazon writers and M89 account-lock omission; approve network boundary,
+protected filesystem provisioning and retained claim storage. Deployment and live
+two-request execution each require separate explicit authorization.
