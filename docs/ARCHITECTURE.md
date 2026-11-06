@@ -1,5 +1,9 @@
 # Architecture
 
+M90.1 adds an offline-tested controlled authentication-14 / conditional Catalog-15
+core. Live execution remains blocked on reviewed shared-lock/service permissions
+and genuine account evidence. See [M90.1 guide](M901_CONTROLLED_VALIDATION.md).
+
 M89's offline authentication-readiness command prohibits DNS/connections/HTTP,
 checks unconnected sockets and TLS configuration, and preserves prior evidence.
 The shared adapter now retains sanitized nested transport category/errno/stage.

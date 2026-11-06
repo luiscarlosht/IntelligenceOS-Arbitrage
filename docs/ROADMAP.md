@@ -1,5 +1,9 @@
 # Roadmap
 
+M90.1 adds an offline-tested controlled authentication-14 / conditional Catalog-15
+core. Live execution remains blocked on reviewed shared-lock/service permissions
+and genuine account evidence. See [M90.1 guide](M901_CONTROLLED_VALIDATION.md).
+
 - M89 offline authentication diagnosis: local Internet socket creation reproduces
   EPERM in the restricted runtime; historical nested exception was not retained.
   Added sanitized transport diagnostics and an offline readiness report. No new
