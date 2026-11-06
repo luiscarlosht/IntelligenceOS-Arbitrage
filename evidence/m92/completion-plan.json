@@ -1,0 +1,163 @@
+{
+  "schema": "m92_completion_plan_v1",
+  "kind": "DERIVED_OFFLINE_REVIEW",
+  "prepared_at": "2026-11-06T15:03:04.519003+00:00",
+  "basis": "User M92 clarifications: ZIP 76063 and exact decision classifications; offline reassessment of existing pinned evidence only",
+  "delivery_context": {
+    "zip": "76063",
+    "city": "Mansfield",
+    "state": "TX",
+    "region": "DFW",
+    "source": "User-supplied reference ZIP",
+    "verified_purchase_quote": false
+  },
+  "decision_classifications": {
+    "VERIFIED_PROFITABLE": "Independently verified exact identity, supported eligibility, complete applicable economics, net profit >= $5/unit and acquisition ROI >= 50%.",
+    "VERIFIED_UNPROFITABLE": "Independently verified exact identity and complete economics, but one or both profitability thresholds are not met.",
+    "INELIGIBLE": "Seller-specific evidence confirms listing or selected fulfillment ineligibility.",
+    "REJECTED_IDENTITY": "Supported product identity contradiction.",
+    "INSUFFICIENT_EVIDENCE": "Any essential verification or financial input remains missing."
+  },
+  "authorization": {
+    "network_collection": false,
+    "public_collection_status": "AWAITING_SEPARATE_EXPLICIT_AUTHORIZATION",
+    "account_access": false,
+    "credential_access": false,
+    "sp_api": false,
+    "purchases": false,
+    "production_changes": false,
+    "deployment": false
+  },
+  "tasks": [
+    {
+      "priority": 1,
+      "scope": "17011265/B000Q3KHCM",
+      "category": "EXACT_IDENTITY",
+      "sources": [
+        "https://www.walmart.com/ip/Elmer-s-Liquid-School-Glue-Washable-4oz-1-Count/17011265",
+        "https://www.amazon.com/dp/B000Q3KHCM",
+        "https://www.dick-blick.com/msds/DBH_SDS_238101105.pdf"
+      ],
+      "fields": "Obtain original front/back outer sellable-package images for Walmart 17011265 showing UPC 026000003049, manufacturer, model/MPN 2089725, one 4 fl oz bottle, white washable no-run formulation and selected Single variation. Obtain an independent manufacturer package specification mapping 2089725/SAP_2089725 to E304 with that same UPC/size/count, and an exact-ASIN package capture establishing which of the three Amazon barcode alternatives applies. Resolve White/clear-drying versus included-components wording. The multi-code SDS is insufficient.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields. Existing physical-label evidence may be supplied by the owner without a purchase.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 2,
+      "scope": "721324153/B07GQ1CT47",
+      "category": "EXACT_IDENTITY",
+      "sources": [
+        "https://www.walmart.com/ip/Gorilla-Clear-Glue-5-75-Ounce-Bottle-Pack-of-1-Bottle/721324153",
+        "https://www.amazon.com/dp/B07GQ1CT47",
+        "https://www.acehardware.com/departments/paint-and-supplies/tape-glues-and-adhesives/glues-and-epoxy/1906833",
+        "https://www.dickblick.com/items/gorilla-clear-glue-575-oz/",
+        "https://gorillatough.com/product/clear-gorilla-glue/"
+      ],
+      "fields": "Obtain Walmart 721324153 original front/back label and selected Single 5.75 fl oz package with UPC 052427005519 and manufacturer MPN. Confirm whether 1906833 is solely a retailer code using package/manufacturer evidence; retain Ace mapping to 4572502 separately. Resolve the 0.5 oz AI feature against original labeling, and obtain manufacturer-specific continuity between 4572502 and current 4560801 if relied upon. Tie exact ASIN B07GQ1CT47 to the same outer sellable package, formulation and quantity; Blick linkage alone is insufficient.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields. Existing physical-label evidence may be supplied by the owner without a purchase.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 3,
+      "scope": "13952053139/B003SI0TD4",
+      "category": "EXACT_IDENTITY",
+      "sources": [
+        "https://www.walmart.com/ip/Duracell-Coppertop-AA-Alkaline-Batteries-8-PK/13952053139",
+        "https://www.amazon.com/dp/B003SI0TD4"
+      ],
+      "fields": "Obtain Walmart 13952053139 original outer retail label showing UPC 041333051604, manufacturer model/MPN, selected edition, eight AA alkaline 1.5V non-rechargeable cells per package and formulation/Power Boost applicability. Obtain a manufacturer packaging specification mapping that UPC to Amazon UPC 041333825014 and MPN MN1500B8Z, or original independent evidence of a contradiction. Tie exact ASIN B003SI0TD4 to the same edition and eight-cell sellable package; do not equate cell count to package count.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields. Existing physical-label evidence may be supplied by the owner without a purchase.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 4,
+      "scope": "ALL_THREE_IN_ORDER",
+      "category": "WALMART_76063",
+      "sources": [
+        "https://www.walmart.com/ip/Elmer-s-Liquid-School-Glue-Washable-4oz-1-Count/17011265",
+        "https://www.walmart.com/ip/Gorilla-Clear-Glue-5-75-Ounce-Bottle-Pack-of-1-Bottle/721324153",
+        "https://www.walmart.com/ip/Duracell-Coppertop-AA-Alkaline-Batteries-8-PK/13952053139"
+      ],
+      "fields": "Set delivery context to Mansfield TX 76063 and retain visible ZIP confirmation. For each exact item/selected variation, capture seller and fulfiller, New condition if explicit, deliverable stock, quantity/limits, item price, unit/pack basis, shipping/delivery charge, minimum-order or membership conditions, applicable tax amount/base/rate and quote timestamp. Do not infer free shipping, membership benefits or tax exemption. If tax depends on an exact address or checkout and is absent from read-only pages, leave it UNKNOWN and request an owner-provided redacted 76063 quote; do not change a cart or order. ZIP alone does not establish tax jurisdiction or rate.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 5,
+      "scope": "ALL_THREE_IN_ORDER",
+      "category": "AMAZON_NEW_OFFERS",
+      "sources": [
+        "https://www.amazon.com/dp/B000Q3KHCM",
+        "https://www.amazon.com/dp/B07GQ1CT47",
+        "https://www.amazon.com/dp/B003SI0TD4"
+      ],
+      "fields": "For each exact ASIN in US marketplace ATVPDKIKX0DER, capture selected size/style/pack, explicit condition New, seller/fulfiller/channel, item price, buyer shipping, delivered price, availability, destination context 76063 where displayed, and observation timestamp. Retain public offer-list coverage/count and limitations; displayed competing prices do not guarantee the resale price. If blocked or condition/price unavailable, stop and retain UNKNOWN. Existing November 5 Catalog receipts establish neither current offers nor eligibility.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 6,
+      "scope": "ALL_THREE_EXACT_ASINS_NEW_FBA",
+      "category": "SELLER_ELIGIBILITY",
+      "sources": [
+        "Owner-provided Seller Central Add Products listing-limitations evidence",
+        "Owner-provided separate FBA product eligibility / dangerous-goods review status"
+      ],
+      "fields": "Retain redacted seller-account reference, US marketplace, exact ASIN, New condition, listing approval/restriction/ineligible status and reasons, separately FBA eligibility/restriction/review status, applicable product compliance requirements, observation timestamp and original export/screenshot reference. Pending review is UNKNOWN, not ineligible. An offer or fee estimate does not prove either permission.",
+      "authorization_required": "No account access authorized. Prefer owner-provided redacted exports/screenshots for offline review. Any collector login/account access needs separate explicit authorization; credentials and SP-API remain prohibited.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 7,
+      "scope": "EXACT_MATCH_FIRST_THEN_FBA_SCENARIOS",
+      "category": "AMAZON_FEES",
+      "sources": [
+        "Owner-provided Seller Central exact-ASIN Fee Preview / Revenue Calculator estimate",
+        "https://sell.amazon.com/pricing/"
+      ],
+      "fields": "For conservative/base/optimistic supported selling prices, retain exact ASIN/marketplace/New/FBA scope, price basis, category/referral rate and amount/minimum, fulfillment amount, packaged measured dimensions/weight/size tier, effective date, seasonal/surcharge applicability and quote timestamp. Obtain shipment-specific placement quote separately. Retain whether each component is included to avoid double counting. Generic public rate tables alone are not applicable ASIN fee evidence. Use owner-retained existing previews; no listing, inventory or shipment-plan creation is authorized.",
+      "authorization_required": "No account access authorized. Prefer owner-provided redacted exports/screenshots for offline review. Any collector login/account access needs separate explicit authorization; credentials and SP-API remain prohibited. Public policy-page retrieval also requires separate public-network authorization.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 8,
+      "scope": "MATCHED_SELLABLE_UNIT_ALL_SCENARIOS",
+      "category": "OTHER_COSTS",
+      "sources": [
+        "Walmart 76063 destination-specific quote",
+        "Owner-provided carrier/inbound and placement estimates",
+        "Owner-provided prep/packaging costs and inventory/storage assumptions"
+      ],
+      "fields": "Document per-sellable-unit purchase, retailer shipping, applicable sales tax, inbound freight, preparation, packaging, other acquisition cost, placement, storage (volume and dwell time), returns allowance and transaction/selling-plan allocation. Record shipment quantity, origin/destination, quote applicability and per-unit allocation; document every explicit zero or not-applicable cost. Use supported conservative/base/optimistic bounds; no arbitrary percentages or zero defaults.",
+      "authorization_required": "Owner supplies retained quotes/cost records for offline review. Any new network/vendor quote or account access needs separate explicit authorization. No purchases, paid services or production changes.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 9,
+      "scope": "EXACT_ASIN_NEW_US",
+      "category": "DEMAND_COMPETITION_HISTORY",
+      "sources": [
+        "https://www.amazon.com/dp/B000Q3KHCM",
+        "https://www.amazon.com/dp/B07GQ1CT47",
+        "https://www.amazon.com/dp/B003SI0TD4",
+        "Owner-provided retained authorized 30/90-day New price history and demand data"
+      ],
+      "fields": "Retain dated New-condition offer counts with coverage, supported sales/demand method and observation window, and comparable 30/90-day price-history min/max/mean with channel/condition/coverage. Walmart badges and Amazon reviews are not Amazon sales evidence. No paid subscription or new API request is proposed.",
+      "authorization_required": "Separate explicit authorization required before any network collection. Read-only public product/offer/manufacturer pages only; no login, basket/order actions, paid access or bypass. Stop at access denial or missing fields. Owner may supply already-retained authorized exports; any new account access requires separate authorization.",
+      "status": "NOT_COLLECTED"
+    },
+    {
+      "priority": 10,
+      "scope": "ONE_VERIFIED_EXACT_MATCH_MINIMUM",
+      "category": "OFFLINE_EVALUATION",
+      "sources": [
+        "Existing app.product_analysis financial engine"
+      ],
+      "fields": "With fresh independently scoped identity, eligibility and all scenario cost evidence, run FBA first through the unchanged engine. Report net profit, acquisition ROI, gross/net margins and $5/50% threshold comparisons; preserve separate identity/eligibility/economics verdicts and apply the supplied final classifications. M92 stays open while exact identity or complete applicable economics is missing.",
+      "authorization_required": "Offline analysis authorized; no network/account/purchase authorization implied.",
+      "status": "BLOCKED_ON_EVIDENCE"
+    }
+  ],
+  "stop_condition": "Missing external evidence prevents a supported exact match and complete economics; stop after offline reports and this plan. M92 remains open.",
+  "shortest_path": "Retain requested investigation order. Resolve Elmer package mapping first; if unresolved, Gorilla has the strongest additional retailer-code/UPC/ASIN linkage, then Duracell. Collect economics and owner-provided eligibility/fees only for the first independently verified exact match before expanding to more candidates."
+}

@@ -1,5 +1,145 @@
 # M92 real-product matching and profitability POC
 
+## Current offline reassessment — ZIP 76063
+
+**M92 is open.** User clarification fixes the DFW reference to **76063,
+Mansfield, Texas** and supplies the final decision taxonomy. No new network
+collection, credentials, account access or SP-API requests were executed for this
+reassessment. No purchase, production change, deployment or M93 work is authorized.
+Current HEAD is `ea703059c7f5523ba21e2a5736e06cf13bb4d0b0` on
+`milestone/m92-real-product-profitability`; continuation changes are uncommitted.
+
+All existing pinned artifacts were revalidated, including earlier public
+renderings, manufacturer SDS, retailer mappings and the original Catalog receipts.
+The original observations and timestamps remain unchanged. The user-supplied ZIP
+is a required collection context, not a verified purchase quote. Sacramento,
+Atlanta, San Antonio and Chicago observations are historical only. Tax, shipping,
+availability, seller and price need actual 76063 evidence; no tax rate or exemption
+is inferred from ZIP alone.
+
+| Walmart / ASIN | Identity | Eligibility (listing / FBA) | Economics | Final decision |
+| --- | --- | --- | --- | --- |
+| 17011265 / B000Q3KHCM | NEEDS_REVIEW | UNKNOWN / UNKNOWN | INSUFFICIENT_EVIDENCE | INSUFFICIENT_EVIDENCE |
+| 721324153 / B07GQ1CT47 | NEEDS_REVIEW | UNKNOWN / UNKNOWN | INSUFFICIENT_EVIDENCE | INSUFFICIENT_EVIDENCE |
+| 13952053139 / B003SI0TD4 | NEEDS_REVIEW | UNKNOWN / UNKNOWN | INSUFFICIENT_EVIDENCE | INSUFFICIENT_EVIDENCE |
+
+The 57 alternatives with supported identity contradictions now have final decision
+**REJECTED_IDENTITY**, independently of their UNKNOWN eligibility and insufficient
+economics. Both Excel and JSON retain all 60 separate identity, eligibility and
+economics verdicts. The inherited engine's `decision`/`legacy_decision` fields retain
+their original screening semantics; M92's `final_decision` and `poc_decision` use the
+user's taxonomy.
+
+| Final classification | Required evidence |
+| --- | --- |
+| VERIFIED_PROFITABLE | Independently verified exact identity, supported eligibility, complete applicable economics, net profit at least $5/unit and acquisition ROI at least 50% |
+| VERIFIED_UNPROFITABLE | Independently verified exact identity and complete economics; at least one profitability threshold fails |
+| INELIGIBLE | Seller-specific evidence confirms listing or selected fulfillment ineligibility |
+| REJECTED_IDENTITY | Supported product identity contradiction |
+| INSUFFICIENT_EVIDENCE | An essential verification or financial input is missing |
+
+No retained evidence supports the first three classifications. All FBA scenario
+profit, ROI and gross/net margins remain UNKNOWN through the existing engine;
+neither negative profitability nor ineligibility is established. Missing costs
+remain UNKNOWN. The $5 profit / 50% acquisition ROI thresholds are unchanged.
+
+The precise sources, fields and authorization requirements are in
+[M92 collection plan](M92_COLLECTION_PLAN.md) and pinned
+`evidence/m92/completion-plan.json`. Investigate identities in the requested order,
+then collect economics and seller evidence for the first exact match. Stop at the
+external evidence gap; no additional infrastructure or milestone is needed.
+
+Updated reports (fresh output directory):
+
+```bash
+python -B -m app.m92 --output var/m92-76063
+```
+
+Outputs are `comparison.xlsx`, `comparison.json` and `evidence-collection.md`.
+The latter now includes precise sources and authorization for every collection
+task. No automated network collector or account workflow was added.
+
+Validation for this reassessment: focused M92 tests **5 passed**; legacy and
+discovery sample modes succeeded with isolated `/tmp` outputs. Full regression
+suite: **3,672 passed, 9 skipped** (Python 3.12). Generated workbook contains ten
+sheets and no formula cells; `git diff --check` passed. Passing tests do not close
+M92. The updated local PR description is `/tmp/m92-pr-description.md`; no remote
+PR, push, merge or deployment was performed.
+
+## Historical public research continuation — 2026-11-06
+
+This section records the earlier investigation before the ZIP/taxonomy clarification.
+The current context and authorization above supersede its collection instructions.
+
+**M92 remains open: no independently supported exact package match and no
+complete FBA economics.** No M93 work or M92 sub-milestone was started.
+The sections below this continuation describe the original offline baseline.
+
+The original pinned inventory was verified before new public requests. All three
+remaining pairs were investigated in the requested order. New retained artifacts
+are public web tool renderings/search responses, not raw HTML/PDF binaries; cache
+ages are preserved. Retrieval time does not refresh their observation dates.
+`continuation-review.json` is explicitly derived review, pinned alongside those
+artifacts. Original M91/M88 evidence is unchanged.
+
+1. **Elmer's 17011265 / B000Q3KHCM — NEEDS_REVIEW.** The
+   [manufacturer SDS](https://www.dick-blick.com/msds/DBH_SDS_238101105.pdf),
+   revised June 30, 2025, includes E304 and 2089725 in the white school-glue
+   family. Its multi-code coverage does not establish size, UPC or package aliases.
+   Walmart's one 4oz bottle is consistent with the family; exact sellable-pack
+   applicability, Amazon included-components wording and New condition remain open.
+2. **Gorilla 721324153 / B07GQ1CT47 — NEEDS_REVIEW.**
+   [Ace](https://www.acehardware.com/departments/paint-and-supplies/tape-glues-and-adhesives/glues-and-epoxy/1906833)
+   maps retailer item 1906833 to manufacturer part 4572502.
+   [Blick](https://www.dickblick.com/items/gorilla-clear-glue-575-oz/)
+   independently ties that part, 5.75 oz, UPC 052427005519 and exact ASIN together.
+   This supports a retailer-code explanation, not a verified Walmart package alias.
+   Walmart's conflicting 0.5 oz phrase appears in AI-generated features; its selected
+   variation is 5.75 oz Single. The
+   [manufacturer page](https://gorillatough.com/product/clear-gorilla-glue/)
+   currently lists 4560801 for 5.75 fl oz; continuity remains unverified. No rejection
+   is inferred solely from those different codes.
+3. **Duracell 13952053139 / B003SI0TD4 — NEEDS_REVIEW.** Walmart UPC
+   041333051604 and Amazon UPC 041333825014 lack an independent package mapping.
+   Walmart model, MPN, selected edition and outer barcode remain missing. Eight
+   cells versus one retail package is not itself proof of incompatibility.
+
+All three direct Amazon public-page requests failed (two HTTP 503 responses and
+one fetch error); no current exact-ASIN New offers were established. Walmart's
+cached displayed prices were $1.17 / $11.18 / $9.73, respectively, with Walmart.com
+seller/fulfiller and Atlanta 30301 / San Antonio 78288 / Chicago 60602 contexts.
+These are **not DFW landed costs**. Actual DFW ZIP remains requested. No seller
+credentials or new SP-API requests were accessed.
+
+Each investigated pair's final decision is **INSUFFICIENT_EVIDENCE**. Existing
+57 incompatible alternatives and reasons remain in both reports. Referral/FBA
+fees, inbound, placement, prep, packaging, tax, storage, returns, transaction and
+other costs require ASIN-, price-, shipment- and time-specific evidence. The
+[official Amazon pricing page](https://sell.amazon.com/pricing/) is a collection
+starting point, not an applicable fee quote. Listing and FBA eligibility are
+separate UNKNOWNs. Demand, competition and comparable price histories are missing.
+The existing engine returns UNKNOWN profit, acquisition ROI and gross/net margins
+for conservative/base/optimistic FBA scenarios, with unchanged $5 / 50% gates.
+
+Reproduce the updated Excel/JSON reports in a fresh directory:
+
+```bash
+python -B -m app.m92 --output var/m92-continuation
+```
+
+Reports add an M92 Decision Report sheet with ordered findings and missing inputs;
+JSON includes field comparisons, original timestamps, references, all cost inputs,
+scenario diagnostics and an eight-step targeted collection plan for all three.
+No missing cost is zeroed. The user's classification instruction ended at
+“VERIFIED”; existing taxonomy is retained pending the remainder. Do not mark M92
+complete until exact identity and complete supported economics exist.
+
+Continuation validation: focused M92 tests **4 passed**; full regression suite
+**3,671 passed, 9 skipped** (Python 3.12); legacy and discovery sample modes both
+succeeded with isolated `/tmp` outputs. Generated workbook has ten sheets and no
+formula cells. `git diff --check` passed. A local PR description is prepared at
+`/tmp/m92-pr-description.md`; no remote PR, push, merge or deployment was performed.
+
 Scope check: “Is this necessary for the M93 POC?” This change only completes the
 offline evidence review, applies existing analysis, and reports the gaps preventing
 one supported product. No new infrastructure or milestone is introduced. M90.3b,

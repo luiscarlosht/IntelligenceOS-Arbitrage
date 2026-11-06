@@ -18,6 +18,7 @@ from app.product_analysis import comparison, workbook
 from app.walmart_evidence import normalize
 
 BASE = Path(__file__).resolve().parents[1] / 'evidence/m92'
+DFW_ZIP = '76063'
 
 
 def checklist(best: dict) -> list[dict]:
@@ -26,7 +27,7 @@ def checklist(best: dict) -> list[dict]:
         "Save independent Walmart 17011265 and Amazon B000Q3KHCM field-level captures with URLs, aware timestamps, original files/hashes and reviewer signoff. Screenshot references alone are insufficient.",
         "Establish outer sellable-pack UPC applicability: Walmart 026000003049 overlaps one of three Amazon canonical alternatives. Resolve Walmart model SAP_2089725 / MPN 2089725 versus Amazon model/MPN E304 with manufacturer evidence; do not infer an alias.",
         "Independently confirm brand, one 4 fl oz bottle, formulation, selected variation and package count on each side. Resolve Amazon White color / Clear included-components wording; confirm condition New from an actual offer, not Catalog metadata. Pass unchanged exact-identity and freshness gates.",
-        "Specify the actual DFW delivery ZIP/address context. Capture Walmart seller/fulfiller, quantity, availability, item price, shipping, applicable tax and quantity limits there, without purchasing. Sacramento CA 95829 observations are historical only and cannot establish DFW landed cost.",
+        "Use DFW Mansfield TX 76063 delivery context. Capture Walmart seller/fulfiller, quantity, availability, item price, shipping, applicable tax and quantity limits there, without purchasing. ZIP alone does not establish tax jurisdiction/rate. Sacramento CA 95829 observations are historical only and cannot establish DFW landed cost.",
         "For FBA first, retain a fresh supported New selling price for this exact ASIN, marketplace and quantity. Obtain referral and fulfillment fee evidence bound to that price and mode; also placement, inbound shipping, prep, packaging, storage, tax, returns allowance, transaction and other costs. Document explicit zero values; never assume zero. Supply all scenarios required by existing product_analysis.",
         "Obtain separate seller-specific listing and FBA eligibility plus scoped demand/competition evidence. Catalog and UPC overlap establish neither condition nor eligibility.",
         "Rerun existing product_analysis with complete fresh evidence and unchanged $5/unit profit and 50% acquisition ROI gates. Only then can net profit, ROI and margins be supported. FBM is deferred. No purchase authorization follows."
@@ -119,7 +120,8 @@ def build(now: datetime, base: Path = BASE, m91_base: Path = M91_BASE) -> dict:
                 historical_acquisition=historical_acquisition, search_receipt=file.name,
                 detail_receipt=detail_name, original_amazon_search_observation=search_product,
                 condition=dict(required='New', walmart='UNKNOWN', amazon_offer='UNKNOWN'),
-                sourcing=dict(required='DFW; exact delivery ZIP not supplied', observed=enriched['delivery_context'], verified=False),
+                sourcing=dict(required='DFW Mansfield TX '+DFW_ZIP, required_zip=DFW_ZIP,
+                              observed=enriched['delivery_context'], verified=False),
                 evidence_kind='REAL_SAVED_RESEARCH', review_kind='DERIVED_OFFLINE_REVIEW')
             candidates.append(record)
     if seen_reviews != set(reviews) or len(candidates) != 60 or len({r['candidate_id'] for r in candidates}) != 60:
@@ -139,13 +141,16 @@ def build(now: datetime, base: Path = BASE, m91_base: Path = M91_BASE) -> dict:
     for rank, row in enumerate(report['records'], 1):
         row['rank'] = rank
         row['identity_review'] = row['input_evidence']['identity_review']
-        row['poc_decision'] = 'INSUFFICIENT_EVIDENCE'
         row['identity_verdict'] = row['identity_review']['classification']
+        row['eligibility_verdict'] = dict(listing='UNKNOWN', FBA='UNKNOWN')
         row['economics_verdict'] = 'INSUFFICIENT_EVIDENCE'
+        row['final_decision'] = ('REJECTED_IDENTITY' if row['identity_verdict'] == 'REJECTED'
+                                 else 'INSUFFICIENT_EVIDENCE')
+        row['poc_decision'] = row['final_decision']
         row['selected_mode'] = 'FBA'
         row['deferred_mode'] = 'FBM'
         row['missing_information'] = sorted(set(row['missing_information'] + row['input_evidence']['input_conflicts'] +
-            ['DFW destination-specific acquisition evidence', 'Condition New independently evidenced', 'Seller and FBA eligibility evidence']))
+            ['DFW 76063 destination-specific acquisition evidence', 'Condition New independently evidenced', 'Seller and FBA eligibility evidence']))
     best = next(r for r in report['records'] if r['identity_verdict'] != 'REJECTED')
     counts = dict(Counter(r['identity_verdict'] for r in report['records']))
     report.update(schema='m92_real_product_profitability_v1',
@@ -156,10 +161,49 @@ def build(now: datetime, base: Path = BASE, m91_base: Path = M91_BASE) -> dict:
                             decision=best['poc_decision']),
         pair_counts=counts, additional_network_requests=0, synthetic_records=0,
         rejected_alternatives=[dict(candidate_id=r['candidate_id'], asin=r['asin'], walmart_item_id=r['walmart_product']['walmart_item_id'],
-            reasons=r['identity_review']['decisive_contradictions']) for r in report['records'] if r['identity_verdict']=='REJECTED'],
+            final_decision=r['final_decision'], reasons=r['identity_review']['decisive_contradictions'])
+            for r in report['records'] if r['identity_verdict']=='REJECTED'],
         m93_ready=False, m93_blockers=['Verified exact identity', 'DFW landed acquisition cost', 'Complete fresh FBA economics and eligibility'],
         pins_sha256=digest(base/'pins.json'))
     report['evidence_collection_checklist'] = checklist(best)
+    research = documents.get('continuation-review.json')
+    if research:
+        if research.get('schema') != 'm92_continuation_review_v1':
+            raise ValueError('M92 continuation review schema required')
+        expected = [('17011265', 'B000Q3KHCM'), ('721324153', 'B07GQ1CT47'),
+                    ('13952053139', 'B003SI0TD4')]
+        if [(r['walmart_item_id'], r['asin']) for r in research['candidates']] != expected:
+            raise ValueError('Ordered M92 continuation candidates required')
+        report['continuation_review'] = research
+        report['m92_complete'] = False
+        report['closure_status'] = 'INSUFFICIENT_EVIDENCE'
+        report['network_collection'] = 'No network collection in this continuation; earlier public captures retained separately'
+        report['additional_network_requests_scope'] = 'Offline report generation only; public collection is retained separately'
+        report['evidence_collection_checklist'] += [dict(priority=i+8,
+            candidate_id='ALL_THREE_REMAINING_CANDIDATES', asin='SEE_CONTINUATION_REVIEW',
+            required=task, status='MISSING_EVIDENCE') for i, task in enumerate(research['collection_plan'])]
+        for row in report['records']:
+            review = next((r for r in research['candidates'] if
+                (r['walmart_item_id'], r['asin']) == (row['walmart_product']['walmart_item_id'], row['asin'])), None)
+            if review:
+                review.update(eligibility_verdict=row['eligibility_verdict'],
+                    economics_verdict=row['economics_verdict'], final_decision=row['final_decision'],
+                    missing_evidence=row['missing_information'], scenarios=row['financials']['FBA'],
+                    cost_breakdown=row['base_inputs']['FBA'])
+                review['public_offer_context']['required_destination_zip'] = DFW_ZIP
+                row['continuation_review'] = review
+    plan = documents.get('completion-plan.json')
+    if plan:
+        if plan.get('schema') != 'm92_completion_plan_v1' or plan['delivery_context']['zip'] != DFW_ZIP:
+            raise ValueError('M92 completion plan for reference ZIP 76063 required')
+        report.update(collection_plan=plan, delivery_context=plan['delivery_context'],
+                      decision_classifications=plan['decision_classifications'],
+                      final_decision_counts=dict(Counter(r['final_decision'] for r in report['records'])))
+        report['evidence_collection_checklist'] = [dict(t, candidate_id=t['scope'], asin=t['scope'],
+            required=t['fields']) for t in plan['tasks']]
+        if research:
+            research['classification_note'] = 'User-supplied final decision taxonomy; identity, eligibility and economics retained separately.'
+            research['collection_plan'] = plan['tasks']
     return report
 
 
@@ -173,15 +217,30 @@ def run(output: Path, now: datetime, base: Path = BASE, m91_base: Path = M91_BAS
                 json_write(stage/'comparison.json', report)
                 workbook(report, stage/'comparison.xlsx')
                 wb = load_workbook(stage/'comparison.xlsx')
+                if 'continuation_review' in report:
+                    sheet = wb.create_sheet('M92 Decision Report')
+                    sheet.append(['walmart_item_id', 'asin', 'identity_status', 'eligibility_verdict',
+                                  'economics_verdict', 'final_decision',
+                                  'findings', 'missing_evidence', 'public_offer_context'])
+                    sheet.freeze_panes = 'C2'
+                    for row in report['continuation_review']['candidates']:
+                        sheet.append([cell(row[k]) for k in ('walmart_item_id', 'asin',
+                            'identity_status', 'eligibility_verdict', 'economics_verdict', 'final_decision',
+                            'findings', 'missing_evidence', 'public_offer_context')])
                 for title, fields, rows in [
-                    ('Identity Review', ('rank','candidate_id','asin','identity_verdict','poc_decision','identity_review'), report['records']),
-                    ('Rejected Alternatives', ('walmart_item_id','asin','reasons'), report['rejected_alternatives']),
-                    ('Evidence Collection', ('priority','candidate_id','asin','required','status'), report['evidence_collection_checklist'])]:
+                    ('Identity Review', ('rank','candidate_id','asin','identity_verdict','eligibility_verdict',
+                                         'economics_verdict','final_decision','identity_review'), report['records']),
+                    ('Rejected Alternatives', ('walmart_item_id','asin','final_decision','reasons'), report['rejected_alternatives']),
+                    ('Evidence Collection', ('priority','candidate_id','asin','required','status','sources',
+                                             'authorization_required'), report['evidence_collection_checklist'])]:
                     sheet = wb.create_sheet(title); sheet.append(list(fields)); sheet.freeze_panes='B2'
                     for row in rows:
-                        sheet.append([cell(row[k]) for k in fields])
+                        sheet.append([cell(row.get(k, 'UNKNOWN')) for k in fields])
                 wb.save(stage/'comparison.xlsx')
-                text = '# M92 evidence collection\n\n' + '\n'.join(f"{r['priority']}. {r['required']}" for r in report['evidence_collection_checklist'])
+                text = '# M92 evidence collection — Mansfield TX 76063\n\nNo new network or account access is authorized. M92 remains open.\n\n' + '\n\n'.join(
+                    f"{r['priority']}. {r['required']}\n\n   Sources: {', '.join(r.get('sources', []))}\n\n"
+                    f"   Authorization: {r.get('authorization_required', 'Separate authorization required')}"
+                    for r in report['evidence_collection_checklist'])
                 (stage/'evidence-collection.md').write_text(text+'\n')
                 (stage/'evidence-collection.md').chmod(0o600)
                 if build(now, base, m91_base) != report:

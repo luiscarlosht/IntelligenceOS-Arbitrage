@@ -1,5 +1,16 @@
 # Architecture
 
+M92's offline report now includes pinned public research renderings and a separate
+derived continuation review of the three remaining pairs. It preserves existing
+matching and financial gates, exposes collection limitations and adds a decision
+sheet without promoting research clues or cached non-DFW prices to verified input.
+See [M92 continuation](M92_REAL_PRODUCT_PROFITABILITY.md).
+
+The M92 clarification adds a pinned offline collection plan for user-supplied ZIP
+76063 and separate final/identity/eligibility/economics verdicts. No collector,
+account integration or financial formula change is introduced. New external
+collection remains unauthorized; prior source observations retain their context.
+
 M90.1 adds an offline-tested controlled authentication-14 / conditional Catalog-15
 core. Live execution remains blocked on reviewed shared-lock/service permissions
 and genuine account evidence. See [M90.1 guide](M901_CONTROLLED_VALIDATION.md).

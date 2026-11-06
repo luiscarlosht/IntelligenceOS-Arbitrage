@@ -386,3 +386,16 @@ identity evidence; none passes exact identity. FBA profitability remains UNKNOWN
 M93 requires independent package/model identity, DFW landed acquisition evidence,
 and complete fresh FBA cost/eligibility evidence. See [M92 POC](M92_REAL_PRODUCT_PROFITABILITY.md).
 No new milestone or infrastructure is added.
+
+The November 6 M92 public research continuation retains manufacturer-family and
+retailer-code evidence for the three remaining leads, with updated Excel/JSON
+decisions and a targeted collection plan. M92 remains open: no exact package match,
+fresh DFW landed cost, complete FBA economics or seller eligibility is established.
+No M93 work or M92 sub-milestone is started.
+
+M92's subsequent offline clarification fixes the DFW reference to Mansfield TX
+76063 and applies the five supplied final classifications while preserving separate
+identity, eligibility and economics verdicts. All three remaining pairs are
+INSUFFICIENT_EVIDENCE; 57 supported contradictions are REJECTED_IDENTITY. The
+[targeted collection plan](M92_COLLECTION_PLAN.md) requires separate authorization
+before new public or account collection. M92 remains open.
