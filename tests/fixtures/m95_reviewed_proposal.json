@@ -1,0 +1,151 @@
+{
+  "asins": [
+    "B00004OCNJ",
+    "B00004Z4CY",
+    "B0002YTVJA",
+    "B0009J4YAO",
+    "B000YZ8N46",
+    "B000YZASYO",
+    "B002ACOEPS",
+    "B0058PTK6M",
+    "B005HVZ59I",
+    "B007I6FS10"
+  ],
+  "budget": {
+    "authentication": 1,
+    "catalog": 0,
+    "fees": 0,
+    "maximum_requests": 11,
+    "pricing": 0,
+    "restrictions": 10,
+    "retailer": 0,
+    "retries": 0
+  },
+  "condition": "new_new",
+  "execution_authorized": false,
+  "historical_audit_sha256": "feee9d1156ff138e8e902ae6dbd02f062aa066e7802ce1b57db8fd541bf33456",
+  "historical_exclusion_union_count": 102,
+  "live_requests": 0,
+  "marketplace_id": "ATVPDKIKX0DER",
+  "mode": "M95_RESTRICTIONS_ONLY_PROPOSAL",
+  "purchase_authorized": false,
+  "requests": [
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B00004OCNJ",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B00004Z4CY",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B0002YTVJA",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B0009J4YAO",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B000YZ8N46",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B000YZASYO",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B002ACOEPS",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B0058PTK6M",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B005HVZ59I",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "method": "GET",
+      "params": {
+        "asin": "B007I6FS10",
+        "conditionType": "new_new",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      },
+      "path": "/listings/2021-08-01/restrictions"
+    }
+  ],
+  "schema": 1,
+  "source_sha256": {
+    "M69": "48ebfcb6171c9f1669787348638293d2b9df584976d91a67014f8d8b0a4403ea",
+    "M79": "1f47efab6e224535a1f58dab6d53df1b254fc0d46c00a803daadd157db28c2b6",
+    "M94": "f30c57240de666e30fbb00c9690c6b1b229717a739ce6380120ec419102b2845",
+    "proposal": "b94268e5f23f20d95f01dea0e71edc61c13a86567e522932e528c2bd18cba3e5"
+  }
+}

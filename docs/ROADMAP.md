@@ -399,3 +399,27 @@ identity, eligibility and economics verdicts. All three remaining pairs are
 INSUFFICIENT_EVIDENCE; 57 supported contradictions are REJECTED_IDENTITY. The
 [targeted collection plan](M92_COLLECTION_PLAN.md) requires separate authorization
 before new public or account collection. M92 remains open.
+
+## M93 — authorized offline Amazon-first selection
+
+The new M93 request authorizes offline selection despite unresolved M92 evidence.
+M93 reuses retained receipts to rank up to 30 Amazon research leads before further
+Walmart sourcing. All 30 have UNKNOWN seller eligibility; zero defensible selling
+opportunities or verified profits exist. M92 remains open. Seller screening,
+exact identity and full fresh economics remain evidence gates, not inferred
+outcomes. See [M93 selection and evidence gaps](M93_AMAZON_FIRST_SELECTION.md).
+
+## M95 eligibility discovery implementation
+
+The restriction-only adapter and synthetic execution regressions are implemented;
+see [M95 controls and commands](M95_ELIGIBILITY_DISCOVERY.md). Offline validation
+remains the default. Live execution requires separate approval and an explicit flag.
+Affirmative seller-specific permission semantics remain unvalidated; empty results
+are NO_RESTRICTIONS_REPORTED. Walmart profitability, purchases and listings remain
+independent of this research. Completed M94 evidence and replay rejection persist.
+
+The [M95 readiness review](M95_READINESS_REVIEW.md) documents official API semantics,
+the exact historical-audit diagnosis and a complete commit scope including untracked
+dependencies. Offline M94/M95 tests are reproducible without operator histories.
+Changing discovery to stop at the first NO_RESTRICTIONS_REPORTED lead remains a
+separate reviewed policy decision; no stop rule or live authorization is changed.
