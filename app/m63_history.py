@@ -11,7 +11,7 @@ from app.catalog_saved_evidence import saved_evidence
 ASIN = re.compile(r'[A-Z0-9]{10}')
 PATTERNS = ('candidate-*.json', 'candidates-*.json', 'catalog-*.json',
             'saved-target-restrictions-*.json', 'selected-validation-*.json',
-            'pricing-*.json', 'm60-*.json', 'm63-eligibility-*.json')
+            'pricing-*.json', 'm60-*.json', 'm63-eligibility-*.json', 'm94-eligibility-*.json', 'm95-eligibility-*.json')
 EXCLUSIONS = {'B0B1L79X41', 'B0G1MJ24B4'}
 
 
@@ -40,7 +40,11 @@ def audit(directory: Path) -> dict:
         inventory.append(dict(file=path.name, sha256=sha256(path)))
         if doc.get('is_mock') is True:
             continue
-        if path.name=='m63-eligibility-authorization-01.json':
+        if path.name in (
+            'm63-eligibility-authorization-01.json',
+            'm94-eligibility-authorization-01.json',
+            'm95-eligibility-authorization-01.json',
+        ):
             for asin in doc.get('asins',[]):
                 if not isinstance(asin,str) or not ASIN.fullmatch(asin):
                     raise ValueError('Invalid permanent M63 eligibility reservation')

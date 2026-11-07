@@ -514,3 +514,18 @@ stay UNKNOWN. See [M92 result and collection checklist](M92_REAL_PRODUCT_PROFITA
 seller-specific New listing/approval/FBA restrictions and economics are independent.
 The 30-row queue has no supported selling opportunities; missing costs never
 produce verified profit. See [M93 selection](M93_AMAZON_FIRST_SELECTION.md).
+
+## M95 restriction-only discovery adapter
+
+[M95 execution controls](M95_ELIGIBILITY_DISCOVERY.md) reuse the M94 shared engine
+with an optional parser injection that preserves legacy defaults. M95 adds an
+exact per-run transport scope, shared lock, durable exclusive claim, fixed 11-call
+ceiling and threshold-one early stopping. Empty responses retain unknown permission;
+M95 conservative parser semantics cannot yet establish verified unrestricted status.
+Historical audit includes M95 claims/reports. No M94 evidence is modified.
+
+The [November 7 M95 review](M95_READINESS_REVIEW.md) establishes that the prior M94
+test failure was a stale production-history assumption, not an M95 reader change.
+Synthetic proposal fixtures now test valid and completed-history cases without
+operator files. M95 keeps all six eligibility states distinct and preserves the
+original affirmative-permission early-stop rule; an empty response alone continues.

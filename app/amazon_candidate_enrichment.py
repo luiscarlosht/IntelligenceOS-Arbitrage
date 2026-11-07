@@ -103,7 +103,7 @@ def execute(saved: Path, manifest: dict, private_path: Path = pilot.DIRECTORY, *
 def _execute(manifest, private_path, *, transport=None, credential_loader=None,
              seller_prompt=None, is_mock=False, sleep=time.sleep, monotonic=time.monotonic,
              initial_report=None, operations=None, stem=None, request_limit=None,
-             stop_after_no_restrictions=None):
+             stop_after_no_restrictions=None, restriction_parser=None):
     """Shared bounded engine; callers validate the complete execution scope first."""
     if stop_after_no_restrictions is not None and (
             type(stop_after_no_restrictions) is not int or stop_after_no_restrictions < 1
@@ -203,7 +203,7 @@ def _execute(manifest, private_path, *, transport=None, credential_loader=None,
             params = dict(restrictions['params'], sellerId=seller)
             if 'restrictions' in allowed:
                 stage(row, 'restrictions', pilot.amazon_request(access, restrictions['path'], params),
-                      lambda data: parse_restrictions(data, context, is_mock=is_mock))
+                      lambda data: (restriction_parser or parse_restrictions)(data, context, is_mock=is_mock))
                 result = row['restrictions']
                 data = result.get('data') or {}
                 if (stop_after_no_restrictions is not None and result['status'] == 'succeeded'

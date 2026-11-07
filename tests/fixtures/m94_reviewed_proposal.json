@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "mode": "M94_RESTRICTIONS_ONLY_PROPOSAL",
+  "execution_authorized": false,
+  "asins": [
+    "B000255NH8",
+    "B0002AR73G",
+    "B00061SL0Y",
+    "B000AQSCE0",
+    "B000NP2SBG"
+  ],
+  "marketplace_id": "ATVPDKIKX0DER",
+  "condition": "new_new",
+  "source_sha256": {
+    "M69": "48ebfcb6171c9f1669787348638293d2b9df584976d91a67014f8d8b0a4403ea",
+    "M79": "1f47efab6e224535a1f58dab6d53df1b254fc0d46c00a803daadd157db28c2b6"
+  },
+  "historical_audit_sha256": "a6660d4298818626edafa6a2fa5acd382f78e6621032f22fa8cd40965a4f4340",
+  "historical_exclusion_union_count": 97,
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/listings/2021-08-01/restrictions",
+      "params": {
+        "asin": "B000255NH8",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "conditionType": "new_new",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/listings/2021-08-01/restrictions",
+      "params": {
+        "asin": "B0002AR73G",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "conditionType": "new_new",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/listings/2021-08-01/restrictions",
+      "params": {
+        "asin": "B00061SL0Y",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "conditionType": "new_new",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/listings/2021-08-01/restrictions",
+      "params": {
+        "asin": "B000AQSCE0",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "conditionType": "new_new",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/listings/2021-08-01/restrictions",
+      "params": {
+        "asin": "B000NP2SBG",
+        "marketplaceIds": "ATVPDKIKX0DER",
+        "conditionType": "new_new",
+        "reasonLocale": "en_US",
+        "sellerId": "[private runtime value]"
+      }
+    }
+  ],
+  "budget": {
+    "authentication": 1,
+    "restrictions": 5,
+    "maximum_requests": 6,
+    "retries": 0,
+    "pricing": 0,
+    "fees": 0,
+    "catalog": 0,
+    "retailer": 0
+  },
+  "purchase_authorized": false,
+  "live_requests": 0
+}
