@@ -423,3 +423,10 @@ the exact historical-audit diagnosis and a complete commit scope including untra
 dependencies. Offline M94/M95 tests are reproducible without operator histories.
 Changing discovery to stop at the first NO_RESTRICTIONS_REPORTED lead remains a
 separate reviewed policy decision; no stop rule or live authorization is changed.
+
+## M96 — offline brand-first discovery
+
+Implemented brand approval registry, deterministic 30-ASIN research queue, manual
+Seller Central CSV import and separate FBA inbound preview adapter design. See
+[M96 guide](M96_BRAND_FIRST_DISCOVERY.md). Live screening/API execution, approval
+applications, listings and purchases remain subject to separate explicit approval.

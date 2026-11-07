@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "records": [
+    {
+      "brand": "OXO",
+      "asin": "",
+      "marketplace": "ATVPDKIKX0DER",
+      "condition": "new_new",
+      "approval_status": "APPROVAL_REQUIRED",
+      "restriction_scope": "BRAND",
+      "invoice_requirements": {
+        "supplier": "manufacturer/distributor",
+        "minimum_units": 200,
+        "purchase_window_days": 180
+      },
+      "evidence_source": "User-reported manual Seller Central observation; M96 task",
+      "observed_at": "2026-11-07T00:00:00+00:00",
+      "observation_date_basis": "Task receipt date; original observation date not supplied"
+    },
+    {
+      "brand": "3M",
+      "asin": "",
+      "marketplace": "ATVPDKIKX0DER",
+      "condition": "new_new",
+      "approval_status": "APPROVAL_REQUIRED",
+      "restriction_scope": "BRAND",
+      "invoice_requirements": null,
+      "evidence_source": "User-reported manual Seller Central observation; M96 task",
+      "observed_at": "2026-11-07T00:00:00+00:00",
+      "observation_date_basis": "Task receipt date; original observation date not supplied"
+    },
+    {
+      "brand": "Wera",
+      "asin": "",
+      "marketplace": "ATVPDKIKX0DER",
+      "condition": "new_new",
+      "approval_status": "APPROVAL_REQUIRED",
+      "restriction_scope": "BRAND",
+      "invoice_requirements": null,
+      "evidence_source": "User-reported manual Seller Central observation; M96 task",
+      "observed_at": "2026-11-07T00:00:00+00:00",
+      "observation_date_basis": "Task receipt date; original observation date not supplied"
+    }
+  ]
+}

@@ -529,3 +529,10 @@ test failure was a stale production-history assumption, not an M95 reader change
 Synthetic proposal fixtures now test valid and completed-history cases without
 operator files. M95 keeps all six eligibility states distinct and preserves the
 original affirmative-permission early-stop rule; an empty response alone continues.
+
+## M96 offline brand-first discovery
+
+[M96](M96_BRAND_FIRST_DISCOVERY.md) layers an append-derived manual brand/ASIN
+registry and 30-ASIN screening queue over M79 and the merged M95 historical audit.
+The separate FBA inbound preview specification/parser has no transport. Manual
+listing observations, FBA previews and Walmart economics remain independent gates.
