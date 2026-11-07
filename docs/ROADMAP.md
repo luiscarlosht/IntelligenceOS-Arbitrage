@@ -423,3 +423,14 @@ the exact historical-audit diagnosis and a complete commit scope including untra
 dependencies. Offline M94/M95 tests are reproducible without operator histories.
 Changing discovery to stop at the first NO_RESTRICTIONS_REPORTED lead remains a
 separate reviewed policy decision; no stop rule or live authorization is changed.
+
+## M96 — retail arbitrage discovery
+
+[M96](M96_BRAND_FIRST_DISCOVERY.md) derives the ten M95 live classifications,
+excludes tested ASINs, records dated seller-specific brand restrictions, and emits
+up to 30 diverse low-complexity research leads with explicit identity shortfalls.
+The Seller Central CSV supports four outcomes. A separate offline FBA preview
+adapter and retail-only evidence evaluator preserve listing/FBA/identity/economics
+states and the existing $5 / 50% gates. No wholesale or approval-application flow,
+live API transport, purchase, listing, authorization record or deployment is added.
+See [results and validation](M96_SUMMARY.md).
